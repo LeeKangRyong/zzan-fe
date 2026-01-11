@@ -46,7 +46,8 @@ export default {
       reactCompiler: true
     },
     extra: {
-      figmaAccessToken: process.env.EXPO_PUBLIC_FIGMA_TOKEN
+      figmaAccessToken: process.env.EXPO_PUBLIC_FIGMA_TOKEN,
+      useMockData: process.env.EXPO_PUBLIC_USE_MOCK_DATA === 'true'
     }
   }
 };
