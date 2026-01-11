@@ -42,11 +42,14 @@ export const MessageInput = ({
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     paddingHorizontal: Layout.INPUT_HORIZONTAL,
     paddingVertical: Layout.INPUT_VERTICAL,
     borderRadius: Layout.INPUT_RADIUS,
+    marginBottom: Layout.INPUT_MARGIN_BOTTOM,
   },
   sendButton: {
     padding: 8,

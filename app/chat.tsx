@@ -1,3 +1,4 @@
+import { MessageBubble, MessageInput, MessageList, RecommendedAnswers } from '@/domains/chat/components';
 import type { Message } from '@/domains/chat/model/chatModel';
 import { CHAT_CONSTANTS } from '@/domains/chat/model/constants';
 import { useChatViewModel } from '@/domains/chat/viewmodel/useChatViewModel';
@@ -5,7 +6,6 @@ import { Colors } from '@/shared/constants/Colors';
 import { Header } from '@/shared/ui';
 import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
-import { MessageBubble, MessageInput, MessageList, RecommendedAnswers } from '@/domains/chat/components';
 
 const shouldShowIcon = (messages: Message[], index: number): boolean => {
   const currentMessage = messages[index];
@@ -56,16 +56,18 @@ export default function ChatTab() {
           chipTextColor={Colors.black}
         />
         </View>
-        <MessageInput
-          value={vm.inputValue}
-          onChangeText={vm.setInputValue}
-          onSend={vm.handleSendMessage}
-          placeholder={CHAT_CONSTANTS.INPUT_PLACEHOLDER}
-          maxLength={CHAT_CONSTANTS.MAX_MESSAGE_LENGTH}
-          backgroundColor={Colors.white}
-          textColor={Colors.black}
-          placeholderColor={Colors.black}
-        />
+        <View style={{ marginHorizontal: 16 }}>
+          <MessageInput
+            value={vm.inputValue}
+            onChangeText={vm.setInputValue}
+            onSend={vm.handleSendMessage}
+            placeholder={CHAT_CONSTANTS.INPUT_PLACEHOLDER}
+            maxLength={CHAT_CONSTANTS.MAX_MESSAGE_LENGTH}
+            backgroundColor={Colors.takju}
+            textColor={Colors.black}
+            placeholderColor={Colors.black}
+          />
+        </View>
       </View>
     </View>
   );
