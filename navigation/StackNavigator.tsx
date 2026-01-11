@@ -6,7 +6,7 @@ export function StackNavigator() {
       <Stack.Screen name="(tabs)" /> 
 
       <Stack.Screen 
-        name="chatScreen" 
+        name="chat" 
         options={{ 
           headerShown: false,
           title: 'AI 챗봇' 
