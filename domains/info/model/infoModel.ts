@@ -1,5 +1,11 @@
 import type { ImageSourcePropType } from 'react-native';
 
+export interface ImageWithDescription {
+  image: ImageSourcePropType;
+  descriptionTitle: string;
+  descriptionCategory: string;
+}
+
 export interface PlaceInfo {
   id: string;
   name: string;
@@ -33,7 +39,7 @@ export interface AlcoholInfo {
   id: string;
   name: string;
   category: string;
-  images: ImageSourcePropType[];
+  images: ImageWithDescription[];
   option1: string;
   option2: string;
   option3: string;
@@ -41,8 +47,7 @@ export interface AlcoholInfo {
   isBookmarked: boolean;
   rating: number;
   reviews: PlaceReview[];
-  description: string;
   recommendTitle: string;
   recommendDescription: string;
-  galleryImages?: ImageSourcePropType[];
+  galleryImages?: ImageWithDescription[];
 }

@@ -26,7 +26,7 @@ export default function AlcholTab() {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* InfoImages component */}
-        <InfoImages images={alcoholInfo.images} />
+        <InfoImages images={alcoholInfo.images.map((img) => img.image)} />
 
         {/* InfoSummary component */}
         {/* Share ui from shared */}
@@ -50,7 +50,6 @@ export default function AlcholTab() {
           recommendTitle={alcoholInfo.recommendTitle}
           recommendDescription={alcoholInfo.recommendDescription}
           images={alcoholInfo.images}
-          description={alcoholInfo.description}
         />
 
         {/* AlcholButton component, title="이 전통주를 먹었어요" from shared */}
