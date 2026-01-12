@@ -2,8 +2,9 @@ import { MessageBubble, MessageInput, MessageList, RecommendedAnswers } from '@/
 import type { Message } from '@/domains/chat/model/chatModel';
 import { CHAT_CONSTANTS } from '@/domains/chat/model/constants';
 import { useChatViewModel } from '@/domains/chat/viewmodel/useChatViewModel';
+import { Header } from '@/shared/components';
 import { Colors } from '@/shared/constants/Colors';
-import { Header } from '@/shared/ui';
+import { useFormatTime } from '@/shared/hooks';
 import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
@@ -27,6 +28,7 @@ const shouldShowIcon = (messages: Message[], index: number): boolean => {
 
 export default function ChatTab() {
   const vm = useChatViewModel();
+  const { formatTime } = useFormatTime();
   const router = useRouter();
 
   return (
@@ -41,7 +43,7 @@ export default function ChatTab() {
             role={msg.role}
             backgroundColor={msg.role === 'user' ? Colors.gray : Colors.white}
             textColor={Colors.black}
-            timeText="11:42"
+            timeText={formatTime(msg.timestamp)}
             showIcon={shouldShowIcon(vm.messages, index)}
           />
         )}

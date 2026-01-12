@@ -1,6 +1,6 @@
+import { TextInput } from '@/shared/components/TextInput';
 import { Layout } from '@/shared/constants/Layout';
 import { Typography } from '@/shared/constants/Typography';
-import { TextInput } from '@/shared/ui/TextInput';
 import { Pressable, StyleSheet, View } from 'react-native';
 import UpArrow from '../../../assets/icons/uparrow.svg';
 

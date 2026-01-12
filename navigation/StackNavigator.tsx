@@ -6,11 +6,17 @@ export function StackNavigator() {
       <Stack.Screen name="(tabs)" /> 
 
       <Stack.Screen 
-        name="chat" 
+        name="(chat)"
         options={{ 
-          headerShown: false,
-          title: 'AI 챗봇' 
+          headerShown: false
         }} 
+      />
+
+      <Stack.Screen
+        name="(info)"
+        options={{
+          headerShown: false
+        }}
       />
     </Stack>
   );
