@@ -1,5 +1,8 @@
-import { useState } from 'react';
+import { INFO_CONSTANTS } from '@/domains/info/model/constants';
+import { Colors } from '@/shared/constants/Colors';
+import { useEffect, useRef, useState } from 'react';
 import {
+  Animated,
   Dimensions,
   FlatList,
   Image,
@@ -9,8 +12,6 @@ import {
   type NativeScrollEvent,
   type NativeSyntheticEvent,
 } from 'react-native';
-import { Colors } from '@/shared/constants/Colors';
-import { INFO_CONSTANTS } from '@/domains/info/model/constants';
 
 interface InfoImagesProps {
   images: ImageSourcePropType[];
@@ -20,6 +21,16 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export const InfoImages = ({ images }: InfoImagesProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const animatedWidth = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const targetPercentage = ((currentIndex + 1) / images.length) * 100;
+    Animated.timing(animatedWidth, {
+      toValue: targetPercentage,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
+  }, [currentIndex, images.length, animatedWidth]);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetX = event.nativeEvent.contentOffset.x;
@@ -31,13 +42,24 @@ export const InfoImages = ({ images }: InfoImagesProps) => {
     <Image source={item} style={styles.image} resizeMode="cover" />
   );
 
-  const renderIndicator = (index: number) => {
-    const isActive = index === currentIndex;
+  const renderProgressBar = () => {
+    if (images.length <= 1) {
+      return null;
+    }
+
+    const animatedWidthStyle = {
+      width: animatedWidth.interpolate({
+        inputRange: [0, 100],
+        outputRange: ['0%', '100%'],
+      }),
+    };
+
     return (
-      <View
-        key={index}
-        style={[styles.indicator, isActive && styles.indicatorActive]}
-      />
+      <View style={styles.progressBarContainer}>
+        <View style={styles.progressBarBackground}>
+          <Animated.View style={[styles.progressBarFill, animatedWidthStyle]} />
+        </View>
+      </View>
     );
   };
 
@@ -52,9 +74,7 @@ export const InfoImages = ({ images }: InfoImagesProps) => {
         onScroll={handleScroll}
         scrollEventThrottle={16}
       />
-      <View style={styles.indicatorContainer}>
-        {images.map((_, index) => renderIndicator(index))}
-      </View>
+      {renderProgressBar()}
     </View>
   );
 };
@@ -68,21 +88,21 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     height: INFO_CONSTANTS.IMAGE_HEIGHT,
   },
-  indicatorContainer: {
+  progressBarContainer: {
     position: 'absolute',
-    bottom: 16,
-    flexDirection: 'row',
-    justifyContent: 'center',
+    bottom: INFO_CONSTANTS.PROGRESS_BAR_BOTTOM,
+    width: '50%',
+    paddingHorizontal: INFO_CONSTANTS.PROGRESS_BAR_PADDING_HORIZONTAL,
+    alignSelf: 'center',
+
+  },
+  progressBarBackground: {
     width: '100%',
-    gap: INFO_CONSTANTS.IMAGE_INDICATOR_MARGIN,
+    height: INFO_CONSTANTS.PROGRESS_BAR_HEIGHT,
+    backgroundColor: Colors.white,
   },
-  indicator: {
-    width: INFO_CONSTANTS.IMAGE_INDICATOR_SIZE,
-    height: INFO_CONSTANTS.IMAGE_INDICATOR_SIZE,
-    borderRadius: INFO_CONSTANTS.IMAGE_INDICATOR_SIZE / 2,
-    backgroundColor: Colors.gray,
-  },
-  indicatorActive: {
-    backgroundColor: Colors.yellow,
+  progressBarFill: {
+    height: '100%',
+    backgroundColor: Colors.black,
   },
 });
