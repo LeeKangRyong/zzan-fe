@@ -21,6 +21,24 @@ export default function MainScreen() {
           전통주로 가기
         </Text>
       </Link>
+
+      <Link href="/detail" asChild>
+        <Text style={{ color: 'purple', fontSize: 20, marginTop: 20 }}>
+          피드 상세로 가기
+        </Text>
+      </Link>
+
+      <Link href="/post" asChild>
+        <Text style={{ color: 'black', fontSize: 20, marginTop: 20 }}>
+          피드 작성으로 가기
+        </Text>
+      </Link>
+
+      <Link href="/add" asChild>
+        <Text style={{ color: 'pink', fontSize: 20, marginTop: 20 }}>
+          전통주 추가하기로 가기
+        </Text>
+      </Link>
     </View>
   );
 }
