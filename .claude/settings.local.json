@@ -11,7 +11,8 @@
       "Bash(node -e \"const https = require\\(''https''\\); const options = { hostname: ''api.figma.com'', port: 443, path: ''/v1/images/unTYs0Gy3ImXcfyPXD4Ewp?ids=1240-6463&format=png&scale=2'', method: ''GET'', headers: { ''X-Figma-Token'': process.env.EXPO_PUBLIC_FIGMA_TOKEN } }; https.request\\(options, res => { let data = ''''; res.on\\(''data'', chunk => data += chunk\\); res.on\\(''end'', \\(\\) => console.log\\(data\\)\\); }\\).end\\(\\);\")",
       "Bash(node -e:*)",
       "Bash(npx tsc:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(npm ls:*)"
     ]
   }
 }

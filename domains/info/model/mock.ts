@@ -1,4 +1,4 @@
-import type { PlaceInfo, PlaceReview } from './infoModel';
+import type { AlcoholInfo, PlaceInfo, PlaceReview } from './infoModel';
 
 const exampleImage = require('@/assets/images/example_image.png');
 
@@ -47,4 +47,53 @@ export const MOCK_PLACE_INFO: PlaceInfo = {
 
 export const getMockPlaceInfo = (): PlaceInfo => {
   return MOCK_PLACE_INFO;
+};
+
+const MOCK_ALCOHOL_REVIEWS: PlaceReview[] = [
+  {
+    id: 'alcohol_review1',
+    userName: '전통주애호가',
+    rating: 5,
+    content: '부드럽고 깔끔한 맛이 일품이에요!',
+    imageUrl: exampleImage,
+    createdAt: '2024-01-15',
+  },
+  {
+    id: 'alcohol_review2',
+    userName: '막걸리러버',
+    rating: 5,
+    content: '탄산이 적당하고 목넘김이 좋습니다.',
+    imageUrl: exampleImage,
+    createdAt: '2024-01-12',
+  },
+  {
+    id: 'alcohol_review3',
+    userName: '김소믈리에',
+    rating: 4,
+    content: '전통 방식 그대로의 깊은 풍미가 느껴져요.',
+    imageUrl: exampleImage,
+    createdAt: '2024-01-08',
+  },
+];
+
+export const MOCK_ALCOHOL_INFO: AlcoholInfo = {
+  id: 'alcohol1',
+  name: '서울 탁주',
+  category: '탁주(저도)',
+  images: [exampleImage, exampleImage, exampleImage],
+  option1: '750ml',
+  option2: '6%',
+  option3: '서울양조장',
+  option4: '유기농 쌀 100%',
+  isBookmarked: false,
+  rating: 4.8,
+  reviews: MOCK_ALCOHOL_REVIEWS,
+  description:
+    '서울 탁주는 100% 유기농 쌀로 빚은 프리미엄 생막걸리입니다. 전통 누룩으로 발효시켜 살아있는 유산균이 풍부하며, 부드러운 감칠맛과 은은한 단맛이 조화롭게 어우러집니다. 6%의 적당한 도수로 부담 없이 즐기실 수 있으며, 탄산이 살아있어 상쾌한 목넘김이 특징입니다. 냉장 보관 후 차갑게 드시면 더욱 깊은 풍미를 느끼실 수 있습니다. 개봉 후 3일 이내에 드시는 것을 권장하며, 파전이나 감자전 같은 한국 전통 안주와 환상의 궁합을 자랑합니다.',
+  recommendTitle: '페어링 안주 추천',
+  recommendDescription: '알콜올 도수가 14%로 일반 막걸리의 2배가 넘는 만큼 한여름에는 얼음을 넣어 온더록스로 한잔해도 충분히 제 역할을 하는 제품입니다.',
+};
+
+export const getMockAlcoholInfo = (): AlcoholInfo => {
+  return MOCK_ALCOHOL_INFO;
 };
