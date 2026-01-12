@@ -12,7 +12,9 @@
       "Bash(node -e:*)",
       "Bash(npx tsc:*)",
       "Bash(tree:*)",
-      "Bash(npm ls:*)"
+      "Bash(npm ls:*)",
+      "Bash(find:*)",
+      "Bash(npm run typecheck:*)"
     ]
   }
 }

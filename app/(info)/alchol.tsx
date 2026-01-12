@@ -2,9 +2,10 @@ import { AlcholDescription } from '@/domains/info/components/AlcholDescription';
 import { InfoImages } from '@/domains/info/components/InfoImages';
 import { InfoRate } from '@/domains/info/components/InfoRate';
 import { InfoSummary } from '@/domains/info/components/InfoSummary';
+import { RateAlcholButton } from '@/domains/info/components/RateAlcholButton';
 import { INFO_CONSTANTS } from '@/domains/info/model/constants';
 import { useAlcoholViewModel } from '@/domains/info/viewmodel/useInfoViewModel';
-import { AlcholButton, Header } from '@/shared/components';
+import { Header } from '@/shared/components';
 import { Colors } from '@/shared/constants';
 import { useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
@@ -17,7 +18,6 @@ export default function AlcholTab() {
     infoBoxes,
     toggleBookmark,
     handleShare,
-    handleAlcholButtonPress,
   } = useAlcoholViewModel();
 
   return (
@@ -52,12 +52,9 @@ export default function AlcholTab() {
           images={alcoholInfo.images}
         />
 
-        {/* AlcholButton component, title="이 전통주를 먹었어요" from shared */}
+        {/* RateAlcholButton component with toggle functionality */}
         <View style={styles.buttonContainer}>
-          <AlcholButton
-            title="이 전통주를 먹었어요"
-            onPress={handleAlcholButtonPress}
-          />
+          <RateAlcholButton />
         </View>
 
         {/* 구분선 */}

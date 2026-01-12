@@ -64,16 +64,11 @@ export const useAlcoholViewModel = () => {
     console.log('Share alcohol pressed');
   };
 
-  const handleAlcholButtonPress = () => {
-    console.log('Tried this alcohol pressed');
-  };
-
   return {
     alcoholInfo,
     isBookmarked,
     infoBoxes,
     toggleBookmark,
     handleShare,
-    handleAlcholButtonPress,
   };
 };

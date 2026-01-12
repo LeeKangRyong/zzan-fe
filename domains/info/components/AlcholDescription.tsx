@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   imageDescriptionContainer: {
     paddingHorizontal: INFO_CONSTANTS.DESCRIPTION_HORIZONTAL_PADDING,
-    paddingTop: 16,
+    paddingTop: 6,
     alignItems: 'center',
   },
   descriptionTitle: {
