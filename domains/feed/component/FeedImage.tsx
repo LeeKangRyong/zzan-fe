@@ -1,11 +1,19 @@
 import CameraIcon from '@/assets/icons/camera.svg';
-import { Colors } from '@/shared/constants';
+import { Colors, Typography } from '@/shared/constants';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Dimensions, ScrollView, StyleSheet, TouchableOpacity, View, type NativeScrollEvent, type NativeSyntheticEvent } from 'react-native';
+import { Animated, Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View, type NativeScrollEvent, type NativeSyntheticEvent } from 'react-native';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
+
+const DescriptionBlock = () => {
+  return (
+    <View style={styles.descriptionContainer}>
+      <Text style={styles.descriptionText}>사진을 꾹 눌러 전통주 정보를 추가하세요</Text>
+    </View>
+  )
+}
 
 const pickImages = async (onSuccess: (uris: string[]) => void) => {
   const result = await ImagePicker.launchImageLibraryAsync({
@@ -82,11 +90,16 @@ export const FeedImage = () => {
   };
 
   if (images.length === 0) {
-    return renderInitialUploadButton(handleInitialUpload);
+    return (
+      <View style={styles.wrapper}>
+        {renderInitialUploadButton(handleInitialUpload)}
+        <DescriptionBlock />
+      </View>
+    );
   }
 
   return (
-    <View>
+    <View style={styles.wrapper}>
       <ScrollView
         horizontal
         pagingEnabled
@@ -97,12 +110,16 @@ export const FeedImage = () => {
       >
         {images.map((uri, index) => renderImage(uri, index))}
       </ScrollView>
+      <DescriptionBlock />
       {renderProgressBar(images.length, animatedWidth)}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    position: 'relative',
+  },
   container: {
     width: '100%',
   },
@@ -113,6 +130,22 @@ const styles = StyleSheet.create({
     width: '100%',
     height: SCREEN_WIDTH,
     resizeMode: 'cover',
+  },
+  descriptionContainer: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 4,
+    backgroundColor: Colors.black,
+    position: 'absolute',
+    top: 20,
+    left: 12,
+    zIndex: 999,
+    elevation: 5,
+  },
+  descriptionText: {
+    color: Colors.white,
+    fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
+    fontSize: 10,
   },
   uploadButton: {
     width: SCREEN_WIDTH,
