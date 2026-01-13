@@ -1,6 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import BackIcon from "../../assets/icons/back.svg";
 import { Colors } from "../constants/Colors";
+import { Layout } from "../constants/Layout";
 
 interface HeaderProps {
   title: string;
@@ -8,8 +10,11 @@ interface HeaderProps {
 }
 
 export const Header = ({ title, onBackPress }: HeaderProps) => {
+  const insets = useSafeAreaInsets();
+  const safeTop = insets.top;
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: safeTop + 12 }]}>
       <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
         <BackIcon width={24} height={24} />
       </TouchableOpacity>
@@ -21,26 +26,22 @@ export const Header = ({ title, onBackPress }: HeaderProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'fixed',
-    top: 0,
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 16,
-    paddingVertical: 25,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
+    paddingBottom: 12,
     backgroundColor: Colors.white,
   },
   backButton: {
     width: 40,
     alignItems: "center",
-    top: 5,
   },
   title: {
     fontSize: 18,
     fontWeight: "600",
     color: Colors.black,
-    top: 5,
   },
   placeholder: {
     width: 40,

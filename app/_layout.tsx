@@ -3,7 +3,10 @@ import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
+import * as SystemUI from 'expo-system-ui';
 import { useEffect } from 'react';
+import { Platform } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import 'react-native-reanimated';
 
 // 폰트 로딩 중에 스플래시 화면을 유지하도록 설정
@@ -27,15 +30,24 @@ export default function RootLayout() {
     }
   }, [loaded, error]);
 
+  // 3. 안드로이드 네비게이션 바 색상 설정
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      SystemUI.setBackgroundColorAsync('#FFFFFF');
+    }
+  }, []);
+
   // 3. 폰트 로딩 중에는 아무것도 렌더링하지 않음 (스플래시 유지)
   if (!loaded && !error) {
     return null;
   }
 
   return (
-    <ThemeProvider value={DefaultTheme}>
-      <StackNavigator />
-      <StatusBar style="dark" /> 
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider value={DefaultTheme}>
+        <StackNavigator />
+        <StatusBar style="dark" />
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }

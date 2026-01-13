@@ -6,12 +6,15 @@ import { RateAlcholButton } from '@/domains/info/components/RateAlcholButton';
 import { INFO_CONSTANTS } from '@/domains/info/model/constants';
 import { useAlcoholViewModel } from '@/domains/info/viewmodel/useInfoViewModel';
 import { Header } from '@/shared/components';
-import { Colors } from '@/shared/constants';
+import { Colors, Layout } from '@/shared/constants';
 import { useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function AlcholTab() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
   const {
     alcoholInfo,
     isBookmarked,
@@ -24,7 +27,10 @@ export default function AlcholTab() {
     <View style={styles.container}>
       <Header title="전통주" onBackPress={() => router.back()} />
 
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: safeBottom }}
+      >
         {/* InfoImages component */}
         <InfoImages images={alcoholInfo.images.map((img) => img.image)} />
 

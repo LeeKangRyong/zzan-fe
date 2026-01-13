@@ -11,4 +11,5 @@ export const Layout = {
   CHIP_RADIUS: 20,
   MESSAGE_RADIUS: 16,
   INPUT_RADIUS: 8,
+  BOTTOM_SAFE_AREA_FALLBACK: 24,
 } as const;

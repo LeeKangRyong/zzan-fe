@@ -15,14 +15,26 @@ export default {
     },
     android: {
       adaptiveIcon: {
-        backgroundColor: "#E6F4FE",
+        backgroundColor: "#FFFFFF",
         foregroundImage: "./assets/images/android-icon-foreground.png",
         backgroundImage: "./assets/images/android-icon-background.png",
         monochromeImage: "./assets/images/android-icon-monochrome.png"
       },
       userInterfaceStyle: "light",
-      edgeToEdgeEnabled: true,
-      predictiveBackGestureEnabled: false
+      // --- 화면 침범 방지 핵심 설정 ---
+      edgeToEdgeEnabled: false, 
+      statusBar: {
+        barStyle: "dark-content",
+        backgroundColor: "#FFFFFF",
+        translucent: false 
+      },
+      navigationBar: {
+        backgroundColor: "#FFFFFF",
+        buttonColor: "dark"
+      },
+      // ----------------------------
+      predictiveBackGestureEnabled: false,
+      softInputMode: "adjustPan"
     },
     web: {
       output: "static",

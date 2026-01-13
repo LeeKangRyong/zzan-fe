@@ -14,7 +14,12 @@
       "Bash(tree:*)",
       "Bash(npm ls:*)",
       "Bash(find:*)",
-      "Bash(npm run typecheck:*)"
+      "Bash(npm run typecheck:*)",
+      "Bash(dir /s \"c:\\\\Users\\\\gaiog\\\\claude_projects\\\\zzan-fe\\\\domains\")",
+      "Bash(xargs cat:*)",
+      "Bash(npx expo install expo-image-picker)",
+      "Bash(npx expo:*)",
+      "Bash(findstr:*)"
     ]
   }
 }

@@ -5,12 +5,15 @@ import { PlaceDescription } from '@/domains/info/components/PlaceDescription';
 import { INFO_CONSTANTS } from '@/domains/info/model/constants';
 import { useInfoViewModel } from '@/domains/info/viewmodel/useInfoViewModel';
 import { AlcholButton, Header } from '@/shared/components';
-import { Colors } from '@/shared/constants';
+import { Colors, Layout } from '@/shared/constants';
 import { useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function PlaceTab() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
   const {
     placeInfo,
     isBookmarked,
@@ -24,7 +27,10 @@ export default function PlaceTab() {
     <View style={styles.container}>
       <Header title="짠 플레이스" onBackPress={() => router.back()} />
 
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: safeBottom }}
+      >
         {/* InfoImages component */}
         <InfoImages images={placeInfo.images} />
 
