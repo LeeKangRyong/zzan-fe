@@ -1,9 +1,14 @@
+import { Layout } from '@/shared/constants';
 import { Link } from 'expo-router';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function MainScreen() {
+  const insets = useSafeAreaInsets();
+  const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={[styles.container, { paddingBottom: safeBottom }]}>
       <Link href="/chat" asChild>
         <Text style={{ color: 'blue', fontSize: 20, marginTop: 20 }}>
           채팅창으로 가기
@@ -42,3 +47,11 @@ export default function MainScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
