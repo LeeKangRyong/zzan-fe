@@ -17,43 +17,94 @@ export const useMapViewModel = () => {
   const [markers] = useState<MapMarker[]>(
     USE_MOCK_DATA ? mockPlacesWithCoordinates : []
   );
+  const [searchText, setSearchText] = useState('');
+  const [showSearchResults, setShowSearchResults] = useState(false);
 
   const handleMarkerPress = (markerId: string) => {
     console.log('[MapViewModel] Marker pressed:', markerId);
   };
 
+  const handleSearchTextChange = (text: string) => {
+    setSearchText(text);
+    setShowSearchResults(text.length > 0);
+  };
+
+  const handleSearchResultPress = (placeId: string) => {
+    const place = findPlaceById(placeId);
+
+    if (!place) {
+      return;
+    }
+
+    moveToPlace(place);
+    setShowSearchResults(false);
+    setSearchText('');
+  };
+
+  const findPlaceById = (placeId: string) => {
+    return markers.find((marker) => marker.id === placeId);
+  };
+
+  const moveToPlace = (place: MapMarker) => {
+    setRegion((prev) => ({
+      ...prev,
+      latitude: place.latitude,
+      longitude: place.longitude,
+      timestamp: Date.now(),
+    }));
+  };
+
   const handleCurrentPositionPress = async () => {
+    const location = await getCurrentLocation();
+
+    if (!location) {
+      return;
+    }
+
+    updateRegionToLocation(location);
+  };
+
+  const getCurrentLocation = async () => {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
 
       if (status !== 'granted') {
         console.log('[MapViewModel] Permission denied');
-        return;
+        return null;
       }
 
-      // 정확도를 위해 Accuracy.High 사용
-      const location = await Location.getCurrentPositionAsync({
+      return await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.High,
       });
-
-      // 기존 prev 값을 spread 하여 유지하면서 새로운 좌표와 timestamp 부여
-      setRegion(prev => ({
-        ...prev,
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        timestamp: Date.now(), 
-      }));
-
-      console.log('[MapViewModel] Updated Region:', location.coords.latitude, location.coords.longitude);
     } catch (error) {
       console.error('[MapViewModel] Location error:', error);
+      return null;
     }
+  };
+
+  const updateRegionToLocation = (location: Location.LocationObject) => {
+    setRegion((prev) => ({
+      ...prev,
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      timestamp: Date.now(),
+    }));
+
+    console.log(
+      '[MapViewModel] Updated Region:',
+      location.coords.latitude,
+      location.coords.longitude
+    );
   };
 
   return {
     region,
     markers,
+    searchText,
+    showSearchResults,
     handleMarkerPress,
+    handleSearchTextChange,
+    handleSearchResultPress,
     handleCurrentPositionPress,
   };
 };

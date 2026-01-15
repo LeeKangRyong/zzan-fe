@@ -1,16 +1,23 @@
-import { KakaoMapWebView, MapHeader, ChatBot, CurrentPosition } from "@/domains/map/component";
+import { ChatBot, CurrentPosition, KakaoMapWebView, MapHeader } from "@/domains/map/component";
 import { useMapViewModel } from '@/domains/map/viewmodel/useMapViewModel';
 import { Layout } from "@/shared/constants";
 import Constants from 'expo-constants';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-// map 안에 피그마 디자인에 따라 ChatBot, CurrentPosition 위치하기 
-
 export default function MapTab() {
   const insets = useSafeAreaInsets();
   const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
-  const { region, markers, handleMarkerPress, handleCurrentPositionPress } = useMapViewModel();
+  const {
+    region,
+    markers,
+    searchText,
+    showSearchResults,
+    handleMarkerPress,
+    handleSearchTextChange,
+    handleSearchResultPress,
+    handleCurrentPositionPress,
+  } = useMapViewModel();
   const apiKey = Constants.expoConfig?.extra?.kakaoJavascriptKey ?? '';
 
   const handleProfilePress = () => {
@@ -19,8 +26,13 @@ export default function MapTab() {
 
   return (
     <View style={[styles.container, { paddingBottom: safeBottom }]}>
-      {/* MapHeader component */}
-      <MapHeader onProfilePress={handleProfilePress} />
+      <MapHeader
+        onProfilePress={handleProfilePress}
+        searchText={searchText}
+        onSearchTextChange={handleSearchTextChange}
+        showSearchResults={showSearchResults}
+        onSearchResultPress={handleSearchResultPress}
+      />
       <View style={styles.mapWrapper}>
         <KakaoMapWebView
           region={region}
@@ -28,7 +40,6 @@ export default function MapTab() {
           onMarkerPress={handleMarkerPress}
           apiKey={apiKey}
         />
-        {/* 절대 위치 컴포넌트들 */}
         <View style={styles.floatingButtons}>
           <View style={styles.rightTop}>
             <CurrentPosition onPress={handleCurrentPositionPress} />

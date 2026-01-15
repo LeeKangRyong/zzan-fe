@@ -2,13 +2,20 @@ import SearchIcon from '@/assets/icons/search_small.svg';
 import { Colors, Typography } from '@/shared/constants';
 import { StyleSheet, TextInput, View } from 'react-native';
 
-export const MapSearch = () => {
+interface MapSearchProps {
+  value?: string;
+  onChangeText?: (text: string) => void;
+}
+
+export const MapSearch = ({ value, onChangeText }: MapSearchProps) => {
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.input}
         placeholder="전통주를 즐길 장소를 검색해주세요!"
         placeholderTextColor={Colors.black}
+        value={value}
+        onChangeText={onChangeText}
       />
       <SearchIcon width={22} height={22} />
     </View>
