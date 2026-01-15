@@ -1,4 +1,4 @@
-import { Alcohol, FeedImage, Place } from './feedModel';
+import { Alcohol, FeedImage, Place, PlaceWithRating } from './feedModel';
 
 export const mockFeedImages: FeedImage[] = [
   {
@@ -108,3 +108,12 @@ export const mockPlaces: Place[] = [
     address: '인천광역시 중구 차이나타운로 12',
   },
 ];
+
+export const mockSelectedPlace: PlaceWithRating = {
+  id: '1',
+  imageUrl: require('@/assets/images/example_image.png'),
+  name: '울산 문화의 거리',
+  address: '울산광역시 중구 성남동 329-5',
+  feedCount: 12,
+  rating: 4,
+};

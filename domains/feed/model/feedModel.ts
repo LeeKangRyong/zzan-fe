@@ -27,3 +27,8 @@ export interface Place {
 }
 
 export type AddType = 'alcohol' | 'place';
+
+export interface PlaceWithRating extends Place {
+  feedCount: number;
+  rating: number;
+}
