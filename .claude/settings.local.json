@@ -29,7 +29,10 @@
       "mcp__TalkToFigma__get_node_info",
       "mcp__TalkToFigma__get_document_info",
       "mcp__TalkToFigma__join_channel",
-      "mcp__TalkToFigma__read_my_design"
+      "mcp__TalkToFigma__read_my_design",
+      "Bash(del \"domains\\\\map\\\\ui\\\\MapScreen.tsx\")",
+      "Bash(grep:*)",
+      "mcp__TalkToFigma__get_selection"
     ]
   }
 }

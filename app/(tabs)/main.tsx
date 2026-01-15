@@ -50,6 +50,12 @@ export default function MainScreen() {
           장소 추가하기로 가기
         </Text>
       </Link>
+
+      <Link href="/map" asChild>
+        <Text style={{ color: 'pink', fontSize: 20, marginTop: 20 }}>
+          지도 가기
+        </Text>
+      </Link>
     </View>
   );
 }

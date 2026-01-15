@@ -34,7 +34,8 @@ export default {
       },
       // ----------------------------
       predictiveBackGestureEnabled: false,
-      softInputMode: "adjustPan"
+      softInputMode: "adjustPan",
+      "usesCleartextTraffic": true
     },
     web: {
       output: "static",
@@ -59,7 +60,9 @@ export default {
     },
     extra: {
       figmaAccessToken: process.env.EXPO_PUBLIC_FIGMA_TOKEN,
-      useMockData: process.env.EXPO_PUBLIC_USE_MOCK_DATA === 'true'
+      useMockData: process.env.EXPO_PUBLIC_USE_MOCK_DATA === 'true',
+      kakaoRestApiKey: process.env.EXPO_PUBLIC_KAKAO_MAP_API_KEY,
+      kakaoJavascriptKey: process.env.EXPO_PUBLIC_KAKAO_MAP_JAVASCRIPT_KEY,
     }
   }
 };

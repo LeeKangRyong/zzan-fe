@@ -1,0 +1,68 @@
+import { MapMarker } from './mapModel';
+
+export const mockPlacesWithCoordinates: MapMarker[] = [
+  {
+    id: '1',
+    name: '울산 문화의 거리',
+    address: '울산광역시 중구 성남동 329-5',
+    latitude: 35.5684,
+    longitude: 129.3116,
+    imageUrl: require('@/assets/images/example_image.png'),
+  },
+  {
+    id: '2',
+    name: '서울 종로 전통주 거리',
+    address: '서울특별시 종로구 종로3가 112',
+    latitude: 37.5709,
+    longitude: 126.9920,
+    imageUrl: require('@/assets/images/example_image.png'),
+  },
+  {
+    id: '3',
+    name: '전주 한옥마을',
+    address: '전라북도 전주시 완산구 기린대로 99',
+    latitude: 35.8162,
+    longitude: 127.1530,
+    imageUrl: require('@/assets/images/example_image.png'),
+  },
+  {
+    id: '4',
+    name: '경주 교동법주마을',
+    address: '경상북도 경주시 교동 69',
+    latitude: 35.8562,
+    longitude: 129.2088,
+    imageUrl: require('@/assets/images/example_image.png'),
+  },
+  {
+    id: '5',
+    name: '부산 광안리 해변',
+    address: '부산광역시 수영구 광안해변로 219',
+    latitude: 35.1532,
+    longitude: 129.1183,
+    imageUrl: require('@/assets/images/example_image.png'),
+  },
+  {
+    id: '6',
+    name: '대전 으능정이 거리',
+    address: '대전광역시 중구 은행동 145',
+    latitude: 36.3272,
+    longitude: 127.4281,
+    imageUrl: require('@/assets/images/example_image.png'),
+  },
+  {
+    id: '7',
+    name: '강릉 경포대',
+    address: '강원도 강릉시 경포로 365',
+    latitude: 37.7956,
+    longitude: 128.8961,
+    imageUrl: require('@/assets/images/example_image.png'),
+  },
+  {
+    id: '8',
+    name: '인천 차이나타운',
+    address: '인천광역시 중구 차이나타운로 12',
+    latitude: 37.4756,
+    longitude: 126.6173,
+    imageUrl: require('@/assets/images/example_image.png'),
+  },
+];

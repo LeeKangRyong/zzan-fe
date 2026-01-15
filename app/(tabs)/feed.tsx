@@ -1,9 +1,9 @@
-import { Colors, Layout } from "@/shared/constants"
-import { StyleSheet, Text, View } from "react-native"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { Colors, Layout } from "@/shared/constants";
+import { StyleSheet, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // 주변 피드 보는 UI
-export default function AroundTab() {
+export default function FeedTab() {
   const insets = useSafeAreaInsets();
   const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
 
