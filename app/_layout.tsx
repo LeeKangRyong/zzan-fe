@@ -2,18 +2,14 @@ import { StackNavigator } from '@/navigation/StackNavigator';
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import * as SystemUI from 'expo-system-ui';
 import { useEffect } from 'react';
-import { Platform } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import 'react-native-reanimated';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SystemBars } from 'react-native-edge-to-edge';
 
-// 폰트 로딩 중에 스플래시 화면을 유지하도록 설정
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  // 1. 폰트 불러오기
   const [loaded, error] = useFonts({
     'KakaoBigSans-Bold': require('../assets/fonts/KakaoBigSans-Bold.ttf'),
     'KakaoBigSans-ExtraBold': require('../assets/fonts/KakaoBigSans-ExtraBold.ttf'),
@@ -23,21 +19,12 @@ export default function RootLayout() {
     'KakaoSmallSans-Regular': require('../assets/fonts/KakaoSmallSans-Regular.ttf'),
   });
 
-  // 2. 폰트 로딩 완료 또는 에러 발생 시 스플래시 화면 숨기기
   useEffect(() => {
     if (loaded || error) {
       SplashScreen.hideAsync();
     }
   }, [loaded, error]);
 
-  // 3. 안드로이드 네비게이션 바 색상 설정
-  useEffect(() => {
-    if (Platform.OS === 'android') {
-      SystemUI.setBackgroundColorAsync('#FFFFFF');
-    }
-  }, []);
-
-  // 3. 폰트 로딩 중에는 아무것도 렌더링하지 않음 (스플래시 유지)
   if (!loaded && !error) {
     return null;
   }
@@ -46,7 +33,7 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <ThemeProvider value={DefaultTheme}>
         <StackNavigator />
-        <StatusBar style="dark" />
+        <SystemBars style="dark" hidden={{ navigationBar: true }} />
       </ThemeProvider>
     </SafeAreaProvider>
   );

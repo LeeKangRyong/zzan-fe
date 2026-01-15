@@ -8,7 +8,7 @@ export default {
     orientation: "portrait",
     icon: "./assets/images/icon.png",
     scheme: "zzanfe",
-    userInterfaceStyle: "light", 
+    userInterfaceStyle: "light",
     newArchEnabled: true,
     ios: {
       supportsTablet: true,
@@ -25,21 +25,15 @@ export default {
         monochromeImage: "./assets/images/android-icon-monochrome.png"
       },
       userInterfaceStyle: "light",
-      // --- 화면 침범 방지 핵심 설정 ---
-      edgeToEdgeEnabled: false, 
+      edgeToEdgeEnabled: true,
       statusBar: {
         barStyle: "dark-content",
         backgroundColor: "#FFFFFF",
-        translucent: false 
+        translucent: false
       },
-      navigationBar: {
-        backgroundColor: "#FFFFFF",
-        buttonColor: "dark"
-      },
-      // ----------------------------
       predictiveBackGestureEnabled: false,
-      softInputMode: "adjustPan",
-      "usesCleartextTraffic": true
+      softInputMode: "adjustResize",
+      usesCleartextTraffic: true
     },
     web: {
       output: "static",
@@ -53,10 +47,19 @@ export default {
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff" 
+          "backgroundColor": "#ffffff"
         }
       ],
-      "expo-font"
+      "expo-font",
+      [
+        "react-native-edge-to-edge",
+        {
+          "android": {
+            "parentTheme": "Light",
+            "enforceNavigationBarContrast": false
+          }
+        }
+      ]
     ],
     experiments: {
       typedRoutes: true,

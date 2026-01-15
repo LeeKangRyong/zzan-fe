@@ -3,11 +3,10 @@ import type { Message } from '@/domains/chat/model/chatModel';
 import { CHAT_CONSTANTS } from '@/domains/chat/model/constants';
 import { useChatViewModel } from '@/domains/chat/viewmodel/useChatViewModel';
 import { Header } from '@/shared/components';
-import { Colors, Layout } from '@/shared/constants';
+import { Colors } from '@/shared/constants';
 import { useFormatTime } from '@/shared/hooks';
 import { useRouter } from 'expo-router';
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const shouldShowIcon = (messages: Message[], index: number): boolean => {
   const currentMessage = messages[index];
@@ -31,14 +30,11 @@ export default function ChatTab() {
   const vm = useChatViewModel();
   const { formatTime } = useFormatTime();
   const router = useRouter();
-  const insets = useSafeAreaInsets();
-  const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
 
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <View style={{ flex: 1, backgroundColor: Colors.takju }}>
         <Header title="AI 챗봇" onBackPress={() => router.back() }/>
@@ -56,7 +52,7 @@ export default function ChatTab() {
             />
           )}
         />
-        <View style={[styles.inputContainer, { paddingBottom: safeBottom }]}>
+        <View style={styles.inputContainer}>
           <View style={styles.horizontalPadding}>
             <RecommendedAnswers
             answers={vm.recommendedAnswers}

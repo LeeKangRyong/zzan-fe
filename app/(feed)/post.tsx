@@ -12,12 +12,9 @@ import { CommonButton } from '@/shared/components/CommonButton';
 import { Colors, Layout } from '@/shared/constants';
 import { useRouter } from 'expo-router';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function PostTab() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
-  const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
 
   const {
     selectedPlace,
@@ -37,12 +34,11 @@ export default function PostTab() {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <Header title="피드 작성" onBackPress={() => router.back()} />
 
-      <ScrollView contentContainerStyle={[styles.content, { paddingBottom: safeBottom + 12 }]}>
+      <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.imageSection}>
           <FeedImage />
         </View>

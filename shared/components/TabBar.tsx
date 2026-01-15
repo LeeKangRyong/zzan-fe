@@ -36,6 +36,13 @@ const getLabelByRouteName = (routeName: string) => {
 };
 
 export const TabBar = ({ state, navigation }: BottomTabBarProps) => {
+  const currentRouteName = state.routes[state.index].name;
+  const isPostTab = currentRouteName === 'post';
+
+  if (isPostTab) {
+    return <View style={{ height: 0 }} />;
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.contentWrapper}>
@@ -93,7 +100,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'relative',
   },
   contentWrapper: {
     flexDirection: 'row',
