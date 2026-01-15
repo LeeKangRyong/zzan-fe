@@ -16,7 +16,7 @@ export default function LoginScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <InitialIcon width={150} height={150} />
+        <InitialIcon width={150} height={150} style={styles.logo} />
         <LogoIcon style={styles.logoMargin} />
         
         <View style={styles.textGroup}>
@@ -52,6 +52,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.yellow,
     paddingHorizontal: 20,
+  },
+  logo: {
+    marginBottom: 10,
   },
   logoContainer: {
     flex: 1,
