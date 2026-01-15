@@ -11,9 +11,13 @@ export default {
     userInterfaceStyle: "light", 
     newArchEnabled: true,
     ios: {
-      supportsTablet: true
+      supportsTablet: true,
+      infoPlist: {
+        NSLocationWhenInUseUsageDescription: "전통주 장소를 찾기 위해 현재 위치가 필요합니다."
+      }
     },
     android: {
+      permissions: ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"],
       adaptiveIcon: {
         backgroundColor: "#FFFFFF",
         foregroundImage: "./assets/images/android-icon-foreground.png",

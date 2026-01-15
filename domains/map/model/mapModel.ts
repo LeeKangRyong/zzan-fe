@@ -8,6 +8,7 @@ export interface Coordinate {
 export interface MapRegion extends Coordinate {
   latitudeDelta: number;
   longitudeDelta: number;
+  timestamp?: number; // 상태 업데이트 트리거를 위한 필드
 }
 
 export interface MapMarker extends Coordinate {
