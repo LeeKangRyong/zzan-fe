@@ -2,7 +2,6 @@ import { AlcholDescription } from '@/domains/info/components/AlcholDescription';
 import { InfoImages } from '@/domains/info/components/InfoImages';
 import { InfoRate } from '@/domains/info/components/InfoRate';
 import { InfoSummary } from '@/domains/info/components/InfoSummary';
-import { RateAlcholButton } from '@/domains/info/components/RateAlcholButton';
 import { INFO_CONSTANTS } from '@/domains/info/model/constants';
 import { useAlcoholViewModel } from '@/domains/info/viewmodel/useInfoViewModel';
 import { Header } from '@/shared/components';
@@ -59,9 +58,9 @@ export default function AlcholTab() {
         />
 
         {/* RateAlcholButton component with toggle functionality */}
-        <View style={styles.buttonContainer}>
+        {/* <View style={styles.buttonContainer}>
           <RateAlcholButton />
-        </View>
+        </View> */}
 
         {/* 구분선 */}
         <View style={styles.line} />
@@ -80,15 +79,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.white,
   },
-  buttonContainer: {
-    paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
-    paddingTop: INFO_CONSTANTS.BUTTON_MARGIN_VERTICAL,
-    paddingBottom: 0,
-  },
+  // buttonContainer: {
+  //   paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
+  //   paddingTop: INFO_CONSTANTS.BUTTON_MARGIN_VERTICAL,
+  //   paddingBottom: 0,
+  // },
   line: {
     backgroundColor: Colors.black,
     marginHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
     marginVertical: INFO_CONSTANTS.SUMMARY_PADDING_VERTICAL,
-    height: 2,
+    height: 4,
   },
 });
