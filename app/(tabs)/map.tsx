@@ -13,6 +13,7 @@ export default function MapTab() {
     markers,
     searchText,
     showSearchResults,
+    focusedMarkerId,
     handleMarkerPress,
     handleSearchTextChange,
     handleSearchResultPress,
@@ -39,6 +40,7 @@ export default function MapTab() {
           markers={markers}
           onMarkerPress={handleMarkerPress}
           apiKey={apiKey}
+          focusedMarkerId={focusedMarkerId}
         />
         <View style={styles.floatingButtons}>
           <View style={styles.rightTop}>

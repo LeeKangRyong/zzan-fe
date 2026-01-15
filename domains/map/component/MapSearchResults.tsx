@@ -41,7 +41,8 @@ const renderSearchResultItem = (
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.white,
-    maxHeight: 308,
+    maxHeight: 320,
+    paddingBottom: 12,
   },
   scrollContainer: {
     paddingHorizontal: Layout.SCREEN_HORIZONTAL,

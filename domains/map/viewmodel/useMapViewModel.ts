@@ -19,6 +19,7 @@ export const useMapViewModel = () => {
   );
   const [searchText, setSearchText] = useState('');
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [focusedMarkerId, setFocusedMarkerId] = useState<string | null>(null);
 
   const handleMarkerPress = (markerId: string) => {
     console.log('[MapViewModel] Marker pressed:', markerId);
@@ -37,6 +38,7 @@ export const useMapViewModel = () => {
     }
 
     moveToPlace(place);
+    setFocusedMarkerId(placeId);
     setShowSearchResults(false);
     setSearchText('');
   };
@@ -102,6 +104,7 @@ export const useMapViewModel = () => {
     markers,
     searchText,
     showSearchResults,
+    focusedMarkerId,
     handleMarkerPress,
     handleSearchTextChange,
     handleSearchResultPress,

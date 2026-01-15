@@ -10,19 +10,21 @@ interface KakaoMapWebViewProps {
   markers: MapMarker[];
   onMarkerPress: (markerId: string) => void;
   apiKey: string;
+  focusedMarkerId?: string | null;
 }
 
-export const KakaoMapWebView = ({ region, markers, onMarkerPress, apiKey }: KakaoMapWebViewProps) => {
+export const KakaoMapWebView = ({ region, markers, onMarkerPress, apiKey, focusedMarkerId }: KakaoMapWebViewProps) => {
   const webViewRef = useRef<WebView>(null);
   const { handleMessage } = useWebViewMessage(onMarkerPress);
-  
+
   const prevTimestampRef = useRef<number | undefined>(region.timestamp);
+  const prevFocusedMarkerIdRef = useRef<string | null | undefined>(focusedMarkerId);
 
   useEffect(() => {
     if (region.timestamp !== prevTimestampRef.current) {
       if (webViewRef.current) {
         console.log('[KakaoMapWebView] Sending moveCenter:', region.latitude, region.longitude);
-        
+
         const message = JSON.stringify({
           type: 'moveCenter',
           latitude: region.latitude,
@@ -30,10 +32,40 @@ export const KakaoMapWebView = ({ region, markers, onMarkerPress, apiKey }: Kaka
         });
 
         webViewRef.current.postMessage(message);
+
+        // If there's a focused marker, send focus message after a short delay
+        if (focusedMarkerId) {
+          setTimeout(() => {
+            if (webViewRef.current) {
+              console.log('[KakaoMapWebView] Sending focusMarker after moveCenter:', focusedMarkerId);
+              const focusMessage = JSON.stringify({
+                type: 'focusMarker',
+                markerId: focusedMarkerId,
+              });
+              webViewRef.current.postMessage(focusMessage);
+            }
+          }, 100);
+        }
       }
       prevTimestampRef.current = region.timestamp;
     }
-  }, [region]);
+  }, [region, focusedMarkerId]);
+
+  useEffect(() => {
+    if (focusedMarkerId !== prevFocusedMarkerIdRef.current) {
+      if (webViewRef.current && focusedMarkerId) {
+        console.log('[KakaoMapWebView] Sending focusMarker:', focusedMarkerId);
+
+        const message = JSON.stringify({
+          type: 'focusMarker',
+          markerId: focusedMarkerId,
+        });
+
+        webViewRef.current.postMessage(message);
+      }
+      prevFocusedMarkerIdRef.current = focusedMarkerId;
+    }
+  }, [focusedMarkerId]);
 
   return (
     <View style={styles.container}>
@@ -41,7 +73,7 @@ export const KakaoMapWebView = ({ region, markers, onMarkerPress, apiKey }: Kaka
         ref={webViewRef}
         source={{
           html: generateMapHtml(region, markers, apiKey),
-          baseUrl: 'https://zzan-kakao-map.netlify.app' // 등록된 도메인과 일치해야 함
+          baseUrl: 'https://zzan-kakao-map.netlify.app'
         }}
         originWhitelist={['*']}
         javaScriptEnabled={true}
