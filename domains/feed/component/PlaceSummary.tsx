@@ -1,6 +1,3 @@
-// 선택된 장소 정보를 표시하는 컴포넌트
-// 검정 배경에 장소 이미지, 이름, 주소, feedCount, 별점 표시
-
 import { Colors, Typography } from '@/shared/constants';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -48,7 +45,7 @@ const styles = StyleSheet.create({
   },
   address: {
     fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
-    fontSize: 10,
+    fontSize: 12,
     color: Colors.white,
     opacity: 0.7,
     marginTop: 2,
