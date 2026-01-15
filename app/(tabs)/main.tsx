@@ -39,9 +39,15 @@ export default function MainScreen() {
         </Text>
       </Link>
 
-      <Link href="/add" asChild>
-        <Text style={{ color: 'pink', fontSize: 20, marginTop: 20 }}>
+      <Link href="/add?type=alcohol" asChild>
+        <Text style={{ color: 'red', fontSize: 20, marginTop: 20 }}>
           전통주 추가하기로 가기
+        </Text>
+      </Link>
+
+      <Link href="/add?type=place" asChild>
+        <Text style={{ color: 'blue', fontSize: 20, marginTop: 20 }}>
+          장소 추가하기로 가기
         </Text>
       </Link>
     </View>

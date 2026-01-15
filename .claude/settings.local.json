@@ -14,12 +14,20 @@
       "Bash(tree:*)",
       "Bash(npm ls:*)",
       "Bash(find:*)",
-      "Bash(npm run typecheck:*)",
+      "Bash(npm run:*)",
       "Bash(dir /s \"c:\\\\Users\\\\gaiog\\\\claude_projects\\\\zzan-fe\\\\domains\")",
       "Bash(xargs cat:*)",
       "Bash(npx expo install expo-image-picker)",
       "Bash(npx expo:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(cmd /c \"type %USERPROFILE%\\\\.claude\\\\settings.json 2>nul & echo --- & type %USERPROFILE%\\\\.claude\\\\mcp.json 2>nul & echo --- & dir %USERPROFILE%\\\\.claude /b 2>nul\")",
+      "Bash(timeout:*)",
+      "Bash(claude mcp list:*)",
+      "Bash(cmd /c \"dir %USERPROFILE%\\\\.claude /b 2>nul && echo --- && type %USERPROFILE%\\\\.claude\\\\*.json 2>nul\")",
+      "Bash(cmd /c \"dir C:\\\\Users\\\\gaiog\\\\.claude\\\\ /b\")",
+      "Bash(npx:*)",
+      "mcp__TalkToFigma__get_node_info",
+      "mcp__TalkToFigma__get_document_info"
     ]
   }
 }
