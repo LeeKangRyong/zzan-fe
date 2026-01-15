@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   plusButtonContainer: {
-    top: -40,
+    top: -25,
   },
   plusButtonOuterCircle: {
     width: 60,
