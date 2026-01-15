@@ -18,10 +18,10 @@ interface PostStore {
 
 export const usePostStore = create<PostStore>((set) => ({
   selectedPlace: null,
-  placeRating: 1,
+  placeRating: 0,
   review: '',
   isRatingModalVisible: false,
-  tempRating: 1,
+  tempRating: 0,
 
   setSelectedPlace: (place: Place) => {
     const placeWithRating: PlaceWithRating = {
@@ -29,7 +29,7 @@ export const usePostStore = create<PostStore>((set) => ({
       feedCount: Math.floor(Math.random() * 50) + 1,
       rating: Math.floor(Math.random() * 5) + 1,
     };
-    set({ selectedPlace: placeWithRating });
+    set({ selectedPlace: placeWithRating, placeRating: 0 }); 
   },
 
   setPlaceRating: (rating: number) => set({ placeRating: rating }),
@@ -40,7 +40,7 @@ export const usePostStore = create<PostStore>((set) => ({
   resetPost: () =>
     set({
       selectedPlace: null,
-      placeRating: 1,
+      placeRating: 0,
       review: '',
       isRatingModalVisible: false,
       tempRating: 1,
