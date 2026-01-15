@@ -27,7 +27,9 @@
       "Bash(cmd /c \"dir C:\\\\Users\\\\gaiog\\\\.claude\\\\ /b\")",
       "Bash(npx:*)",
       "mcp__TalkToFigma__get_node_info",
-      "mcp__TalkToFigma__get_document_info"
+      "mcp__TalkToFigma__get_document_info",
+      "mcp__TalkToFigma__join_channel",
+      "mcp__TalkToFigma__read_my_design"
     ]
   }
 }

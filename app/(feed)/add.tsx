@@ -39,6 +39,7 @@ export default function AddTab() {
     handleSearch,
     handleSelect,
     isItemSelected,
+    handleAdd,
   } = useAddViewModel({ addType });
 
   const buttonColors = getButtonColors(isItemSelected);
@@ -89,7 +90,7 @@ export default function AddTab() {
           title="추가하기"
           textColor={buttonColors.textColor}
           backColor={buttonColors.backColor}
-          onPress={() => router.back()}
+          onPress={handleAdd}
           disabled={!isItemSelected}
         />
       </View>

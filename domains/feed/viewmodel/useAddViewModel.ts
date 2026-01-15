@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useRouter } from 'expo-router';
 import { AddType, Alcohol, Place } from '../model/feedModel';
 import { mockAlcohols, mockPlaces } from '../model/mock';
+import { usePostStore } from '../store/postStore';
 
 const USE_MOCK_DATA = process.env.EXPO_PUBLIC_USE_MOCK_DATA === 'true';
 
@@ -9,6 +11,9 @@ interface UseAddViewModelProps {
 }
 
 export const useAddViewModel = ({ addType }: UseAddViewModelProps) => {
+  const router = useRouter();
+  const { setSelectedPlace } = usePostStore();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [alcoholResults, setAlcoholResults] = useState<Alcohol[]>([]);
   const [placeResults, setPlaceResults] = useState<Place[]>([]);
@@ -57,6 +62,19 @@ export const useAddViewModel = ({ addType }: UseAddViewModelProps) => {
 
   const isItemSelected = selectedId !== null;
 
+  const handleAdd = () => {
+    if (!selectedId) return;
+
+    const results = addType === 'alcohol' ? alcoholResults : placeResults;
+    const selectedItem = results.find((item) => item.id === selectedId);
+
+    if (selectedItem && addType === 'place') {
+      setSelectedPlace(selectedItem as Place);
+    }
+
+    router.back();
+  };
+
   return {
     searchQuery,
     setSearchQuery,
@@ -67,5 +85,6 @@ export const useAddViewModel = ({ addType }: UseAddViewModelProps) => {
     handleSelect,
     getSelectedItem,
     isItemSelected,
+    handleAdd,
   };
 };
