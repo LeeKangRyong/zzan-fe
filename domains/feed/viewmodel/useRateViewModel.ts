@@ -38,7 +38,7 @@ export const useRateViewModel = () => {
 
     console.log('피드 작성 완료:', feedData);
     resetPost();
-    router.replace('/main');
+    router.replace('/map');
   };
 
   const handleSaveRating = () => {

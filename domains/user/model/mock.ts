@@ -2,7 +2,7 @@ import { User, UserFeed, UserScrapAlcohol } from './userModel';
 
 export const mockUser: User = {
   id: 'user1',
-  name: '박준형',
+  name: '홍길동길동',
   profileImage: require('@/assets/images/example_image.png'),
   emptyAlcoholCount: 4,
   birthDate: '2007.12.12',

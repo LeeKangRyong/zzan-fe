@@ -1,14 +1,16 @@
 import { ChatBot, CurrentPosition, KakaoMapWebView, MapHeader, PlaceDetail } from "@/domains/map/component";
 import { useMapViewModel } from '@/domains/map/viewmodel/useMapViewModel';
-import { Layout } from "@/shared/constants";
+import { Colors, Layout } from "@/shared/constants";
 import Constants from 'expo-constants';
 import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
 export default function MapTab() {
   const insets = useSafeAreaInsets();
-  const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
+  
+  const TAB_BAR_HEIGHT = 10;
+  const bottomSpace = (insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK) + TAB_BAR_HEIGHT;
+
   const {
     region,
     markers,
@@ -33,7 +35,7 @@ export default function MapTab() {
   };
 
   return (
-    <View style={[styles.container, { paddingBottom: safeBottom }]}>
+    <View style={styles.container}>
       <MapHeader
         onProfilePress={handleProfilePress}
         searchText={searchText}
@@ -50,7 +52,8 @@ export default function MapTab() {
           apiKey={apiKey}
           focusedMarkerId={focusedMarkerId}
         />
-        <View style={styles.floatingButtons}>
+        
+        <View style={[styles.floatingButtons, { paddingBottom: bottomSpace }]}>
           <View style={styles.rightTop}>
             <CurrentPosition onPress={handleCurrentPositionPress} />
           </View>
@@ -58,8 +61,9 @@ export default function MapTab() {
             <ChatBot />
           </View>
         </View>
+
         {selectedPlace && (
-          <View style={styles.placeDetailContainer}>
+          <View style={[styles.placeDetailContainer, { bottom: bottomSpace }]}>
             <PlaceDetail place={selectedPlace} onPlacePress={handlePlaceDetailPress} />
           </View>
         )}
@@ -71,7 +75,7 @@ export default function MapTab() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
   },
   mapWrapper: {
     flex: 1,
@@ -97,7 +101,6 @@ const styles = StyleSheet.create({
   },
   placeDetailContainer: {
     position: 'absolute',
-    bottom: Layout.SECTION_SPACING,
     left: Layout.SCREEN_HORIZONTAL,
     right: Layout.SCREEN_HORIZONTAL,
   },
