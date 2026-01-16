@@ -4,18 +4,16 @@ import {
   PlaceRateModal,
   PlaceSummary,
   RateTextInput,
+  ReferredAlchol,
   SectionTitle,
 } from '@/domains/feed/component';
 import { usePostViewModel } from '@/domains/feed/viewmodel/usePostViewModel';
 import { Header } from '@/shared/components';
 import { CommonButton } from '@/shared/components/CommonButton';
 import { Colors, Layout } from '@/shared/constants';
-import { useRouter } from 'expo-router';
 import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native';
 
 export default function PostTab() {
-  const router = useRouter();
-
   const {
     selectedPlace,
     placeRating,
@@ -24,11 +22,13 @@ export default function PostTab() {
     isNextButtonEnabled,
     isRatingModalVisible,
     tempRating,
+    selectedAlcohols,
     handlePlaceSelect,
     handleReviewChange,
     handleCloseRatingModal,
     handleSaveRating,
     handleTempRatingChange,
+    handleBackPress,
   } = usePostViewModel();
 
   return (
@@ -39,7 +39,7 @@ export default function PostTab() {
       // behavior="padding"
       // keyboardVerticalOffset={0}
     >
-      <Header title="피드 작성" onBackPress={() => router.back()} />
+      <Header title="피드 작성" onBackPress={handleBackPress} />
 
       <ScrollView
         contentContainerStyle={styles.content}
@@ -51,14 +51,19 @@ export default function PostTab() {
 
         <View style={styles.paddedContent}>
           <View style={styles.section}>
-            <SectionTitle title="언급된 전통주" count={0} />
-            <CommonButton
-              title="이미지를 등록하고 전통주를 추가해보세요"
-              textColor={Colors.black}
-              backColor={Colors.gray}
-              size="S"
-              disabled
-            />
+            {/* TODO: ReferredAlchol ScrollView 가로로 구현하기 */}
+            <SectionTitle title="언급된 전통주" count={selectedAlcohols.length} />
+            {selectedAlcohols.length > 0 ? (
+              <ReferredAlchol alcohols={selectedAlcohols} />
+            ) : (
+              <CommonButton
+                title="이미지를 등록하고 전통주를 추가해보세요"
+                textColor={Colors.black}
+                backColor={Colors.gray}
+                size="S"
+                disabled
+              />
+            )}
           </View>
 
           <View style={styles.section}>

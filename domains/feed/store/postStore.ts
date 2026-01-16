@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Place, PlaceWithRating } from '../model/feedModel';
+import { Alcohol, Place, PlaceWithRating } from '../model/feedModel';
 
 interface PostStore {
   selectedPlace: PlaceWithRating | null;
@@ -7,12 +7,17 @@ interface PostStore {
   review: string;
   isRatingModalVisible: boolean;
   tempRating: number;
+  selectedAlcohols: Alcohol[];
+  editingTagIndex: number | null;
 
   setSelectedPlace: (place: Place) => void;
   setPlaceRating: (rating: number) => void;
   setReview: (text: string) => void;
   setIsRatingModalVisible: (visible: boolean) => void;
   setTempRating: (rating: number) => void;
+  addSelectedAlcohol: (alcohol: Alcohol) => void;
+  removeSelectedAlcohol: (alcoholId: string) => void;
+  setEditingTagIndex: (index: number | null) => void;
   resetPost: () => void;
 }
 
@@ -22,6 +27,8 @@ export const usePostStore = create<PostStore>((set) => ({
   review: '',
   isRatingModalVisible: false,
   tempRating: 0,
+  selectedAlcohols: [],
+  editingTagIndex: null,
 
   setSelectedPlace: (place: Place) => {
     const placeWithRating: PlaceWithRating = {
@@ -37,6 +44,20 @@ export const usePostStore = create<PostStore>((set) => ({
   setIsRatingModalVisible: (visible: boolean) => set({ isRatingModalVisible: visible }),
   setTempRating: (rating: number) => set({ tempRating: rating }),
 
+  addSelectedAlcohol: (alcohol: Alcohol) =>
+    set((state) => ({
+      selectedAlcohols: state.selectedAlcohols.some((a) => a.id === alcohol.id)
+        ? state.selectedAlcohols
+        : [...state.selectedAlcohols, alcohol],
+    })),
+
+  removeSelectedAlcohol: (alcoholId: string) =>
+    set((state) => ({
+      selectedAlcohols: state.selectedAlcohols.filter((a) => a.id !== alcoholId),
+    })),
+
+  setEditingTagIndex: (index: number | null) => set({ editingTagIndex: index }),
+
   resetPost: () =>
     set({
       selectedPlace: null,
@@ -44,5 +65,7 @@ export const usePostStore = create<PostStore>((set) => ({
       review: '',
       isRatingModalVisible: false,
       tempRating: 1,
+      selectedAlcohols: [],
+      editingTagIndex: null,
     }),
 }));

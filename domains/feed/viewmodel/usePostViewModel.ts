@@ -1,5 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useEffect } from 'react';
+import { Alert } from 'react-native';
 import { usePostStore } from '../store/postStore';
 
 export const usePostViewModel = () => {
@@ -11,10 +12,12 @@ export const usePostViewModel = () => {
     review,
     isRatingModalVisible,
     tempRating,
+    selectedAlcohols,
     setPlaceRating,
     setReview,
     setIsRatingModalVisible,
     setTempRating,
+    resetPost,
   } = usePostStore();
 
   const isPlaceSelected = selectedPlace !== null;
@@ -52,7 +55,25 @@ export const usePostViewModel = () => {
     setReview(text);
   };
 
-  const isNextButtonEnabled = review.trim().length > 0 && isPlaceSelected;
+  const handleBackPress = () => {
+    Alert.alert(
+      '작성 취소',
+      '작성 중인 내용이 모두 삭제됩니다.\n정말 나가시겠습니까?',
+      [
+        { text: '취소', style: 'cancel' },
+        {
+          text: '나가기',
+          style: 'destructive',
+          onPress: () => {
+            resetPost();
+            router.back();
+          },
+        },
+      ]
+    );
+  };
+
+  const isNextButtonEnabled = isPlaceSelected && placeRating > 0;
 
   return {
     selectedPlace,
@@ -62,11 +83,13 @@ export const usePostViewModel = () => {
     isNextButtonEnabled,
     isRatingModalVisible,
     tempRating,
+    selectedAlcohols,
     handlePlaceSelect,
     handleReviewChange,
     handleOpenRatingModal,
     handleCloseRatingModal,
     handleSaveRating,
     handleTempRatingChange,
+    handleBackPress,
   };
 };

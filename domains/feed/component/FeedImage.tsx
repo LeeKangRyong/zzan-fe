@@ -1,9 +1,30 @@
 import CameraIcon from '@/assets/icons/camera.svg';
+import PlusIcon from '@/assets/icons/plus.svg';
+import { usePostStore } from '@/domains/feed/store/postStore';
 import { Colors, Typography } from '@/shared/constants';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
+import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View, type NativeScrollEvent, type NativeSyntheticEvent } from 'react-native';
+import {
+  Animated,
+  Dimensions,
+  GestureResponderEvent,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
+} from 'react-native';
+
+interface TagPosition {
+  x: number;
+  y: number;
+  alcoholId?: string;
+}
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -12,8 +33,8 @@ const DescriptionBlock = () => {
     <View style={styles.descriptionContainer}>
       <Text style={styles.descriptionText}>사진을 꾹 눌러 전통주 정보를 추가하세요</Text>
     </View>
-  )
-}
+  );
+};
 
 const pickImages = async (onSuccess: (uris: string[]) => void) => {
   const result = await ImagePicker.launchImageLibraryAsync({
@@ -22,19 +43,11 @@ const pickImages = async (onSuccess: (uris: string[]) => void) => {
     quality: 1,
   });
 
-  if (result.canceled) {
-    return;
-  }
+  if (result.canceled) return;
 
   const uris = result.assets.map((asset) => asset.uri);
   onSuccess(uris);
 };
-
-const renderImage = (uri: string, index: number) => (
-  <View key={index} style={styles.imageContainer}>
-    <Image source={{ uri }} style={styles.image} />
-  </View>
-);
 
 const renderInitialUploadButton = (onPress: () => void) => (
   <TouchableOpacity style={styles.uploadButton} onPress={onPress}>
@@ -43,9 +56,7 @@ const renderInitialUploadButton = (onPress: () => void) => (
 );
 
 const renderProgressBar = (totalImages: number, animatedWidth: Animated.Value) => {
-  if (totalImages <= 1) {
-    return null;
-  }
+  if (totalImages <= 1) return null;
 
   const animatedWidthStyle = {
     width: animatedWidth.interpolate({
@@ -63,9 +74,14 @@ const renderProgressBar = (totalImages: number, animatedWidth: Animated.Value) =
   );
 };
 
+
 export const FeedImage = () => {
+  const router = useRouter();
+  const { selectedAlcohols, removeSelectedAlcohol, setEditingTagIndex } = usePostStore();
+
   const [images, setImages] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [tags, setTags] = useState<Map<number, TagPosition[]>>(new Map());
   const animatedWidth = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -89,6 +105,50 @@ export const FeedImage = () => {
     setCurrentIndex(index);
   };
 
+  const handleImageLongPress = (index: number, event: GestureResponderEvent) => {
+    const { locationX, locationY } = event.nativeEvent;
+    const newTag: TagPosition = { x: locationX, y: locationY };
+    const currentTags = tags.get(index) || [];
+
+    setTags(new Map(tags.set(index, [...currentTags, newTag])));
+    setEditingTagIndex(null);
+    router.push('/add?type=alcohol');
+  };
+
+  const handleTagPress = (tagIndex: number) => {
+    const alcohol = selectedAlcohols[tagIndex];
+    if (alcohol) removeSelectedAlcohol(alcohol.id);
+
+    setEditingTagIndex(tagIndex);
+    router.push('/add?type=alcohol');
+  };
+
+  const renderTagIcon = (tag: TagPosition, tagIndex: number) => (
+    <TouchableOpacity
+      key={tagIndex}
+      style={[styles.tagIcon, { left: tag.x - 12, top: tag.y - 12 }]}
+      onPress={() => handleTagPress(tagIndex)}
+    >
+      <PlusIcon width={12} height={12} fill={Colors.black} />
+    </TouchableOpacity>
+  );
+
+  const renderImageWithTags = (uri: string, index: number) => {
+    const imageTags = tags.get(index) || [];
+
+    return (
+      <Pressable
+        key={index}
+        style={styles.imageContainer}
+        onLongPress={(e) => handleImageLongPress(index, e)}
+        delayLongPress={500}
+      >
+        <Image source={{ uri }} style={styles.image} />
+        {imageTags.map((tag, tagIndex) => renderTagIcon(tag, tagIndex))}
+      </Pressable>
+    );
+  };
+
   if (images.length === 0) {
     return (
       <View style={styles.wrapper}>
@@ -108,7 +168,7 @@ export const FeedImage = () => {
         onScroll={handleScroll}
         scrollEventThrottle={16}
       >
-        {images.map((uri, index) => renderImage(uri, index))}
+        {images.map((uri, index) => renderImageWithTags(uri, index))}
       </ScrollView>
       <DescriptionBlock />
       {renderProgressBar(images.length, animatedWidth)}
@@ -125,6 +185,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: SCREEN_WIDTH,
+    position: 'relative',
   },
   image: {
     width: '100%',
@@ -169,5 +230,15 @@ const styles = StyleSheet.create({
   progressBarFill: {
     height: '100%',
     backgroundColor: Colors.black,
+  },
+  tagIcon: {
+    position: 'absolute',
+    width: 24,
+    height: 24,
+    backgroundColor: Colors.takju,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
   },
 });

@@ -12,7 +12,7 @@ interface UseAddViewModelProps {
 
 export const useAddViewModel = ({ addType }: UseAddViewModelProps) => {
   const router = useRouter();
-  const { setSelectedPlace } = usePostStore();
+  const { setSelectedPlace, addSelectedAlcohol } = usePostStore();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [alcoholResults, setAlcoholResults] = useState<Alcohol[]>([]);
@@ -65,11 +65,14 @@ export const useAddViewModel = ({ addType }: UseAddViewModelProps) => {
   const handleAdd = () => {
     if (!selectedId) return;
 
-    const results = addType === 'alcohol' ? alcoholResults : placeResults;
-    const selectedItem = results.find((item) => item.id === selectedId);
+    if (addType === 'alcohol') {
+      const selectedItem = alcoholResults.find((item) => item.id === selectedId);
+      if (selectedItem) addSelectedAlcohol(selectedItem);
+    }
 
-    if (selectedItem && addType === 'place') {
-      setSelectedPlace(selectedItem as Place);
+    if (addType === 'place') {
+      const selectedItem = placeResults.find((item) => item.id === selectedId);
+      if (selectedItem) setSelectedPlace(selectedItem);
     }
 
     router.back();
