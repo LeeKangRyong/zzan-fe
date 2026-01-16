@@ -11,7 +11,7 @@ import { Header } from '@/shared/components';
 import { CommonButton } from '@/shared/components/CommonButton';
 import { Colors, Layout } from '@/shared/constants';
 import { useRouter } from 'expo-router';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native';
 
 export default function PostTab() {
   const router = useRouter();
@@ -34,11 +34,17 @@ export default function PostTab() {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      // behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      // enabled={Platform.OS === 'ios'}
+      // behavior="padding"
+      // keyboardVerticalOffset={0}
     >
       <Header title="피드 작성" onBackPress={() => router.back()} />
 
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView
+        contentContainerStyle={styles.content}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={styles.imageSection}>
           <FeedImage />
         </View>
@@ -104,7 +110,7 @@ export default function PostTab() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.white },
+  container: { flex: 1, backgroundColor: Colors.white, paddingBottom: 20 },
   content: {},
   imageSection: { marginBottom: 16 },
   paddedContent: { paddingHorizontal: Layout.SCREEN_HORIZONTAL },

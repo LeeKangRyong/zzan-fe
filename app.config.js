@@ -25,7 +25,7 @@ export default {
         monochromeImage: "./assets/images/android-icon-monochrome.png"
       },
       userInterfaceStyle: "light",
-      edgeToEdgeEnabled: true,
+      edgeToEdgeEnabled: false,
       statusBar: {
         barStyle: "dark-content",
         backgroundColor: "#FFFFFF",
@@ -51,15 +51,15 @@ export default {
         }
       ],
       "expo-font",
-      [
-        "react-native-edge-to-edge",
-        {
-          "android": {
-            "parentTheme": "Light",
-            "enforceNavigationBarContrast": false
-          }
-        }
-      ]
+      // [
+      //   "react-native-edge-to-edge",
+      //   {
+      //     "android": {
+      //       "parentTheme": "Light",
+      //       "enforceNavigationBarContrast": false
+      //     }
+      //   }
+      // ]
     ],
     experiments: {
       typedRoutes: true,

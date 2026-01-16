@@ -6,7 +6,7 @@ import { Header } from '@/shared/components';
 import { Colors } from '@/shared/constants';
 import { useFormatTime } from '@/shared/hooks';
 import { useRouter } from 'expo-router';
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
 
 const shouldShowIcon = (messages: Message[], index: number): boolean => {
   const currentMessage = messages[index];
@@ -34,7 +34,9 @@ export default function ChatTab() {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      // enabled={Platform.OS === 'ios'}
+      // behavior="padding"
+      // keyboardVerticalOffset={0}
     >
       <View style={{ flex: 1, backgroundColor: Colors.takju }}>
         <Header title="AI 챗봇" onBackPress={() => router.back() }/>
