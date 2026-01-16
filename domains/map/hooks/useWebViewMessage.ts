@@ -1,6 +1,7 @@
 import { WebViewMessageEvent } from 'react-native-webview';
 
 type MessageHandler = (markerId: string) => void;
+type MapPressHandler = () => void;
 
 const parseMessage = (data: string) => {
   try {
@@ -16,6 +17,12 @@ const handleMarkerPress = (data: any, onMarkerPress: MessageHandler) => {
   }
 };
 
+const handleMapPress = (data: any, onMapPress?: MapPressHandler) => {
+  if (data.type === 'mapPress' && onMapPress) {
+    onMapPress();
+  }
+};
+
 const handleLog = (data: any) => {
   if (data.type === 'log') {
     console.log('[WebView Log]', data.message);
@@ -28,7 +35,7 @@ const handleError = (data: any) => {
   }
 };
 
-export const useWebViewMessage = (onMarkerPress: MessageHandler) => {
+export const useWebViewMessage = (onMarkerPress: MessageHandler, onMapPress?: MapPressHandler) => {
   const handleMessage = (event: WebViewMessageEvent) => {
     const data = parseMessage(event.nativeEvent.data);
     if (!data) {
@@ -37,6 +44,7 @@ export const useWebViewMessage = (onMarkerPress: MessageHandler) => {
     }
 
     handleMarkerPress(data, onMarkerPress);
+    handleMapPress(data, onMapPress);
     handleLog(data);
     handleError(data);
   };

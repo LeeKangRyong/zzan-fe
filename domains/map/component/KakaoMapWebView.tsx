@@ -9,13 +9,14 @@ interface KakaoMapWebViewProps {
   region: MapRegion;
   markers: MapMarker[];
   onMarkerPress: (markerId: string) => void;
+  onMapPress?: () => void;
   apiKey: string;
   focusedMarkerId?: string | null;
 }
 
-export const KakaoMapWebView = ({ region, markers, onMarkerPress, apiKey, focusedMarkerId }: KakaoMapWebViewProps) => {
+export const KakaoMapWebView = ({ region, markers, onMarkerPress, onMapPress, apiKey, focusedMarkerId }: KakaoMapWebViewProps) => {
   const webViewRef = useRef<WebView>(null);
-  const { handleMessage } = useWebViewMessage(onMarkerPress);
+  const { handleMessage } = useWebViewMessage(onMarkerPress, onMapPress);
 
   const prevTimestampRef = useRef<number | undefined>(region.timestamp);
   const prevFocusedMarkerIdRef = useRef<string | null | undefined>(focusedMarkerId);

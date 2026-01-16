@@ -6,3 +6,4 @@ export { generateMapHtml } from './MapHtmlTemplate';
 export { MapSearch } from './MapSearch';
 export { MapSearchResultBlock } from './MapSearchResultBlock';
 export { MapSearchResult } from './MapSearchResults';
+export { PlaceDetail } from './PlaceDetail';

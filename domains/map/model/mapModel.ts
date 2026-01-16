@@ -16,4 +16,6 @@ export interface MapMarker extends Coordinate {
   name: string;
   address: string;
   imageUrl?: ImageSourcePropType;
+  feedCount: number;
+  rating: number;
 }

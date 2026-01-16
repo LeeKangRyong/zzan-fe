@@ -92,6 +92,10 @@ const generateInitScript = (region: MapRegion, markers: MapMarker[]) => {
           markerObjects[focusedMarkerId].setImage(normalImage);
           focusedMarkerId = null;
         }
+
+        window.ReactNativeWebView.postMessage(JSON.stringify({
+          type: 'mapPress'
+        }));
       });
 
       // 지도 이동 로직

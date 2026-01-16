@@ -8,6 +8,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 35.5684,
     longitude: 129.3116,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 12,
+    rating: 4,
   },
   {
     id: '2',
@@ -16,6 +18,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5709,
     longitude: 126.9920,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 8,
+    rating: 3,
   },
   {
     id: '3',
@@ -24,6 +28,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 35.8162,
     longitude: 127.1530,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 15,
+    rating: 5,
   },
   {
     id: '4',
@@ -32,6 +38,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 35.8562,
     longitude: 129.2088,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 10,
+    rating: 4,
   },
   {
     id: '5',
@@ -40,6 +48,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 35.1532,
     longitude: 129.1183,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 20,
+    rating: 5,
   },
   {
     id: '6',
@@ -48,6 +58,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 36.3272,
     longitude: 127.4281,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 7,
+    rating: 3,
   },
   {
     id: '7',
@@ -56,6 +68,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.7956,
     longitude: 128.8961,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 13,
+    rating: 4,
   },
   {
     id: '8',
@@ -64,6 +78,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.4756,
     longitude: 126.6173,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 21,
+    rating: 3,
   },
   {
     id: '9',
@@ -72,6 +88,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5344,
     longitude: 126.9944,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 7,
+    rating: 5,
   },
   {
     id: '10',
@@ -80,6 +98,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5563,
     longitude: 126.9234,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 12,
+    rating: 3,
   },
   {
     id: '11',
@@ -88,6 +108,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5196,
     longitude: 127.0228,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 23,
+    rating: 5,
   },
   {
     id: '12',
@@ -96,6 +118,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5635,
     longitude: 126.9849,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 12,
+    rating: 3,
   },
   {
     id: '13',
@@ -104,6 +128,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5836,
     longitude: 126.9821,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 6,
+    rating: 3,
   },
   {
     id: '14',
@@ -112,6 +138,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5798,
     longitude: 126.9691,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 19,
+    rating: 4,
   },
   {
     id: '15',
@@ -120,6 +148,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5447,
     longitude: 127.0557,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 17,
+    rating: 5,
   },
   {
     id: '16',
@@ -128,6 +158,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5561,
     longitude: 126.9036,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 14,
+    rating: 5,
   },
   {
     id: '17',
@@ -136,6 +168,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5349,
     longitude: 127.0025,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 12,
+    rating: 4,
   },
   {
     id: '18',
@@ -144,6 +178,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5720,
     longitude: 126.9769,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 21,
+    rating: 5,
   },
   {
     id: '19',
@@ -152,6 +188,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5820,
     longitude: 126.9851,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 10,
+    rating: 4,
   },
   {
     id: '20',
@@ -160,6 +198,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5637,
     longitude: 126.9247,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 18,
+    rating: 5,
   },
   {
     id: '21',
@@ -168,6 +208,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5403,
     longitude: 127.0695,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 14,
+    rating: 5,
   },
   {
     id: '22',
@@ -176,6 +218,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5585,
     longitude: 126.9380,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 17,
+    rating: 5,
   },
   {
     id: '23',
@@ -184,6 +228,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5274,
     longitude: 127.0380,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 23,
+    rating: 4,
   },
   {
     id: '24',
@@ -192,6 +238,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5237,
     longitude: 127.0474,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 21,
+    rating: 3,
   },
   {
     id: '25',
@@ -200,6 +248,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5285,
     longitude: 126.9348,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 9,
+    rating: 3,
   },
   {
     id: '26',
@@ -208,6 +258,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5301,
     longitude: 126.9686,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 8,
+    rating: 3,
   },
   {
     id: '27',
@@ -216,6 +268,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5665,
     longitude: 126.9918,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 8,
+    rating: 5,
   },
   {
     id: '28',
@@ -224,6 +278,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5675,
     longitude: 127.0090,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 12,
+    rating: 3,
   },
   {
     id: '29',
@@ -232,6 +288,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5821,
     longitude: 127.0012,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 7,
+    rating: 5,
   },
   {
     id: '30',
@@ -240,6 +298,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5932,
     longitude: 126.9943,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 11,
+    rating: 3,
   },
   {
     id: '31',
@@ -248,6 +308,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5481,
     longitude: 126.9230,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 13,
+    rating: 4,
   },
   {
     id: '32',
@@ -256,6 +318,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.4884,
     longitude: 127.0031,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 18,
+    rating: 5,
   },
   {
     id: '33',
@@ -264,6 +328,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5348,
     longitude: 126.9923,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 19,
+    rating: 3,
   },
   {
     id: '34',
@@ -272,6 +338,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5057,
     longitude: 127.1046,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 10,
+    rating: 4,
   },
   {
     id: '35',
@@ -280,6 +348,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5782,
     longitude: 126.9697,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 6,
+    rating: 5,
   },
   {
     id: '36',
@@ -288,6 +358,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5331,
     longitude: 127.0024,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 5,
+    rating: 4,
   },
   {
     id: '37',
@@ -296,6 +368,8 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5660,
     longitude: 127.0380,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 22,
+    rating: 3,
   },
   {
     id: '38',
@@ -304,5 +378,7 @@ export const mockPlacesWithCoordinates: MapMarker[] = [
     latitude: 37.5718,
     longitude: 126.9855,
     imageUrl: require('@/assets/images/example_image.png'),
+    feedCount: 8,
+    rating: 5,
   },
 ];

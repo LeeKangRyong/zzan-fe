@@ -1,4 +1,4 @@
-import { ChatBot, CurrentPosition, KakaoMapWebView, MapHeader } from "@/domains/map/component";
+import { ChatBot, CurrentPosition, KakaoMapWebView, MapHeader, PlaceDetail } from "@/domains/map/component";
 import { useMapViewModel } from '@/domains/map/viewmodel/useMapViewModel';
 import { Layout } from "@/shared/constants";
 import Constants from 'expo-constants';
@@ -15,15 +15,21 @@ export default function MapTab() {
     searchText,
     showSearchResults,
     focusedMarkerId,
+    selectedPlace,
     handleMarkerPress,
     handleSearchTextChange,
     handleSearchResultPress,
     handleCurrentPositionPress,
+    handleMapPress,
   } = useMapViewModel();
   const apiKey = Constants.expoConfig?.extra?.kakaoJavascriptKey ?? '';
 
   const handleProfilePress = () => {
     router.push('/mypage');
+  };
+
+  const handlePlaceDetailPress = () => {
+    router.push('/place');
   };
 
   return (
@@ -40,6 +46,7 @@ export default function MapTab() {
           region={region}
           markers={markers}
           onMarkerPress={handleMarkerPress}
+          onMapPress={handleMapPress}
           apiKey={apiKey}
           focusedMarkerId={focusedMarkerId}
         />
@@ -51,6 +58,11 @@ export default function MapTab() {
             <ChatBot />
           </View>
         </View>
+        {selectedPlace && (
+          <View style={styles.placeDetailContainer}>
+            <PlaceDetail place={selectedPlace} onPlacePress={handlePlaceDetailPress} />
+          </View>
+        )}
       </View>
     </View>
   );
@@ -82,5 +94,11 @@ const styles = StyleSheet.create({
   rightBottom: {
     alignItems: 'flex-end',
     pointerEvents: 'box-none',
+  },
+  placeDetailContainer: {
+    position: 'absolute',
+    bottom: Layout.SECTION_SPACING,
+    left: Layout.SCREEN_HORIZONTAL,
+    right: Layout.SCREEN_HORIZONTAL,
   },
 });

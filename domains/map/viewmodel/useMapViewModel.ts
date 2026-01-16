@@ -20,9 +20,25 @@ export const useMapViewModel = () => {
   const [searchText, setSearchText] = useState('');
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [focusedMarkerId, setFocusedMarkerId] = useState<string | null>(null);
+  const [selectedPlace, setSelectedPlace] = useState<MapMarker | null>(null);
 
   const handleMarkerPress = (markerId: string) => {
     console.log('[MapViewModel] Marker pressed:', markerId);
+
+    if (focusedMarkerId === markerId) {
+      setSelectedPlace(null);
+      setFocusedMarkerId(null);
+      return;
+    }
+
+    const place = findPlaceById(markerId);
+
+    if (!place) {
+      return;
+    }
+
+    setSelectedPlace(place);
+    setFocusedMarkerId(markerId);
   };
 
   const handleSearchTextChange = (text: string) => {
@@ -99,15 +115,22 @@ export const useMapViewModel = () => {
     );
   };
 
+  const handleMapPress = () => {
+    setSelectedPlace(null);
+    setFocusedMarkerId(null);
+  };
+
   return {
     region,
     markers,
     searchText,
     showSearchResults,
     focusedMarkerId,
+    selectedPlace,
     handleMarkerPress,
     handleSearchTextChange,
     handleSearchResultPress,
     handleCurrentPositionPress,
+    handleMapPress,
   };
 };
