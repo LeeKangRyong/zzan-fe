@@ -5,6 +5,9 @@ export const mockUser: User = {
   name: '박준형',
   profileImage: require('@/assets/images/example_image.png'),
   emptyAlcoholCount: 4,
+  birthDate: '2007.12.12',
+  phone: '010-1111-1111',
+  email: 'hello@gmail.com',
 };
 
 export const mockUserFeeds: UserFeed[] = [

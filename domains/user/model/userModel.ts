@@ -5,6 +5,9 @@ export interface User {
   name: string;
   profileImage: ImageSourcePropType;
   emptyAlcoholCount: number;
+  birthDate: string;
+  phone: string;
+  email: string;
 }
 
 export interface UserFeed {
