@@ -16,7 +16,6 @@ const Header = ({ location }: { location: string }) => (
 
 const FeedGrid = () => (
   <View style={styles.feedGrid}>
-    {/* FeedBlockWithProfile component를 나열. 나열 방식은 mypage.tsx에서 구현한 feed block 배치 방식과 동일하게 */}
     {mockNearbyFeeds.map((feed) => (
       <FeedBlockWithProfile
         key={feed.id}
@@ -34,16 +33,21 @@ const FeedGrid = () => (
 );
 
 export default function FeedTab() {
-  // 여기에서 expo-location을 통해 현재 좌표를 얻고, '서울 마포구' 형식으로  변환하기 by viewmodel
   const insets = useSafeAreaInsets();
   const safeTop = insets.top;
-  const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
+  
+  const TAB_BAR_HEIGHT = 60;
+  const bottomSpace = (insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK) + TAB_BAR_HEIGHT;
+
   const { location } = useFeedTabViewModel();
 
   return (
-    <View style={[styles.container, { paddingTop: safeTop, paddingBottom: safeBottom }]}>
+    <View style={[styles.container, { paddingTop: safeTop }]}>
       <Header location={location} />
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: bottomSpace + 24 }]} 
+        showsVerticalScrollIndicator={false}
+      >
         <FeedGrid />
       </ScrollView>
     </View>
@@ -77,7 +81,6 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: Layout.SCREEN_HORIZONTAL,
-    paddingBottom: 24,
   },
   feedGrid: {
     flexDirection: 'row',
