@@ -73,7 +73,12 @@ export const usePostViewModel = () => {
     );
   };
 
-  const isNextButtonEnabled = isPlaceSelected && placeRating > 0;
+  const handleNextPress = () => {
+    router.push('/rate');
+  };
+
+  const isNextButtonEnabled =
+    isPlaceSelected && placeRating > 0 && selectedAlcohols.length > 0;
 
   return {
     selectedPlace,
@@ -91,5 +96,6 @@ export const usePostViewModel = () => {
     handleSaveRating,
     handleTempRatingChange,
     handleBackPress,
+    handleNextPress,
   };
 };

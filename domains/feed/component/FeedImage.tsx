@@ -1,5 +1,6 @@
 import CameraIcon from '@/assets/icons/camera.svg';
 import PlusIcon from '@/assets/icons/plus.svg';
+import { TagPosition } from '@/domains/feed/model/feedModel';
 import { usePostStore } from '@/domains/feed/store/postStore';
 import { Colors, Typography } from '@/shared/constants';
 import { Image } from 'expo-image';
@@ -20,11 +21,6 @@ import {
   type NativeSyntheticEvent,
 } from 'react-native';
 
-interface TagPosition {
-  x: number;
-  y: number;
-  alcoholId?: string;
-}
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -77,43 +73,71 @@ const renderProgressBar = (totalImages: number, animatedWidth: Animated.Value) =
 
 export const FeedImage = () => {
   const router = useRouter();
-  const { selectedAlcohols, removeSelectedAlcohol, setEditingTagIndex } = usePostStore();
+  const {
+    selectedAlcohols,
+    removeSelectedAlcohol,
+    setEditingTagIndex,
+    setUploadedImages,
+    imageTags,
+    addImageTag,
+    currentImageIndex,
+    setCurrentImageIndex,
+    addAlcoholTagMapping,
+  } = usePostStore();
 
   const [images, setImages] = useState<string[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [tags, setTags] = useState<Map<number, TagPosition[]>>(new Map());
   const animatedWidth = useRef(new Animated.Value(0)).current;
+
+
 
   useEffect(() => {
     if (images.length === 0) return;
 
-    const targetPercentage = ((currentIndex + 1) / images.length) * 100;
+    const targetPercentage = ((currentImageIndex + 1) / images.length) * 100;
     Animated.timing(animatedWidth, {
       toValue: targetPercentage,
       duration: 200,
       useNativeDriver: false,
     }).start();
-  }, [currentIndex, images.length, animatedWidth]);
+  }, [currentImageIndex, images.length, animatedWidth]);
 
   const handleInitialUpload = () => {
-    pickImages((uris) => setImages(uris));
+    pickImages((uris) => {
+      setImages(uris);
+      setUploadedImages(uris);
+    });
   };
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetX = event.nativeEvent.contentOffset.x;
     const index = Math.round(offsetX / SCREEN_WIDTH);
-    setCurrentIndex(index);
+    setCurrentImageIndex(index);
   };
 
   const handleImageLongPress = (index: number, event: GestureResponderEvent) => {
     const { locationX, locationY } = event.nativeEvent;
     const newTag: TagPosition = { x: locationX, y: locationY };
-    const currentTags = tags.get(index) || [];
 
-    setTags(new Map(tags.set(index, [...currentTags, newTag])));
-    setEditingTagIndex(null);
+    addImageTag(index, newTag);
+
+    const currentTags = imageTags.get(index) || [];
+    setEditingTagIndex(currentTags.length);
+
     router.push('/add?type=alcohol');
   };
+
+  useEffect(() => {
+    if (selectedAlcohols.length === 0) return;
+
+    const lastAlcohol = selectedAlcohols[selectedAlcohols.length - 1];
+    const currentTags = imageTags.get(currentImageIndex) || [];
+
+    if (currentTags.length > 0) {
+      const lastTagIndex = currentTags.length - 1;
+      const tagPosition = currentTags[lastTagIndex];
+      addAlcoholTagMapping(lastAlcohol.id, currentImageIndex, tagPosition);
+    }
+  }, [selectedAlcohols.length]);
 
   const handleTagPress = (tagIndex: number) => {
     const alcohol = selectedAlcohols[tagIndex];
@@ -134,7 +158,7 @@ export const FeedImage = () => {
   );
 
   const renderImageWithTags = (uri: string, index: number) => {
-    const imageTags = tags.get(index) || [];
+    const currentImageTags = imageTags.get(index) || [];
 
     return (
       <Pressable
@@ -144,7 +168,7 @@ export const FeedImage = () => {
         delayLongPress={500}
       >
         <Image source={{ uri }} style={styles.image} />
-        {imageTags.map((tag, tagIndex) => renderTagIcon(tag, tagIndex))}
+        {currentImageTags.map((tag, tagIndex) => renderTagIcon(tag, tagIndex))}
       </Pressable>
     );
   };

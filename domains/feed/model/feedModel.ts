@@ -32,3 +32,14 @@ export interface PlaceWithRating extends Place {
   feedCount: number;
   rating: number;
 }
+
+export interface TagPosition {
+  x: number;
+  y: number;
+}
+
+export interface AlcoholTagInfo {
+  alcoholId: string;
+  imageIndex: number;
+  tagPosition: TagPosition;
+}

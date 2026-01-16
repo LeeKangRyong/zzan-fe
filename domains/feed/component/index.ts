@@ -1,10 +1,18 @@
+export { AlcholCounts } from './AlcholCounts';
+export { AlcoholRateSection } from './AlcoholRateSection';
+export { FeedDetailComments } from './FeedDetailComments';
+export { FeedDetailPlace } from './FeedDetailPlace';
 export { FeedImage } from './FeedImage';
+export { FeedImageRate } from './FeedImageRate';
+export { FeedUser } from './FeedUser';
 export { PlaceRate } from './PlaceRate';
 export { PlaceRateModal } from './PlaceRateModal';
 export { PlaceSummary } from './PlaceSummary';
 export { RateStyleButton } from './RateStyleButton';
 export { RateTextInput } from './RateTextInput';
 export { ReferredAlchol } from './ReferredAlchol';
+export { ReferredAlcholWithRate } from './ReferredAlcholWithRate';
 export { Search } from './Search';
 export { SearchResult } from './SearchResult';
 export { SectionTitle } from './SectionTitle';
+

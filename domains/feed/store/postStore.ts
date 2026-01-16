@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Alcohol, Place, PlaceWithRating } from '../model/feedModel';
+import { Alcohol, AlcoholTagInfo, Place, PlaceWithRating, TagPosition } from '../model/feedModel';
 
 interface PostStore {
   selectedPlace: PlaceWithRating | null;
@@ -9,6 +9,13 @@ interface PostStore {
   tempRating: number;
   selectedAlcohols: Alcohol[];
   editingTagIndex: number | null;
+  alcoholRatings: { [alcoholId: string]: number };
+  currentRatingIndex: number;
+  focusedAlcoholId: string | null;
+  uploadedImages: string[];
+  alcoholTagMappings: AlcoholTagInfo[];
+  currentImageIndex: number;
+  imageTags: Map<number, TagPosition[]>;
 
   setSelectedPlace: (place: Place) => void;
   setPlaceRating: (rating: number) => void;
@@ -18,10 +25,19 @@ interface PostStore {
   addSelectedAlcohol: (alcohol: Alcohol) => void;
   removeSelectedAlcohol: (alcoholId: string) => void;
   setEditingTagIndex: (index: number | null) => void;
+  setAlcoholRating: (alcoholId: string, rating: number) => void;
+  setCurrentRatingIndex: (index: number) => void;
+  setFocusedAlcoholId: (alcoholId: string | null) => void;
+  getAllAlcoholsRated: () => boolean;
+  setUploadedImages: (images: string[]) => void;
+  addAlcoholTagMapping: (alcoholId: string, imageIndex: number, position: TagPosition) => void;
+  setCurrentImageIndex: (index: number) => void;
+  setImageTags: (tags: Map<number, TagPosition[]>) => void;
+  addImageTag: (imageIndex: number, position: TagPosition) => void;
   resetPost: () => void;
 }
 
-export const usePostStore = create<PostStore>((set) => ({
+export const usePostStore = create<PostStore>((set, get) => ({
   selectedPlace: null,
   placeRating: 0,
   review: '',
@@ -29,6 +45,13 @@ export const usePostStore = create<PostStore>((set) => ({
   tempRating: 0,
   selectedAlcohols: [],
   editingTagIndex: null,
+  alcoholRatings: {},
+  currentRatingIndex: 0,
+  focusedAlcoholId: null,
+  uploadedImages: [],
+  alcoholTagMappings: [],
+  currentImageIndex: 0,
+  imageTags: new Map(),
 
   setSelectedPlace: (place: Place) => {
     const placeWithRating: PlaceWithRating = {
@@ -58,6 +81,43 @@ export const usePostStore = create<PostStore>((set) => ({
 
   setEditingTagIndex: (index: number | null) => set({ editingTagIndex: index }),
 
+  setAlcoholRating: (alcoholId: string, rating: number) =>
+    set((state) => ({
+      alcoholRatings: { ...state.alcoholRatings, [alcoholId]: rating },
+    })),
+
+  setCurrentRatingIndex: (index: number) => set({ currentRatingIndex: index }),
+
+  setFocusedAlcoholId: (alcoholId: string | null) => set({ focusedAlcoholId: alcoholId }),
+
+  getAllAlcoholsRated: () => {
+    const state = get();
+    const alcoholIds = state.selectedAlcohols.map((alcohol) => alcohol.id);
+    return alcoholIds.every((id) => state.alcoholRatings[id] !== undefined);
+  },
+
+  setUploadedImages: (images: string[]) => set({ uploadedImages: images }),
+
+  addAlcoholTagMapping: (alcoholId: string, imageIndex: number, position: TagPosition) =>
+    set((state) => ({
+      alcoholTagMappings: [
+        ...state.alcoholTagMappings,
+        { alcoholId, imageIndex, tagPosition: position },
+      ],
+    })),
+
+  setCurrentImageIndex: (index: number) => set({ currentImageIndex: index }),
+
+  setImageTags: (tags: Map<number, TagPosition[]>) => set({ imageTags: tags }),
+
+  addImageTag: (imageIndex: number, position: TagPosition) =>
+    set((state) => {
+      const newTags = new Map(state.imageTags);
+      const currentTags = newTags.get(imageIndex) || [];
+      newTags.set(imageIndex, [...currentTags, position]);
+      return { imageTags: newTags };
+    }),
+
   resetPost: () =>
     set({
       selectedPlace: null,
@@ -67,5 +127,12 @@ export const usePostStore = create<PostStore>((set) => ({
       tempRating: 1,
       selectedAlcohols: [],
       editingTagIndex: null,
+      alcoholRatings: {},
+      currentRatingIndex: 0,
+      focusedAlcoholId: null,
+      uploadedImages: [],
+      alcoholTagMappings: [],
+      currentImageIndex: 0,
+      imageTags: new Map(),
     }),
 }));

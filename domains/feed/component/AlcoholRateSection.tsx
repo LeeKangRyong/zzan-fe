@@ -3,9 +3,10 @@ import { Colors, Typography } from '@/shared/constants';
 import { Image } from 'expo-image';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-interface ReferredAlcholProps {
+interface AlcoholRateSectionProps {
   alcohols: Alcohol[];
-  focusedAlcoholId?: string;
+  currentIndex: number;
+  ratings: { [alcoholId: string]: number };
 }
 
 interface AlcoholCardProps {
@@ -18,15 +19,23 @@ const AlcoholCard = ({ alcohol, isFocused }: AlcoholCardProps) => {
     <View style={[styles.card, isFocused && styles.focusedCard]}>
       <Image source={alcohol.imageUrl} style={styles.image} />
       <View style={styles.cardContent}>
-        <Text style={styles.name} numberOfLines={1}>{alcohol.name}</Text>
+        <Text style={styles.name} numberOfLines={1}>
+          {alcohol.name}
+        </Text>
         <Text style={styles.type}>#{alcohol.type}</Text>
       </View>
     </View>
   );
 };
 
-export const ReferredAlchol = ({ alcohols, focusedAlcoholId }: ReferredAlcholProps) => {
+export const AlcoholRateSection = ({
+  alcohols,
+  currentIndex,
+  ratings,
+}: AlcoholRateSectionProps) => {
   if (alcohols.length === 0) return null;
+
+  const focusedAlcoholId = alcohols[currentIndex]?.id;
 
   return (
     <ScrollView
@@ -82,17 +91,6 @@ const styles = StyleSheet.create({
   type: {
     fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
     fontSize: 10,
-    color: Colors.black,
-    letterSpacing: -0.24,
-  },
-  ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  ratingLabel: {
-    fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
-    fontSize: 12,
     color: Colors.black,
     letterSpacing: -0.24,
   },
