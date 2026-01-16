@@ -1,3 +1,4 @@
+export { FeedBlockWithProfile } from './FeedBlockWithProfile';
 export { KakaoStartButton } from './KakaoStartButton';
 export { MyFeeds } from './MyFeeds';
 export { MyScraps } from './MyScraps';

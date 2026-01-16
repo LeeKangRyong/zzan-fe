@@ -1,4 +1,4 @@
-import { Alcohol, FeedImage, Place, PlaceWithRating } from './feedModel';
+import { Alcohol, FeedImage, FeedWithUser, Place, PlaceWithRating } from './feedModel';
 
 export const mockFeedImages: FeedImage[] = [
   {
@@ -117,3 +117,66 @@ export const mockSelectedPlace: PlaceWithRating = {
   feedCount: 12,
   rating: 4,
 };
+
+export const mockNearbyFeeds: FeedWithUser[] = [
+  {
+    id: 'nearby1',
+    userId: 'user1',
+    username: '도선빈',
+    userProfileImage: require('@/assets/images/example_image.png'),
+    imageUrl: require('@/assets/images/example_image.png'),
+    placeName: '울산 문화의거리',
+    address: '울산광역시 중구 성남동 329-5',
+    alcoholCount: 4,
+  },
+  {
+    id: 'nearby2',
+    userId: 'user2',
+    username: '도선빈',
+    userProfileImage: require('@/assets/images/example_image.png'),
+    imageUrl: require('@/assets/images/example_image.png'),
+    placeName: '울산 문화의거리',
+    address: '울산광역시 중구 성남동 329-5',
+    alcoholCount: 4,
+  },
+  {
+    id: 'nearby3',
+    userId: 'user3',
+    username: '도선빈',
+    userProfileImage: require('@/assets/images/example_image.png'),
+    imageUrl: require('@/assets/images/example_image.png'),
+    placeName: '울산 문화의거리',
+    address: '울산광역시 중구 성남동 329-5',
+    alcoholCount: 4,
+  },
+  {
+    id: 'nearby4',
+    userId: 'user4',
+    username: '도선빈',
+    userProfileImage: require('@/assets/images/example_image.png'),
+    imageUrl: require('@/assets/images/example_image.png'),
+    placeName: '울산 문화의거리',
+    address: '울산광역시 중구 성남동 329-5',
+    alcoholCount: 4,
+  },
+  {
+    id: 'nearby5',
+    userId: 'user5',
+    username: '도선빈',
+    userProfileImage: require('@/assets/images/example_image.png'),
+    imageUrl: require('@/assets/images/example_image.png'),
+    placeName: '울산 문화의거리',
+    address: '울산광역시 중구 성남동 329-5',
+    alcoholCount: 4,
+  },
+  {
+    id: 'nearby6',
+    userId: 'user6',
+    username: '도선빈',
+    userProfileImage: require('@/assets/images/example_image.png'),
+    imageUrl: require('@/assets/images/example_image.png'),
+    placeName: '울산 문화의거리',
+    address: '울산광역시 중구 성남동 329-5',
+    alcoholCount: 4,
+  },
+];

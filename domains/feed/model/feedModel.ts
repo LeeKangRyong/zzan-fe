@@ -43,3 +43,14 @@ export interface AlcoholTagInfo {
   imageIndex: number;
   tagPosition: TagPosition;
 }
+
+export interface FeedWithUser {
+  id: string;
+  userId: string;
+  username: string;
+  userProfileImage: ImageSourcePropType;
+  imageUrl: ImageSourcePropType;
+  placeName: string;
+  address: string;
+  alcoholCount: number;
+}
