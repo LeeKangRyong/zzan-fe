@@ -3,9 +3,13 @@ import { Stack } from 'expo-router';
 export function StackNavigator() {
   return (
     <Stack initialRouteName="login" screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="login" />
+      <Stack.Screen
+        name="login"
+      />
 
-      <Stack.Screen name="(tabs)" />
+      <Stack.Screen
+        name="(tabs)"
+      />
 
       <Stack.Screen
         name="(feed)"
@@ -23,6 +27,13 @@ export function StackNavigator() {
 
       <Stack.Screen
         name="(info)"
+        options={{
+          headerShown: false
+        }}
+      />
+
+      <Stack.Screen
+        name="(user)"
         options={{
           headerShown: false
         }}
