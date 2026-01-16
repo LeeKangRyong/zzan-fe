@@ -2,6 +2,7 @@ import { ChatBot, CurrentPosition, KakaoMapWebView, MapHeader } from "@/domains/
 import { useMapViewModel } from '@/domains/map/viewmodel/useMapViewModel';
 import { Layout } from "@/shared/constants";
 import Constants from 'expo-constants';
+import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -22,7 +23,7 @@ export default function MapTab() {
   const apiKey = Constants.expoConfig?.extra?.kakaoJavascriptKey ?? '';
 
   const handleProfilePress = () => {
-    console.log('Profile pressed');
+    router.push('/mypage');
   };
 
   return (

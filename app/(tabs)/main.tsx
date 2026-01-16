@@ -56,6 +56,12 @@ export default function MainScreen() {
           지도 가기
         </Text>
       </Link>
+
+      <Link href="/mypage" asChild>
+        <Text style={{ color: 'green', fontSize: 20, marginTop: 20 }}>
+          마이페이지 가기
+        </Text>
+      </Link>
     </View>
   );
 }
