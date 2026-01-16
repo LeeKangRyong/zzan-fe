@@ -1,7 +1,7 @@
 import { ImageSourcePropType } from 'react-native';
 
 export interface FeedImage {
-  uri: string;
+  uri: ImageSourcePropType;
   id: string;
 }
 

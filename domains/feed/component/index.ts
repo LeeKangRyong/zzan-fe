@@ -1,6 +1,7 @@
 export { AlcholCounts } from './AlcholCounts';
 export { AlcoholRateSection } from './AlcoholRateSection';
 export { FeedDetailComments } from './FeedDetailComments';
+export { FeedDetailImage } from './FeedDetailImage';
 export { FeedDetailPlace } from './FeedDetailPlace';
 export { FeedImage } from './FeedImage';
 export { FeedImageRate } from './FeedImageRate';
