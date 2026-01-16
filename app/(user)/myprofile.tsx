@@ -6,7 +6,8 @@ import { mockUser } from '@/domains/user/model/mock';
 import { useProfileEditViewModel } from '@/domains/user/viewmodel';
 import { Colors, Layout, Typography } from '@/shared/constants';
 import { router } from 'expo-router';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface CustomHeaderProps {
@@ -41,7 +42,11 @@ export default function MyProfileTab() {
   return (
     <View style={[styles.container, { paddingBottom: safeBottom }]}>
       <CustomHeader isEditMode={isEditMode} onEditPress={toggleEditMode} />
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+        bottomOffset={40}
+      >
         <View style={styles.profileSection}>
           <ProfileInfo user={editedUser} isEditMode={isEditMode} onImagePress={selectProfileImage} />
         </View>
@@ -53,7 +58,7 @@ export default function MyProfileTab() {
         <TouchableOpacity style={styles.logoutContainer} onPress={() => router.push('/login' as any)}>
           <Text style={styles.logoutText}>로그아웃</Text>
         </TouchableOpacity>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   );
 }

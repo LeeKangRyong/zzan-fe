@@ -5,6 +5,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { SystemBars } from 'react-native-edge-to-edge';
 import 'react-native-reanimated';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 SplashScreen.preventAutoHideAsync();
@@ -31,10 +32,12 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <ThemeProvider value={DefaultTheme}>
-        <StackNavigator />
-        <SystemBars style="dark" hidden={{ navigationBar: true }} />
-      </ThemeProvider>
+      <KeyboardProvider>
+        <ThemeProvider value={DefaultTheme}>
+          <StackNavigator />
+          <SystemBars style="dark" hidden={{ navigationBar: true }} />
+        </ThemeProvider>
+      </KeyboardProvider>
     </SafeAreaProvider>
   );
 }

@@ -11,7 +11,8 @@ import { usePostViewModel } from '@/domains/feed/viewmodel/usePostViewModel';
 import { Header } from '@/shared/components';
 import { CommonButton } from '@/shared/components/CommonButton';
 import { Colors, Layout } from '@/shared/constants';
-import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 export default function PostTab() {
   const {
@@ -33,18 +34,13 @@ export default function PostTab() {
   } = usePostViewModel();
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      // behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      // enabled={Platform.OS === 'ios'}
-      // behavior="padding"
-      // keyboardVerticalOffset={0}
-    >
+    <View style={styles.container}>
       <Header title="피드 작성" onBackPress={handleBackPress} />
 
-      <ScrollView
+      <KeyboardAwareScrollView
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
+        bottomOffset={20}
       >
         <View style={styles.imageSection}>
           <FeedImage />
@@ -93,7 +89,7 @@ export default function PostTab() {
             <SectionTitle title="후기" />
             <RateTextInput value={review} onChangeText={handleReviewChange} />
           </View>
-          
+
           {/* TODO: 활성화됐을 경우에만 다음버튼이 눌리게 하기. 아닌 경우에는 disabled */}
           {/* TODO: 활성화된 다음 버튼 누르면 figma design처럼 넘어가게 됨*/}
           {/* TODO: 언급한 각 전통주에 대해 borderColor가 Colors.black으로 변경됨 */}
@@ -110,7 +106,7 @@ export default function PostTab() {
             onPress={handleNextPress}
           />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
 
       <PlaceRateModal
         visible={isRatingModalVisible}
@@ -120,7 +116,7 @@ export default function PostTab() {
         onRatingChange={handleTempRatingChange}
         onSave={handleSaveRating}
       />
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 

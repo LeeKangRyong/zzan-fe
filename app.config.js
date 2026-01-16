@@ -32,7 +32,7 @@ export default {
         translucent: false
       },
       predictiveBackGestureEnabled: false,
-      softInputMode: "adjustResize",
+      softInputMode: "adjustPan",
       usesCleartextTraffic: true
     },
     web: {
