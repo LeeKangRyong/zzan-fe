@@ -50,7 +50,7 @@ export default function MyProfileTab() {
           <ProfileBasicInfo user={editedUser} isEditMode={isEditMode} onUserChange={updateUserField} />
         </View>
         <View style={styles.thinDivider} />
-        <TouchableOpacity style={styles.logoutContainer}>
+        <TouchableOpacity style={styles.logoutContainer} onPress={() => router.push('/login' as any)}>
           <Text style={styles.logoutText}>로그아웃</Text>
         </TouchableOpacity>
       </ScrollView>

@@ -1,7 +1,7 @@
 // 주변 피드 보는 UI
-import { FeedBlockWithProfile } from '@/domains/user/component';
 import { mockNearbyFeeds } from '@/domains/feed/model/mock';
 import { useFeedTabViewModel } from '@/domains/feed/viewmodel';
+import { FeedBlockWithProfile } from '@/domains/user/component';
 import { Colors, Layout, Typography } from '@/shared/constants';
 import { router } from 'expo-router';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -27,7 +27,7 @@ const FeedGrid = () => (
         placeName={feed.placeName}
         address={feed.address}
         alcoholCount={feed.alcoholCount}
-        onPress={() => router.push('/feed/detail' as any)}
+        onPress={() => router.push('/detail' as any)}
       />
     ))}
   </View>

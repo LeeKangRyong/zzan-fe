@@ -17,7 +17,7 @@ export const MyFeeds = () => {
             placeName={feed.placeName}
             address={feed.address}
             alcholCount={feed.alcoholCount}
-            onPress={() => router.push('/feed/detail' as any)}
+            onPress={() => router.push('/detail' as any)}
           />
         ))}
       </View>

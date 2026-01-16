@@ -61,7 +61,7 @@ export const MyScraps = () => {
               placeName={feed.placeName}
               address={feed.address}
               alcholCount={feed.alcoholCount}
-              onPress={() => router.push('/feed/detail' as any)}
+              onPress={() => router.push('/detail' as any)}
             />
           ))}
         </View>
@@ -71,7 +71,7 @@ export const MyScraps = () => {
             <AlcoholScrapCard
               key={alcohol.id}
               alcohol={alcohol}
-              onPress={() => router.push('/feed/detail' as any)}
+              onPress={() => router.push('/alchol' as any)}
             />
           ))}
         </ScrollView>

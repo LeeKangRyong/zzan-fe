@@ -75,13 +75,19 @@ export default function DetailTab() {
             alcohols={alcohols}
             alcoholRatings={alcoholRatings}
             focusedAlcoholId={focusedAlcoholId ?? undefined}
-            onAlcoholPress={handleAlcoholPress}
+            onAlcoholPress={(id) => {
+              handleAlcoholPress(id);
+              router.push('/alchol' as any);
+            }}
           />
 
           <FeedDetailPlace
             place={place}
             placeRating={placeRating}
-            onPlacePress={handlePlacePress}
+            onPlacePress={() => {
+              handlePlacePress();
+              router.push('/place' as any);
+            }}
           />
 
           <FeedDetailComments review={review} />

@@ -8,7 +8,6 @@ export default function TabLayout() {
       tabBar={(props) => <TabBar {...props} />}
       screenOptions={{ headerShown: false }}
     >
-      <Tabs.Screen name="main" />
       <Tabs.Screen name="post" /> 
       <Tabs.Screen name="feed" />
     </Tabs>

@@ -10,7 +10,7 @@ export default function LoginScreen() {
   const router = useRouter();
 
   const handlePress = () => {
-    router.push('/main');
+    router.push('/map');
   };
 
   return (
