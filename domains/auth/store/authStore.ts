@@ -14,19 +14,21 @@ export const useAuthStore = create<AuthStore>((set) => ({
   refreshToken: null,
   isLoading: false,
 
-  setTokens: (accessToken, refreshToken) =>
+  setTokens: (accessToken, refreshToken) => {
     set({
       accessToken,
       refreshToken,
       isAuthenticated: true,
-    }),
+    });
+  },
 
-  clearTokens: () =>
+  clearTokens: () => {
     set({
       accessToken: null,
       refreshToken: null,
       isAuthenticated: false,
-    }),
+    });
+  },
 
   setLoading: (isLoading) => set({ isLoading }),
 }));

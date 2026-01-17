@@ -60,6 +60,7 @@ export default {
       useMockData:
         (process.env.EXPO_PUBLIC_USE_MOCK_DATA || process.env.USE_MOCK_DATA) ===
         "true",
+      apiUrl: process.env.EXPO_PUBLIC_API_URL || process.env.API_URL || "",
       kakaoRestApiKey:
         process.env.EXPO_PUBLIC_KAKAO_MAP_API_KEY ||
         process.env.KAKAO_MAP_API_KEY ||
@@ -68,7 +69,6 @@ export default {
         process.env.EXPO_PUBLIC_KAKAO_MAP_JAVASCRIPT_KEY ||
         process.env.KAKAO_MAP_JAVASCRIPT_KEY ||
         "",
-      apiUrl: process.env.EXPO_PUBLIC_API_URL || process.env.API_URL || "",
     },
   },
 };

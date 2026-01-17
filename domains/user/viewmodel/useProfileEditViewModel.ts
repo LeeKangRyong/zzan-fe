@@ -23,7 +23,6 @@ export const useProfileEditViewModel = (initialUser: User | null) => {
     if (!editedUser) return false;
 
     if (isMockEnabled()) {
-      console.log('Mock save user:', editedUser);
       return true;
     }
 
@@ -36,7 +35,6 @@ export const useProfileEditViewModel = (initialUser: User | null) => {
       });
       return true;
     } catch (err) {
-      console.error('Failed to save user:', err);
       return false;
     } finally {
       setIsSaving(false);

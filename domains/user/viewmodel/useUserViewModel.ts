@@ -30,8 +30,11 @@ export const useUserViewModel = () => {
         API_ENDPOINTS.USER.ME,
         { requireAuth: true }
       );
+      console.log('[UserViewModel] API 응답:', response);
+      console.log('[UserViewModel] 사용자 데이터:', response.data);
       setUser(mapApiUserToUser(response.data));
     } catch (err) {
+      console.error('[UserViewModel] 사용자 정보 로드 실패:', err);
       setError('사용자 정보를 불러오는데 실패했습니다');
       setUser(mockUser);
     } finally {

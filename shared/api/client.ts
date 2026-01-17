@@ -41,8 +41,15 @@ export const apiClient = async <T>(
 ): Promise<T> => {
   const { method = 'GET', body, headers = {}, requireAuth = false } = options;
 
-  const url = `${getBaseUrl()}${endpoint}`;
+  const baseUrl = getBaseUrl();
+  const url = `${baseUrl}${endpoint}`;
   const authHeaders = requireAuth ? buildAuthHeaders() : {};
+
+  console.log('[ApiClient] 요청 시작');
+  console.log('[ApiClient] Base URL:', baseUrl);
+  console.log('[ApiClient] Endpoint:', endpoint);
+  console.log('[ApiClient] Full URL:', url);
+  console.log('[ApiClient] Method:', method);
 
   const response = await fetch(url, {
     method,
@@ -54,10 +61,16 @@ export const apiClient = async <T>(
     body: body ? JSON.stringify(body) : undefined,
   });
 
+  console.log('[ApiClient] 응답 상태:', response.status);
+  console.log('[ApiClient] 응답 OK:', response.ok);
+
   if (!response.ok) {
     const errorText = await response.text();
+    console.error('[ApiClient] 에러 응답:', errorText);
     throw new ApiClientError(response.status, errorText);
   }
 
-  return response.json();
+  const jsonData = await response.json();
+  console.log('[ApiClient] 응답 데이터:', jsonData);
+  return jsonData;
 };
