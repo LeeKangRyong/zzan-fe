@@ -1,15 +1,42 @@
+import { useAuthViewModel } from "@/domains/auth/viewmodel";
 import { KakaoStartButton } from "@/domains/user/component";
 import { CommonButton } from "@/shared/components";
 import { Colors, Typography } from "@/shared/constants";
-import { useRouter } from 'expo-router'; // useRouter 추가
+import Constants from 'expo-constants';
+import { useRouter } from 'expo-router';
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import InitialIcon from '../assets/logo/initial.svg';
 import LogoIcon from '../assets/logo/logo_big.svg';
 
+const isMockEnabled = (): boolean => {
+  return Constants.expoConfig?.extra?.useMockData === true;
+};
+
 export default function LoginScreen() {
   const router = useRouter();
+  const { loginWithMock, getKakaoLoginUrl, handleKakaoCallback, isLoading } = useAuthViewModel();
 
-  const handlePress = () => {
+  const handleKakaoLogin = async () => {
+    if (isMockEnabled()) {
+      loginWithMock();
+      router.push('/map');
+      return;
+    }
+
+    const url = await getKakaoLoginUrl();
+    if (!url) return;
+
+    // TODO: 실제 카카오 OAuth WebBrowser 연동 필요
+    // const result = await WebBrowser.openAuthSessionAsync(url);
+    // if (result.type === 'success') {
+    //   const code = extractCodeFromUrl(result.url);
+    //   const success = await handleKakaoCallback(code);
+    //   if (success) router.push('/map');
+    // }
+    router.push('/map');
+  };
+
+  const handleGuestLogin = () => {
     router.push('/map');
   };
 
@@ -26,20 +53,21 @@ export default function LoginScreen() {
       </View>
 
       <View style={styles.bottomContainer}>
-        <TouchableOpacity 
-          activeOpacity={0.7} 
-          style={styles.loginButton} 
-          onPress={handlePress}
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={styles.loginButton}
+          onPress={handleKakaoLogin}
+          disabled={isLoading}
         >
           <KakaoStartButton />
         </TouchableOpacity>
 
         <View style={styles.loginButton}>
-          <CommonButton 
-            title="로그인 없이 시작하기" 
-            textColor={Colors.black} 
-            backColor={Colors.gray} 
-            onPress={handlePress}
+          <CommonButton
+            title="로그인 없이 시작하기"
+            textColor={Colors.black}
+            backColor={Colors.gray}
+            onPress={handleGuestLogin}
           />
         </View>
       </View>

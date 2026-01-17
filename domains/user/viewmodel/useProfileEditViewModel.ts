@@ -1,20 +1,60 @@
+import Constants from 'expo-constants';
 import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
-import { User } from '../model/userModel';
+import { useEffect, useState } from 'react';
+import type { User, UserApiResponse } from '../model/userModel';
+import { mapUserToApiRequest } from '../model/userMapper';
+import { apiClient, API_ENDPOINTS } from '@/shared/api';
+import type { ApiResponse } from '@/shared/types/api';
 
-export const useProfileEditViewModel = (initialUser: User) => {
+const isMockEnabled = (): boolean => {
+  return Constants.expoConfig?.extra?.useMockData === true;
+};
+
+export const useProfileEditViewModel = (initialUser: User | null) => {
   const [isEditMode, setIsEditMode] = useState(false);
-  const [editedUser, setEditedUser] = useState(initialUser);
+  const [editedUser, setEditedUser] = useState<User | null>(initialUser);
+  const [isSaving, setIsSaving] = useState(false);
 
-  const toggleEditMode = () => {
+  useEffect(() => {
+    setEditedUser(initialUser);
+  }, [initialUser]);
+
+  const saveUser = async (): Promise<boolean> => {
+    if (!editedUser) return false;
+
+    if (isMockEnabled()) {
+      console.log('Mock save user:', editedUser);
+      return true;
+    }
+
+    setIsSaving(true);
+    try {
+      await apiClient<ApiResponse<UserApiResponse>>(API_ENDPOINTS.USER.ME, {
+        method: 'PATCH',
+        body: mapUserToApiRequest(editedUser),
+        requireAuth: true,
+      });
+      return true;
+    } catch (err) {
+      console.error('Failed to save user:', err);
+      return false;
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const toggleEditMode = async () => {
     if (isEditMode) {
-      console.log('Saving user:', editedUser);
+      await saveUser();
     }
     setIsEditMode(!isEditMode);
   };
 
   const updateUserField = (field: keyof User, value: string) => {
-    setEditedUser((prev) => ({ ...prev, [field]: value }));
+    setEditedUser((prev) => {
+      if (!prev) return prev;
+      return { ...prev, [field]: value };
+    });
   };
 
   const selectProfileImage = async () => {
@@ -25,7 +65,10 @@ export const useProfileEditViewModel = (initialUser: User) => {
     });
 
     if (result.canceled) return;
-    setEditedUser((prev) => ({ ...prev, profileImage: { uri: result.assets[0].uri } }));
+    setEditedUser((prev) => {
+      if (!prev) return prev;
+      return { ...prev, profileImage: { uri: result.assets[0].uri } };
+    });
   };
 
   const cancelEdit = () => {
@@ -36,6 +79,7 @@ export const useProfileEditViewModel = (initialUser: User) => {
   return {
     isEditMode,
     editedUser,
+    isSaving,
     toggleEditMode,
     updateUserField,
     selectProfileImage,

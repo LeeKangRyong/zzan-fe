@@ -1,13 +1,16 @@
 import { User, UserFeed, UserScrapAlcohol } from './userModel';
 
 export const mockUser: User = {
-  id: 'user1',
-  name: '홍길동길동',
+  id: '01HQ1234567890ABCDEF',
+  name: '홍길동',
   profileImage: require('@/assets/images/example_image.png'),
-  emptyAlcoholCount: 4,
+  profileImageUrl: null,
+  emptyAlcoholCount: 3,
   birthDate: '2007.12.12',
+  birth: '2007-12-12',
   phone: '010-1111-1111',
   email: 'hello@gmail.com',
+  role: 'USER',
 };
 
 export const mockUserFeeds: UserFeed[] = [

@@ -1,9 +1,9 @@
 // 비운 전통주에는 `assets/icons/alchol_right.svg` 사용
 
 import BackIcon from '@/assets/icons/back.svg';
+import { useAuthViewModel } from '@/domains/auth/viewmodel';
 import { ProfileBasicInfo, ProfileInfo } from '@/domains/user/component';
-import { mockUser } from '@/domains/user/model/mock';
-import { useProfileEditViewModel } from '@/domains/user/viewmodel';
+import { useProfileEditViewModel, useUserViewModel } from '@/domains/user/viewmodel';
 import { Colors, Layout, Typography } from '@/shared/constants';
 import { router } from 'expo-router';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -33,11 +33,18 @@ const CustomHeader = ({ isEditMode, onEditPress }: CustomHeaderProps) => {
 };
 
 export default function MyProfileTab() {
+  const { user, isLoading } = useUserViewModel();
+  const { logout } = useAuthViewModel();
   const { isEditMode, editedUser, toggleEditMode, updateUserField, selectProfileImage } =
-    useProfileEditViewModel(mockUser);
+    useProfileEditViewModel(user);
 
   const insets = useSafeAreaInsets();
   const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
+
+  const handleLogout = async () => {
+    await logout();
+    router.push('/login' as never);
+  };
 
   return (
     <View style={[styles.container, { paddingBottom: safeBottom }]}>
@@ -47,15 +54,19 @@ export default function MyProfileTab() {
         showsVerticalScrollIndicator={false}
         bottomOffset={40}
       >
-        <View style={styles.profileSection}>
-          <ProfileInfo user={editedUser} isEditMode={isEditMode} onImagePress={selectProfileImage} />
-        </View>
-        <View style={styles.divider} />
-        <View style={styles.basicInfoSection}>
-          <ProfileBasicInfo user={editedUser} isEditMode={isEditMode} onUserChange={updateUserField} />
-        </View>
+        {editedUser && (
+          <>
+            <View style={styles.profileSection}>
+              <ProfileInfo user={editedUser} isEditMode={isEditMode} onImagePress={selectProfileImage} />
+            </View>
+            <View style={styles.divider} />
+            <View style={styles.basicInfoSection}>
+              <ProfileBasicInfo user={editedUser} isEditMode={isEditMode} onUserChange={updateUserField} />
+            </View>
+          </>
+        )}
         <View style={styles.thinDivider} />
-        <TouchableOpacity style={styles.logoutContainer} onPress={() => router.push('/login' as any)}>
+        <TouchableOpacity style={styles.logoutContainer} onPress={handleLogout}>
           <Text style={styles.logoutText}>로그아웃</Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>

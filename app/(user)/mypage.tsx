@@ -1,5 +1,5 @@
 import { MyFeeds, MyScraps, ProfileInfoBlock } from '@/domains/user/component';
-import { mockUser } from '@/domains/user/model/mock';
+import { useUserViewModel } from '@/domains/user/viewmodel';
 import { Header } from '@/shared/components/Header';
 import { Colors, Layout, Typography } from '@/shared/constants';
 import { router } from 'expo-router';
@@ -34,6 +34,7 @@ export default function MyPageTab() {
 
   // 내가 쓴 피드 선택 시 -> MyFeeds component
   const [selectedTab, setSelectedTab] = useState<TabType>('스크랩');
+  const { user, isLoading } = useUserViewModel();
   const insets = useSafeAreaInsets();
   const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
 
@@ -41,7 +42,7 @@ export default function MyPageTab() {
     <View style={[styles.container, { paddingBottom: safeBottom }]}>
       <Header title="마이페이지" onBackPress={() => router.back()} />
       <View style={styles.profileInfo}>
-        <ProfileInfoBlock user={mockUser} />
+        {user && <ProfileInfoBlock user={user} />}
       </View>
       <View style={styles.tabSection}>
         <TabSelector selected={selectedTab} onSelect={setSelectedTab} />

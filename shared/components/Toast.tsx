@@ -1,0 +1,61 @@
+import { Colors, Typography } from '@/shared/constants';
+import { useEffect } from 'react';
+import { Animated, StyleSheet, Text } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+interface ToastProps {
+  message: string | null;
+  visible: boolean;
+  onHide: () => void;
+  duration?: number;
+}
+
+export const Toast = ({ message, visible, onHide, duration = 3000 }: ToastProps) => {
+  const insets = useSafeAreaInsets();
+  const opacity = new Animated.Value(0);
+
+  useEffect(() => {
+    if (!visible) return;
+
+    Animated.sequence([
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.delay(duration),
+      Animated.timing(opacity, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start(() => onHide());
+  }, [visible]);
+
+  if (!visible || !message) return null;
+
+  return (
+    <Animated.View style={[styles.container, { top: insets.top + 16, opacity }]}>
+      <Text style={styles.message}>{message}</Text>
+    </Animated.View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    left: 16,
+    right: 16,
+    backgroundColor: Colors.black,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 8,
+    zIndex: 9999,
+  },
+  message: {
+    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontSize: 14,
+    color: Colors.white,
+    textAlign: 'center',
+  },
+});
