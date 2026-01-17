@@ -1,13 +1,18 @@
 import SearchIcon from '@/assets/icons/search_small.svg';
 import { Colors, Typography } from '@/shared/constants';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface MapSearchProps {
   value?: string;
   onChangeText?: (text: string) => void;
+  onSubmit?: () => void;
 }
 
-export const MapSearch = ({ value, onChangeText }: MapSearchProps) => {
+export const MapSearch = ({
+  value,
+  onChangeText,
+  onSubmit,
+}: MapSearchProps) => {
   return (
     <View style={styles.container}>
       <TextInput
@@ -16,8 +21,12 @@ export const MapSearch = ({ value, onChangeText }: MapSearchProps) => {
         placeholderTextColor={Colors.black}
         value={value}
         onChangeText={onChangeText}
+        onSubmitEditing={onSubmit}
+        returnKeyType="search"
       />
-      <SearchIcon width={22} height={22} />
+      <TouchableOpacity onPress={onSubmit}>
+        <SearchIcon width={22} height={22} />
+      </TouchableOpacity>
     </View>
   );
 };

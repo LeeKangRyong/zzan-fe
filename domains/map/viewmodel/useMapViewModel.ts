@@ -1,7 +1,14 @@
 import * as Location from 'expo-location';
-import { useState } from 'react';
-import { MapMarker, MapRegion } from '../model/mapModel';
+import { useState, useEffect, useRef } from 'react';
+import {
+  MapMarker,
+  MapRegion,
+  PlaceSearchMeta,
+  toMapMarker,
+  searchResultToMapMarker,
+} from '../model/mapModel';
 import { mockPlacesWithCoordinates } from '../model/mock';
+import { placeApi } from '../api/placeApi';
 
 const USE_MOCK_DATA = process.env.EXPO_PUBLIC_USE_MOCK_DATA === 'true';
 
@@ -14,13 +21,41 @@ const initialRegion: MapRegion = {
 
 export const useMapViewModel = () => {
   const [region, setRegion] = useState<MapRegion>(initialRegion);
-  const [markers] = useState<MapMarker[]>(
-    USE_MOCK_DATA ? mockPlacesWithCoordinates : []
-  );
+  const [markers, setMarkers] = useState<MapMarker[]>([]);
   const [searchText, setSearchText] = useState('');
+  const [searchResults, setSearchResults] = useState<MapMarker[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [focusedMarkerId, setFocusedMarkerId] = useState<string | null>(null);
   const [selectedPlace, setSelectedPlace] = useState<MapMarker | null>(null);
+  const [isLoadingPlaces, setIsLoadingPlaces] = useState(false);
+  const [searchPage, setSearchPage] = useState(1);
+  const [searchMeta, setSearchMeta] = useState<PlaceSearchMeta | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (USE_MOCK_DATA) {
+      if (markers.length === 0) {
+        setMarkers(mockPlacesWithCoordinates);
+      }
+      return;
+    }
+
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    debounceTimerRef.current = setTimeout(() => {
+      loadPlacesInRegion(region);
+    }, 500);
+
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, [region]);
 
   const handleMarkerPress = (markerId: string) => {
     console.log('[MapViewModel] Marker pressed:', markerId);
@@ -41,13 +76,82 @@ export const useMapViewModel = () => {
     setFocusedMarkerId(markerId);
   };
 
+  const loadPlacesInRegion = async (regionToLoad: MapRegion) => {
+    if (USE_MOCK_DATA) {
+      return;
+    }
+
+    setIsLoadingPlaces(true);
+    setError(null);
+
+    try {
+      const minLatitude = regionToLoad.latitude - regionToLoad.latitudeDelta / 2;
+      const maxLatitude = regionToLoad.latitude + regionToLoad.latitudeDelta / 2;
+      const minLongitude = regionToLoad.longitude - regionToLoad.longitudeDelta / 2;
+      const maxLongitude = regionToLoad.longitude + regionToLoad.longitudeDelta / 2;
+
+      const result = await placeApi.getPlacesInRegion({
+        minLatitude,
+        maxLatitude,
+        minLongitude,
+        maxLongitude,
+      });
+
+      const newMarkers = result.map(toMapMarker);
+      setMarkers(newMarkers);
+    } catch (err) {
+      setError('장소를 불러오는 중 오류가 발생했습니다.');
+      console.error('[MapViewModel] Failed to load places:', err);
+    } finally {
+      setIsLoadingPlaces(false);
+    }
+  };
+
+  const searchPlaces = async (keyword: string, page: number = 1) => {
+    if (!keyword.trim()) {
+      return;
+    }
+
+    setIsLoadingPlaces(true);
+    setError(null);
+
+    try {
+      const result = await placeApi.searchPlaces({
+        keyword,
+        page,
+        size: 15,
+      });
+
+      const newMarkers = result.map(searchResultToMapMarker);
+      setSearchResults(newMarkers);
+      setSearchPage(page);
+
+      if (newMarkers.length > 0) {
+        moveToPlace(newMarkers[0]);
+      }
+    } catch (err) {
+      setError('장소 검색 중 오류가 발생했습니다.');
+      console.error('[MapViewModel] Failed to search places:', err);
+    } finally {
+      setIsLoadingPlaces(false);
+    }
+  };
+
   const handleSearchTextChange = (text: string) => {
     setSearchText(text);
-    setShowSearchResults(text.length > 0);
+  };
+
+  const handleSearchSubmit = () => {
+    if (!searchText.trim()) {
+      return;
+    }
+
+    searchPlaces(searchText, 1);
+    setShowSearchResults(true);
   };
 
   const handleSearchResultPress = (placeId: string) => {
-    const place = findPlaceById(placeId);
+    const place = searchResults.find((marker) => marker.id === placeId);
 
     if (!place) {
       return;
@@ -57,6 +161,7 @@ export const useMapViewModel = () => {
     setFocusedMarkerId(placeId);
     setShowSearchResults(false);
     setSearchText('');
+    setSearchResults([]);
   };
 
   const findPlaceById = (placeId: string) => {
@@ -118,19 +223,38 @@ export const useMapViewModel = () => {
   const handleMapPress = () => {
     setSelectedPlace(null);
     setFocusedMarkerId(null);
+    setShowSearchResults(false);
+    setSearchText('');
+    setSearchResults([]);
+  };
+
+  const handleRegionChange = (newRegion: MapRegion) => {
+    if (USE_MOCK_DATA) {
+      return;
+    }
+
+    setRegion(newRegion);
   };
 
   return {
     region,
     markers,
     searchText,
+    searchResults,
     showSearchResults,
     focusedMarkerId,
     selectedPlace,
+    isLoadingPlaces,
+    error,
+    searchMeta,
+    searchPage,
     handleMarkerPress,
     handleSearchTextChange,
+    handleSearchSubmit,
     handleSearchResultPress,
     handleCurrentPositionPress,
     handleMapPress,
+    handleRegionChange,
+    loadPlacesInRegion,
   };
 };

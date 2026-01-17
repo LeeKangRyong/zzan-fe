@@ -19,3 +19,55 @@ export interface MapMarker extends Coordinate {
   feedCount: number;
   rating: number;
 }
+
+export interface PlaceResponse {
+  placeId: number;
+  kakaoPlaceId: string;
+  name: string;
+  categoryName: string;
+  roadAddress: string;
+  longitude: number;
+  latitude: number;
+  feedCount: number;
+  averageRating: number;
+}
+
+export interface PlaceSearchResponse {
+  kakaoPlaceId: string;
+  name: string;
+  categoryName: string;
+  roadAddress: string;
+  phone?: string;
+  longitude: number;
+  latitude: number;
+}
+
+export interface PlaceSearchMeta {
+  totalCount: number;
+  pageableCount: number;
+  isEnd: boolean;
+  currentPage: number;
+  size: number;
+}
+
+export const toMapMarker = (place: PlaceResponse): MapMarker => ({
+  id: place.placeId.toString(),
+  name: place.name,
+  address: place.roadAddress,
+  imageUrl: undefined,
+  latitude: place.latitude,
+  longitude: place.longitude,
+  feedCount: place.feedCount,
+  rating: place.averageRating,
+});
+
+export const searchResultToMapMarker = (place: PlaceSearchResponse): MapMarker => ({
+  id: place.kakaoPlaceId,
+  name: place.name,
+  address: place.roadAddress,
+  imageUrl: undefined,
+  latitude: place.latitude,
+  longitude: place.longitude,
+  feedCount: 0,
+  rating: 0,
+});

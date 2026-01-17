@@ -1,14 +1,15 @@
 import { Colors, Layout } from "@/shared/constants";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
-import { mockPlacesWithCoordinates } from "../model/mock";
+import { MapMarker } from "../model/mapModel";
 import { MapSearchResultBlock } from "./MapSearchResultBlock";
 
 interface MapSearchResultProps {
+  searchResults: MapMarker[];
   onResultPress?: (placeId: string) => void;
 }
 
-export const MapSearchResult = ({ onResultPress }: MapSearchResultProps) => {
-  const displayPlaces = mockPlacesWithCoordinates;
+export const MapSearchResult = ({ searchResults, onResultPress }: MapSearchResultProps) => {
+  const displayPlaces = searchResults;
 
   return (
     <View style={styles.container}>
