@@ -1,9 +1,10 @@
 import { useAuthViewModel } from "@/domains/auth/viewmodel";
 import { KakaoStartButton } from "@/domains/user/component";
-import { CommonButton } from "@/shared/components";
+import { CommonButton, Toast } from "@/shared/components";
 import { Colors, Typography } from "@/shared/constants";
 import Constants from 'expo-constants';
 import { useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import InitialIcon from '../assets/logo/initial.svg';
 import LogoIcon from '../assets/logo/logo_big.svg';
@@ -14,7 +15,14 @@ const isMockEnabled = (): boolean => {
 
 export default function LoginScreen() {
   const router = useRouter();
-  const { loginWithMock, getKakaoLoginUrl, handleKakaoCallback, isLoading } = useAuthViewModel();
+  const { loginWithMock, getKakaoLoginUrl, handleKakaoCallback, isLoading, error } = useAuthViewModel();
+  const [showToast, setShowToast] = useState(false);
+
+  useEffect(() => {
+    if (error) {
+      setShowToast(true);
+    }
+  }, [error]);
 
   const handleKakaoLogin = async () => {
     if (isMockEnabled()) {
@@ -42,6 +50,7 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
+      <Toast message={error} visible={showToast} onHide={() => setShowToast(false)} />
       <View style={styles.logoContainer}>
         <InitialIcon width={150} height={150} style={styles.logo} />
         <LogoIcon style={styles.logoMargin} />

@@ -4,8 +4,10 @@ import BackIcon from '@/assets/icons/back.svg';
 import { useAuthViewModel } from '@/domains/auth/viewmodel';
 import { ProfileBasicInfo, ProfileInfo } from '@/domains/user/component';
 import { useProfileEditViewModel, useUserViewModel } from '@/domains/user/viewmodel';
+import { Toast } from '@/shared/components';
 import { Colors, Layout, Typography } from '@/shared/constants';
 import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -33,13 +35,20 @@ const CustomHeader = ({ isEditMode, onEditPress }: CustomHeaderProps) => {
 };
 
 export default function MyProfileTab() {
-  const { user, isLoading } = useUserViewModel();
+  const { user, isLoading, error } = useUserViewModel();
   const { logout } = useAuthViewModel();
   const { isEditMode, editedUser, toggleEditMode, updateUserField, selectProfileImage } =
     useProfileEditViewModel(user);
 
+  const [showToast, setShowToast] = useState(false);
   const insets = useSafeAreaInsets();
   const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
+
+  useEffect(() => {
+    if (error) {
+      setShowToast(true);
+    }
+  }, [error]);
 
   const handleLogout = async () => {
     await logout();
@@ -48,6 +57,7 @@ export default function MyProfileTab() {
 
   return (
     <View style={[styles.container, { paddingBottom: safeBottom }]}>
+      <Toast message={error} visible={showToast} onHide={() => setShowToast(false)} />
       <CustomHeader isEditMode={isEditMode} onEditPress={toggleEditMode} />
       <KeyboardAwareScrollView
         contentContainerStyle={styles.scrollContent}

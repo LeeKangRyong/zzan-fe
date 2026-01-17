@@ -1,9 +1,10 @@
 import { MyFeeds, MyScraps, ProfileInfoBlock } from '@/domains/user/component';
 import { useUserViewModel } from '@/domains/user/viewmodel';
 import { Header } from '@/shared/components/Header';
+import { Toast } from '@/shared/components';
 import { Colors, Layout, Typography } from '@/shared/constants';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -34,12 +35,20 @@ export default function MyPageTab() {
 
   // 내가 쓴 피드 선택 시 -> MyFeeds component
   const [selectedTab, setSelectedTab] = useState<TabType>('스크랩');
-  const { user, isLoading } = useUserViewModel();
+  const { user, isLoading, error } = useUserViewModel();
+  const [showToast, setShowToast] = useState(false);
   const insets = useSafeAreaInsets();
   const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
 
+  useEffect(() => {
+    if (error) {
+      setShowToast(true);
+    }
+  }, [error]);
+
   return (
     <View style={[styles.container, { paddingBottom: safeBottom }]}>
+      <Toast message={error} visible={showToast} onHide={() => setShowToast(false)} />
       <Header title="마이페이지" onBackPress={() => router.back()} />
       <View style={styles.profileInfo}>
         {user && <ProfileInfoBlock user={user} />}
