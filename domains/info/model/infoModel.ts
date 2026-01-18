@@ -19,6 +19,7 @@ export interface PlaceInfo {
   rating: number;
   reviews: PlaceReview[];
   description: string;
+  kakaoPlaceId?: string;
 }
 
 export interface PlaceReview {

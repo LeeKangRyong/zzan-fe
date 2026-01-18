@@ -30,7 +30,7 @@ const MOCK_REVIEWS: PlaceReview[] = [
 ];
 
 export const MOCK_PLACE_INFO: PlaceInfo = {
-  id: 'place1',
+  id: '01HQPLACE123456789ABC',
   name: '전통주 카페 짠',
   category: '탁주(고도)',
   images: [exampleImage, exampleImage, exampleImage],
@@ -77,7 +77,7 @@ const MOCK_ALCOHOL_REVIEWS: PlaceReview[] = [
 ];
 
 export const MOCK_ALCOHOL_INFO: AlcoholInfo = {
-  id: 'alcohol1',
+  id: '01HQLIQUOR1234567890',
   name: '서울 탁주',
   category: '탁주(저도)',
   images: [

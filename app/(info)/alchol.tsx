@@ -6,21 +6,61 @@ import { INFO_CONSTANTS } from '@/domains/info/model/constants';
 import { useAlcoholViewModel } from '@/domains/info/viewmodel/useInfoViewModel';
 import { Header } from '@/shared/components';
 import { Colors, Layout } from '@/shared/constants';
-import { useRouter } from 'expo-router';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  Text,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+const renderLoadingState = () => (
+  <View style={styles.centerContainer}>
+    <ActivityIndicator size="large" color={Colors.purple} />
+  </View>
+);
+
+const renderErrorState = (message: string) => (
+  <View style={styles.centerContainer}>
+    <Text style={styles.errorText}>{message}</Text>
+  </View>
+);
 
 export default function AlcholTab() {
   const router = useRouter();
+  const params = useLocalSearchParams();
+  const liquorId = params.liquorId as string | undefined;
   const insets = useSafeAreaInsets();
   const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
   const {
     alcoholInfo,
     isBookmarked,
     infoBoxes,
+    isLoading,
+    error,
     toggleBookmark,
     handleShare,
-  } = useAlcoholViewModel();
+  } = useAlcoholViewModel(liquorId);
+
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <Header title="전통주" onBackPress={() => router.back()} />
+        {renderLoadingState()}
+      </View>
+    );
+  }
+
+  if (error || !alcoholInfo) {
+    return (
+      <View style={styles.container}>
+        <Header title="전통주" onBackPress={() => router.back()} />
+        {renderErrorState(error || '주류 정보를 찾을 수 없습니다')}
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -30,17 +70,8 @@ export default function AlcholTab() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: safeBottom }}
       >
-        {/* InfoImages component */}
         <InfoImages images={alcoholInfo.images.map((img) => img.image)} />
 
-        {/* InfoSummary component */}
-        {/* Share ui from shared */}
-        {/* BookMark ui from shared 사용 */}
-        {/* title */}
-        {/* 설명 및 내용 box*/}
-        {/* 설명 및 내용 box*/}
-        {/* 설명 및 내용 box*/}
-        {/* 설명 및 내용 box*/}
         <InfoSummary
           title={alcoholInfo.name}
           category={alcoholInfo.category}
@@ -50,24 +81,14 @@ export default function AlcholTab() {
           onBookmarkPress={toggleBookmark}
         />
 
-        {/* AlcholDescription component */}
         <AlcholDescription
           recommendTitle={alcoholInfo.recommendTitle}
           recommendDescription={alcoholInfo.recommendDescription}
           images={alcoholInfo.images}
         />
 
-        {/* RateAlcholButton component with toggle functionality */}
-        {/* <View style={styles.buttonContainer}>
-          <RateAlcholButton />
-        </View> */}
-
-        {/* 구분선 */}
         <View style={styles.line} />
 
-        {/* InfoRate component */}
-        {/* Rate ui from shared */}
-        {/* InfoRateBlock 나열하기 */}
         <InfoRate rating={alcoholInfo.rating} reviews={alcoholInfo.reviews} />
       </ScrollView>
     </View>
@@ -79,11 +100,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.white,
   },
-  // buttonContainer: {
-  //   paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
-  //   paddingTop: INFO_CONSTANTS.BUTTON_MARGIN_VERTICAL,
-  //   paddingBottom: 0,
-  // },
+  centerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    fontSize: 16,
+    color: Colors.black,
+  },
   line: {
     backgroundColor: Colors.black,
     marginHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,

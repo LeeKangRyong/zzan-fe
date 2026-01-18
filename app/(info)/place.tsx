@@ -5,23 +5,66 @@ import { PlaceDescription } from '@/domains/info/components/PlaceDescription';
 import { INFO_CONSTANTS } from '@/domains/info/model/constants';
 import { useInfoViewModel } from '@/domains/info/viewmodel/useInfoViewModel';
 import { AlcholButton, Header } from '@/shared/components';
-import { Colors, Layout } from '@/shared/constants';
-import { useRouter } from 'expo-router';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { FeedBlock } from '@/shared/components/FeedBlock';
+import { Colors, Layout, Typography } from '@/shared/constants';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  Text,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+const renderLoadingState = () => (
+  <View style={styles.centerContainer}>
+    <ActivityIndicator size="large" color={Colors.purple} />
+  </View>
+);
+
+const renderErrorState = (message: string) => (
+  <View style={styles.centerContainer}>
+    <Text style={styles.errorText}>{message}</Text>
+  </View>
+);
 
 export default function PlaceTab() {
   const router = useRouter();
+  const params = useLocalSearchParams();
+  const placeId = params.placeId as string | undefined;
   const insets = useSafeAreaInsets();
   const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
   const {
     placeInfo,
     isBookmarked,
     infoBoxes,
+    isLoading,
+    error,
+    placeFeeds,
+    isFeedsLoading,
     toggleBookmark,
     handleShare,
     handleAlcholButtonPress,
-  } = useInfoViewModel();
+  } = useInfoViewModel(placeId);
+
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <Header title="짠 플레이스" onBackPress={() => router.back()} />
+        {renderLoadingState()}
+      </View>
+    );
+  }
+
+  if (error || !placeInfo) {
+    return (
+      <View style={styles.container}>
+        <Header title="짠 플레이스" onBackPress={() => router.back()} />
+        {renderErrorState(error || '장소를 찾을 수 없습니다')}
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -31,17 +74,8 @@ export default function PlaceTab() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: safeBottom }}
       >
-        {/* InfoImages component */}
         <InfoImages images={placeInfo.images} />
 
-        {/* InfoSummary component */}
-        {/* Share ui from shared */}
-        {/* BookMark ui from shared 사용 */}
-        {/* title */}
-        {/* 설명 및 내용 box*/}
-        {/* 설명 및 내용 box*/}
-        {/* 설명 및 내용 box*/}
-        {/* 설명 및 내용 box*/}
         <InfoSummary
           title={placeInfo.name}
           category={placeInfo.category}
@@ -51,10 +85,8 @@ export default function PlaceTab() {
           onBookmarkPress={toggleBookmark}
         />
 
-        {/* PlaceDescription component */}
         <PlaceDescription description={placeInfo.description} />
 
-        {/* AlcholButton component, title="이 장소에서 전통주를 먹었어요" */}
         <View style={styles.buttonContainer}>
           <AlcholButton
             title="이 장소에서 전통주를 먹었어요"
@@ -62,12 +94,37 @@ export default function PlaceTab() {
           />
         </View>
 
-        {/* 구분선 */}
         <View style={styles.line} />
 
-        {/* InfoRate component */}
-        {/* Rate ui from shared */}
-        {/* InfoRateBlock 나열하기 */}
+        {placeFeeds.length > 0 && (
+          <View style={styles.feedsSection}>
+            <Text style={styles.sectionTitle}>이 장소의 피드</Text>
+            {isFeedsLoading ? (
+              <ActivityIndicator size="small" color={Colors.purple} />
+            ) : (
+              <View style={styles.feedGrid}>
+                {placeFeeds.map((feed) => (
+                  <FeedBlock
+                    key={feed.id}
+                    imageUrl={feed.imageUrl!}
+                    placeName={feed.placeName || ''}
+                    address={feed.address || ''}
+                    alcholCount={feed.alcoholCount || 0}
+                    onPress={() =>
+                      router.push({
+                        pathname: '/detail',
+                        params: { feedId: feed.id },
+                      })
+                    }
+                  />
+                ))}
+              </View>
+            )}
+          </View>
+        )}
+
+        <View style={styles.line} />
+
         <InfoRate rating={placeInfo.rating} reviews={placeInfo.reviews} />
       </ScrollView>
     </View>
@@ -79,6 +136,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.white,
   },
+  centerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    fontSize: 16,
+    color: Colors.black,
+  },
   buttonContainer: {
     paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
     paddingTop: INFO_CONSTANTS.BUTTON_MARGIN_VERTICAL,
@@ -89,5 +155,21 @@ const styles = StyleSheet.create({
     marginHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
     marginVertical: INFO_CONSTANTS.SUMMARY_PADDING_VERTICAL,
     height: 2,
+  },
+  feedsSection: {
+    paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
+    paddingVertical: INFO_CONSTANTS.SUMMARY_PADDING_VERTICAL,
+    gap: 16,
+  },
+  sectionTitle: {
+    fontFamily: Typography.KAKAO_BIG_SANS_BOLD,
+    fontSize: 18,
+    color: Colors.black,
+    letterSpacing: -0.36,
+  },
+  feedGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
   },
 });
