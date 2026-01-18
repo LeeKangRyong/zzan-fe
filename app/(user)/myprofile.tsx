@@ -1,16 +1,19 @@
 // 비운 전통주에는 `assets/icons/alchol_right.svg` 사용
 
-import BackIcon from '@/assets/icons/back.svg';
-import { useAuthViewModel } from '@/domains/auth/viewmodel';
-import { ProfileBasicInfo, ProfileInfo } from '@/domains/user/component';
-import { useProfileEditViewModel, useUserViewModel } from '@/domains/user/viewmodel';
-import { Toast } from '@/shared/components';
-import { Colors, Layout, Typography } from '@/shared/constants';
-import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import BackIcon from "@/assets/icons/back.svg";
+import { useAuthViewModel } from "@/domains/auth/viewmodel";
+import { ProfileBasicInfo, ProfileInfo } from "@/domains/user/component";
+import {
+  useProfileEditViewModel,
+  useUserViewModel,
+} from "@/domains/user/viewmodel";
+import { Toast } from "@/shared/components";
+import { Colors, Layout, Typography } from "@/shared/constants";
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface CustomHeaderProps {
   isEditMode: boolean;
@@ -26,9 +29,11 @@ const CustomHeader = ({ isEditMode, onEditPress }: CustomHeaderProps) => {
       <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
         <BackIcon width={24} height={24} />
       </TouchableOpacity>
-      <Text style={styles.headerTitle}>마이페이지</Text>
+      <Text style={styles.headerTitle}>프로필</Text>
       <TouchableOpacity onPress={onEditPress} style={styles.editButton}>
-        <Text style={styles.editButtonText}>{isEditMode ? '저장' : '수정'}</Text>
+        <Text style={styles.editButtonText}>
+          {isEditMode ? "저장" : "수정"}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -37,8 +42,13 @@ const CustomHeader = ({ isEditMode, onEditPress }: CustomHeaderProps) => {
 export default function MyProfileTab() {
   const { user, isLoading, error } = useUserViewModel();
   const { logout } = useAuthViewModel();
-  const { isEditMode, editedUser, toggleEditMode, updateUserField, selectProfileImage } =
-    useProfileEditViewModel(user);
+  const {
+    isEditMode,
+    editedUser,
+    toggleEditMode,
+    updateUserField,
+    selectProfileImage,
+  } = useProfileEditViewModel(user);
 
   const [showToast, setShowToast] = useState(false);
   const insets = useSafeAreaInsets();
@@ -52,12 +62,16 @@ export default function MyProfileTab() {
 
   const handleLogout = async () => {
     await logout();
-    router.push('/login' as never);
+    router.push("/login" as never);
   };
 
   return (
     <View style={[styles.container, { paddingBottom: safeBottom }]}>
-      <Toast message={error} visible={showToast} onHide={() => setShowToast(false)} />
+      <Toast
+        message={error}
+        visible={showToast}
+        onHide={() => setShowToast(false)}
+      />
       <CustomHeader isEditMode={isEditMode} onEditPress={toggleEditMode} />
       <KeyboardAwareScrollView
         contentContainerStyle={styles.scrollContent}
@@ -67,11 +81,19 @@ export default function MyProfileTab() {
         {editedUser && (
           <>
             <View style={styles.profileSection}>
-              <ProfileInfo user={editedUser} isEditMode={isEditMode} onImagePress={selectProfileImage} />
+              <ProfileInfo
+                user={editedUser}
+                isEditMode={isEditMode}
+                onImagePress={selectProfileImage}
+              />
             </View>
             <View style={styles.divider} />
             <View style={styles.basicInfoSection}>
-              <ProfileBasicInfo user={editedUser} isEditMode={isEditMode} onUserChange={updateUserField} />
+              <ProfileBasicInfo
+                user={editedUser}
+                isEditMode={isEditMode}
+                onUserChange={updateUserField}
+              />
             </View>
           </>
         )}
@@ -90,17 +112,17 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   header: {
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: Layout.SCREEN_HORIZONTAL,
     paddingBottom: 12,
     backgroundColor: Colors.white,
   },
   backButton: {
     width: 40,
-    alignItems: 'center',
+    alignItems: "center",
   },
   headerTitle: {
     fontSize: 16,
@@ -126,7 +148,7 @@ const styles = StyleSheet.create({
   profileSection: {
     paddingTop: 32,
     paddingHorizontal: Layout.SCREEN_HORIZONTAL,
-    alignItems: 'center',
+    alignItems: "center",
   },
   divider: {
     height: 12,

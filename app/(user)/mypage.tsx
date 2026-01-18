@@ -1,23 +1,53 @@
-import { MyFeeds, MyScraps, ProfileInfoBlock } from '@/domains/user/component';
-import { useUserViewModel } from '@/domains/user/viewmodel';
-import { Header } from '@/shared/components/Header';
-import { Toast } from '@/shared/components';
-import { Colors, Layout, Typography } from '@/shared/constants';
-import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { MyFeeds, MyScraps, ProfileInfoBlock } from "@/domains/user/component";
+import { useUserViewModel } from "@/domains/user/viewmodel";
+import { Toast } from "@/shared/components";
+import { Header } from "@/shared/components/Header";
+import { Colors, Layout, Typography } from "@/shared/constants";
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-type TabType = '스크랩' | '내가 쓴 피드';
+type TabType = "스크랩" | "내가 쓴 피드";
 
-const TabSelector = ({ selected, onSelect }: { selected: TabType; onSelect: (tab: TabType) => void }) => {
+const TabSelector = ({
+  selected,
+  onSelect,
+}: {
+  selected: TabType;
+  onSelect: (tab: TabType) => void;
+}) => {
   return (
     <View style={styles.tabContainer}>
-      <TouchableOpacity onPress={() => onSelect('스크랩')}>
-        <Text style={[styles.tabText, selected === '스크랩' ? styles.tabTextActive : styles.tabTextInactive]}>스크랩</Text>
+      <TouchableOpacity onPress={() => onSelect("스크랩")}>
+        <Text
+          style={[
+            styles.tabText,
+            selected === "스크랩"
+              ? styles.tabTextActive
+              : styles.tabTextInactive,
+          ]}
+        >
+          스크랩
+        </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => onSelect('내가 쓴 피드')}>
-        <Text style={[styles.tabText, selected === '내가 쓴 피드' ? styles.tabTextActive : styles.tabTextInactive]}>내가 쓴 피드</Text>
+      <TouchableOpacity onPress={() => onSelect("내가 쓴 피드")}>
+        <Text
+          style={[
+            styles.tabText,
+            selected === "내가 쓴 피드"
+              ? styles.tabTextActive
+              : styles.tabTextInactive,
+          ]}
+        >
+          내가 쓴 피드
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -27,14 +57,14 @@ export default function MyPageTab() {
   // Header title="마이페이지" onBackPress={() => router.back }
 
   // MyInfoBlock component
-    // 클릭 시 `/myprofile`로 route
+  // 클릭 시 `/myprofile`로 route
 
   // 스크랩, 내가 쓴 피드 선택 component
 
   // 스크랩 선택 시 -> MyScraps component
 
   // 내가 쓴 피드 선택 시 -> MyFeeds component
-  const [selectedTab, setSelectedTab] = useState<TabType>('스크랩');
+  const [selectedTab, setSelectedTab] = useState<TabType>("스크랩");
   const { user, isLoading, error } = useUserViewModel();
   const [showToast, setShowToast] = useState(false);
   const insets = useSafeAreaInsets();
@@ -48,16 +78,23 @@ export default function MyPageTab() {
 
   return (
     <View style={[styles.container, { paddingBottom: safeBottom }]}>
-      <Toast message={error} visible={showToast} onHide={() => setShowToast(false)} />
-      <Header title="마이페이지" onBackPress={() => router.back()} />
+      <Toast
+        message={error}
+        visible={showToast}
+        onHide={() => setShowToast(false)}
+      />
+      <Header title="프로필" onBackPress={() => router.back()} />
       <View style={styles.profileInfo}>
         {user && <ProfileInfoBlock user={user} />}
       </View>
       <View style={styles.tabSection}>
         <TabSelector selected={selectedTab} onSelect={setSelectedTab} />
       </View>
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        {selectedTab === '스크랩' ? <MyScraps /> : <MyFeeds />}
+      <ScrollView
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
+        {selectedTab === "스크랩" ? <MyScraps /> : <MyFeeds />}
       </ScrollView>
     </View>
   );
@@ -73,10 +110,10 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   tabContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 17,
     height: 27,
-    alignItems: 'center',
+    alignItems: "center",
   },
   tabText: {
     fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
@@ -97,5 +134,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: Layout.SCREEN_HORIZONTAL,
     paddingTop: 32,
     paddingBottom: 16,
-  }
+  },
 });
