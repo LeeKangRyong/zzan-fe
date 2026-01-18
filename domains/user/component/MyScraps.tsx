@@ -61,7 +61,7 @@ export const MyScraps = () => {
               placeName={feed.placeName}
               address={feed.address}
               alcholCount={feed.alcoholCount}
-              onPress={() => router.push('/detail' as any)}
+              onPress={() => router.push(`/detail?feedId=${feed.id}` as any)}
             />
           ))}
         </View>

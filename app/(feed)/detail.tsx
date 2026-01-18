@@ -8,8 +8,8 @@ import {
 import { useDetailViewModel } from '@/domains/feed/viewmodel/useDetailViewModel';
 import { BookMark, Header, Share } from '@/shared/components';
 import { Colors, Layout } from '@/shared/constants';
-import { useRouter } from 'expo-router';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { ScrollView, StyleSheet, View, ActivityIndicator, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const renderUserSection = (
@@ -30,6 +30,8 @@ const renderUserSection = (
 
 export default function DetailTab() {
   const router = useRouter();
+  const params = useLocalSearchParams();
+  const feedId = params.feedId as string | undefined;
   const insets = useSafeAreaInsets();
   const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
 
@@ -44,12 +46,38 @@ export default function DetailTab() {
     review,
     focusedAlcoholId,
     isBookmarked,
+    isLoading,
+    error,
     handleTagPress,
     handleAlcoholPress,
     handlePlacePress,
     handleShare,
     handleBookmark,
-  } = useDetailViewModel();
+  } = useDetailViewModel(feedId);
+
+  if (isLoading) {
+    return (
+      <View style={[styles.container, styles.centerContent]}>
+        <ActivityIndicator size="large" color={Colors.purple} />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={[styles.container, styles.centerContent]}>
+        <Text style={styles.errorText}>{error}</Text>
+      </View>
+    );
+  }
+
+  if (!user) {
+    return (
+      <View style={[styles.container, styles.centerContent]}>
+        <Text style={styles.errorText}>피드를 찾을 수 없습니다.</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.container, { paddingBottom: safeBottom }]}>
@@ -81,14 +109,16 @@ export default function DetailTab() {
             }}
           />
 
-          <FeedDetailPlace
-            place={place}
-            placeRating={placeRating}
-            onPlacePress={() => {
-              handlePlacePress();
-              router.push('/place' as any);
-            }}
-          />
+          {place && (
+            <FeedDetailPlace
+              place={place}
+              placeRating={placeRating}
+              onPlacePress={() => {
+                handlePlacePress();
+                router.push('/place' as any);
+              }}
+            />
+          )}
 
           <FeedDetailComments review={review} />
         </View>
@@ -118,5 +148,13 @@ const styles = StyleSheet.create({
   actionButtons: {
     flexDirection: 'row',
     gap: 8,
+  },
+  centerContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    fontSize: 16,
+    color: Colors.gray,
   },
 });

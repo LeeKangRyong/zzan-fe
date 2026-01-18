@@ -7,6 +7,7 @@ export const API_ENDPOINTS = {
   },
   USER: {
     ME: "/users/me",
+    MY_FEEDS: "/users/me/feeds",
   },
   PLACE: {
     GET_PLACES_IN_REGION: "/places",
@@ -22,6 +23,7 @@ export const API_ENDPOINTS = {
   },
   FEED: {
     CREATE: "/feeds",
+    DETAIL: "/feeds/:feedId",
   },
   STORAGE: {
     PRESIGNED_URL: "/storage/feed-images/presigned-url",

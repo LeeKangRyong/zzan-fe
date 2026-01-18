@@ -1,23 +1,39 @@
-// 각 피드 블록은 shared/component에 FeedBlock.tsx로 구현
-import { mockUserFeeds } from '@/domains/user/model/mock';
+import { useMyFeedsViewModel } from '@/domains/user/viewmodel/useMyFeedsViewModel';
 import { FeedBlock } from '@/shared/components/FeedBlock';
-import { Layout } from '@/shared/constants';
+import { Colors, Layout } from '@/shared/constants';
 import { router } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
 export const MyFeeds = () => {
-  // 내가 쓴 피드 확인. 클릭 시 각 feed 상세로 route
+  const { feeds, isLoading, error } = useMyFeedsViewModel();
+
+  if (isLoading && feeds.length === 0) {
+    return (
+      <View style={styles.centerContainer}>
+        <ActivityIndicator size="large" color={Colors.purple} />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.centerContainer}>
+        <Text style={styles.errorText}>오류: {error}</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.feedGrid}>
-        {mockUserFeeds.map((feed) => (
+        {feeds.map((feed) => (
           <FeedBlock
             key={feed.id}
             imageUrl={feed.imageUrl}
             placeName={feed.placeName}
             address={feed.address}
             alcholCount={feed.alcoholCount}
-            onPress={() => router.push('/detail' as any)}
+            onPress={() => router.push(`/detail?feedId=${feed.id}` as any)}
           />
         ))}
       </View>
@@ -29,10 +45,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: Layout.SCREEN_HORIZONTAL,
+    gap: 16,
   },
   feedGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 12,
+  },
+  centerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    fontSize: 16,
+    color: Colors.gray,
   },
 });

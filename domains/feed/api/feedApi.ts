@@ -10,6 +10,7 @@ import type {
   CreateFeedResponse,
   CreateLiquorReviewRequest,
   CreateLiquorReviewResponse,
+  FeedDetailApiResponse,
 } from '../model/feedApiModel';
 
 export const feedApi = {
@@ -81,6 +82,16 @@ export const feedApi = {
         body: request,
         requireAuth: true,
       }
+    );
+
+    return response.data;
+  },
+
+  async getFeedDetail(feedId: string): Promise<FeedDetailApiResponse> {
+    const endpoint = API_ENDPOINTS.FEED.DETAIL.replace(':feedId', feedId);
+    const response = await apiClient<ApiResponse<FeedDetailApiResponse>>(
+      endpoint,
+      { method: 'GET' }
     );
 
     return response.data;

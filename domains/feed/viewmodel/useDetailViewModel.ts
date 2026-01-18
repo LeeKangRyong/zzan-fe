@@ -1,33 +1,53 @@
-import { useState } from 'react';
-import { mockAlcohols, mockFeedImages, mockSelectedPlace } from '../model/mock';
+import { useState, useEffect } from 'react';
+import { Dimensions } from 'react-native';
+import { isMockEnabled } from '@/shared/utils/env';
+import { feedApi } from '../api/feedApi';
+import { mockAlcohols, mockFeedDetails, type MockFeedDetail } from '../model/mock';
+import type { FeedDetailApiResponse } from '../model/feedApiModel';
+import type { Alcohol } from '../model/feedModel';
 
-const MOCK_USER = {
-  imageUrl: require('@/assets/images/example_image.png'),
-  username: '코코몽',
-};
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
-const MOCK_ALCOHOL_RATINGS = {
-  '1': 4,
-  '2': 3,
-  '3': 4,
-  '4': 1,
-};
-
-const MOCK_ALCOHOL_TAG_MAPPINGS = [
-  { alcoholId: '1', imageIndex: 0, tagPosition: { x: 150, y: 120 } },
-  { alcoholId: '2', imageIndex: 0, tagPosition: { x: 250, y: 180 } },
-  { alcoholId: '3', imageIndex: 0, tagPosition: { x: 200, y: 260 } },
-  { alcoholId: '4', imageIndex: 0, tagPosition: { x: 300, y: 200 } },
-];
-
-const MOCK_REVIEW =
-  '서울 익선동 한식주점에서 막걸리를 마셨는데, 달콤하면서도 진한 곡물 향이 느껴져 좋았어요. 함께 나온 파전이랑 먹으니까 궁합이 딱 맞아서 술맛이 배가되더라고요. 분위기도 전통적이면서 아늑해서, 오래 기억에 남을 술자리가 되었어요.';
-
-const MOCK_PLACE_RATING = 1;
-
-export const useDetailViewModel = () => {
+export const useDetailViewModel = (feedId?: string) => {
   const [focusedAlcoholId, setFocusedAlcoholId] = useState<string | null>(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [feedData, setFeedData] = useState<FeedDetailApiResponse | MockFeedDetail | null>(null);
+
+  useEffect(() => {
+    if (!feedId) {
+      return;
+    }
+
+    if (isMockEnabled()) {
+      const mockData = mockFeedDetails.find(f => f.id === feedId);
+      if (mockData) {
+        setFeedData(mockData);
+      } else {
+        setError('피드를 찾을 수 없습니다.');
+      }
+      return;
+    }
+
+    const fetchFeedDetail = async () => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const data = await feedApi.getFeedDetail(feedId);
+        setFeedData(data);
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to load feed';
+        setError(errorMessage);
+        console.error('[Feed Detail Error]', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFeedDetail();
+  }, [feedId]);
 
   const handleTagPress = (alcoholId: string) => {
     setFocusedAlcoholId(alcoholId);
@@ -38,7 +58,18 @@ export const useDetailViewModel = () => {
   };
 
   const handlePlacePress = () => {
-    console.log('Navigate to place detail:', mockSelectedPlace.id);
+    if (isMockEnabled()) {
+      const mockData = feedData as MockFeedDetail | null;
+      if (mockData?.kakaoPlaceId) {
+        console.log('Navigate to place detail:', mockData.kakaoPlaceId);
+      }
+      return;
+    }
+
+    const apiData = feedData as FeedDetailApiResponse | null;
+    if (apiData?.kakaoPlaceId) {
+      console.log('Navigate to place detail:', apiData.kakaoPlaceId);
+    }
   };
 
   const handleShare = () => {
@@ -50,17 +81,156 @@ export const useDetailViewModel = () => {
     console.log('Bookmark toggled:', !isBookmarked);
   };
 
+  if (isMockEnabled()) {
+    const mockData = feedData as MockFeedDetail | null;
+
+    if (!mockData) {
+      return {
+        user: null,
+        images: [],
+        alcohols: [],
+        alcoholRatings: {},
+        alcoholTagMappings: [],
+        place: null,
+        placeRating: 0,
+        review: '',
+        focusedAlcoholId,
+        isBookmarked,
+        isLoading: false,
+        error: error || '피드를 찾을 수 없습니다.',
+        handleTagPress,
+        handleAlcoholPress,
+        handlePlacePress,
+        handleShare,
+        handleBookmark,
+      };
+    }
+
+    const mockAlcoholTagMappings = mockData.images.flatMap((img, imageIndex) =>
+      img.tags.map(tag => ({
+        alcoholId: tag.liquorId,
+        imageIndex,
+        tagPosition: { x: tag.x, y: tag.y },
+      }))
+    );
+
+    const uniqueLiquorIds = [...new Set(mockAlcoholTagMappings.map(m => m.alcoholId))];
+
+    const selectedAlcohols = uniqueLiquorIds
+      .map(id => mockAlcohols.find(a => a.id === id))
+      .filter(Boolean) as Alcohol[];
+
+    const mockAlcoholRatings: Record<string, number> =
+      Object.fromEntries(selectedAlcohols.map(a => [a.id, a.score || 4.0]));
+
+    return {
+      user: {
+        id: mockData.userId,
+        username: mockData.userName,
+        imageUrl: mockData.userProfileImage,
+      },
+      images: mockData.images.map(img => ({
+        uri: img.imageUrl,
+        id: img.id,
+      })),
+      alcohols: selectedAlcohols,
+      alcoholRatings: mockAlcoholRatings,
+      alcoholTagMappings: mockAlcoholTagMappings,
+      place: mockData.kakaoPlaceId ? {
+        id: mockData.kakaoPlaceId,
+        name: mockData.placeName || '',
+        address: mockData.placeAddress || '',
+        imageUrl: require('@/assets/images/example_image.png'),
+        feedCount: mockData.liquorCount,
+        rating: mockData.score,
+      } : null,
+      placeRating: mockData.score,
+      review: mockData.text,
+      focusedAlcoholId,
+      isBookmarked,
+      isLoading: false,
+      error: null,
+      handleTagPress,
+      handleAlcoholPress,
+      handlePlacePress,
+      handleShare,
+      handleBookmark,
+    };
+  }
+
+  if (isLoading || !feedData) {
+    return {
+      user: null,
+      images: [],
+      alcohols: [],
+      alcoholRatings: {},
+      alcoholTagMappings: [],
+      place: null,
+      placeRating: 0,
+      review: '',
+      focusedAlcoholId,
+      isBookmarked,
+      isLoading,
+      error,
+      handleTagPress,
+      handleAlcoholPress,
+      handlePlacePress,
+      handleShare,
+      handleBookmark,
+    };
+  }
+
+  const apiAlcoholTagMappings = feedData.images.flatMap((img, imageIndex) =>
+    img.tags.map(tag => ({
+      alcoholId: tag.liquorId,
+      imageIndex,
+      tagPosition: { x: tag.x, y: tag.y },
+    }))
+  );
+
+  const uniqueLiquorIds = [...new Set(apiAlcoholTagMappings.map(m => m.alcoholId))];
+
+  const apiAlcohols: Alcohol[] = uniqueLiquorIds.map(liquorId => {
+    const tag = feedData.images
+      .flatMap(img => img.tags)
+      .find(t => t.liquorId === liquorId);
+    return {
+      id: liquorId,
+      name: tag?.liquorName || '',
+      imageUrl: '',
+      type: '',
+    };
+  });
+
+  const apiAlcoholRatings: Record<string, number> = {};
+
   return {
-    user: MOCK_USER,
-    images: mockFeedImages,
-    alcohols: mockAlcohols.slice(0, 4),
-    alcoholRatings: MOCK_ALCOHOL_RATINGS,
-    alcoholTagMappings: MOCK_ALCOHOL_TAG_MAPPINGS,
-    place: mockSelectedPlace,
-    placeRating: MOCK_PLACE_RATING,
-    review: MOCK_REVIEW,
+    user: {
+      id: feedData.userId,
+      username: feedData.userName,
+      imageUrl: { uri: feedData.userProfileImage },
+    },
+    images: feedData.images.map(img => ({
+      uri: { uri: img.imageUrl },
+      id: img.id,
+    })),
+    alcohols: apiAlcohols,
+    alcoholRatings: apiAlcoholRatings,
+    alcoholTagMappings: apiAlcoholTagMappings,
+    place: {
+      id: feedData.kakaoPlaceId || '',
+      name: feedData.placeName || '',
+      address: feedData.placeAddress || '',
+      imageUrl: '',
+      feedCount: feedData.liquorCount,
+      rating: feedData.score,
+    },
+    placeRating: feedData.score,
+    review: feedData.text,
     focusedAlcoholId,
     isBookmarked,
+    isLoading,
+    error,
     handleTagPress,
     handleAlcoholPress,
     handlePlacePress,

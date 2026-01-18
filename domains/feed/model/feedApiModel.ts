@@ -70,6 +70,36 @@ export interface CreateLiquorReviewResponse {
   createdAt: string;
 }
 
+export interface FeedDetailTag {
+  id: string;
+  liquorId: string;
+  liquorName: string;
+  x: number;
+  y: number;
+}
+
+export interface FeedDetailImage {
+  id: string;
+  imageUrl: string;
+  tags: FeedDetailTag[];
+}
+
+export interface FeedDetailApiResponse {
+  id: string;
+  userId: string;
+  userName: string;
+  userProfileImage: string;
+  imageUrl: string;
+  images: FeedDetailImage[];
+  score: number;
+  liquorCount: number;
+  text: string;
+  kakaoPlaceId?: string;
+  placeName?: string;
+  placeAddress?: string;
+  createdAt: string;
+}
+
 export const mapLiquorApiToAlcohol = (liquor: LiquorApiResponse): Alcohol => ({
   id: liquor.id,
   imageUrl: liquor.liquorImageUrl || '',

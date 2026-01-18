@@ -26,7 +26,7 @@ const FeedGrid = () => (
         placeName={feed.placeName}
         address={feed.address}
         alcoholCount={feed.alcoholCount}
-        onPress={() => router.push('/detail' as any)}
+        onPress={() => router.push(`/detail?feedId=${feed.id}` as any)}
       />
     ))}
   </View>
