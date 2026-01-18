@@ -35,7 +35,8 @@
       "mcp__TalkToFigma__get_selection",
       "Bash(powershell -Command \"Get-Content docs/BACKEND_API_DESCRIPTION_HTML.html | Select-Object -Skip 700 -First 500\")",
       "Bash(powershell -Command \"Get-Content docs/BACKEND_API_DESCRIPTION_HTML.html | Select-Object -Skip 720 -First 800\")",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(xargs ls:*)"
     ]
   }
 }

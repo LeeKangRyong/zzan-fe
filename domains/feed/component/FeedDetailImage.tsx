@@ -33,15 +33,20 @@ const renderProgressBar = (totalImages: number, animatedWidth: RNAnimated.Value)
   );
 };
 
-const renderTagIcon = (tag: AlcoholTagInfo, onTagPress: (alcoholId: string) => void) => (
-  <TouchableOpacity
-    key={`${tag.alcoholId}-${tag.imageIndex}`}
-    style={[styles.tagIcon, { left: tag.tagPosition.x - 12, top: tag.tagPosition.y - 12 }]}
-    onPress={() => onTagPress(tag.alcoholId)}
-  >
-    <PlusIcon width={12} height={12} fill={Colors.black} />
-  </TouchableOpacity>
-);
+const renderTagIcon = (tag: AlcoholTagInfo, onTagPress: (alcoholId: string) => void) => {
+  const pixelX = tag.tagPosition.x * SCREEN_WIDTH;
+  const pixelY = tag.tagPosition.y * SCREEN_WIDTH;
+
+  return (
+    <TouchableOpacity
+      key={`${tag.alcoholId}-${tag.imageIndex}`}
+      style={[styles.tagIcon, { left: pixelX - 12, top: pixelY - 12 }]}
+      onPress={() => onTagPress(tag.alcoholId)}
+    >
+      <PlusIcon width={12} height={12} fill={Colors.black} />
+    </TouchableOpacity>
+  );
+};
 
 const renderImageWithTags = (
   imageSource: any,

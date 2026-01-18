@@ -100,6 +100,16 @@ export interface FeedDetailApiResponse {
   createdAt: string;
 }
 
+export interface PlaceFeedApiResponse {
+  id: string;
+  imageUrl: string;
+  score: number;
+  liquorCount: number;
+  kakaoPlaceId: string;
+  placeName: string;
+  placeAddress: string;
+}
+
 export const mapLiquorApiToAlcohol = (liquor: LiquorApiResponse): Alcohol => ({
   id: liquor.id,
   imageUrl: liquor.liquorImageUrl || '',

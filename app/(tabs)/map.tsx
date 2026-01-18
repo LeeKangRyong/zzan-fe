@@ -37,7 +37,12 @@ export default function MapTab() {
   };
 
   const handlePlaceDetailPress = () => {
-    router.push('/place');
+    if (selectedPlace) {
+      router.push({
+        pathname: '/place',
+        params: { placeId: selectedPlace.id },
+      });
+    }
   };
 
   return (

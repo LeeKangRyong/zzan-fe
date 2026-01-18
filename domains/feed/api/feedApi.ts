@@ -11,7 +11,9 @@ import type {
   CreateLiquorReviewRequest,
   CreateLiquorReviewResponse,
   FeedDetailApiResponse,
+  PlaceFeedApiResponse,
 } from '../model/feedApiModel';
+import type { ScrapListResponse } from '@/domains/user/model/scrapApiModel';
 
 export const feedApi = {
   async searchLiquors(params: LiquorSearchParams): Promise<LiquorSearchResponse> {
@@ -93,6 +95,28 @@ export const feedApi = {
       endpoint,
       { method: 'GET' }
     );
+
+    return response.data;
+  },
+
+  async getPlaceFeeds(
+    kakaoPlaceId: string,
+    size = 20,
+    cursor?: string
+  ): Promise<ScrapListResponse<PlaceFeedApiResponse>> {
+    const params = new URLSearchParams({ size: size.toString() });
+    if (cursor) {
+      params.append('cursor', cursor);
+    }
+
+    const endpoint = API_ENDPOINTS.FEED.GET_PLACE_FEEDS.replace(
+      ':kakaoPlaceId',
+      kakaoPlaceId
+    );
+
+    const response = await apiClient<
+      ApiResponse<ScrapListResponse<PlaceFeedApiResponse>>
+    >(`${endpoint}?${params}`);
 
     return response.data;
   },

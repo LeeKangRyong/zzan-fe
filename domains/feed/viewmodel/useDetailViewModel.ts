@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Dimensions } from 'react-native';
 import { isMockEnabled } from '@/shared/utils/env';
 import { feedApi } from '../api/feedApi';
+import { scrapApi } from '@/shared/api/scrapApi';
 import { mockAlcohols, mockFeedDetails, type MockFeedDetail } from '../model/mock';
 import type { FeedDetailApiResponse } from '../model/feedApiModel';
 import type { Alcohol } from '../model/feedModel';
@@ -76,10 +77,45 @@ export const useDetailViewModel = (feedId?: string) => {
     console.log('Share feed');
   };
 
-  const handleBookmark = () => {
-    setIsBookmarked(!isBookmarked);
-    console.log('Bookmark toggled:', !isBookmarked);
-  };
+  const checkBookmarkStatus = useCallback(async () => {
+    if (isMockEnabled() || !feedId) {
+      return;
+    }
+
+    try {
+      const response = await scrapApi.feed.check(feedId);
+      setIsBookmarked(response.data.exist);
+    } catch (error) {
+      console.error('[DetailViewModel] Failed to check bookmark:', error);
+    }
+  }, [feedId]);
+
+  const handleBookmark = useCallback(async () => {
+    if (isMockEnabled()) {
+      setIsBookmarked((prev) => !prev);
+      return;
+    }
+
+    if (!feedId) {
+      return;
+    }
+
+    try {
+      if (isBookmarked) {
+        await scrapApi.feed.delete(feedId);
+      } else {
+        await scrapApi.feed.add(feedId);
+      }
+      setIsBookmarked((prev) => !prev);
+    } catch (error) {
+      console.error('[DetailViewModel] Failed to toggle bookmark:', error);
+      setIsBookmarked((prev) => !prev);
+    }
+  }, [feedId, isBookmarked]);
+
+  useEffect(() => {
+    checkBookmarkStatus();
+  }, [checkBookmarkStatus]);
 
   if (isMockEnabled()) {
     const mockData = feedData as MockFeedDetail | null;

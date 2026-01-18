@@ -105,7 +105,10 @@ export default function DetailTab() {
             focusedAlcoholId={focusedAlcoholId ?? undefined}
             onAlcoholPress={(id) => {
               handleAlcoholPress(id);
-              router.push('/alchol' as any);
+              router.push({
+                pathname: '/alchol',
+                params: { liquorId: id },
+              });
             }}
           />
 
@@ -115,7 +118,10 @@ export default function DetailTab() {
               placeRating={placeRating}
               onPlacePress={() => {
                 handlePlacePress();
-                router.push('/place' as any);
+                router.push({
+                  pathname: '/place',
+                  params: { placeId: place.id },
+                });
               }}
             />
           )}

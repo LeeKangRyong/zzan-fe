@@ -1,13 +1,20 @@
 // 각 피드 블록은 shared/component에 FeedBlock.tsx로 구현
-import { mockUserScrapAlcohols, mockUserScrapFeeds } from '@/domains/user/model/mock';
 import { UserScrapAlcohol } from '@/domains/user/model/userModel';
+import { useMyScrapViewModel } from '@/domains/user/viewmodel/useMyScrapViewModel';
 import { FeedBlock } from '@/shared/components/FeedBlock';
 import { Rate } from '@/shared/components/Rate';
 import { Colors, Layout, Typography } from '@/shared/constants';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 type FilterType = '피드' | '전통주';
 
@@ -44,17 +51,31 @@ const AlcoholScrapCard = ({ alcohol, onPress }: { alcohol: UserScrapAlcohol; onP
 };
 
 export const MyScraps = () => {
-  // 피드, 전통주 중 선택
-    // 피드 선택 시, 내가 bookmark한 피드 모임이 있는 component. 클릭 시 해당 상세 피드로 route
-    // 전통주 선택 시, 내가 bookmark한 전통주 모임이 있는 component. 클릭 시 해당 상세 전통주로 route
   const [selectedFilter, setSelectedFilter] = useState<FilterType>('피드');
+  const { feeds, alcohols, isLoading, error } = useMyScrapViewModel();
+
+  if (isLoading) {
+    return (
+      <View style={styles.centerContainer}>
+        <ActivityIndicator size="large" color={Colors.purple} />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.centerContainer}>
+        <Text style={styles.errorText}>{error}</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
       <FilterToggle selected={selectedFilter} onSelect={setSelectedFilter} />
       {selectedFilter === '피드' ? (
         <View style={styles.feedGrid}>
-          {mockUserScrapFeeds.map((feed) => (
+          {feeds.map((feed) => (
             <FeedBlock
               key={feed.id}
               imageUrl={feed.imageUrl}
@@ -67,11 +88,16 @@ export const MyScraps = () => {
         </View>
       ) : (
         <ScrollView contentContainerStyle={styles.alcoholList} showsVerticalScrollIndicator={false}>
-          {mockUserScrapAlcohols.map((alcohol) => (
+          {alcohols.map((alcohol) => (
             <AlcoholScrapCard
               key={alcohol.id}
               alcohol={alcohol}
-              onPress={() => router.push('/alchol' as any)}
+              onPress={() =>
+                router.push({
+                  pathname: '/alchol',
+                  params: { liquorId: alcohol.id },
+                })
+              }
             />
           ))}
         </ScrollView>
@@ -167,5 +193,16 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: Colors.black,
     letterSpacing: -0.2,
+  },
+  centerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontSize: 14,
+    color: Colors.black,
+    letterSpacing: -0.28,
   },
 });

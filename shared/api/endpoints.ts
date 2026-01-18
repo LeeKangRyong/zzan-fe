@@ -20,10 +20,20 @@ export const API_ENDPOINTS = {
   LIQUOR: {
     SEARCH: "/liquors/search",
     CREATE_REVIEW: "/liquors/:liquorId/reviews",
+    DETAIL: "/liquors/:liquorId",
+    GET_SCRAPS: "/liquors/scraps",
+    CHECK_SCRAP: "/liquors/scraps/:liquorId",
+    ADD_SCRAP: "/liquors/scraps/:liquorId",
+    DELETE_SCRAP: "/liquors/scraps/:liquorId",
   },
   FEED: {
     CREATE: "/feeds",
     DETAIL: "/feeds/:feedId",
+    GET_SCRAPS: "/feeds/scraps",
+    CHECK_SCRAP: "/feeds/scraps/:feedId",
+    ADD_SCRAP: "/feeds/scraps/:feedId",
+    DELETE_SCRAP: "/feeds/scraps/:feedId",
+    GET_PLACE_FEEDS: "/feeds/places/:kakaoPlaceId",
   },
   STORAGE: {
     PRESIGNED_URL: "/storage/feed-images/presigned-url",

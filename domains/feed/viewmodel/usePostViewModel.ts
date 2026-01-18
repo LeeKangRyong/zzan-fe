@@ -13,6 +13,7 @@ export const usePostViewModel = () => {
     isRatingModalVisible,
     tempRating,
     selectedAlcohols,
+    uploadedImages,
     setPlaceRating,
     setReview,
     setIsRatingModalVisible,
@@ -77,8 +78,7 @@ export const usePostViewModel = () => {
     router.push('/rate');
   };
 
-  const isNextButtonEnabled =
-    isPlaceSelected && placeRating > 0 && selectedAlcohols.length > 0;
+  const isNextButtonEnabled = uploadedImages.length > 0;
 
   return {
     selectedPlace,
