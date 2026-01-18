@@ -116,7 +116,11 @@ export const FeedImage = () => {
 
   const handleImageLongPress = (index: number, event: GestureResponderEvent) => {
     const { locationX, locationY } = event.nativeEvent;
-    const newTag: TagPosition = { x: locationX, y: locationY };
+
+    const normalizedX = locationX / SCREEN_WIDTH;
+    const normalizedY = locationY / SCREEN_WIDTH;
+
+    const newTag: TagPosition = { x: normalizedX, y: normalizedY };
 
     addImageTag(index, newTag);
 
@@ -147,15 +151,20 @@ export const FeedImage = () => {
     router.push('/add?type=alcohol');
   };
 
-  const renderTagIcon = (tag: TagPosition, tagIndex: number) => (
-    <TouchableOpacity
-      key={tagIndex}
-      style={[styles.tagIcon, { left: tag.x - 12, top: tag.y - 12 }]}
-      onPress={() => handleTagPress(tagIndex)}
-    >
-      <PlusIcon width={12} height={12} fill={Colors.black} />
-    </TouchableOpacity>
-  );
+  const renderTagIcon = (tag: TagPosition, tagIndex: number) => {
+    const pixelX = tag.x * SCREEN_WIDTH;
+    const pixelY = tag.y * SCREEN_WIDTH;
+
+    return (
+      <TouchableOpacity
+        key={tagIndex}
+        style={[styles.tagIcon, { left: pixelX - 12, top: pixelY - 12 }]}
+        onPress={() => handleTagPress(tagIndex)}
+      >
+        <PlusIcon width={12} height={12} fill={Colors.black} />
+      </TouchableOpacity>
+    );
+  };
 
   const renderImageWithTags = (uri: string, index: number) => {
     const currentImageTags = imageTags.get(index) || [];

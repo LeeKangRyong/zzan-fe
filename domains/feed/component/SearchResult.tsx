@@ -4,7 +4,7 @@ import { Colors, Typography } from '@/shared/constants';
 import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface SearchResultProps {
-  imageUri: ImageSourcePropType;
+  imageUri: ImageSourcePropType | string;
   name: string;
   subText: string;
   isSelected: boolean;
@@ -18,13 +18,15 @@ export const SearchResult = ({
   isSelected,
   onPress,
 }: SearchResultProps) => {
+  const imageSource = typeof imageUri === 'string' ? { uri: imageUri } : imageUri;
+
   return (
     <TouchableOpacity
       style={[styles.container, isSelected && styles.selectedContainer]}
       onPress={onPress}
       activeOpacity={0.7}
     >
-      <Image source={imageUri} style={styles.image} />
+      <Image source={imageSource} style={styles.image} />
       <View style={styles.textContainer}>
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.subText}>{subText}</Text>

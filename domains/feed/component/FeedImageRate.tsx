@@ -1,37 +1,39 @@
-import PlusIcon from '@/assets/icons/plus.svg';
-import { AlcoholTagInfo, TagPosition } from '@/domains/feed/model/feedModel';
-import { usePostStore } from '@/domains/feed/store/postStore';
-import { Colors, Typography } from '@/shared/constants';
-import { Image } from 'expo-image';
-import { useEffect, useRef, useState } from 'react';
+import PlusIcon from "@/assets/icons/plus.svg";
+import { AlcoholTagInfo, TagPosition } from "@/domains/feed/model/feedModel";
+import { usePostStore } from "@/domains/feed/store/postStore";
+import { Colors, Typography } from "@/shared/constants";
+import { Image } from "expo-image";
+import { useEffect, useRef, useState } from "react";
 import {
-  Animated as RNAnimated,
   Dimensions,
+  Animated as RNAnimated,
   ScrollView,
   StyleSheet,
   Text,
   View,
-} from 'react-native';
+} from "react-native";
 import Animated, {
-  useSharedValue,
   useAnimatedStyle,
-  withTiming,
+  useSharedValue,
   withSpring,
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 interface FeedImageRateProps {
   currentAlcoholId: string | null;
 }
 
-const renderProgressBar = (totalImages: number, animatedWidth: RNAnimated.Value) => {
+const renderProgressBar = (
+  totalImages: number,
+  animatedWidth: RNAnimated.Value,
+) => {
   if (totalImages <= 1) return null;
 
   const animatedWidthStyle = {
     width: animatedWidth.interpolate({
       inputRange: [0, 100],
-      outputRange: ['0%', '100%'],
+      outputRange: ["0%", "100%"],
     }),
   };
 
@@ -44,14 +46,19 @@ const renderProgressBar = (totalImages: number, animatedWidth: RNAnimated.Value)
   );
 };
 
-const renderTagIcon = (tag: TagPosition, tagIndex: number) => (
-  <View
-    key={tagIndex}
-    style={[styles.tagIcon, { left: tag.x - 12, top: tag.y - 12 }]}
-  >
-    <PlusIcon width={12} height={12} fill={Colors.black} />
-  </View>
-);
+const renderTagIcon = (tag: TagPosition, tagIndex: number) => {
+  const pixelX = tag.x * SCREEN_WIDTH;
+  const pixelY = tag.y * SCREEN_WIDTH;
+
+  return (
+    <View
+      key={tagIndex}
+      style={[styles.tagIcon, { left: pixelX - 12, top: pixelY - 12 }]}
+    >
+      <PlusIcon width={12} height={12} fill={Colors.black} />
+    </View>
+  );
+};
 
 export const FeedImageRate = ({ currentAlcoholId }: FeedImageRateProps) => {
   const {
@@ -104,13 +111,14 @@ export const FeedImageRate = ({ currentAlcoholId }: FeedImageRateProps) => {
 
     setCurrentImageIndex(mapping.imageIndex);
 
-    const { x, y } = mapping.tagPosition;
+    const pixelX = mapping.tagPosition.x * SCREEN_WIDTH;
+    const pixelY = mapping.tagPosition.y * SCREEN_WIDTH;
     const centerX = SCREEN_WIDTH / 2;
     const centerY = SCREEN_WIDTH / 2;
 
-    translateX.value = withSpring(centerX - x);
-    translateY.value = withSpring(centerY - y);
-    scale.value = withSpring(2);
+    translateX.value = withSpring(centerX - pixelX);
+    translateY.value = withSpring(centerY - pixelY);
+    scale.value = withSpring(1.5);
   };
 
   useEffect(() => {
@@ -120,7 +128,7 @@ export const FeedImageRate = ({ currentAlcoholId }: FeedImageRateProps) => {
     }
 
     const mapping = alcoholTagMappings.find(
-      (m) => m.alcoholId === currentAlcoholId
+      (m) => m.alcoholId === currentAlcoholId,
     );
 
     performZoomOrReset(mapping || null);
@@ -176,51 +184,54 @@ export const FeedImageRate = ({ currentAlcoholId }: FeedImageRateProps) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    position: 'relative',
+    position: "relative",
+    height: SCREEN_WIDTH,
+    overflow: "hidden",
   },
   container: {
-    width: '100%',
+    width: "100%",
   },
   imageContainer: {
     width: SCREEN_WIDTH,
-    position: 'relative',
+    height: SCREEN_WIDTH,
+    position: "relative",
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: SCREEN_WIDTH,
-    resizeMode: 'cover',
+    resizeMode: "cover",
   },
   progressBarContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 16,
-    width: '50%',
+    width: "50%",
     paddingHorizontal: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   progressBarBackground: {
-    width: '100%',
+    width: "100%",
     height: 4,
     backgroundColor: Colors.white,
   },
   progressBarFill: {
-    height: '100%',
+    height: "100%",
     backgroundColor: Colors.black,
   },
   tagIcon: {
-    position: 'absolute',
+    position: "absolute",
     width: 24,
     height: 24,
     backgroundColor: Colors.takju,
     borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     zIndex: 10,
   },
   emptyText: {
     fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
     fontSize: 14,
     color: Colors.black,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 20,
   },
 });

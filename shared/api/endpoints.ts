@@ -16,4 +16,14 @@ export const API_ENDPOINTS = {
   INFRA: {
     SEARCH_PLACES: "/infra/places/search",
   },
+  LIQUOR: {
+    SEARCH: "/liquors/search",
+    CREATE_REVIEW: "/liquors/:liquorId/reviews",
+  },
+  FEED: {
+    CREATE: "/feeds",
+  },
+  STORAGE: {
+    PRESIGNED_URL: "/storage/feed-images/presigned-url",
+  },
 } as const;

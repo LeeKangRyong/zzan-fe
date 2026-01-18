@@ -3,8 +3,10 @@ import { useRouter } from 'expo-router';
 import { AddType, Alcohol, Place } from '../model/feedModel';
 import { mockAlcohols, mockPlaces } from '../model/mock';
 import { usePostStore } from '../store/postStore';
-
-const USE_MOCK_DATA = process.env.EXPO_PUBLIC_USE_MOCK_DATA === 'true';
+import { isMockEnabled } from '@/shared/utils/env';
+import { feedApi } from '../api/feedApi';
+import { mapLiquorApiToAlcohol } from '../model/feedApiModel';
+import { placeApi } from '@/domains/map/api/placeApi';
 
 interface UseAddViewModelProps {
   addType: AddType;
@@ -18,11 +20,13 @@ export const useAddViewModel = ({ addType }: UseAddViewModelProps) => {
   const [alcoholResults, setAlcoholResults] = useState<Alcohol[]>([]);
   const [placeResults, setPlaceResults] = useState<Place[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSearch = () => {
     if (!searchQuery.trim()) return;
 
-    if (USE_MOCK_DATA) {
+    if (isMockEnabled()) {
       searchWithMockData();
       return;
     }
@@ -43,9 +47,50 @@ export const useAddViewModel = ({ addType }: UseAddViewModelProps) => {
     setPlaceResults(filtered.length > 0 ? filtered : mockPlaces);
   };
 
-  const searchWithApi = () => {
-    // TODO: 실제 API 호출 구현
-    searchWithMockData();
+  const searchWithApi = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      if (addType === 'alcohol') {
+        await searchAlcoholsFromApi();
+        return;
+      }
+      await searchPlacesFromApi();
+    } catch (err) {
+      setError('검색에 실패했습니다');
+      console.error('[Search Error]', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const searchAlcoholsFromApi = async () => {
+    const result = await feedApi.searchLiquors({
+      keyword: searchQuery,
+      page: 1,
+      size: 15,
+    });
+
+    const alcohols = result.items.map(mapLiquorApiToAlcohol);
+    setAlcoholResults(alcohols);
+  };
+
+  const searchPlacesFromApi = async () => {
+    const places = await placeApi.searchPlaces({
+      keyword: searchQuery,
+      page: 1,
+      size: 15,
+    });
+
+    const mappedPlaces: Place[] = places.map((p) => ({
+      id: p.kakaoPlaceId,
+      name: p.name,
+      address: p.roadAddress,
+      imageUrl: '',
+    }));
+
+    setPlaceResults(mappedPlaces);
   };
 
   const handleSelect = (id: string) => {
@@ -89,5 +134,7 @@ export const useAddViewModel = ({ addType }: UseAddViewModelProps) => {
     getSelectedItem,
     isItemSelected,
     handleAdd,
+    isLoading,
+    error,
   };
 };

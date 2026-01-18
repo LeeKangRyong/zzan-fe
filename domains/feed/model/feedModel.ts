@@ -14,14 +14,15 @@ export interface FeedPost {
 
 export interface Alcohol {
   id: string;
-  imageUrl: ImageSourcePropType;
+  imageUrl: ImageSourcePropType | string;
   name: string;
   type: string;
+  score?: number;
 }
 
 export interface Place {
   id: string;
-  imageUrl: ImageSourcePropType;
+  imageUrl: ImageSourcePropType | string;
   name: string;
   address: string;
 }
