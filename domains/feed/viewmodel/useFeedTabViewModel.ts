@@ -1,30 +1,23 @@
-import * as Location from 'expo-location';
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export const useFeedTabViewModel = () => {
-  const [location, setLocation] = useState('서울 마포구');
+  const [currentTime, setCurrentTime] = useState("");
 
-  const getCurrentLocation = async () => {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') return;
+  const updateTime = () => {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
 
-    const currentLocation = await Location.getCurrentPositionAsync({});
-    const address = await Location.reverseGeocodeAsync({
-      latitude: currentLocation.coords.latitude,
-      longitude: currentLocation.coords.longitude,
-    });
-
-    if (address[0]) {
-      const city = address[0].city || '';
-      const district = address[0].district || '';
-      const formattedLocation = district ? `${city} ${district}` : city || '서울 마포구';
-      setLocation(formattedLocation);
-    }
+    setCurrentTime(`${hours}:${minutes}`);
   };
 
   useEffect(() => {
-    getCurrentLocation();
+    updateTime();
+
+    const timer = setInterval(updateTime, 60000);
+
+    return () => clearInterval(timer);
   }, []);
 
-  return { location };
+  return { currentTime };
 };
