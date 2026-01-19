@@ -1,17 +1,26 @@
 // title, onPress arguments 사용
 
-import { Colors } from '@/shared/constants/Colors';
-import { Typography } from '@/shared/constants/Typography';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Colors } from "@/shared/constants/Colors";
+import { Typography } from "@/shared/constants/Typography";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 interface AlcholButtonProps {
   title: string;
   onPress: () => void;
+  disabled?: boolean;
 }
 
-export const AlcholButton = ({ title, onPress }: AlcholButtonProps) => {
+export const AlcholButton = ({
+  title,
+  onPress,
+  disabled,
+}: AlcholButtonProps) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={onPress}
+      disabled={disabled}
+    >
       <Text style={styles.title}>{title}</Text>
     </TouchableOpacity>
   );
@@ -19,9 +28,9 @@ export const AlcholButton = ({ title, onPress }: AlcholButtonProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: Colors.black,
     paddingVertical: 14,
     paddingHorizontal: 20,

@@ -1,3 +1,4 @@
+import { AlcholComments } from "@/domains/info/components/AlcholComments";
 import { AlcholDescription } from "@/domains/info/components/AlcholDescription";
 import { InfoImages } from "@/domains/info/components/InfoImages";
 import { InfoRate } from "@/domains/info/components/InfoRate";
@@ -7,6 +8,7 @@ import {
 } from "@/domains/info/components/InfoRateWithProfile";
 import { InfoSummary } from "@/domains/info/components/InfoSummary";
 import { INFO_CONSTANTS } from "@/domains/info/model/constants";
+import { MOCK_LIQUOR_COMMENTS, MOCK_CURRENT_USER_ID } from "@/domains/info/model/mock";
 import { useAlcoholViewModel } from "@/domains/info/viewmodel/useInfoViewModel";
 import { Header } from "@/shared/components";
 import { Colors, Layout } from "@/shared/constants";
@@ -18,6 +20,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const renderLoadingState = () => (
@@ -67,7 +70,11 @@ export default function AlcholTab() {
   }
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior="padding"
+      keyboardVerticalOffset={0}
+    >
       <Header title="전통주" onBackPress={() => router.back()} />
 
       <ScrollView
@@ -101,7 +108,7 @@ export default function AlcholTab() {
           showsHorizontalScrollIndicator={false}
         >
           {MOCK_REVIEWS_FOR_DESIGN.map((review) => (
-            <View key={review.id} style={styles.reviewItem}>
+            <View key={review.id}>
               <InfoRateWithProfile
                 username={review.username}
                 userProfileImage={review.userProfileImage}
@@ -114,8 +121,22 @@ export default function AlcholTab() {
             </View>
           ))}
         </ScrollView>
+
+        <View style={styles.line} />
+
+        {/* GET /liquors/{liquorId}/reviews?size={size}&cursor={cursor} 연결하기! */}
+        <AlcholComments
+          comments={MOCK_LIQUOR_COMMENTS}
+          currentUserId={MOCK_CURRENT_USER_ID}
+          onAddCommentPress={() => console.log("Add comment pressed")}
+          onEditPress={(commentId) => console.log("Edit comment:", commentId)}
+          onSaveComment={(rating, comment) => {
+            console.log("Save comment:", { rating, comment });
+            // TODO: API 연동 시 실제 저장 로직 추가
+          }}
+        />
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -142,6 +163,7 @@ const styles = StyleSheet.create({
   reviewList: {
     paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
     gap: 12,
+    paddingBottom: 20,
   },
-  reviewItem: {},
+  commentContainer: {},
 });

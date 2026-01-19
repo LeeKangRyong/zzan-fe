@@ -1,43 +1,55 @@
-import type { AlcoholInfo, PlaceInfo, PlaceReview } from './infoModel';
+import type { ImageSourcePropType } from "react-native";
+import type { AlcoholInfo, PlaceInfo, PlaceReview } from "./infoModel";
 
-const exampleImage = require('@/assets/images/example_image.png');
+const exampleImage = require("@/assets/images/example_image.png");
+
+export interface LiquorComment {
+  id: string;
+  userId: string;
+  username: string;
+  userProfileImage: ImageSourcePropType;
+  rating: number;
+  comment: string;
+  date: string;
+  likes: number;
+}
 
 const MOCK_REVIEWS: PlaceReview[] = [
   {
-    id: 'review1',
-    userName: '홍길동',
+    id: "review1",
+    userName: "홍길동",
     rating: 5,
-    content: '전통주 종류가 다양하고 분위기가 좋아요!',
+    content: "전통주 종류가 다양하고 분위기가 좋아요!",
     imageUrl: exampleImage,
-    createdAt: '2024-01-15',
+    createdAt: "2024-01-15",
   },
   {
-    id: 'review2',
-    userName: '김철수',
+    id: "review2",
+    userName: "김철수",
     rating: 4,
-    content: '안주도 맛있고 직원분들이 친절해요.',
+    content: "안주도 맛있고 직원분들이 친절해요.",
     imageUrl: exampleImage,
-    createdAt: '2024-01-10',
+    createdAt: "2024-01-10",
   },
   {
-    id: 'review3',
-    userName: '이영희',
+    id: "review3",
+    userName: "이영희",
     rating: 5,
-    content: '데이트 코스로 추천합니다.',
+    content: "데이트 코스로 추천합니다.",
     imageUrl: exampleImage,
-    createdAt: '2024-01-05',
+    createdAt: "2024-01-05",
   },
 ];
 
 export const MOCK_PLACE_INFO: PlaceInfo = {
-  id: '01HQPLACE123456789ABC',
-  name: '전통주 카페 짠',
-  category: '탁주(고도)',
+  id: "01HQPLACE123456789ABC",
+  name: "전통주 카페 짠",
+  category: "탁주(고도)",
   images: [exampleImage, exampleImage, exampleImage],
-  option1: '서울시 강남구 역삼동 02-123-4567',
-  option2: '연중무휴',
-  option3: '11:00 - 22:00',
-  option4: '가능',
+  option1: "서울시 강남구 역삼동 02-123-4567",
+  option2: "연중무휴",
+  option3: "11:00 - 22:00",
+  option4: "가능",
   isBookmarked: false,
   rating: 4.7,
   reviews: MOCK_REVIEWS,
@@ -51,63 +63,99 @@ export const getMockPlaceInfo = (): PlaceInfo => {
 
 const MOCK_ALCOHOL_REVIEWS: PlaceReview[] = [
   {
-    id: 'alcohol_review1',
-    userName: '전통주애호가',
+    id: "alcohol_review1",
+    userName: "전통주애호가",
     rating: 5,
-    content: '부드럽고 깔끔한 맛이 일품이에요!',
+    content: "부드럽고 깔끔한 맛이 일품이에요!",
     imageUrl: exampleImage,
-    createdAt: '2024-01-15',
+    createdAt: "2024-01-15",
   },
   {
-    id: 'alcohol_review2',
-    userName: '막걸리러버',
+    id: "alcohol_review2",
+    userName: "막걸리러버",
     rating: 5,
-    content: '탄산이 적당하고 목넘김이 좋습니다.',
+    content: "탄산이 적당하고 목넘김이 좋습니다.",
     imageUrl: exampleImage,
-    createdAt: '2024-01-12',
+    createdAt: "2024-01-12",
   },
   {
-    id: 'alcohol_review3',
-    userName: '김소믈리에',
+    id: "alcohol_review3",
+    userName: "김소믈리에",
     rating: 4,
-    content: '전통 방식 그대로의 깊은 풍미가 느껴져요.',
+    content: "전통 방식 그대로의 깊은 풍미가 느껴져요.",
     imageUrl: exampleImage,
-    createdAt: '2024-01-08',
+    createdAt: "2024-01-08",
   },
 ];
 
 export const MOCK_ALCOHOL_INFO: AlcoholInfo = {
-  id: '01HQLIQUOR1234567890',
-  name: '서울 탁주',
-  category: '탁주(저도)',
+  id: "01HQLIQUOR1234567890",
+  name: "서울 탁주",
+  category: "탁주(저도)",
   images: [
     {
       image: exampleImage,
-      descriptionTitle: '전통 방식 그대로',
-      descriptionCategory: '유기농 생막걸리'
+      descriptionTitle: "전통 방식 그대로",
+      descriptionCategory: "유기농 생막걸리",
     },
     {
       image: exampleImage,
-      descriptionTitle: '부드러운 감칠맛',
-      descriptionCategory: '프리미엄 탁주'
+      descriptionTitle: "부드러운 감칠맛",
+      descriptionCategory: "프리미엄 탁주",
     },
     {
       image: exampleImage,
-      descriptionTitle: '살아있는 유산균',
-      descriptionCategory: '건강한 발효주'
-    }
+      descriptionTitle: "살아있는 유산균",
+      descriptionCategory: "건강한 발효주",
+    },
   ],
-  option1: '750ml',
-  option2: '6%',
-  option3: '서울양조장',
-  option4: '유기농 쌀 100%',
+  option1: "750ml",
+  option2: "6%",
+  option3: "서울양조장",
+  option4: "유기농 쌀 100%",
   isBookmarked: false,
   rating: 4.8,
   reviews: MOCK_ALCOHOL_REVIEWS,
-  recommendTitle: '페어링 안주 추천',
-  recommendDescription: '알콜올 도수가 14%로 일반 막걸리의 2배가 넘는 만큼 한여름에는 얼음을 넣어 온더록스로 한잔해도 충분히 제 역할을 하는 제품입니다.',
+  recommendTitle: "페어링 안주 추천",
+  recommendDescription:
+    "알콜올 도수가 14%로 일반 막걸리의 2배가 넘는 만큼 한여름에는 얼음을 넣어 온더록스로 한잔해도 충분히 제 역할을 하는 제품입니다.",
 };
 
 export const getMockAlcoholInfo = (): AlcoholInfo => {
   return MOCK_ALCOHOL_INFO;
 };
+
+export const MOCK_CURRENT_USER_ID = "user1";
+
+export const MOCK_LIQUOR_COMMENTS: LiquorComment[] = [
+  {
+    id: "comment1",
+    userId: "user1",
+    username: "이도훈",
+    userProfileImage: exampleImage,
+    rating: 4,
+    comment: "조금 씁슬한 맛이 조금 불호였지만 그래도 달콤하고 맛있었어요",
+    date: "2026/12/12",
+    likes: 0,
+  },
+  {
+    id: "comment2",
+    userId: "user2",
+    username: "도선빈",
+    userProfileImage: exampleImage,
+    rating: 4,
+    comment: "저랑은 살짝 안맞아요..",
+    date: "2026/12/12",
+    likes: 0,
+  },
+  {
+    id: "comment3",
+    userId: "user3",
+    username: "김병수",
+    userProfileImage: exampleImage,
+    rating: 4,
+    comment: "조금 씁슬한 맛이 조금 불호였지만 그래도 달콤하고 맛있었어요",
+    date: "2026/12/12",
+    likes: 0,
+  },
+];
