@@ -1,5 +1,5 @@
 import * as Location from 'expo-location';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import {
   MapMarker,
   MapRegion,
@@ -21,7 +21,6 @@ const initialRegion: MapRegion = {
 
 export const useMapViewModel = () => {
   const [region, setRegion] = useState<MapRegion>(initialRegion);
-  const regionRef = useRef<MapRegion>(initialRegion);
   const [markers, setMarkers] = useState<MapMarker[]>([]);
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState<MapMarker[]>([]);
@@ -167,12 +166,15 @@ export const useMapViewModel = () => {
   };
 
   const handleCurrentPositionPress = async () => {
+    console.log('[MapViewModel] Current position button pressed');
     const location = await getCurrentLocation();
 
     if (!location) {
+      console.log('[MapViewModel] Failed to get location');
       return;
     }
 
+    console.log('[MapViewModel] Got location:', location.coords);
     updateRegionToLocation(location);
   };
 
@@ -217,13 +219,19 @@ export const useMapViewModel = () => {
     setSearchResults([]);
   };
 
-  const handleRegionChange = (newRegion: MapRegion) => {
-    setRegion(newRegion);
-    regionRef.current = newRegion;
+  const handleSearchInRegion = (requestCurrentRegion: () => void) => {
+    console.log('[MapViewModel] Requesting current region from WebView');
+    requestCurrentRegion();
   };
 
-  const handleSearchInRegion = () => {
-    loadPlacesInRegion(regionRef.current);
+  const handleCurrentRegion = (currentRegion: MapRegion) => {
+    console.log('[MapViewModel] Received current region:', {
+      latitude: currentRegion.latitude,
+      longitude: currentRegion.longitude,
+      latitudeDelta: currentRegion.latitudeDelta,
+      longitudeDelta: currentRegion.longitudeDelta,
+    });
+    loadPlacesInRegion(currentRegion);
   };
 
   return {
@@ -244,8 +252,8 @@ export const useMapViewModel = () => {
     handleSearchResultPress,
     handleCurrentPositionPress,
     handleMapPress,
-    handleRegionChange,
     handleSearchInRegion,
+    handleCurrentRegion,
     loadPlacesInRegion,
   };
 };

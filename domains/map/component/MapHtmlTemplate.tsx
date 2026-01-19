@@ -46,7 +46,10 @@ const generateInitScript = (region: MapRegion, markers: MapMarker[]) => {
       const container = document.getElementById('map');
       const options = {
         center: new kakao.maps.LatLng(${region.latitude}, ${region.longitude}),
-        level: 3
+        level: 3,
+        draggable: true,
+        scrollwheel: true,
+        disableDoubleClickZoom: false
       };
       const map = new kakao.maps.Map(container, options);
       window.kakaoMap = map; // 전역 참조 저장
@@ -112,6 +115,52 @@ const generateInitScript = (region: MapRegion, markers: MapMarker[]) => {
         sendLog('[WebView] PanTo Success', {lat, lng});
       }
 
+      // 마커 업데이트 로직
+      function updateMarkers(newMarkers) {
+        sendLog('[WebView] Updating markers', {count: newMarkers.length});
+
+        // 기존 마커 모두 제거
+        Object.values(markerObjects).forEach(marker => {
+          marker.setMap(null);
+        });
+
+        // markerObjects 초기화
+        for (let key in markerObjects) {
+          delete markerObjects[key];
+        }
+        focusedMarkerId = null;
+
+        // 새 마커 추가
+        newMarkers.forEach(marker => {
+          const position = new kakao.maps.LatLng(marker.latitude, marker.longitude);
+          const m = new kakao.maps.Marker({
+            position,
+            map: window.kakaoMap,
+            image: normalImage
+          });
+
+          markerObjects[marker.id] = m;
+
+          kakao.maps.event.addListener(m, 'click', function() {
+            // Unfocus previous marker
+            if (focusedMarkerId && markerObjects[focusedMarkerId]) {
+              markerObjects[focusedMarkerId].setImage(normalImage);
+            }
+
+            // Focus clicked marker
+            m.setImage(focusImage);
+            focusedMarkerId = marker.id;
+
+            window.ReactNativeWebView.postMessage(JSON.stringify({
+              type: 'markerPress',
+              markerId: marker.id
+            }));
+          });
+        });
+
+        sendLog('[WebView] Markers updated', {count: newMarkers.length});
+      }
+
       // 메시지 리스너 (Android & iOS 통합)
       function onMessage(e) {
         try {
@@ -130,6 +179,27 @@ const generateInitScript = (region: MapRegion, markers: MapMarker[]) => {
               focusedMarkerId = data.markerId;
               sendLog('[WebView] Marker focused', {markerId: data.markerId});
             }
+          } else if (data.type === 'updateMarkers') {
+            // 마커 업데이트
+            updateMarkers(data.markers);
+          } else if (data.type === 'getCurrentRegion') {
+            // 현재 지도 중심 좌표를 React Native에 전송
+            const center = window.kakaoMap.getCenter();
+            const bounds = window.kakaoMap.getBounds();
+            const sw = bounds.getSouthWest();
+            const ne = bounds.getNorthEast();
+
+            const latitudeDelta = ne.getLat() - sw.getLat();
+            const longitudeDelta = ne.getLng() - sw.getLng();
+
+            window.ReactNativeWebView.postMessage(JSON.stringify({
+              type: 'currentRegion',
+              latitude: center.getLat(),
+              longitude: center.getLng(),
+              latitudeDelta: latitudeDelta,
+              longitudeDelta: longitudeDelta
+            }));
+            sendLog('[WebView] Current region sent', {lat: center.getLat(), lng: center.getLng()});
           }
         } catch (err) {
           sendLog('[WebView] Error parsing message', err.message);
@@ -138,7 +208,7 @@ const generateInitScript = (region: MapRegion, markers: MapMarker[]) => {
 
       window.addEventListener('message', onMessage);
       document.addEventListener('message', onMessage);
-      
+
       sendLog('[WebView] Initialized', {lat: ${region.latitude}, lng: ${region.longitude}});
     })();
   `;

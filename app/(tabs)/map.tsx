@@ -1,15 +1,31 @@
-import { ChatBot, CurrentPosition, KakaoMapWebView, MapHeader, PlaceDetail } from "@/domains/map/component";
-import { useMapViewModel } from '@/domains/map/viewmodel/useMapViewModel';
+import {
+  ChatBot,
+  CurrentPosition,
+  KakaoMapWebView,
+  MapHeader,
+  PlaceDetail,
+  SearchInRegionButton,
+} from "@/domains/map/component";
+import { KakaoMapWebViewRef } from "@/domains/map/component/KakaoMapWebView";
+import { useMapViewModel } from "@/domains/map/viewmodel/useMapViewModel";
 import { Colors, Layout } from "@/shared/constants";
-import Constants from 'expo-constants';
-import { router } from 'expo-router';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Constants from "expo-constants";
+import { router } from "expo-router";
+import { useRef } from "react";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 export default function MapTab() {
   const insets = useSafeAreaInsets();
+  const mapWebViewRef = useRef<KakaoMapWebViewRef>(null);
 
   const TAB_BAR_HEIGHT = 10;
-  const bottomSpace = (insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK) + TAB_BAR_HEIGHT;
+  const bottomSpace =
+    (insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK) + TAB_BAR_HEIGHT;
 
   const {
     region,
@@ -27,19 +43,20 @@ export default function MapTab() {
     handleSearchResultPress,
     handleCurrentPositionPress,
     handleMapPress,
-    handleRegionChange,
+    handleSearchInRegion,
+    handleCurrentRegion,
     loadPlacesInRegion,
   } = useMapViewModel();
-  const apiKey = Constants.expoConfig?.extra?.kakaoJavascriptKey ?? '';
+  const apiKey = Constants.expoConfig?.extra?.kakaoJavascriptKey ?? "";
 
   const handleProfilePress = () => {
-    router.push('/mypage');
+    router.push("/mypage");
   };
 
   const handlePlaceDetailPress = () => {
     if (selectedPlace) {
       router.push({
-        pathname: '/place',
+        pathname: "/place",
         params: { placeId: selectedPlace.id },
       });
     }
@@ -56,22 +73,24 @@ export default function MapTab() {
         searchResults={searchResults}
         onSearchResultPress={handleSearchResultPress}
       />
+
       <View style={styles.mapWrapper}>
         <KakaoMapWebView
+          ref={mapWebViewRef}
           region={region}
           markers={markers}
           onMarkerPress={handleMarkerPress}
           onMapPress={handleMapPress}
-          onRegionChange={handleRegionChange}
+          onCurrentRegion={handleCurrentRegion}
           apiKey={apiKey}
           focusedMarkerId={focusedMarkerId}
         />
 
-        {isLoadingPlaces && (
+        {/* {isLoadingPlaces && (
           <View style={styles.loadingOverlay}>
-            <ActivityIndicator size="large" color={Colors.purple} />
+            <ActivityIndicator size="large" color={Colors.yellow} />
           </View>
-        )}
+        )} */}
 
         {error && (
           <View style={styles.errorBanner}>
@@ -81,6 +100,13 @@ export default function MapTab() {
             </TouchableOpacity>
           </View>
         )}
+
+        <View style={styles.searchButtonContainer}>
+          <SearchInRegionButton
+            onPress={() => handleSearchInRegion(() => mapWebViewRef.current?.requestCurrentRegion())}
+            isLoading={isLoadingPlaces}
+          />
+        </View>
 
         <View style={[styles.floatingButtons, { paddingBottom: bottomSpace }]}>
           <View style={styles.rightTop}>
@@ -93,7 +119,10 @@ export default function MapTab() {
 
         {selectedPlace && (
           <View style={[styles.placeDetailContainer, { bottom: bottomSpace }]}>
-            <PlaceDetail place={selectedPlace} onPlacePress={handlePlaceDetailPress} />
+            <PlaceDetail
+              place={selectedPlace}
+              onPlacePress={handlePlaceDetailPress}
+            />
           </View>
         )}
       </View>
@@ -110,27 +139,27 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   loadingOverlay: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
     zIndex: 10,
   },
   errorBanner: {
-    position: 'absolute',
+    position: "absolute",
     top: 20,
     left: Layout.SCREEN_HORIZONTAL,
     right: Layout.SCREEN_HORIZONTAL,
-    backgroundColor: '#FF4444',
+    backgroundColor: "#FF4444",
     padding: 12,
     borderRadius: 8,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     zIndex: 10,
   },
   errorText: {
@@ -141,30 +170,35 @@ const styles = StyleSheet.create({
   retryText: {
     color: Colors.white,
     fontSize: 14,
-    fontWeight: 'bold',
-    textDecorationLine: 'underline',
+    fontWeight: "bold",
+    textDecorationLine: "underline",
+  },
+  searchButtonContainer: {
+    position: "absolute",
+    top: 12,
+    left: 0,
+    right: 0,
+    zIndex: 5,
+    pointerEvents: "box-none",
   },
   floatingButtons: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     right: 0,
     bottom: 0,
     left: 0,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     paddingVertical: Layout.SECTION_SPACING,
     paddingHorizontal: Layout.SCREEN_HORIZONTAL,
-    pointerEvents: 'box-none',
   },
   rightTop: {
-    alignItems: 'flex-end',
-    pointerEvents: 'box-none',
+    alignItems: "flex-end",
   },
   rightBottom: {
-    alignItems: 'flex-end',
-    pointerEvents: 'box-none',
+    alignItems: "flex-end",
   },
   placeDetailContainer: {
-    position: 'absolute',
+    position: "absolute",
     left: Layout.SCREEN_HORIZONTAL,
     right: Layout.SCREEN_HORIZONTAL,
   },

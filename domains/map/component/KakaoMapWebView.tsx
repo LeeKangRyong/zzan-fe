@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, forwardRef, useImperativeHandle, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import WebView from 'react-native-webview';
 import { useWebViewMessage } from '../hooks/useWebViewMessage';
@@ -10,17 +10,38 @@ interface KakaoMapWebViewProps {
   markers: MapMarker[];
   onMarkerPress: (markerId: string) => void;
   onMapPress?: () => void;
-  onRegionChange?: (region: MapRegion) => void;
+  onCurrentRegion?: (region: MapRegion) => void;
   apiKey: string;
   focusedMarkerId?: string | null;
 }
 
-export const KakaoMapWebView = ({ region, markers, onMarkerPress, onMapPress, onRegionChange, apiKey, focusedMarkerId }: KakaoMapWebViewProps) => {
-  const webViewRef = useRef<WebView>(null);
-  const { handleMessage } = useWebViewMessage(onMarkerPress, onMapPress, onRegionChange);
+export interface KakaoMapWebViewRef {
+  requestCurrentRegion: () => void;
+}
+
+export const KakaoMapWebView = forwardRef<KakaoMapWebViewRef, KakaoMapWebViewProps>(
+  ({ region, markers, onMarkerPress, onMapPress, onCurrentRegion, apiKey, focusedMarkerId }, ref) => {
+    const webViewRef = useRef<WebView>(null);
+    const { handleMessage } = useWebViewMessage(onMarkerPress, onMapPress, onCurrentRegion);
+
+    useImperativeHandle(ref, () => ({
+      requestCurrentRegion: () => {
+        if (webViewRef.current) {
+          console.log('[KakaoMapWebView] Requesting current region');
+          const message = JSON.stringify({ type: 'getCurrentRegion' });
+          webViewRef.current.postMessage(message);
+        }
+      },
+    }));
 
   const prevTimestampRef = useRef<number | undefined>(region.timestamp);
   const prevFocusedMarkerIdRef = useRef<string | null | undefined>(focusedMarkerId);
+  const prevMarkersRef = useRef<MapMarker[]>(markers);
+
+  const htmlContent = useMemo(() => {
+    console.log('[KakaoMapWebView] Generating HTML with region:', region.latitude, region.longitude);
+    return generateMapHtml(region, [], apiKey);
+  }, [region.latitude, region.longitude, apiKey]);
 
   useEffect(() => {
     if (region.timestamp !== prevTimestampRef.current) {
@@ -69,24 +90,50 @@ export const KakaoMapWebView = ({ region, markers, onMarkerPress, onMapPress, on
     }
   }, [focusedMarkerId]);
 
-  return (
-    <View style={styles.container}>
-      <WebView
-        ref={webViewRef}
-        source={{
-          html: generateMapHtml(region, markers, apiKey),
-          baseUrl: 'https://zzan-kakao-map.netlify.app'
-        }}
-        originWhitelist={['*']}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        mixedContentMode="always"
-        onMessage={handleMessage}
-        style={styles.webview}
-      />
-    </View>
-  );
-};
+  useEffect(() => {
+    // markers 배열이 변경되었는지 확인 (깊은 비교는 하지 않고 길이와 참조만 확인)
+    if (markers !== prevMarkersRef.current) {
+      if (webViewRef.current) {
+        console.log('[KakaoMapWebView] Sending updateMarkers:', markers.length);
+
+        // WebView에서 필요한 필드만 추출
+        const webViewMarkers = markers.map((m) => ({
+          id: m.id,
+          name: m.name,
+          latitude: m.latitude,
+          longitude: m.longitude,
+        }));
+
+        const message = JSON.stringify({
+          type: 'updateMarkers',
+          markers: webViewMarkers,
+        });
+
+        webViewRef.current.postMessage(message);
+      }
+      prevMarkersRef.current = markers;
+    }
+  }, [markers]);
+
+    return (
+      <View style={styles.container}>
+        <WebView
+          ref={webViewRef}
+          source={{
+            html: htmlContent,
+            baseUrl: 'https://zzan-kakao-map.netlify.app'
+          }}
+          originWhitelist={['*']}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+          mixedContentMode="always"
+          onMessage={handleMessage}
+          style={styles.webview}
+        />
+      </View>
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   container: { flex: 1 },

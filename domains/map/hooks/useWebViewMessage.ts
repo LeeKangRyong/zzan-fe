@@ -3,7 +3,7 @@ import { MapRegion } from '../model/mapModel';
 
 type MessageHandler = (markerId: string) => void;
 type MapPressHandler = () => void;
-type RegionChangeHandler = (region: MapRegion) => void;
+type CurrentRegionHandler = (region: MapRegion) => void;
 
 const parseMessage = (data: string) => {
   try {
@@ -25,6 +25,19 @@ const handleMapPress = (data: any, onMapPress?: MapPressHandler) => {
   }
 };
 
+const handleCurrentRegion = (data: any, onCurrentRegion?: CurrentRegionHandler) => {
+  if (data.type === 'currentRegion' && onCurrentRegion) {
+    const currentRegion: MapRegion = {
+      latitude: data.latitude,
+      longitude: data.longitude,
+      latitudeDelta: data.latitudeDelta,
+      longitudeDelta: data.longitudeDelta,
+      timestamp: Date.now(),
+    };
+    onCurrentRegion(currentRegion);
+  }
+};
+
 const handleLog = (data: any) => {
   if (data.type === 'log') {
     console.log('[WebView Log]', data.message);
@@ -37,23 +50,10 @@ const handleError = (data: any) => {
   }
 };
 
-const handleRegionChange = (data: any, onRegionChange?: RegionChangeHandler) => {
-  if (data.type === 'idle' && onRegionChange && data.center) {
-    const newRegion: MapRegion = {
-      latitude: data.center.lat,
-      longitude: data.center.lng,
-      latitudeDelta: 0.01,
-      longitudeDelta: 0.01,
-      timestamp: Date.now(),
-    };
-    onRegionChange(newRegion);
-  }
-};
-
 export const useWebViewMessage = (
   onMarkerPress: MessageHandler,
   onMapPress?: MapPressHandler,
-  onRegionChange?: RegionChangeHandler
+  onCurrentRegion?: CurrentRegionHandler
 ) => {
   const handleMessage = (event: WebViewMessageEvent) => {
     const data = parseMessage(event.nativeEvent.data);
@@ -64,7 +64,7 @@ export const useWebViewMessage = (
 
     handleMarkerPress(data, onMarkerPress);
     handleMapPress(data, onMapPress);
-    handleRegionChange(data, onRegionChange);
+    handleCurrentRegion(data, onCurrentRegion);
     handleLog(data);
     handleError(data);
   };
