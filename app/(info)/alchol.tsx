@@ -1,20 +1,24 @@
-import { AlcholDescription } from '@/domains/info/components/AlcholDescription';
-import { InfoImages } from '@/domains/info/components/InfoImages';
-import { InfoRate } from '@/domains/info/components/InfoRate';
-import { InfoSummary } from '@/domains/info/components/InfoSummary';
-import { INFO_CONSTANTS } from '@/domains/info/model/constants';
-import { useAlcoholViewModel } from '@/domains/info/viewmodel/useInfoViewModel';
-import { Header } from '@/shared/components';
-import { Colors, Layout } from '@/shared/constants';
-import { useRouter, useLocalSearchParams } from 'expo-router';
+import { AlcholDescription } from "@/domains/info/components/AlcholDescription";
+import { InfoImages } from "@/domains/info/components/InfoImages";
+import { InfoRate } from "@/domains/info/components/InfoRate";
 import {
+  InfoRateWithProfile,
+  MOCK_REVIEWS_FOR_DESIGN,
+} from "@/domains/info/components/InfoRateWithProfile";
+import { InfoSummary } from "@/domains/info/components/InfoSummary";
+import { INFO_CONSTANTS } from "@/domains/info/model/constants";
+import { useAlcoholViewModel } from "@/domains/info/viewmodel/useInfoViewModel";
+import { Header } from "@/shared/components";
+import { Colors, Layout } from "@/shared/constants";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import {
+  ActivityIndicator,
   ScrollView,
   StyleSheet,
-  View,
-  ActivityIndicator,
   Text,
-} from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+  View,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const renderLoadingState = () => (
   <View style={styles.centerContainer}>
@@ -57,7 +61,7 @@ export default function AlcholTab() {
     return (
       <View style={styles.container}>
         <Header title="전통주" onBackPress={() => router.back()} />
-        {renderErrorState(error || '주류 정보를 찾을 수 없습니다')}
+        {renderErrorState(error || "주류 정보를 찾을 수 없습니다")}
       </View>
     );
   }
@@ -89,7 +93,27 @@ export default function AlcholTab() {
 
         <View style={styles.line} />
 
-        <InfoRate rating={alcoholInfo.rating} reviews={alcoholInfo.reviews} />
+        <InfoRate rating={alcoholInfo.rating} />
+
+        <ScrollView
+          horizontal
+          contentContainerStyle={styles.reviewList}
+          showsHorizontalScrollIndicator={false}
+        >
+          {MOCK_REVIEWS_FOR_DESIGN.map((review) => (
+            <View key={review.id} style={styles.reviewItem}>
+              <InfoRateWithProfile
+                username={review.username}
+                userProfileImage={review.userProfileImage}
+                imageUrl={review.feedImage}
+                placeName={review.liquorName}
+                address={review.reviewText}
+                alcoholCount={review.score}
+                onPress={() => {}}
+              />
+            </View>
+          ))}
+        </ScrollView>
       </ScrollView>
     </View>
   );
@@ -102,8 +126,8 @@ const styles = StyleSheet.create({
   },
   centerContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   errorText: {
     fontSize: 16,
@@ -115,4 +139,9 @@ const styles = StyleSheet.create({
     marginVertical: INFO_CONSTANTS.SUMMARY_PADDING_VERTICAL,
     height: 4,
   },
+  reviewList: {
+    paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
+    gap: 12,
+  },
+  reviewItem: {},
 });

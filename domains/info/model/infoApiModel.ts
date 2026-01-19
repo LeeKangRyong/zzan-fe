@@ -89,3 +89,4 @@ export const mapPlaceApiToPlaceInfo = (
     kakaoPlaceId: api.kakaoPlaceId,
   };
 };
+

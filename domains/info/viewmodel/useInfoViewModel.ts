@@ -3,7 +3,10 @@ import type {
   InfoBox,
   PlaceInfo,
 } from '@/domains/info/model/infoModel';
-import { MOCK_ALCOHOL_INFO, MOCK_PLACE_INFO } from '@/domains/info/model/mock';
+import {
+  MOCK_ALCOHOL_INFO,
+  MOCK_PLACE_INFO,
+} from '@/domains/info/model/mock';
 import {
   mapLiquorApiToAlcoholInfo,
   mapPlaceApiToPlaceInfo,
