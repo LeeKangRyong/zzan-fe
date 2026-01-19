@@ -1,14 +1,8 @@
-import Constants from 'expo-constants';
 import { useCallback, useState } from 'react';
 import { useAuthStore } from '../store/authStore';
 import { mockAuthTokens } from '../model/mock';
-import { apiClient, API_ENDPOINTS } from '@/shared/api';
-import type { ApiResponse } from '@/shared/types/api';
-import type { AuthTokens, KakaoLoginUrl } from '../model/authModel';
-
-const isMockEnabled = (): boolean => {
-  return Constants.expoConfig?.extra?.useMockData === true;
-};
+import { authApi } from '../api/authApi';
+import { isMockEnabled } from '@/shared/utils/env';
 
 export const useAuthViewModel = () => {
   const { setTokens, clearTokens, setLoading, isAuthenticated, isLoading } =
@@ -22,11 +16,8 @@ export const useAuthViewModel = () => {
     }
 
     try {
-      const response = await apiClient<ApiResponse<KakaoLoginUrl>>(
-        API_ENDPOINTS.AUTH.KAKAO_LOGIN_URL,
-        { method: 'GET' }
-      );
-      return response.data.url;
+      const url = await authApi.getKakaoLoginUrl();
+      return url;
     } catch (err) {
       setError('카카오 로그인 URL을 가져올 수 없습니다');
       return null;
@@ -39,11 +30,8 @@ export const useAuthViewModel = () => {
     setError(null);
 
     try {
-      const response = await apiClient<ApiResponse<AuthTokens>>(
-        `${API_ENDPOINTS.AUTH.KAKAO_CALLBACK}?code=${encodeURIComponent(code)}`,
-        { method: 'GET' }
-      );
-      setTokens(response.data.accessToken, response.data.refreshToken);
+      const tokens = await authApi.handleKakaoCallback(code);
+      setTokens(tokens.accessToken, tokens.refreshToken);
       return true;
     } catch (err) {
       setError('카카오 로그인에 실패했습니다');
@@ -58,11 +46,8 @@ export const useAuthViewModel = () => {
     if (!currentRefreshToken) return false;
 
     try {
-      const response = await apiClient<ApiResponse<AuthTokens>>(
-        API_ENDPOINTS.AUTH.TOKEN_REFRESH,
-        { method: 'POST', body: { refreshToken: currentRefreshToken } }
-      );
-      setTokens(response.data.accessToken, response.data.refreshToken);
+      const tokens = await authApi.refreshToken(currentRefreshToken);
+      setTokens(tokens.accessToken, tokens.refreshToken);
       return true;
     } catch (err) {
       clearTokens();
@@ -77,10 +62,7 @@ export const useAuthViewModel = () => {
     }
 
     try {
-      await apiClient(API_ENDPOINTS.AUTH.LOGOUT, {
-        method: 'DELETE',
-        requireAuth: true,
-      });
+      await authApi.logout();
     } finally {
       clearTokens();
     }

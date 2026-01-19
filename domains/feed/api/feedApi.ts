@@ -120,4 +120,12 @@ export const feedApi = {
 
     return response.data;
   },
+
+  async deleteFeed(feedId: string): Promise<void> {
+    const endpoint = API_ENDPOINTS.FEED.DELETE.replace(':feedId', feedId);
+    await apiClient<ApiResponse<null>>(endpoint, {
+      method: 'DELETE',
+      requireAuth: true,
+    });
+  },
 };

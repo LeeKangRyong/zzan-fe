@@ -29,6 +29,34 @@ export interface PlaceDetailApiResponse {
   latitude: number;
 }
 
+export interface LiquorReviewApiResponse {
+  id: string;
+  userId: string;
+  username: string;
+  userProfileImageUrl: string | null;
+  liquorId: string;
+  liquorName: string;
+  score: number;
+  text: string | null;
+  createdAt: string;
+}
+
+export interface LiquorReviewsListResponse {
+  items: LiquorReviewApiResponse[];
+  nextCursor: string | null;
+  hasNext: boolean;
+}
+
+export interface CreateLiquorReviewRequest {
+  score: number;
+  text?: string;
+}
+
+export interface UpdateLiquorReviewRequest {
+  score: number;
+  text?: string;
+}
+
 const createImageWithDescription = (
   imageUrl: string
 ): ImageWithDescription => ({

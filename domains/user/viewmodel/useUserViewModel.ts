@@ -1,14 +1,9 @@
-import Constants from 'expo-constants';
 import { useCallback, useEffect, useState } from 'react';
-import type { User, UserApiResponse } from '../model/userModel';
+import type { User } from '../model/userModel';
 import { mockUser } from '../model/mock';
 import { mapApiUserToUser } from '../model/userMapper';
-import { apiClient, API_ENDPOINTS } from '@/shared/api';
-import type { ApiResponse } from '@/shared/types/api';
-
-const isMockEnabled = (): boolean => {
-  return Constants.expoConfig?.extra?.useMockData === true;
-};
+import { userApi } from '../api/userApi';
+import { isMockEnabled } from '@/shared/utils/env';
 
 export const useUserViewModel = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -26,13 +21,9 @@ export const useUserViewModel = () => {
     }
 
     try {
-      const response = await apiClient<ApiResponse<UserApiResponse>>(
-        API_ENDPOINTS.USER.ME,
-        { requireAuth: true }
-      );
-      console.log('[UserViewModel] API 응답:', response);
-      console.log('[UserViewModel] 사용자 데이터:', response.data);
-      setUser(mapApiUserToUser(response.data));
+      const userData = await userApi.getCurrentUser();
+      console.log('[UserViewModel] 사용자 데이터:', userData);
+      setUser(mapApiUserToUser(userData));
     } catch (err) {
       console.error('[UserViewModel] 사용자 정보 로드 실패:', err);
       setError('사용자 정보를 불러오는데 실패했습니다');

@@ -2,6 +2,7 @@ export const API_ENDPOINTS = {
   AUTH: {
     KAKAO_LOGIN_URL: "/users/auth/kakao/login-url",
     KAKAO_CALLBACK: "/users/auth/kakao/callback",
+    SOCIAL_LOGIN: "/users/auth/:provider/login",
     TOKEN_REFRESH: "/users/auth/token/refresh",
     LOGOUT: "/users/auth/token/refresh",
   },
@@ -19,8 +20,12 @@ export const API_ENDPOINTS = {
   },
   LIQUOR: {
     SEARCH: "/liquors/search",
-    CREATE_REVIEW: "/liquors/:liquorId/reviews",
     DETAIL: "/liquors/:liquorId",
+    CREATE_REVIEW: "/liquors/:liquorId/reviews",
+    GET_MY_REVIEW: "/liquors/:liquorId/reviews/me",
+    GET_REVIEWS: "/liquors/:liquorId/reviews",
+    UPDATE_REVIEW: "/liquors/:liquorId/reviews",
+    DELETE_REVIEW: "/liquors/:liquorId/reviews",
     GET_SCRAPS: "/liquors/scraps",
     CHECK_SCRAP: "/liquors/scraps/:liquorId",
     ADD_SCRAP: "/liquors/scraps/:liquorId",
@@ -29,6 +34,7 @@ export const API_ENDPOINTS = {
   FEED: {
     CREATE: "/feeds",
     DETAIL: "/feeds/:feedId",
+    DELETE: "/feeds/:feedId",
     GET_SCRAPS: "/feeds/scraps",
     CHECK_SCRAP: "/feeds/scraps/:feedId",
     ADD_SCRAP: "/feeds/scraps/:feedId",

@@ -7,7 +7,7 @@ import {
   toMapMarker,
   searchResultToMapMarker,
 } from '../model/mapModel';
-import { mockPlacesWithCoordinates } from '../model/mock';
+import { mockPlacesWithCoordinates, filterMarkersInRegion } from '../model/mock';
 import { placeApi } from '../api/placeApi';
 
 const USE_MOCK_DATA = process.env.EXPO_PUBLIC_USE_MOCK_DATA === 'true';
@@ -15,12 +15,13 @@ const USE_MOCK_DATA = process.env.EXPO_PUBLIC_USE_MOCK_DATA === 'true';
 const initialRegion: MapRegion = {
   latitude: 37.5665,
   longitude: 126.9780,
-  latitudeDelta: 0.01,
-  longitudeDelta: 0.01,
+  latitudeDelta: 0.03,
+  longitudeDelta: 0.03,
 };
 
 export const useMapViewModel = () => {
   const [region, setRegion] = useState<MapRegion>(initialRegion);
+  const regionRef = useRef<MapRegion>(initialRegion);
   const [markers, setMarkers] = useState<MapMarker[]>([]);
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState<MapMarker[]>([]);
@@ -32,30 +33,9 @@ export const useMapViewModel = () => {
   const [searchMeta, setSearchMeta] = useState<PlaceSearchMeta | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
   useEffect(() => {
-    if (USE_MOCK_DATA) {
-      if (markers.length === 0) {
-        setMarkers(mockPlacesWithCoordinates);
-      }
-      return;
-    }
-
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
-
-    debounceTimerRef.current = setTimeout(() => {
-      loadPlacesInRegion(region);
-    }, 500);
-
-    return () => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
-    };
-  }, [region]);
+    // 초기에는 마커를 로드하지 않음 - 버튼 클릭 시에만 로드
+  }, []);
 
   const handleMarkerPress = (markerId: string) => {
     console.log('[MapViewModel] Marker pressed:', markerId);
@@ -78,6 +58,15 @@ export const useMapViewModel = () => {
 
   const loadPlacesInRegion = async (regionToLoad: MapRegion) => {
     if (USE_MOCK_DATA) {
+      // Mock 모드에서도 범위 필터링 수행
+      setIsLoadingPlaces(true);
+
+      // 실제 API 호출처럼 약간의 딜레이 추가
+      await new Promise(resolve => setTimeout(resolve, 300));
+
+      const filteredMarkers = filterMarkersInRegion(mockPlacesWithCoordinates, regionToLoad);
+      setMarkers(filteredMarkers);
+      setIsLoadingPlaces(false);
       return;
     }
 
@@ -229,11 +218,12 @@ export const useMapViewModel = () => {
   };
 
   const handleRegionChange = (newRegion: MapRegion) => {
-    if (USE_MOCK_DATA) {
-      return;
-    }
-
     setRegion(newRegion);
+    regionRef.current = newRegion;
+  };
+
+  const handleSearchInRegion = () => {
+    loadPlacesInRegion(regionRef.current);
   };
 
   return {
@@ -255,6 +245,7 @@ export const useMapViewModel = () => {
     handleCurrentPositionPress,
     handleMapPress,
     handleRegionChange,
+    handleSearchInRegion,
     loadPlacesInRegion,
   };
 };
