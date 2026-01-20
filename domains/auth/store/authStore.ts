@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { setAuthTokenGetter } from '@/shared/api';
 import type { AuthState } from '../model/authModel';
 
 interface AuthStore extends AuthState {
@@ -32,5 +31,3 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
   setLoading: (isLoading) => set({ isLoading }),
 }));
-
-setAuthTokenGetter(() => useAuthStore.getState().accessToken);

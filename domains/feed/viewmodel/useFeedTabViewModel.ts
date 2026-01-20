@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { feedApi } from "../api/feedApi";
 import type { RecentFeedApiResponse } from "../model/feedApiModel";
+import { isMockEnabled } from "@/shared/utils/env";
+import { mockFeedDetails } from "../model/mock";
+import { mapMockFeedDetailToRecentFeed } from "../mapper/feedMapper";
 
 export const useFeedTabViewModel = () => {
   const [currentTime, setCurrentTime] = useState("");
@@ -23,16 +26,38 @@ export const useFeedTabViewModel = () => {
     setError(null);
 
     try {
-      const response = await feedApi.getRecentFeeds(20, cursor);
+      if (isMockEnabled()) {
+        // MOCK MODE: Use mock data
+        const mockRecentFeeds = mockFeedDetails.map(mapMockFeedDetailToRecentFeed);
+        const PAGE_SIZE = 20;
 
-      if (cursor) {
-        setRecentFeeds((prev) => [...prev, ...response.items]);
+        // Simulate pagination
+        const currentIndex = cursor ? parseInt(cursor.replace('cursor-', ''), 10) : 0;
+        const endIndex = Math.min(currentIndex + PAGE_SIZE, mockRecentFeeds.length);
+        const paginatedFeeds = mockRecentFeeds.slice(currentIndex, endIndex);
+
+        if (cursor) {
+          setRecentFeeds((prev) => [...prev, ...paginatedFeeds]);
+        } else {
+          setRecentFeeds(paginatedFeeds);
+        }
+
+        // Update pagination state
+        setHasNext(endIndex < mockRecentFeeds.length);
+        setNextCursor(endIndex < mockRecentFeeds.length ? `cursor-${endIndex}` : undefined);
       } else {
-        setRecentFeeds(response.items);
-      }
+        // API MODE: Use real API
+        const response = await feedApi.getRecentFeeds(20, cursor);
 
-      setNextCursor(response.nextCursor ?? undefined);
-      setHasNext(response.hasNext);
+        if (cursor) {
+          setRecentFeeds((prev) => [...prev, ...response.items]);
+        } else {
+          setRecentFeeds(response.items);
+        }
+
+        setNextCursor(response.nextCursor ?? undefined);
+        setHasNext(response.hasNext);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load recent feeds");
       console.error("Error loading recent feeds:", err);

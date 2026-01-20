@@ -51,7 +51,10 @@ export const authApi = {
       API_ENDPOINTS.AUTH.TOKEN_REFRESH,
       {
         method: 'POST',
-        body: { refreshToken },
+        body: refreshToken,
+        headers: {
+          'Content-Type': 'text/plain',
+        },
       }
     );
     return response.data;
