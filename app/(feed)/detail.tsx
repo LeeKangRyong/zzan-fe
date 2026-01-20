@@ -6,7 +6,9 @@ import {
   ReferredAlcholWithRate,
 } from '@/domains/feed/component';
 import { useDetailViewModel } from '@/domains/feed/viewmodel/useDetailViewModel';
-import { BookMark, Header, Share } from '@/shared/components';
+import { BookMark, Header, KakaoLoginModal, Share } from '@/shared/components';
+import { useModal } from '@/shared/hooks';
+import { useAuthStore } from '@/domains/auth/store/authStore';
 import { Colors, Layout } from '@/shared/constants';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { ScrollView, StyleSheet, View, ActivityIndicator, Text } from 'react-native';
@@ -55,6 +57,17 @@ export default function DetailTab() {
     handleBookmark,
   } = useDetailViewModel(feedId);
 
+  const { isAuthenticated } = useAuthStore();
+  const { visible, openModal, closeModal } = useModal();
+
+  const handleBookmarkWithAuth = async () => {
+    const success = await handleBookmark();
+
+    if (!success && !isAuthenticated) {
+      openModal();
+    }
+  };
+
   if (isLoading) {
     return (
       <View style={[styles.container, styles.centerContent]}>
@@ -96,7 +109,7 @@ export default function DetailTab() {
             user.username,
             isBookmarked,
             handleShare,
-            handleBookmark
+            handleBookmarkWithAuth
           )}
 
           <ReferredAlcholWithRate
@@ -129,6 +142,8 @@ export default function DetailTab() {
           <FeedDetailComments review={review} />
         </View>
       </ScrollView>
+
+      <KakaoLoginModal visible={visible} onClose={closeModal} />
     </View>
   );
 }

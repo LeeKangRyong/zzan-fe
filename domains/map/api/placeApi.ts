@@ -1,10 +1,10 @@
-import { apiClient } from '@/shared/api/client';
-import { API_ENDPOINTS } from '@/shared/api/endpoints';
+import { apiClient } from "@/shared/api/client";
+import { API_ENDPOINTS } from "@/shared/api/endpoints";
 import type {
   PlaceResponse,
-  PlaceSearchResponse,
   PlaceSearchMeta,
-} from '../model/mapModel';
+  PlaceSearchResponse,
+} from "../model/mapModel";
 
 export interface GetPlacesInRegionParams {
   minLongitude: number;
@@ -26,7 +26,7 @@ export interface SearchPlacesResult {
 
 export const placeApi = {
   async getPlacesInRegion(
-    params: GetPlacesInRegionParams
+    params: GetPlacesInRegionParams,
   ): Promise<PlaceResponse[]> {
     const { minLongitude, maxLongitude, minLatitude, maxLatitude } = params;
     const queryString = new URLSearchParams({
@@ -38,13 +38,15 @@ export const placeApi = {
 
     const response = await apiClient<{ data: PlaceResponse[] }>(
       `${API_ENDPOINTS.PLACE.GET_PLACES_IN_REGION}?${queryString}`,
-      { method: 'GET' }
+      { method: "GET" },
     );
 
     return response.data;
   },
 
-  async searchPlaces(params: SearchPlacesParams): Promise<PlaceSearchResponse[]> {
+  async searchPlaces(
+    params: SearchPlacesParams,
+  ): Promise<PlaceSearchResponse[]> {
     const { keyword, page = 1, size = 15 } = params;
     const queryString = new URLSearchParams({
       keyword,
@@ -52,10 +54,11 @@ export const placeApi = {
       size: size.toString(),
     }).toString();
 
-    const response = await apiClient<{ data: { places: PlaceSearchResponse[]; meta: PlaceSearchMeta } }>(
-      `${API_ENDPOINTS.INFRA.SEARCH_PLACES}?${queryString}`,
-      { method: 'GET' }
-    );
+    const response = await apiClient<{
+      data: { places: PlaceSearchResponse[]; meta: PlaceSearchMeta };
+    }>(`${API_ENDPOINTS.INFRA.SEARCH_PLACES}?${queryString}`, {
+      method: "GET",
+    });
 
     return response.data.places;
   },

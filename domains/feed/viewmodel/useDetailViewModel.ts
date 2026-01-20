@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Dimensions } from 'react-native';
 import { isMockEnabled } from '@/shared/utils/env';
+import { useAuthStore } from '@/domains/auth/store/authStore';
 import { feedApi } from '../api/feedApi';
 import { scrapApi } from '@/shared/api/scrapApi';
 import { mockAlcohols, mockFeedDetails, type MockFeedDetail } from '../model/mock';
@@ -10,6 +11,7 @@ import type { Alcohol } from '../model/feedModel';
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export const useDetailViewModel = (feedId?: string) => {
+  const { isAuthenticated } = useAuthStore();
   const [focusedAlcoholId, setFocusedAlcoholId] = useState<string | null>(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -90,14 +92,19 @@ export const useDetailViewModel = (feedId?: string) => {
     }
   }, [feedId]);
 
-  const handleBookmark = useCallback(async () => {
+  const handleBookmark = useCallback(async (): Promise<boolean> => {
+    // AUTH GUARD - return false to trigger modal in UI
+    if (!isAuthenticated) {
+      return false;
+    }
+
     if (isMockEnabled()) {
       setIsBookmarked((prev) => !prev);
-      return;
+      return true;
     }
 
     if (!feedId) {
-      return;
+      return false;
     }
 
     try {
@@ -107,11 +114,13 @@ export const useDetailViewModel = (feedId?: string) => {
         await scrapApi.feed.add(feedId);
       }
       setIsBookmarked((prev) => !prev);
+      return true;
     } catch (error) {
       console.error('[DetailViewModel] Failed to toggle bookmark:', error);
       setIsBookmarked((prev) => !prev);
+      return false;
     }
-  }, [feedId, isBookmarked]);
+  }, [feedId, isBookmarked, isAuthenticated]);
 
   useEffect(() => {
     checkBookmarkStatus();

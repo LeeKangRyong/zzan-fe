@@ -8,6 +8,7 @@ export const API_ENDPOINTS = {
   },
   USER: {
     ME: "/users/me",
+    UPDATE: "/users/me",
     MY_FEEDS: "/feeds/me",
   },
   PLACE: {

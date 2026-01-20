@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert } from 'react-native';
 import { usePostStore } from '../store/postStore';
+import { useAuthStore } from '@/domains/auth/store/authStore';
 import { isMockEnabled } from '@/shared/utils/env';
 import { feedApi } from '../api/feedApi';
 import { useImageUploadViewModel } from './useImageUploadViewModel';
@@ -13,6 +14,7 @@ import type {
 
 export const useRateViewModel = () => {
   const router = useRouter();
+  const { isAuthenticated } = useAuthStore();
   const {
     selectedAlcohols,
     alcoholRatings,
@@ -38,13 +40,18 @@ export const useRateViewModel = () => {
     setTempRating(0);
   };
 
-  const completeAllRatings = async () => {
-    if (isMockEnabled()) {
-      completeWithMockData();
-      return;
+  const completeAllRatings = async (): Promise<boolean> => {
+    // AUTH GUARD - return false to trigger modal in UI
+    if (!isAuthenticated) {
+      return false;
     }
 
-    await completeWithApi();
+    if (isMockEnabled()) {
+      completeWithMockData();
+      return true;
+    }
+
+    return await completeWithApi();
   };
 
   const completeWithMockData = () => {
@@ -69,7 +76,7 @@ export const useRateViewModel = () => {
     router.replace('/map');
   };
 
-  const completeWithApi = async () => {
+  const completeWithApi = async (): Promise<boolean> => {
     try {
       setIsSaving(true);
 
@@ -81,9 +88,11 @@ export const useRateViewModel = () => {
 
       resetPost();
       router.replace('/map');
+      return true;
     } catch (error) {
       console.error('[Feed Creation Error]', error);
       Alert.alert('피드 작성 실패', '다시 시도해주세요.');
+      return false;
     } finally {
       setIsSaving(false);
     }
@@ -147,17 +156,17 @@ export const useRateViewModel = () => {
     await feedApi.createLiquorReview(alcoholId, { score: rating, text: '' });
   };
 
-  const handleSaveRating = () => {
-    if (!currentAlcohol) return;
+  const handleSaveRating = async (): Promise<boolean> => {
+    if (!currentAlcohol) return true;
 
     setAlcoholRating(currentAlcohol.id, tempRating);
 
     if (currentRatingIndex < totalAlcohols - 1) {
       moveToNextAlcohol();
-      return;
+      return true;
     }
 
-    completeAllRatings();
+    return await completeAllRatings();
   };
 
   return {

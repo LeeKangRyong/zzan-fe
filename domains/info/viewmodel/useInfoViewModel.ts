@@ -20,6 +20,7 @@ import { scrapApi } from '@/shared/api/scrapApi';
 import { feedApi } from '@/domains/feed/api/feedApi';
 import { liquorApi } from '@/shared/api/liquorApi';
 import { userApi } from '@/domains/user/api/userApi';
+import { useAuthStore } from '@/domains/auth/store/authStore';
 import { mockNearbyFeeds } from '@/domains/feed/model/mock';
 import { isMockEnabled } from '@/shared/utils/env';
 import { useState, useEffect, useCallback, useMemo } from 'react';
@@ -157,9 +158,15 @@ export const useInfoViewModel = (placeId?: string) => {
     console.log('Share pressed');
   };
 
-  const handleAlcholButtonPress = () => {
+  const handleAlcholButtonPress = useCallback(() => {
+    // AUTH GUARD - return false to trigger modal
+    if (!isAuthenticated) {
+      return false; // Signal to UI to show modal
+    }
+
     console.log('Alchol button pressed');
-  };
+    return true; // Success
+  }, [isAuthenticated]);
 
   return {
     placeInfo,
@@ -176,6 +183,7 @@ export const useInfoViewModel = (placeId?: string) => {
 };
 
 export const useAlcoholViewModel = (liquorId?: string) => {
+  const { isAuthenticated } = useAuthStore();
   const [alcoholInfo, setAlcoholInfo] = useState<AlcoholInfo | null>(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [infoBoxes, setInfoBoxes] = useState<InfoBox[]>([]);
@@ -240,14 +248,19 @@ export const useAlcoholViewModel = (liquorId?: string) => {
     }
   }, [liquorId]);
 
-  const toggleBookmark = useCallback(async () => {
+  const toggleBookmark = useCallback(async (): Promise<boolean> => {
+    // AUTH GUARD - return false to trigger modal in UI
+    if (!isAuthenticated) {
+      return false;
+    }
+
     if (isMockEnabled()) {
       setIsBookmarked((prev) => !prev);
-      return;
+      return true;
     }
 
     if (!liquorId) {
-      return;
+      return false;
     }
 
     try {
@@ -257,11 +270,13 @@ export const useAlcoholViewModel = (liquorId?: string) => {
         await scrapApi.liquor.add(liquorId);
       }
       setIsBookmarked((prev) => !prev);
+      return true;
     } catch (error) {
       console.error('[InfoViewModel] Failed to toggle liquor bookmark:', error);
       setIsBookmarked((prev) => !prev);
+      return false;
     }
-  }, [liquorId, isBookmarked]);
+  }, [liquorId, isBookmarked, isAuthenticated]);
 
   useEffect(() => {
     checkLiquorBookmarkStatus();
@@ -314,13 +329,20 @@ export const useAlcoholViewModel = (liquorId?: string) => {
   }, [liquorId]);
 
   const createOrUpdateReview = useCallback(
-    async (rating: number, comment: string) => {
-      if (!liquorId) return;
+    async (rating: number, comment: string): Promise<boolean> => {
+      // AUTH GUARD - return false to trigger modal in UI
+      if (!isAuthenticated) {
+        return false;
+      }
+
+      if (!liquorId) {
+        return false;
+      }
 
       if (isMockEnabled()) {
         console.log('[InfoViewModel] Mock: Save review', { rating, comment });
         await fetchReviews();
-        return;
+        return true;
       }
 
       try {
@@ -331,11 +353,13 @@ export const useAlcoholViewModel = (liquorId?: string) => {
           await liquorApi.createReview(liquorId, { score: rating, text: comment });
         }
         await fetchReviews();
+        return true;
       } catch (error) {
         console.error('[InfoViewModel] Failed to save review:', error);
+        return false;
       }
     },
-    [liquorId, myReview, fetchReviews]
+    [liquorId, myReview, fetchReviews, isAuthenticated]
   );
 
   useEffect(() => {

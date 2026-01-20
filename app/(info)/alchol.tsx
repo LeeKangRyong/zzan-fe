@@ -6,7 +6,9 @@ import { InfoRateWithProfile } from "@/domains/info/components/InfoRateWithProfi
 import { InfoSummary } from "@/domains/info/components/InfoSummary";
 import { INFO_CONSTANTS } from "@/domains/info/model/constants";
 import { useAlcoholViewModel } from "@/domains/info/viewmodel/useInfoViewModel";
-import { Header } from "@/shared/components";
+import { Header, KakaoLoginModal } from "@/shared/components";
+import { useModal } from "@/shared/hooks";
+import { useAuthStore } from "@/domains/auth/store/authStore";
 import { Colors, Layout } from "@/shared/constants";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import {
@@ -37,6 +39,9 @@ export default function AlcholTab() {
   const liquorId = params.liquorId as string | undefined;
   const insets = useSafeAreaInsets();
   const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
+  const { isAuthenticated } = useAuthStore();
+  const { visible, openModal, closeModal } = useModal();
+
   const {
     alcoholInfo,
     isBookmarked,
@@ -53,6 +58,22 @@ export default function AlcholTab() {
     createOrUpdateReview,
     liquorFeeds,
   } = useAlcoholViewModel(liquorId);
+
+  const handleBookmarkWithAuth = async () => {
+    const success = await toggleBookmark();
+
+    if (!success && !isAuthenticated) {
+      openModal();
+    }
+  };
+
+  const handleSaveReviewWithAuth = async (rating: number, comment: string) => {
+    const success = await createOrUpdateReview(rating, comment);
+
+    if (!success && !isAuthenticated) {
+      openModal();
+    }
+  };
 
   if (isLoading) {
     return (
@@ -92,7 +113,7 @@ export default function AlcholTab() {
           infoBoxes={infoBoxes}
           isBookmarked={isBookmarked}
           onSharePress={handleShare}
-          onBookmarkPress={toggleBookmark}
+          onBookmarkPress={handleBookmarkWithAuth}
         />
 
         <AlcholDescription
@@ -133,9 +154,11 @@ export default function AlcholTab() {
           currentUserId={currentUserId || undefined}
           onAddCommentPress={() => console.log("Add comment pressed")}
           onEditPress={(commentId) => console.log("Edit comment:", commentId)}
-          onSaveComment={createOrUpdateReview}
+          onSaveComment={handleSaveReviewWithAuth}
         />
       </ScrollView>
+
+      <KakaoLoginModal visible={visible} onClose={closeModal} />
     </KeyboardAvoidingView>
   );
 }

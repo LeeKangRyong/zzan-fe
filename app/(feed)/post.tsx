@@ -8,13 +8,18 @@ import {
   SectionTitle,
 } from '@/domains/feed/component';
 import { usePostViewModel } from '@/domains/feed/viewmodel/usePostViewModel';
-import { Header } from '@/shared/components';
+import { Header, KakaoLoginModal } from '@/shared/components';
 import { CommonButton } from '@/shared/components/CommonButton';
 import { Colors, Layout } from '@/shared/constants';
+import { useAuthStore } from '@/domains/auth/store/authStore';
 import { StyleSheet, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+import { useRouter } from 'expo-router';
 
 export default function PostTab() {
+  const { isAuthenticated } = useAuthStore();
+  const router = useRouter();
+
   const {
     selectedPlace,
     placeRating,
@@ -32,6 +37,15 @@ export default function PostTab() {
     handleBackPress,
     handleNextPress,
   } = usePostViewModel();
+
+  // ✅ Simple auth guard - modal shows immediately if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <View style={styles.container}>
+        <KakaoLoginModal visible={true} onClose={() => router.back()} />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

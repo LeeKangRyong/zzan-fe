@@ -51,7 +51,8 @@ async function executeRefresh(): Promise<boolean> {
 async function handleLogout(): Promise<void> {
   const { clearTokens } = useAuthStore.getState();
   clearTokens();
-  router.replace('/login');
+  // ✅ Auto-redirect removed - Let auth guards on each page show modal
+  // User will navigate to /login only by clicking KakaoButton
 }
 
 export async function attemptTokenRefresh(): Promise<boolean> {

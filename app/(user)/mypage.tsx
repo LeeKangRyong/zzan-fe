@@ -1,7 +1,8 @@
 import { MyFeeds, MyScraps, ProfileInfoBlock } from "@/domains/user/component";
 import { useUserViewModel } from "@/domains/user/viewmodel";
-import { Toast } from "@/shared/components";
+import { KakaoLoginModal, Toast } from "@/shared/components";
 import { Header } from "@/shared/components/Header";
+import { useAuthStore } from "@/domains/auth/store/authStore";
 import { Colors, Layout, Typography } from "@/shared/constants";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
@@ -70,11 +71,22 @@ export default function MyPageTab() {
   const insets = useSafeAreaInsets();
   const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
 
+  const { isAuthenticated } = useAuthStore();
+
   useEffect(() => {
     if (error) {
       setShowToast(true);
     }
   }, [error]);
+
+  // ✅ Simple auth guard - modal shows immediately if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <View style={styles.container}>
+        <KakaoLoginModal visible={true} onClose={() => router.back()} />
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.container, { paddingBottom: safeBottom }]}>

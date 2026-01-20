@@ -1,8 +1,9 @@
 import { Search, SearchResult, SectionTitle } from '@/domains/feed/component';
 import { AddType } from '@/domains/feed/model/feedModel';
 import { useAddViewModel } from '@/domains/feed/viewmodel/useAddViewModel';
-import { CommonButton, Header } from '@/shared/components';
+import { CommonButton, Header, KakaoLoginModal } from '@/shared/components';
 import { Colors, Layout } from '@/shared/constants';
+import { useAuthStore } from '@/domains/auth/store/authStore';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -30,6 +31,8 @@ export default function AddTab() {
   const params = useLocalSearchParams<{ type?: string }>();
   const addType: AddType = (params.type as AddType) ?? 'alcohol';
 
+  const { isAuthenticated } = useAuthStore();
+
   const {
     searchQuery,
     setSearchQuery,
@@ -44,6 +47,15 @@ export default function AddTab() {
 
   const buttonColors = getButtonColors(isItemSelected);
   const results = addType === 'alcohol' ? alcoholResults : placeResults;
+
+  // ✅ Simple auth guard - modal shows immediately if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <View style={[styles.container, { paddingBottom: safeBottom }]}>
+        <KakaoLoginModal visible={true} onClose={() => router.back()} />
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.container, { paddingBottom: safeBottom }]}>
