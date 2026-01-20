@@ -12,6 +12,7 @@ import type {
   CreateLiquorReviewResponse,
   FeedDetailApiResponse,
   PlaceFeedApiResponse,
+  RecentFeedApiResponse,
 } from '../model/feedApiModel';
 import type { ScrapListResponse } from '@/domains/user/model/scrapApiModel';
 
@@ -32,9 +33,13 @@ export const feedApi = {
     return response.data;
   },
 
-  async getPresignedUrl(request: PresignedUrlRequest): Promise<PresignedUrlResponse> {
+  async getPresignedUrl(
+    request: PresignedUrlRequest,
+    prefix: 'liquor-images' | 'feed-images' | 'user-profile-images' = 'feed-images'
+  ): Promise<PresignedUrlResponse> {
+    const endpoint = API_ENDPOINTS.STORAGE.PRESIGNED_URL.replace(':prefix', prefix);
     const response = await apiClient<ApiResponse<PresignedUrlResponse>>(
-      API_ENDPOINTS.STORAGE.PRESIGNED_URL,
+      endpoint,
       {
         method: 'POST',
         body: request,
@@ -127,5 +132,21 @@ export const feedApi = {
       method: 'DELETE',
       requireAuth: true,
     });
+  },
+
+  async getRecentFeeds(
+    size = 20,
+    cursor?: string
+  ): Promise<ScrapListResponse<RecentFeedApiResponse>> {
+    const params = new URLSearchParams({ size: size.toString() });
+    if (cursor) {
+      params.append('cursor', cursor);
+    }
+
+    const response = await apiClient<
+      ApiResponse<ScrapListResponse<RecentFeedApiResponse>>
+    >(`${API_ENDPOINTS.FEED.RECENT_FEEDS}?${params}`);
+
+    return response.data;
   },
 };

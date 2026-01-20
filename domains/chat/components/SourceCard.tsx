@@ -1,0 +1,132 @@
+import type { LiquorSource } from "@/domains/chat/api/chatApi";
+import { fetchLiquorScore } from "@/domains/chat/utils/liquorScoreHelper";
+import { Colors } from "@/shared/constants/Colors";
+import { Typography } from "@/shared/constants/Typography";
+import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+interface SourceCardProps {
+  source: LiquorSource;
+}
+
+export const SourceCard = ({ source }: SourceCardProps) => {
+  const router = useRouter();
+  const [score, setScore] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadScore = async () => {
+      const fetchedScore = await fetchLiquorScore(source.id);
+      setScore(fetchedScore);
+      setLoading(false);
+    };
+
+    loadScore();
+  }, [source.id]);
+
+  const handlePress = () => {
+    router.push({
+      pathname: '/alchol',
+      params: { liquorId: source.id },
+    });
+  };
+
+  const renderStars = () => {
+    if (loading) {
+      return <Text style={styles.ratingText}>로딩 중...</Text>;
+    }
+
+    if (score === null) {
+      return <Text style={styles.ratingText}>아직 평점이 없습니다</Text>;
+    }
+
+    const fullStars = Math.floor(score);
+    const stars = [];
+
+    for (let i = 0; i < 5; i++) {
+      stars.push(
+        <Text key={i} style={[styles.star, i < fullStars && styles.starFilled]}>
+          ★
+        </Text>,
+      );
+    }
+
+    return (
+      <View style={styles.starsContainer}>
+        <Text style={styles.ratingLabel}>평점</Text>
+        {stars}
+      </View>
+    );
+  };
+
+  return (
+    <TouchableOpacity onPress={handlePress} activeOpacity={0.8}>
+      <View style={styles.card}>
+        <Image source={{ uri: source.image_url }} style={styles.image} />
+        <View style={styles.info}>
+          <Text style={styles.name}>{source.name}</Text>
+          <Text style={styles.details}>#{source.type}</Text>
+          {renderStars()}
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+const styles = StyleSheet.create({
+  card: {
+    width: 198,
+    flexDirection: "row",
+    backgroundColor: Colors.white,
+    borderRadius: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    marginRight: 8,
+    alignItems: "center",
+  },
+  image: {
+    width: 40,
+    height: 40,
+    borderRadius: 2,
+    resizeMode: "cover",
+  },
+  info: {
+    flex: 1,
+    marginLeft: 12,
+    justifyContent: "center",
+  },
+  name: {
+    fontFamily: Typography.KAKAO_BIG_SANS_BOLD,
+    fontSize: 16,
+    color: Colors.black,
+    marginBottom: 4,
+  },
+  details: {
+    fontSize: 12,
+    color: "#666",
+    marginBottom: 4,
+  },
+  starsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  ratingLabel: {
+    fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
+    fontSize: 12,
+    color: Colors.black,
+    marginRight: 6,
+  },
+  star: {
+    fontSize: 16,
+    color: "#dedcd8",
+    marginRight: 2,
+  },
+  starFilled: {
+    color: "#ffd800",
+  },
+  ratingText: {
+    fontSize: 10,
+    color: "#999",
+  },
+});

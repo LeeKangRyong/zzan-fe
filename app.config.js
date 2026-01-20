@@ -69,6 +69,8 @@ export default {
         process.env.EXPO_PUBLIC_KAKAO_MAP_JAVASCRIPT_KEY ||
         process.env.KAKAO_MAP_JAVASCRIPT_KEY ||
         "",
+      chatApiUrl:
+        process.env.EXPO_PUBLIC_CHATBOT_URL || process.env.CHATBOT_URL || "",
     },
   },
 };

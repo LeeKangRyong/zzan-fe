@@ -1,4 +1,4 @@
-import { MessageBubble, MessageInput, MessageList, RecommendedAnswers } from '@/domains/chat/components';
+import { LoadingBubble, MessageBubble, MessageInput, MessageList, RecommendedAnswers } from '@/domains/chat/components';
 import type { Message } from '@/domains/chat/model/chatModel';
 import { CHAT_CONSTANTS } from '@/domains/chat/model/constants';
 import { useChatViewModel } from '@/domains/chat/viewmodel/useChatViewModel';
@@ -51,9 +51,11 @@ export default function ChatTab() {
               textColor={Colors.black}
               timeText={formatTime(msg.timestamp)}
               showIcon={shouldShowIcon(vm.messages, index)}
+              sources={msg.sources}
             />
           )}
         />
+        {vm.isLoading && <LoadingBubble />}
         <View style={styles.inputContainer}>
           <View style={styles.horizontalPadding}>
             <RecommendedAnswers

@@ -26,9 +26,8 @@ export interface PresignedUrlRequest {
 }
 
 export interface PresignedUrlResponse {
-  presignedUrl: string;
-  objectKey: string;
-  expiresIn: number;
+  url: string;
+  key: string;
 }
 
 export interface FeedImageTag {
@@ -56,8 +55,7 @@ export interface CreateFeedRequest {
 }
 
 export interface CreateFeedResponse {
-  feedId: string;
-  createdAt: string;
+  id: string;
 }
 
 export interface CreateLiquorReviewRequest {
@@ -105,6 +103,19 @@ export interface PlaceFeedApiResponse {
   imageUrl: string;
   score: number;
   liquorCount: number;
+  kakaoPlaceId: string;
+  placeName: string;
+  placeAddress: string;
+}
+
+export interface RecentFeedApiResponse {
+  id: string;
+  imageUrl: string;
+  score: number;
+  liquorCount: number;
+  userId: string;
+  userName: string;
+  userProfileImage: string;
   kakaoPlaceId: string;
   placeName: string;
   placeAddress: string;

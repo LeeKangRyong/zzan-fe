@@ -1,77 +1,131 @@
-import type { Message, RecommendedAnswer } from '@/domains/chat/model/chatModel';
-import { CHAT_CONSTANTS } from '@/domains/chat/model/constants';
-import { MOCK_RECOMMENDED_ANSWERS, getMockChatResponse } from '@/domains/chat/model/mock';
-import Constants from 'expo-constants';
-import { useEffect, useState } from 'react';
+import { chatApi, type ChatHistoryItem, type LiquorSource } from "@/domains/chat/api/chatApi";
+import type {
+  Message,
+  RecommendedAnswer,
+} from "@/domains/chat/model/chatModel";
+import { CHAT_CONSTANTS } from "@/domains/chat/model/constants";
+import {
+  MOCK_RECOMMENDED_ANSWERS,
+  getMockChatResponse,
+} from "@/domains/chat/model/mock";
+import Constants from "expo-constants";
+import { useEffect, useState } from "react";
 
-const createMessage = (role: 'user' | 'bot', content: string): Message => ({
+const createMessage = (
+  role: "user" | "bot",
+  content: string,
+  sources?: LiquorSource[]
+): Message => ({
   id: `${Date.now()}-${Math.random()}`,
   role,
   content,
   timestamp: Date.now(),
+  sources,
 });
 
 const isMockEnabled = (): boolean => {
   return Constants.expoConfig?.extra?.useMockData === true;
 };
 
-const fetchBotResponse = async (userMessage: string): Promise<string> => {
+const buildChatHistory = (messages: Message[]): ChatHistoryItem[] => {
+  return messages.map((msg) => ({
+    role: msg.role === "user" ? "user" : "assistant",
+    content: msg.content,
+  }));
+};
+
+const fetchBotResponse = async (
+  userMessage: string,
+  messageHistory: Message[],
+): Promise<{
+  answer: string;
+  source: LiquorSource[];
+  suggestedQuestions: string[];
+}> => {
   if (isMockEnabled()) {
-    return getMockChatResponse(userMessage).message;
+    const mockResponse = getMockChatResponse(userMessage);
+    return { answer: mockResponse.message, source: [], suggestedQuestions: [] };
   }
 
   try {
-    return CHAT_CONSTANTS.DEFAULT_RESPONSE;
+    const history = buildChatHistory(messageHistory);
+    const response = await chatApi.sendMessage({
+      query: userMessage,
+      history,
+    });
+
+    return {
+      answer: response.answer,
+      source: response.sources,
+      suggestedQuestions: response.suggested_questions,
+    };
   } catch (error) {
-    console.error('Chat API error:', error);
-    return CHAT_CONSTANTS.DEFAULT_RESPONSE;
+    console.error("Chat API error:", error);
+    return { answer: CHAT_CONSTANTS.DEFAULT_RESPONSE, source: [], suggestedQuestions: [] };
   }
 };
 
 export const useChatViewModel = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-  const [recommendedAnswers, setRecommendedAnswers] = useState<RecommendedAnswer[]>([]);
+  const [inputValue, setInputValue] = useState("");
+  const [recommendedAnswers, setRecommendedAnswers] = useState<
+    RecommendedAnswer[]
+  >([]);
 
   useEffect(() => {
     setRecommendedAnswers(MOCK_RECOMMENDED_ANSWERS);
 
     // 초기 환영 메시지 추가
-    const initialMessages = CHAT_CONSTANTS.INITIAL_GREETING_MESSAGES.map((content, index) =>
-      createMessage('bot', content)
+    const initialMessages = CHAT_CONSTANTS.INITIAL_GREETING_MESSAGES.map(
+      (content, index) => createMessage("bot", content),
     );
     setMessages(initialMessages);
   }, []);
 
   const addUserMessage = (text: string) => {
-    const newMessage = createMessage('user', text);
+    const newMessage = createMessage("user", text);
     setMessages((prev) => [...prev, newMessage]);
   };
 
-  const addBotMessage = (text: string) => {
-    const newMessage = createMessage('bot', text);
+  const addBotMessage = (
+    text: string,
+    sources?: LiquorSource[],
+    newSuggestedQuestions?: string[]
+  ) => {
+    const newMessage = createMessage("bot", text, sources);
     setMessages((prev) => [...prev, newMessage]);
+
+    if (newSuggestedQuestions && newSuggestedQuestions.length > 0) {
+      setRecommendedAnswers(
+        newSuggestedQuestions.map((q, index) => ({
+          id: `${Date.now()}-${index}`,
+          text: q,
+        })),
+      );
+    }
+
     setIsLoading(false);
   };
 
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
 
-    addUserMessage(inputValue);
-    setInputValue('');
+    const messageText = inputValue;
+    addUserMessage(messageText);
+    setInputValue("");
     setIsLoading(true);
 
-    const response = await fetchBotResponse(inputValue);
-    addBotMessage(response);
+    const response = await fetchBotResponse(messageText, messages);
+    addBotMessage(response.answer, response.source, response.suggestedQuestions);
   };
 
   const handleRecommendedAnswer = async (text: string) => {
     addUserMessage(text);
     setIsLoading(true);
 
-    const response = await fetchBotResponse(text);
-    addBotMessage(response);
+    const response = await fetchBotResponse(text, messages);
+    addBotMessage(response.answer, response.source, response.suggestedQuestions);
   };
 
   return {

@@ -1,26 +1,22 @@
-import type { RecommendedAnswer, ChatResponse } from './chatModel';
+import type { ChatResponse, RecommendedAnswer } from "./chatModel";
 
 export const MOCK_RECOMMENDED_ANSWERS: RecommendedAnswer[] = [
   {
-    id: 'rec1',
-    text: '친구와 자취방에서 편하게 마시려고!',
+    id: "rec1",
+    text: "전통주에 대해 소개해줘!",
   },
   {
-    id: 'rec2',
-    text: '여행가서 호텔에서 애인과 오붓하게 마시려고!',
+    id: "rec2",
+    text: "달달한 전통주 추천해줘",
   },
   {
-    id: 'rec3',
-    text: '부모님과 함께 집에서 식사하면서!',
-  },
-  {
-    id: 'rec4',
-    text: '회식 자리에서 동료들과!',
+    id: "rec3",
+    text: "맛이 엄청 깔끔한 전통주 추천해줘",
   },
 ];
 
 export const MOCK_CHAT_RESPONSE: ChatResponse = {
-  message: '기본 답변',
+  message: "기본 답변",
   timestamp: Date.now(),
 };
 

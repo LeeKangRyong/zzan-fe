@@ -1,34 +1,21 @@
 // 주변 피드 보는 UI
-import { mockNearbyFeeds } from "@/domains/feed/model/mock";
 import { useFeedTabViewModel } from "@/domains/feed/viewmodel";
 import { FeedBlockWithProfile } from "@/domains/user/component";
 import { Colors, Layout, Typography } from "@/shared/constants";
 import { router } from "expo-router";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Header = ({ currentTime }: { currentTime: string }) => (
   <View style={styles.header}>
     <Text style={styles.title}>최신 피드</Text>
     <Text style={styles.currentTime}>{currentTime} 기준</Text>
-  </View>
-);
-
-const FeedGrid = () => (
-  <View style={styles.feedGrid}>
-    {mockNearbyFeeds.map((feed) => (
-      <FeedBlockWithProfile
-        key={feed.id}
-        userId={feed.userId}
-        username={feed.username}
-        userProfileImage={feed.userProfileImage}
-        imageUrl={feed.imageUrl}
-        placeName={feed.placeName}
-        address={feed.address}
-        alcoholCount={feed.alcoholCount}
-        onPress={() => router.push(`/detail?feedId=${feed.id}` as any)}
-      />
-    ))}
   </View>
 );
 
@@ -40,7 +27,8 @@ export default function FeedTab() {
   const bottomSpace =
     (insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK) + TAB_BAR_HEIGHT;
 
-  const { currentTime } = useFeedTabViewModel();
+  const { currentTime, recentFeeds, isLoading, error, hasNext, loadMore } =
+    useFeedTabViewModel();
 
   return (
     <View style={[styles.container, { paddingTop: safeTop }]}>
@@ -51,8 +39,42 @@ export default function FeedTab() {
           { paddingBottom: bottomSpace + 24 },
         ]}
         showsVerticalScrollIndicator={false}
+        onScroll={({ nativeEvent }) => {
+          const isCloseToBottom =
+            nativeEvent.layoutMeasurement.height + nativeEvent.contentOffset.y >=
+            nativeEvent.contentSize.height - 50;
+
+          if (isCloseToBottom && hasNext && !isLoading) {
+            loadMore();
+          }
+        }}
+        scrollEventThrottle={400}
       >
-        <FeedGrid />
+        {error && (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>{error}</Text>
+          </View>
+        )}
+        <View style={styles.feedGrid}>
+          {recentFeeds.map((feed) => (
+            <FeedBlockWithProfile
+              key={feed.id}
+              userId={feed.userId}
+              username={feed.userName}
+              userProfileImage={{ uri: feed.userProfileImage }}
+              imageUrl={{ uri: feed.imageUrl }}
+              placeName={feed.placeName}
+              address={feed.placeAddress}
+              alcoholCount={feed.liquorCount}
+              onPress={() => router.push(`/detail?feedId=${feed.id}` as any)}
+            />
+          ))}
+        </View>
+        {isLoading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={Colors.yellow} />
+          </View>
+        )}
       </ScrollView>
     </View>
   );
@@ -90,5 +112,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 12,
+  },
+  loadingContainer: {
+    paddingVertical: 20,
+    alignItems: "center",
+  },
+  errorContainer: {
+    padding: 16,
+    backgroundColor: "#f5f5f5",
+    borderRadius: 8,
+    marginBottom: 12,
+  },
+  errorText: {
+    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontSize: 14,
+    color: "#ff0000",
+    textAlign: "center",
   },
 });

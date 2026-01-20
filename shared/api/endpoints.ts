@@ -1,14 +1,14 @@
 export const API_ENDPOINTS = {
   AUTH: {
-    KAKAO_LOGIN_URL: "/users/auth/kakao/login-url",
-    KAKAO_CALLBACK: "/users/auth/kakao/callback",
+    LOGIN_URL: "/users/auth/:provider/login-url",
+    CALLBACK: "/users/auth/:provider/callback",
     SOCIAL_LOGIN: "/users/auth/:provider/login",
     TOKEN_REFRESH: "/users/auth/token/refresh",
     LOGOUT: "/users/auth/token/refresh",
   },
   USER: {
     ME: "/users/me",
-    MY_FEEDS: "/users/me/feeds",
+    MY_FEEDS: "/feeds/me",
   },
   PLACE: {
     GET_PLACES_IN_REGION: "/places",
@@ -40,8 +40,10 @@ export const API_ENDPOINTS = {
     ADD_SCRAP: "/feeds/scraps/:feedId",
     DELETE_SCRAP: "/feeds/scraps/:feedId",
     GET_PLACE_FEEDS: "/feeds/places/:kakaoPlaceId",
+    RECENT_FEEDS: "/feeds/recent",
   },
+  CHAT: "/chat",
   STORAGE: {
-    PRESIGNED_URL: "/storage/feed-images/presigned-url",
+    PRESIGNED_URL: "/storage/:prefix/presigned-url",
   },
 } as const;

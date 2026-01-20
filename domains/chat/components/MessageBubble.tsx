@@ -1,9 +1,12 @@
 import Alchol from '@/assets/icons/alchol.svg';
+import type { LiquorSource } from '@/domains/chat/api/chatApi';
 import type { MessageRole } from '@/domains/chat/model/chatModel';
+import { parseMessageText } from '@/domains/chat/utils/textFormatter';
 import { Colors } from '@/shared/constants/Colors';
 import { Layout } from '@/shared/constants/Layout';
 import { Typography } from '@/shared/constants/Typography';
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SourceCard } from './SourceCard';
 
 interface MessageBubbleProps {
   content: string;
@@ -12,9 +15,10 @@ interface MessageBubbleProps {
   textColor: string;
   timeText: string;
   showIcon?: boolean;
+  sources?: LiquorSource[];
 }
 
-export const MessageBubble = ({ content, role, backgroundColor, textColor, timeText, showIcon = true }: MessageBubbleProps) => (
+export const MessageBubble = ({ content, role, backgroundColor, textColor, timeText, showIcon = true, sources }: MessageBubbleProps) => (
   <View style={[styles.container, role === 'user' ? styles.userContainer : styles.botContainer]}>
     {role === 'user' && <Text style={styles.timeText}>{timeText}</Text>}
     <View style={styles.bubbleContainer}>
@@ -27,8 +31,31 @@ export const MessageBubble = ({ content, role, backgroundColor, textColor, timeT
         {role === 'bot' && (
           <View style={[styles.leftTail, { borderRightColor: backgroundColor }]} />
         )}
-        <View style={[styles.bubble, { backgroundColor }]}>
-          <Text style={[styles.text, { color: textColor }]}>{content}</Text>
+        <View>
+          <View style={[styles.bubble, { backgroundColor }]}>
+            <Text style={[styles.text, { color: textColor }]}>
+              {parseMessageText(content).map((segment, index) => (
+                <Text
+                  key={index}
+                  style={segment.isBold ? styles.boldText : undefined}
+                >
+                  {segment.text}
+                </Text>
+              ))}
+            </Text>
+          </View>
+          {sources && sources.length > 0 && (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.sourcesScrollView}
+              contentContainerStyle={styles.sourcesContainer}
+            >
+              {sources.map((source) => (
+                <SourceCard key={source.id} source={source} />
+              ))}
+            </ScrollView>
+          )}
         </View>
         {role === 'user' && (
           <View style={[styles.rightTail, { borderLeftColor: backgroundColor }]} />
@@ -100,5 +127,15 @@ const styles = StyleSheet.create({
     borderTopWidth: 10,
     borderTopColor: 'transparent',
     marginLeft: -2,
+  },
+  boldText: {
+    fontFamily: Typography.KAKAO_BIG_SANS_EXTRABOLD,
+    fontWeight: '900',
+  },
+  sourcesScrollView: {
+    marginTop: 8,
+  },
+  sourcesContainer: {
+    paddingRight: 10,
   },
 });

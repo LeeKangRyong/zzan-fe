@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { isMockEnabled } from '@/shared/utils/env';
-import { userApi } from '../api/userApi';
-import { mockUserFeeds } from '../model/mock';
-import { mapUserFeedApiToDomain } from '../model/userApiModel';
-import type { UserFeed } from '../model/userModel';
+import { isMockEnabled } from "@/shared/utils/env";
+import { useEffect, useState } from "react";
+import { userApi } from "../api/userApi";
+import { mockUserFeeds } from "../model/mock";
+import { mapUserFeedApiToDomain } from "../model/userApiModel";
+import type { UserFeed } from "../model/userModel";
 
 export const useMyFeedsViewModel = () => {
   const [feeds, setFeeds] = useState<UserFeed[]>([]);
@@ -20,12 +20,12 @@ export const useMyFeedsViewModel = () => {
     setError(null);
 
     try {
-      const response = await userApi.getMyFeeds({ size: 50 });
+      const response = await userApi.getMyFeeds({ size: 20 });
       const mappedFeeds = response.items.map(mapUserFeedApiToDomain);
       setFeeds(mappedFeeds);
     } catch (err) {
-      setError('피드를 불러오는데 실패했습니다');
-      console.error('[My Feeds Error]', err);
+      setError("피드를 불러오는데 실패했습니다");
+      console.error("[My Feeds Error]", err);
     } finally {
       setIsLoading(false);
     }

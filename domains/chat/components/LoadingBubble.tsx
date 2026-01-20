@@ -1,0 +1,100 @@
+import Alchol from "@/assets/icons/alchol.svg";
+import { Colors } from "@/shared/constants/Colors";
+import { Layout } from "@/shared/constants/Layout";
+import { Typography } from "@/shared/constants/Typography";
+import { useEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+
+export const LoadingBubble = () => {
+  const [dotCount, setDotCount] = useState(1);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDotCount((prev) => {
+        // 6까지 갔다가 다시 1로 돌아오는 로직
+        if (prev >= 6) {
+          return 1;
+        }
+        return prev + 1;
+      });
+    }, 300); // 0.3초 간격 (원하시는 속도에 따라 조절하세요)
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <View style={[styles.container, styles.botContainer]}>
+      <View style={styles.bubbleContainer}>
+        <View style={styles.iconWrapper}>
+          <Alchol width={24} height={24} />
+        </View>
+        <View style={styles.contentWrapper}>
+          <View style={[styles.leftTail, { borderRightColor: Colors.white }]} />
+          <View style={[styles.bubble, { backgroundColor: Colors.white }]}>
+            <Text style={[styles.text, { color: Colors.black }]}>
+              {".".repeat(dotCount)}
+            </Text>
+          </View>
+        </View>
+      </View>
+      {/* 타임스탬프 영역 (공백 유지) */}
+      <Text style={styles.timeText}> </Text>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    marginBottom: Layout.MESSAGE_SPACING,
+    paddingHorizontal: 10,
+  },
+  botContainer: {
+    alignSelf: "flex-start",
+  },
+  bubbleContainer: {
+    maxWidth: "85%",
+  },
+  iconWrapper: {
+    zIndex: 1,
+    backgroundColor: Colors.yellow,
+    width: 30,
+    height: 30,
+    borderRadius: 90,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 12,
+  },
+  contentWrapper: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+  },
+  bubble: {
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
+    paddingVertical: Layout.INPUT_VERTICAL,
+    borderRadius: 2,
+    // 점의 개수가 변해도 버블 크기가 급격히 변하지 않도록 최소 너비를 줄 수 있습니다.
+    minWidth: 45,
+    justifyContent: "center",
+  },
+  text: {
+    fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
+    fontSize: 12,
+    letterSpacing: 1, // 점 사이의 간격을 살짝 벌려 가독성을 높임
+  },
+  timeText: {
+    fontSize: 10,
+    color: "#999",
+    marginHorizontal: 8,
+  },
+  leftTail: {
+    width: 0,
+    height: 0,
+    borderStyle: "solid",
+    borderRightWidth: 10,
+    borderTopWidth: 10,
+    borderTopColor: "transparent",
+    marginRight: -2,
+  },
+});

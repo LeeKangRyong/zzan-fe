@@ -32,9 +32,9 @@ export const useImageUploadViewModel = () => {
     const presigned = await feedApi.getPresignedUrl({ fileName, contentType });
     const imageBlob = await fetchImageAsBlob(localUri);
 
-    await feedApi.uploadImageToS3(presigned.presignedUrl, imageBlob);
+    await feedApi.uploadImageToS3(presigned.url, imageBlob);
 
-    return { localUri, objectKey: presigned.objectKey };
+    return { localUri, objectKey: presigned.key };
   };
 
   const extractFileName = (uri: string): string => {

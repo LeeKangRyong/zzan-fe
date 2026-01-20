@@ -536,7 +536,7 @@ GET /liquors/{liquorId}/reviews/me
     "id": "01HQ1234567890ABCDEF",
     "userId": "01HQUSER123456789ABC",
     "username": "홍길동",
-    "userProfileImageUrl": "https://cdn.zzan.com/...",
+    "userProfileImage": "https://cdn.zzan.com/...",
     "liquorId": "01HQLIQUOR1234567890",
     "liquorName": "느린마을 막걸리",
     "score": 4.5,
@@ -592,7 +592,7 @@ GET /liquors/{liquorId}/reviews?size={size}&cursor={cursor}
         "id": "01HQ1234567890ABCDEF",
         "userId": "01HQUSER123456789ABC",
         "username": "홍길동",
-        "userProfileImageUrl": "https://cdn.zzan.com/...",
+        "userProfileImage": "https://cdn.zzan.com/...",
         "liquorId": "01HQLIQUOR1234567890",
         "liquorName": "느린마을 막걸리",
         "score": 4.5,
@@ -990,6 +990,8 @@ GET /feeds/places/{kakaoPlaceId}?size={size}&cursor={cursor}
       {
         "id": "01HQ1234567890ABCDEF",
         "imageUrl": "https://cdn.zzan.com/feed-images/...",
+        "userName": "홍길동",
+        "userProfileImage": "~~",
         "score": 4.5,
         "liquorCount": 2,
         "kakaoPlaceId": "12345678",
@@ -1051,8 +1053,8 @@ POST /feeds
 
 | 필드                         | 타입   | 필수 | 설명                      |
 | ---------------------------- | ------ | ---- | ------------------------- |
-| `score`                      | number | O    | 평점 (0.0~5.0)            |
-| `text`                       | string | X    | 피드 내용                 |
+| `score`                      | number | X    | 평점 (0.0~5.0)            |
+| `text`                       | string | O    | 피드 내용                 |
 | `images`                     | array  | O    | 이미지 목록               |
 | `images[].imageUrl`          | string | O    | 이미지 경로 (Storage key) |
 | `images[].tags`              | array  | O    | 이미지 내 주류 태그 목록  |
@@ -1133,6 +1135,144 @@ DELETE /feeds/{feedId}
 
 <br>
 
+### 6.5 내 피드 목록 조회
+
+🔐 인증 필요
+
+```
+GET /feeds/me?size={size}&cursor={cursor}
+```
+
+<br>
+
+#### Query Paramters
+
+**커서 기반 페이지네이션** 참조
+
+<br>
+
+#### Response (200 OK)
+
+```json
+{
+  "success": true,
+  "timestamp": 1768844593573,
+  "message": null,
+  "data": {
+    "items": [
+      {
+        "id": "01KFB6VH01N7KQVXCX4PTQQHH7",
+        "imageUrl": "https://zzan-liquor-bucket.s3.amazonaws.com/string",
+        "score": 1,
+        "liquorCount": 4,
+        "userId": "01KF4ZCJVW9BN5P3RDKND2N87Y",
+        "userName": "도선빈",
+        "userProfileImage": "http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg",
+        "kakaoPlaceId": "string",
+        "placeName": "string",
+        "placeAddress": "string"
+      },
+      {
+        "id": "01KF52S2E204CZMPZFNHYWJP9N",
+        "imageUrl": "https://zzan-liquor-bucket.s3.amazonaws.com/string",
+        "score": 1,
+        "liquorCount": 4,
+        "userId": "01KF4ZCJVW9BN5P3RDKND2N87Y",
+        "userName": "도선빈",
+        "userProfileImage": "http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg",
+        "kakaoPlaceId": "string",
+        "placeName": "string",
+        "placeAddress": "string"
+      },
+      {
+        "id": "01KF4ZTVJWZRQAPNCG72ZJRSGC",
+        "imageUrl": "https://zzan-liquor-bucket.s3.amazonaws.com/string",
+        "score": 1,
+        "liquorCount": 4,
+        "userId": "01KF4ZCJVW9BN5P3RDKND2N87Y",
+        "userName": "도선빈",
+        "userProfileImage": "http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg",
+        "kakaoPlaceId": "string",
+        "placeName": "string",
+        "placeAddress": "string"
+      }
+    ],
+    "nextCursor": null,
+    "hasNext": false
+  }
+}
+```
+
+<br>
+
+### 6.6 최근 피드 목록 조회
+
+```
+GET /feeds/recent&cursor={cursor}
+```
+
+<br>
+
+#### Query Parameters
+
+**커서 기반 페이지네이션** 참조
+
+<br>
+
+#### Response (200 OK)
+
+```json
+{
+  "success": true,
+  "timestamp": 1768844443552,
+  "message": null,
+  "data": {
+    "items": [
+      {
+        "id": "01KFB6VH01N7KQVXCX4PTQQHH7",
+        "imageUrl": "https://zzan-liquor-bucket.s3.amazonaws.com/string",
+        "score": 1,
+        "liquorCount": 4,
+        "userId": "01KF4ZCJVW9BN5P3RDKND2N87Y",
+        "userName": "도선빈",
+        "userProfileImage": "http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg",
+        "kakaoPlaceId": "string",
+        "placeName": "string",
+        "placeAddress": "string"
+      },
+      {
+        "id": "01KF52S2E204CZMPZFNHYWJP9N",
+        "imageUrl": "https://zzan-liquor-bucket.s3.amazonaws.com/string",
+        "score": 1,
+        "liquorCount": 4,
+        "userId": "01KF4ZCJVW9BN5P3RDKND2N87Y",
+        "userName": "도선빈",
+        "userProfileImage": "http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg",
+        "kakaoPlaceId": "string",
+        "placeName": "string",
+        "placeAddress": "string"
+      },
+      {
+        "id": "01KF4ZTVJWZRQAPNCG72ZJRSGC",
+        "imageUrl": "https://zzan-liquor-bucket.s3.amazonaws.com/string",
+        "score": 1,
+        "liquorCount": 4,
+        "userId": "01KF4ZCJVW9BN5P3RDKND2N87Y",
+        "userName": "도선빈",
+        "userProfileImage": "http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg",
+        "kakaoPlaceId": "string",
+        "placeName": "string",
+        "placeAddress": "string"
+      }
+    ],
+    "nextCursor": null,
+    "hasNext": false
+  }
+}
+```
+
+<br>
+
 ---
 
 ## 7. 피드 스크랩 (Feed Scrap)
@@ -1163,6 +1303,9 @@ GET /feeds/scraps?size={size}&cursor={cursor}
       {
         "id": "01HQ1234567890ABCDEF",
         "imageUrl": "https://cdn.zzan.com/feed-images/...",
+        "userId": "asd",
+        "userName": "홍길동",
+        "userProfileImage": "~~",
         "score": 4.5,
         "liquorCount": 2,
         "kakaoPlaceId": "12345678",
@@ -1552,52 +1695,72 @@ curl -X PUT \
 
 ---
 
-<br>
-
-## API 호출 시나리오
-
-### 시나리오 1: 웹 소셜 로그인 (네이티브 X)
+## 11. 채팅
 
 ```
-1. GET /users/auth/kakao/login-url
-   → 카카오 로그인 URL 획득
-
-2. (사용자가 카카오 로그인 완료)
-
-3. GET /users/auth/kakao/callback?code={code}
-   → accessToken, refreshToken 획득
-
-4. GET /users/me (Authorization: Bearer {accessToken})
-   → 내 정보 확인
+POST /chat
 ```
+
+BASE_URL은 `EXPO_PUBLIC_CHATBOT_URL` 사용!
 
 <br>
 
-### 시나리오 2: 지도에서 장소 탐색
+#### Request Body
 
 ```
-1. GET /places?minLongitude=126.9&maxLongitude=127.0&minLatitude=37.5&maxLatitude=37.6
-   → 현재 지도 영역의 장소 목록 (마커 표시용)
+{
+    "query": "제주 감귤주에 대해 더 알고 싶어요",
+    "history": [
+        {
+            "role": "user",
+            "content": "냠냠붕어"
+        },
+        {
+            "role": "assistant",
+            "content": "냠냠붕어는 전통주가 아니라 일반적인 음식 이름으로 보입니다. 어떤 전통주를 찾고 계신지에 대한 정보가 필요합니다. 전통주에 대한 질문이시라면 더 다양한 정보를 제공해 드릴 수 있습니다. 예를 들어, 어떤 종류의 전통주를 선호하시나요?"
+        },
+        {
+            "role": "user",
+            "content": "궁금한 전통주 종류가 있을까요"
+        },
+        {
+            "role": "assistant",
+            "content": "전통주에는 다양한 종류가 있습니다. 예를 들어, 제주 감귤주와 같은 증류주는 제주산 감귤을 활용하여 만든 술로, 50도의 높은 도수를 자랑합니다. 또한, 진도홍주와 같은 리큐르는 홍국으로 제조되어 독특한 향과 맛이 특징입니다. 이 외에도 자주와 귀감 같은 약주와 증류주도 있습니다. 이처럼 각 전통주는 고유의 재료와 제조 방식으로 차별화된 맛을 가지고 있습니다. 이 외에 어떤 전통주에 대해 더 알고 싶으신가요?"
+        }
+    ]
+}
+```
 
-2. GET /places/{placeId}
-   → 선택한 장소 상세 정보
+history는 그냥 [] 빈 배열도 가능!
 
-3. GET /feeds/places/{kakaoPlaceId}?size=10
-   → 해당 장소의 피드 목록 (첫 페이지)
+<br>
 
-4. GET /feeds/places/{kakaoPlaceId}?size=10&cursor={nextCursor}
-   → 다음 페이지 로드
+#### Response (200 OK)
+
+```
+{
+    "answer": "제주 감귤주는 제주도에서 재배된 감귤을 원료로 만든 전통주입니다. 대표적으로 제주 감귤주는 50도의 높은 도수를 자랑하는 증류주로, 감귤의 상큼함과 풍미를 잘 담고 있습니다. 또한, 저온 발효 후 참나무통에 숙성하여 깊은 맛을 더한 곳이 특징입니다. 이런 제주 감귤주는 활어회, 치즈, 육회와 잘 어울리며, 그 자체로도 즐기기 좋습니다. 더불어, 제주 감귤주와 함께 조금 더 부드러운 맛을 원하신다면, 혼디주를 추천드립니다. 혼디주는 감귤의 단맛과 신맛이 조화를 이루며, 누룩을 사용하지 않아 산뜻한 과실향을 느낄 수 있는 매력이 있습니다. [ITEM:01K3VHDGD3S8XKPC29JQNJBV42]",
+    "sources": [
+        {
+            "id": "01K3VHDGD3S8XKPC29JQNJBV42",
+            "name": "제주 감귤주",
+            "type": "증류주",
+            "alcohol": "50%",
+            "volume": "750ml",
+            "brewery": "시트러스",
+            "image_url": "https://zzan-liquor-bucket.s3.amazonaws.com/liquor-images/01K3VH3M7PQJKA921ZKZK9CAVA.png"
+        }
+    ],
+    "suggested_questions": [
+        "제주 감귤주보다 도수가 낮은 전통주도 궁금해요",
+        "제주 감귤주와 잘 어울리는 안주가 있을까요",
+        "제주에서 유명한 다른 전통주도 알고 싶어요"
+    ]
+}
 ```
 
 <br>
 
-### 시나리오 3: 토큰 갱신
+#### 주의사항
 
-```
-1. (API 호출 시 401 응답 받음)
-
-2. POST /users/auth/token/refresh
-   → 새 accessToken 획득
-
-3. (원래 API 재호출)
-```
+**프론트에서 입력 글자를 최대 20자로 설정하기!**
