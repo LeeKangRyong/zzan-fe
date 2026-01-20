@@ -1,20 +1,23 @@
-import * as Location from 'expo-location';
-import { useState, useEffect } from 'react';
+import * as Location from "expo-location";
+import { useState } from "react";
+import { placeApi } from "../api/placeApi";
 import {
   MapMarker,
   MapRegion,
   PlaceSearchMeta,
-  toMapMarker,
   searchResultToMapMarker,
-} from '../model/mapModel';
-import { mockPlacesWithCoordinates, filterMarkersInRegion } from '../model/mock';
-import { placeApi } from '../api/placeApi';
+  toMapMarker,
+} from "../model/mapModel";
+import {
+  filterMarkersInRegion,
+  mockPlacesWithCoordinates,
+} from "../model/mock";
 
-const USE_MOCK_DATA = process.env.EXPO_PUBLIC_USE_MOCK_DATA === 'true';
+const USE_MOCK_DATA = process.env.EXPO_PUBLIC_USE_MOCK_DATA === "true";
 
 const initialRegion: MapRegion = {
   latitude: 37.5665,
-  longitude: 126.9780,
+  longitude: 126.978,
   latitudeDelta: 0.03,
   longitudeDelta: 0.03,
 };
@@ -22,7 +25,7 @@ const initialRegion: MapRegion = {
 export const useMapViewModel = () => {
   const [region, setRegion] = useState<MapRegion>(initialRegion);
   const [markers, setMarkers] = useState<MapMarker[]>([]);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState<MapMarker[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [focusedMarkerId, setFocusedMarkerId] = useState<string | null>(null);
@@ -32,13 +35,7 @@ export const useMapViewModel = () => {
   const [searchMeta, setSearchMeta] = useState<PlaceSearchMeta | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    // 초기에는 마커를 로드하지 않음 - 버튼 클릭 시에만 로드
-  }, []);
-
   const handleMarkerPress = (markerId: string) => {
-    console.log('[MapViewModel] Marker pressed:', markerId);
-
     if (focusedMarkerId === markerId) {
       setSelectedPlace(null);
       setFocusedMarkerId(null);
@@ -46,80 +43,96 @@ export const useMapViewModel = () => {
     }
 
     const place = findPlaceById(markerId);
-
-    if (!place) {
-      return;
-    }
+    if (!place) return;
 
     setSelectedPlace(place);
     setFocusedMarkerId(markerId);
   };
 
+  // 영역 내 장소 로드 (지도가 이동할 때마다 호출됨)
   const loadPlacesInRegion = async (regionToLoad: MapRegion) => {
-    if (USE_MOCK_DATA) {
-      // Mock 모드에서도 범위 필터링 수행
-      setIsLoadingPlaces(true);
-
-      // 실제 API 호출처럼 약간의 딜레이 추가
-      await new Promise(resolve => setTimeout(resolve, 300));
-
-      const filteredMarkers = filterMarkersInRegion(mockPlacesWithCoordinates, regionToLoad);
-      setMarkers(filteredMarkers);
-      setIsLoadingPlaces(false);
-      return;
-    }
-
     setIsLoadingPlaces(true);
-    setError(null);
+    let newMarkers: MapMarker[] = [];
 
-    try {
-      const minLatitude = regionToLoad.latitude - regionToLoad.latitudeDelta / 2;
-      const maxLatitude = regionToLoad.latitude + regionToLoad.latitudeDelta / 2;
-      const minLongitude = regionToLoad.longitude - regionToLoad.longitudeDelta / 2;
-      const maxLongitude = regionToLoad.longitude + regionToLoad.longitudeDelta / 2;
+    if (USE_MOCK_DATA) {
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      newMarkers = filterMarkersInRegion(
+        mockPlacesWithCoordinates,
+        regionToLoad,
+      );
+    } else {
+      setError(null);
+      try {
+        const minLatitude =
+          regionToLoad.latitude - regionToLoad.latitudeDelta / 2;
+        const maxLatitude =
+          regionToLoad.latitude + regionToLoad.latitudeDelta / 2;
+        const minLongitude =
+          regionToLoad.longitude - regionToLoad.longitudeDelta / 2;
+        const maxLongitude =
+          regionToLoad.longitude + regionToLoad.longitudeDelta / 2;
 
-      const result = await placeApi.getPlacesInRegion({
-        minLatitude,
-        maxLatitude,
-        minLongitude,
-        maxLongitude,
-      });
-
-      const newMarkers = result.map(toMapMarker);
-      setMarkers(newMarkers);
-    } catch (err) {
-      setError('장소를 불러오는 중 오류가 발생했습니다.');
-      console.error('[MapViewModel] Failed to load places:', err);
-    } finally {
-      setIsLoadingPlaces(false);
+        const result = await placeApi.getPlacesInRegion({
+          minLatitude,
+          maxLatitude,
+          minLongitude,
+          maxLongitude,
+        });
+        newMarkers = result.map(toMapMarker);
+      } catch (err) {
+        setError("장소를 불러오는 중 오류가 발생했습니다.");
+      }
     }
+
+    setMarkers((prev) => {
+      if (selectedPlace) {
+        const exists = newMarkers.some((m) => m.id === selectedPlace.id);
+        return exists ? newMarkers : [...newMarkers, selectedPlace];
+      }
+      return newMarkers;
+    });
+
+    setIsLoadingPlaces(false);
   };
 
   const searchPlaces = async (keyword: string, page: number = 1) => {
-    if (!keyword.trim()) {
-      return;
-    }
+    if (!keyword.trim()) return;
 
     setIsLoadingPlaces(true);
     setError(null);
 
-    try {
-      const result = await placeApi.searchPlaces({
-        keyword,
-        page,
-        size: 15,
-      });
+    if (USE_MOCK_DATA) {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        const normalizedKeyword = keyword
+          .trim()
+          .toLowerCase()
+          .replace(/\s/g, "");
+        const filtered = mockPlacesWithCoordinates.filter((place) => {
+          const name = place.name.toLowerCase().replace(/\s/g, "");
+          const address = place.address.toLowerCase().replace(/\s/g, "");
+          return (
+            name.includes(normalizedKeyword) ||
+            address.includes(normalizedKeyword)
+          );
+        });
+        setSearchResults(filtered);
+        setSearchPage(1);
+      } catch (err) {
+        setError("검색 중 오류가 발생했습니다.");
+      } finally {
+        setIsLoadingPlaces(false);
+      }
+      return;
+    }
 
+    try {
+      const result = await placeApi.searchPlaces({ keyword, page, size: 15 });
       const newMarkers = result.map(searchResultToMapMarker);
       setSearchResults(newMarkers);
       setSearchPage(page);
-
-      if (newMarkers.length > 0) {
-        moveToPlace(newMarkers[0]);
-      }
     } catch (err) {
-      setError('장소 검색 중 오류가 발생했습니다.');
-      console.error('[MapViewModel] Failed to search places:', err);
+      setError("장소 검색 중 오류가 발생했습니다.");
     } finally {
       setIsLoadingPlaces(false);
     }
@@ -130,30 +143,37 @@ export const useMapViewModel = () => {
   };
 
   const handleSearchSubmit = () => {
-    if (!searchText.trim()) {
-      return;
-    }
-
+    if (!searchText.trim()) return;
     searchPlaces(searchText, 1);
     setShowSearchResults(true);
   };
 
+  // 검색 결과 리스트에서 항목 클릭 시 처리
   const handleSearchResultPress = (placeId: string) => {
     const place = searchResults.find((marker) => marker.id === placeId);
+    if (!place) return;
 
-    if (!place) {
-      return;
-    }
-
-    moveToPlace(place);
+    // 1. 선택된 장소 상태 업데이트 (상세창 노출 및 마커 유지용)
+    setSelectedPlace(place);
     setFocusedMarkerId(placeId);
+
+    // 2. 지도의 현재 마커 리스트를 해당 장소 하나로 즉시 변경 (마커가 바로 보이게 함)
+    setMarkers([place]);
+
+    // 3. 지도 이동
+    moveToPlace(place);
+
+    // 4. 검색 UI 정리
     setShowSearchResults(false);
-    setSearchText('');
+    setSearchText("");
     setSearchResults([]);
   };
 
   const findPlaceById = (placeId: string) => {
-    return markers.find((marker) => marker.id === placeId);
+    return (
+      markers.find((marker) => marker.id === placeId) ||
+      searchResults.find((marker) => marker.id === placeId)
+    );
   };
 
   const moveToPlace = (place: MapMarker) => {
@@ -166,32 +186,18 @@ export const useMapViewModel = () => {
   };
 
   const handleCurrentPositionPress = async () => {
-    console.log('[MapViewModel] Current position button pressed');
     const location = await getCurrentLocation();
-
-    if (!location) {
-      console.log('[MapViewModel] Failed to get location');
-      return;
-    }
-
-    console.log('[MapViewModel] Got location:', location.coords);
-    updateRegionToLocation(location);
+    if (location) updateRegionToLocation(location);
   };
 
   const getCurrentLocation = async () => {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
-
-      if (status !== 'granted') {
-        console.log('[MapViewModel] Permission denied');
-        return null;
-      }
-
+      if (status !== "granted") return null;
       return await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.High,
       });
     } catch (error) {
-      console.error('[MapViewModel] Location error:', error);
       return null;
     }
   };
@@ -203,34 +209,21 @@ export const useMapViewModel = () => {
       longitude: location.coords.longitude,
       timestamp: Date.now(),
     }));
-
-    console.log(
-      '[MapViewModel] Updated Region:',
-      location.coords.latitude,
-      location.coords.longitude
-    );
   };
 
   const handleMapPress = () => {
     setSelectedPlace(null);
     setFocusedMarkerId(null);
     setShowSearchResults(false);
-    setSearchText('');
+    setSearchText("");
     setSearchResults([]);
   };
 
   const handleSearchInRegion = (requestCurrentRegion: () => void) => {
-    console.log('[MapViewModel] Requesting current region from WebView');
     requestCurrentRegion();
   };
 
   const handleCurrentRegion = (currentRegion: MapRegion) => {
-    console.log('[MapViewModel] Received current region:', {
-      latitude: currentRegion.latitude,
-      longitude: currentRegion.longitude,
-      latitudeDelta: currentRegion.latitudeDelta,
-      longitudeDelta: currentRegion.longitudeDelta,
-    });
     loadPlacesInRegion(currentRegion);
   };
 
