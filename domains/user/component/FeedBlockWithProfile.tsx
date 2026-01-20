@@ -1,22 +1,34 @@
 // FeedBlock을 import하고
 // 프로필 사진, 이름을 덧대어서 구현
-import AlcholIcon from '@/assets/icons/alchol_right.svg';
-import { Colors, Typography } from '@/shared/constants';
-import { Image } from 'expo-image';
-import { ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import AlcholIcon from "@/assets/icons/alchol_right.svg";
+import { Colors, Typography } from "@/shared/constants";
+import { Image } from "expo-image";
+import {
+  ImageSourcePropType,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 interface FeedBlockWithProfileProps {
   userId: string;
   username: string;
-  userProfileImage: ImageSourcePropType;
-  imageUrl: ImageSourcePropType;
+  userProfileImage: ImageSourcePropType | string;
+  imageUrl: ImageSourcePropType | string;
   placeName: string;
   address: string;
   alcoholCount: number;
   onPress: () => void;
 }
 
-const UserProfile = ({ image, name }: { image: ImageSourcePropType; name: string }) => (
+const UserProfile = ({
+  image,
+  name,
+}: {
+  image: ImageSourcePropType | string;
+  name: string;
+}) => (
   <View style={styles.userProfile}>
     <Image source={image} style={styles.profileImage} />
     <Text style={styles.username}>{name}</Text>
@@ -32,8 +44,12 @@ const Badge = ({ count }: { count: number }) => (
 
 const PlaceInfo = ({ name, address }: { name: string; address: string }) => (
   <View style={styles.placeInfo}>
-    <Text style={styles.placeName} numberOfLines={1}>{name}</Text>
-    <Text style={styles.address} numberOfLines={1}>{address}</Text>
+    <Text style={styles.placeName} numberOfLines={1}>
+      {name}
+    </Text>
+    <Text style={styles.address} numberOfLines={1}>
+      {address}
+    </Text>
   </View>
 );
 
@@ -60,25 +76,25 @@ export const FeedBlockWithProfile = ({
 
 const styles = StyleSheet.create({
   card: {
-    width: '48%',
+    width: "48%",
   },
   imageContainer: {
-    width: '100%',
+    width: "100%",
     aspectRatio: 1,
-    position: 'relative',
+    position: "relative",
     borderRadius: 8,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   image: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   userProfile: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 10,
     left: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
   },
   profileImage: {
@@ -93,15 +109,15 @@ const styles = StyleSheet.create({
     letterSpacing: -0.24,
   },
   badge: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 10,
     right: 10,
     backgroundColor: Colors.yellow,
     borderRadius: 4,
     paddingVertical: 4,
     paddingHorizontal: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 4,
   },
   badgeText: {

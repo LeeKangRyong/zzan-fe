@@ -330,7 +330,7 @@ export const mockFeedDetails: MockFeedDetail[] = [
     id: "feed1",
     userId: "user1",
     userName: "코코몽",
-    userProfileImage: require("@/assets/images/example_image.png"),
+    userProfileImage: require("@/assets/images/example_profile_image.png"),
     imageUrl: require("@/assets/images/example_image.png"),
     images: [
       {

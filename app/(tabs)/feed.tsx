@@ -41,7 +41,8 @@ export default function FeedTab() {
         showsVerticalScrollIndicator={false}
         onScroll={({ nativeEvent }) => {
           const isCloseToBottom =
-            nativeEvent.layoutMeasurement.height + nativeEvent.contentOffset.y >=
+            nativeEvent.layoutMeasurement.height +
+              nativeEvent.contentOffset.y >=
             nativeEvent.contentSize.height - 50;
 
           if (isCloseToBottom && hasNext && !isLoading) {
@@ -61,8 +62,8 @@ export default function FeedTab() {
               key={feed.id}
               userId={feed.userId}
               username={feed.userName}
-              userProfileImage={{ uri: feed.userProfileImage }}
-              imageUrl={{ uri: feed.imageUrl }}
+              userProfileImage={feed.userProfileImage}
+              imageUrl={feed.imageUrl}
               placeName={feed.placeName}
               address={feed.placeAddress}
               alcoholCount={feed.liquorCount}
