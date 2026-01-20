@@ -2,13 +2,9 @@ import { AlcholComments } from "@/domains/info/components/AlcholComments";
 import { AlcholDescription } from "@/domains/info/components/AlcholDescription";
 import { InfoImages } from "@/domains/info/components/InfoImages";
 import { InfoRate } from "@/domains/info/components/InfoRate";
-import {
-  InfoRateWithProfile,
-  MOCK_REVIEWS_FOR_DESIGN,
-} from "@/domains/info/components/InfoRateWithProfile";
+import { InfoRateWithProfile } from "@/domains/info/components/InfoRateWithProfile";
 import { InfoSummary } from "@/domains/info/components/InfoSummary";
 import { INFO_CONSTANTS } from "@/domains/info/model/constants";
-import { MOCK_LIQUOR_COMMENTS, MOCK_CURRENT_USER_ID } from "@/domains/info/model/mock";
 import { useAlcoholViewModel } from "@/domains/info/viewmodel/useInfoViewModel";
 import { Header } from "@/shared/components";
 import { Colors, Layout } from "@/shared/constants";
@@ -49,6 +45,13 @@ export default function AlcholTab() {
     error,
     toggleBookmark,
     handleShare,
+    reviews,
+    myReview,
+    reviewCount,
+    avgRating,
+    currentUserId,
+    createOrUpdateReview,
+    liquorFeeds,
   } = useAlcoholViewModel(liquorId);
 
   if (isLoading) {
@@ -100,22 +103,22 @@ export default function AlcholTab() {
 
         <View style={styles.line} />
 
-        <InfoRate rating={alcoholInfo.rating} />
+        <InfoRate rating={avgRating} reviewCount={reviewCount} />
 
         <ScrollView
           horizontal
           contentContainerStyle={styles.reviewList}
           showsHorizontalScrollIndicator={false}
         >
-          {MOCK_REVIEWS_FOR_DESIGN.map((review) => (
-            <View key={review.id}>
+          {liquorFeeds.map((feed) => (
+            <View key={feed.id}>
               <InfoRateWithProfile
-                username={review.username}
-                userProfileImage={review.userProfileImage}
-                imageUrl={review.feedImage}
-                placeName={review.liquorName}
-                address={review.reviewText}
-                alcoholCount={review.score}
+                username={feed.username}
+                userProfileImage={feed.userProfileImage}
+                imageUrl={feed.feedImage}
+                placeName={feed.liquorName}
+                address={feed.reviewText}
+                alcoholCount={feed.score}
                 onPress={() => {}}
               />
             </View>
@@ -124,16 +127,13 @@ export default function AlcholTab() {
 
         <View style={styles.line} />
 
-        {/* GET /liquors/{liquorId}/reviews?size={size}&cursor={cursor} 연결하기! */}
         <AlcholComments
-          comments={MOCK_LIQUOR_COMMENTS}
-          currentUserId={MOCK_CURRENT_USER_ID}
+          comments={reviews}
+          myReview={myReview}
+          currentUserId={currentUserId || undefined}
           onAddCommentPress={() => console.log("Add comment pressed")}
           onEditPress={(commentId) => console.log("Edit comment:", commentId)}
-          onSaveComment={(rating, comment) => {
-            console.log("Save comment:", { rating, comment });
-            // TODO: API 연동 시 실제 저장 로직 추가
-          }}
+          onSaveComment={createOrUpdateReview}
         />
       </ScrollView>
     </KeyboardAvoidingView>

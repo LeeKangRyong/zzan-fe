@@ -2,33 +2,12 @@ import { INFO_CONSTANTS } from "@/domains/info/model/constants";
 import { Rate } from "@/shared/components";
 import { Colors } from "@/shared/constants/Colors";
 import { Typography } from "@/shared/constants/Typography";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-
-const exampleImage = require("@/assets/images/example_image.png");
+import { StyleSheet, Text, View } from "react-native";
 
 interface InfoRateProps {
   rating: number;
+  reviewCount: number;
 }
-
-export const InfoRate = ({ rating }: InfoRateProps) => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>후기 평점</Text>
-        <View style={styles.ratingContainer}>
-          <Rate rating={rating} />
-          <Text style={styles.ratingText}>{rating.toFixed(1)} / 5점</Text>
-        </View>
-        <View style={styles.ratingCountsContainer}>
-          <Text style={styles.ratingCounts}>사용자 후기 (5개)</Text>
-        </View>
-      </View>
-      <ScrollView horizontal contentContainerStyle={styles.reviewList}>
-        {/* UI만 남겨두고 데이터 연결 제거 */}
-      </ScrollView>
-    </View>
-  );
-};
 
 const styles = StyleSheet.create({
   container: {},
@@ -52,13 +31,6 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: Colors.black,
   },
-  reviewList: {
-    paddingHorizontal: INFO_CONSTANTS.RATE_SECTION_PADDING,
-    gap: INFO_CONSTANTS.REVIEW_BLOCK_MARGIN,
-  },
-  reviewItem: {
-    width: 160,
-  },
   ratingCountsContainer: {
     paddingTop: 16,
     marginBottom: -4,
@@ -66,4 +38,36 @@ const styles = StyleSheet.create({
   ratingCounts: {
     fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
   },
+  emptyContainer: {
+    paddingHorizontal: INFO_CONSTANTS.RATE_SECTION_PADDING,
+    paddingVertical: 20,
+  },
+  emptyText: {
+    fontFamily: Typography.KAKAO_BIG_SANS_BOLD,
+    fontSize: 14,
+    color: Colors.gray,
+    textAlign: "center",
+  },
 });
+
+export const InfoRate = ({ rating, reviewCount }: InfoRateProps) => {
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>후기 평점</Text>
+        <View style={styles.ratingContainer}>
+          <Rate rating={reviewCount > 0 ? rating : 0} />
+          <Text style={styles.ratingText}>{rating.toFixed(1)} / 5점</Text>
+        </View>
+        <View style={styles.ratingCountsContainer}>
+          <Text style={styles.ratingCounts}>사용자 후기 ({reviewCount}개)</Text>
+        </View>
+      </View>
+      {reviewCount === 0 && (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>피드가 없습니다.</Text>
+        </View>
+      )}
+    </View>
+  );
+};

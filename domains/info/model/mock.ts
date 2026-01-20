@@ -127,17 +127,19 @@ export const getMockAlcoholInfo = (): AlcoholInfo => {
 
 export const MOCK_CURRENT_USER_ID = "user1";
 
+export const MOCK_MY_REVIEW: LiquorComment = {
+  id: "comment1",
+  userId: "user1",
+  username: "이도훈",
+  userProfileImage: exampleImage,
+  rating: 4,
+  comment: "조금 씁슬한 맛이 조금 불호였지만 그래도 달콤하고 맛있었어요",
+  date: "2026/12/12",
+  likes: 0,
+};
+
 export const MOCK_LIQUOR_COMMENTS: LiquorComment[] = [
-  {
-    id: "comment1",
-    userId: "user1",
-    username: "이도훈",
-    userProfileImage: exampleImage,
-    rating: 4,
-    comment: "조금 씁슬한 맛이 조금 불호였지만 그래도 달콤하고 맛있었어요",
-    date: "2026/12/12",
-    likes: 0,
-  },
+  MOCK_MY_REVIEW,
   {
     id: "comment2",
     userId: "user2",

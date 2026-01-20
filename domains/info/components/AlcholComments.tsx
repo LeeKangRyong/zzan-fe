@@ -2,12 +2,13 @@ import { INFO_CONSTANTS } from "@/domains/info/model/constants";
 import type { LiquorComment } from "@/domains/info/model/mock";
 import { AlcholButton, RateButton } from "@/shared/components";
 import { Colors, Typography } from "@/shared/constants";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { AlcholCommentCard } from "./AlcholCommentCard";
 
 interface AlcholCommentsProps {
   comments: LiquorComment[];
+  myReview: LiquorComment | null;
   currentUserId?: string;
   onAddCommentPress: () => void;
   onEditPress?: (commentId: string) => void;
@@ -86,91 +87,6 @@ const PutComments = ({
   </View>
 );
 
-const CommentList = ({
-  comments,
-  currentUserId,
-  onEdit,
-}: {
-  comments: LiquorComment[];
-  currentUserId?: string;
-  onEdit?: (commentId: string) => void;
-}) => (
-  <ScrollView
-    horizontal
-    contentContainerStyle={styles.commentList}
-    showsHorizontalScrollIndicator={false}
-  >
-    {comments.map((comment) => {
-      const isOwner = currentUserId ? comment.userId === currentUserId : false;
-      return (
-        <AlcholCommentCard
-          key={comment.id}
-          username={comment.username}
-          userProfileImage={comment.userProfileImage}
-          rating={comment.rating}
-          comment={comment.comment}
-          date={comment.date}
-          isOwner={isOwner}
-          onEditPress={onEdit ? () => onEdit(comment.id) : undefined}
-        />
-      );
-    })}
-  </ScrollView>
-);
-
-export const AlcholComments = ({
-  comments,
-  currentUserId,
-  onAddCommentPress,
-  onEditPress,
-  onSaveComment,
-}: AlcholCommentsProps) => {
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [editRating, setEditRating] = useState(0);
-  const [editComment, setEditComment] = useState('');
-
-  const handleEditPress = (commentId: string) => {
-    const targetComment = comments.find((c) => c.id === commentId);
-    if (!targetComment) return;
-
-    setEditRating(targetComment.rating);
-    setEditComment(targetComment.comment);
-    setIsEditMode(true);
-
-    if (onEditPress) {
-      onEditPress(commentId);
-    }
-  };
-
-  const handleSave = () => {
-    if (onSaveComment) {
-      onSaveComment(editRating, editComment);
-    }
-    setIsEditMode(false);
-    setEditRating(0);
-    setEditComment('');
-  };
-
-  return (
-    <View style={styles.container}>
-      <SectionHeader
-        isEditMode={isEditMode}
-        rating={editRating}
-        comment={editComment}
-        onAddPress={onAddCommentPress}
-        onRatingChange={setEditRating}
-        onCommentChange={setEditComment}
-        onSave={handleSave}
-      />
-      <CommentList
-        comments={comments}
-        currentUserId={currentUserId}
-        onEdit={handleEditPress}
-      />
-    </View>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     gap: 16,
@@ -230,4 +146,118 @@ const styles = StyleSheet.create({
     color: Colors.yellow,
     letterSpacing: -0.28,
   },
+  emptyContainer: {
+    paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
+    paddingVertical: 20,
+  },
+  emptyText: {
+    fontFamily: Typography.KAKAO_BIG_SANS_BOLD,
+    fontSize: 14,
+    color: Colors.gray,
+    textAlign: 'center',
+  },
 });
+
+const EmptyCommentState = () => (
+  <View style={styles.emptyContainer}>
+    <Text style={styles.emptyText}>리뷰가 없습니다.</Text>
+  </View>
+);
+
+const CommentList = ({
+  comments,
+  currentUserId,
+  onEdit,
+}: {
+  comments: LiquorComment[];
+  currentUserId?: string;
+  onEdit?: (commentId: string) => void;
+}) => {
+  if (comments.length === 0) {
+    return <EmptyCommentState />;
+  }
+
+  return (
+    <ScrollView
+      horizontal
+      contentContainerStyle={styles.commentList}
+      showsHorizontalScrollIndicator={false}
+    >
+      {comments.map((comment) => {
+        const isOwner = currentUserId ? comment.userId === currentUserId : false;
+        return (
+          <AlcholCommentCard
+            key={comment.id}
+            username={comment.username}
+            userProfileImage={comment.userProfileImage}
+            rating={comment.rating}
+            comment={comment.comment}
+            date={comment.date}
+            isOwner={isOwner}
+            onEditPress={onEdit ? () => onEdit(comment.id) : undefined}
+          />
+        );
+      })}
+    </ScrollView>
+  );
+};
+
+export const AlcholComments = ({
+  comments,
+  myReview,
+  currentUserId,
+  onAddCommentPress,
+  onEditPress,
+  onSaveComment,
+}: AlcholCommentsProps) => {
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editRating, setEditRating] = useState(0);
+  const [editComment, setEditComment] = useState('');
+
+  const sortedComments = useMemo(() => {
+    if (!myReview) return comments;
+    const otherComments = comments.filter((c) => c.id !== myReview.id);
+    return [myReview, ...otherComments];
+  }, [comments, myReview]);
+
+  const handleEditPress = (commentId: string) => {
+    const targetComment = sortedComments.find((c) => c.id === commentId);
+    if (!targetComment) return;
+
+    setEditRating(targetComment.rating);
+    setEditComment(targetComment.comment);
+    setIsEditMode(true);
+
+    if (onEditPress) {
+      onEditPress(commentId);
+    }
+  };
+
+  const handleSave = () => {
+    if (onSaveComment) {
+      onSaveComment(editRating, editComment);
+    }
+    setIsEditMode(false);
+    setEditRating(0);
+    setEditComment('');
+  };
+
+  return (
+    <View style={styles.container}>
+      <SectionHeader
+        isEditMode={isEditMode}
+        rating={editRating}
+        comment={editComment}
+        onAddPress={onAddCommentPress}
+        onRatingChange={setEditRating}
+        onCommentChange={setEditComment}
+        onSave={handleSave}
+      />
+      <CommentList
+        comments={sortedComments}
+        currentUserId={currentUserId}
+        onEdit={handleEditPress}
+      />
+    </View>
+  );
+};

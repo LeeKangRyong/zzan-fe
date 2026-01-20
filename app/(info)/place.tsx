@@ -125,7 +125,7 @@ export default function PlaceTab() {
 
         <View style={styles.line} />
 
-        <InfoRate rating={placeInfo.rating} />
+        <InfoRate rating={placeInfo.rating} reviewCount={0} />
       </ScrollView>
     </View>
   );
