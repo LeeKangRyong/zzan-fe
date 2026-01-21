@@ -2,9 +2,9 @@ import { useAuthStore } from "@/domains/auth/store/authStore";
 import { Redirect } from "expo-router";
 
 export default function Index() {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const accessToken = useAuthStore((state) => state.accessToken);
 
-  if (isAuthenticated) {
+  if (accessToken) {
     return <Redirect href="/map" />;
   }
 

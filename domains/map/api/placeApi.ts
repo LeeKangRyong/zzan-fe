@@ -1,10 +1,6 @@
 import { apiClient } from "@/shared/api/client";
 import { API_ENDPOINTS } from "@/shared/api/endpoints";
-import type {
-  PlaceResponse,
-  PlaceSearchMeta,
-  PlaceSearchResponse,
-} from "../model/mapModel";
+import type { PlaceResponse, PlaceSearchResponse } from "../model/mapModel";
 
 export interface GetPlacesInRegionParams {
   minLongitude: number;
@@ -17,11 +13,6 @@ export interface SearchPlacesParams {
   keyword: string;
   page?: number;
   size?: number;
-}
-
-export interface SearchPlacesResult {
-  places: PlaceSearchResponse[];
-  meta: PlaceSearchMeta;
 }
 
 export const placeApi = {
@@ -55,11 +46,15 @@ export const placeApi = {
     }).toString();
 
     const response = await apiClient<{
-      data: { places: PlaceSearchResponse[]; meta: PlaceSearchMeta };
+      data: {
+        items: PlaceSearchResponse[];
+        nextCursor: string | null;
+        hasNext: boolean;
+      };
     }>(`${API_ENDPOINTS.INFRA.SEARCH_PLACES}?${queryString}`, {
       method: "GET",
     });
 
-    return response.data.places;
+    return response.data.items;
   },
 };

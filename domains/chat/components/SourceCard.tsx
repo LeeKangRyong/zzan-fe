@@ -1,5 +1,7 @@
 import type { LiquorSource } from "@/domains/chat/api/chatApi";
 import { fetchLiquorScore } from "@/domains/chat/utils/liquorScoreHelper";
+import { useAuthStore } from "@/domains/auth/store/authStore";
+import { KakaoLoginModal } from "@/shared/components";
 import { Colors } from "@/shared/constants/Colors";
 import { Typography } from "@/shared/constants/Typography";
 import { useRouter } from "expo-router";
@@ -12,6 +14,8 @@ interface SourceCardProps {
 
 export const SourceCard = ({ source }: SourceCardProps) => {
   const router = useRouter();
+  const { accessToken } = useAuthStore();
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [score, setScore] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -26,6 +30,10 @@ export const SourceCard = ({ source }: SourceCardProps) => {
   }, [source.id]);
 
   const handlePress = () => {
+    if (!accessToken) {
+      setShowLoginModal(true);
+      return;
+    }
     router.push({
       pathname: '/alchol',
       params: { liquorId: source.id },
@@ -61,16 +69,22 @@ export const SourceCard = ({ source }: SourceCardProps) => {
   };
 
   return (
-    <TouchableOpacity onPress={handlePress} activeOpacity={0.8}>
-      <View style={styles.card}>
-        <Image source={{ uri: source.image_url }} style={styles.image} />
-        <View style={styles.info}>
-          <Text style={styles.name}>{source.name}</Text>
-          <Text style={styles.details}>#{source.type}</Text>
-          {renderStars()}
+    <>
+      <TouchableOpacity onPress={handlePress} activeOpacity={0.8}>
+        <View style={styles.card}>
+          <Image source={{ uri: source.image_url }} style={styles.image} />
+          <View style={styles.info}>
+            <Text style={styles.name}>{source.name}</Text>
+            <Text style={styles.details}>#{source.type}</Text>
+            {renderStars()}
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+      <KakaoLoginModal
+        visible={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+      />
+    </>
   );
 };
 

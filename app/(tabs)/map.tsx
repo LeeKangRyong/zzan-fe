@@ -8,20 +8,22 @@ import {
 } from "@/domains/map/component";
 import { KakaoMapWebViewRef } from "@/domains/map/component/KakaoMapWebView";
 import { useMapViewModel } from "@/domains/map/viewmodel/useMapViewModel";
+import { useAuthStore } from "@/domains/auth/store/authStore";
+import { KakaoLoginModal } from "@/shared/components";
 import { Colors, Layout } from "@/shared/constants";
 import Constants from "expo-constants";
 import { router } from "expo-router";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 export default function MapTab() {
   const insets = useSafeAreaInsets();
   const mapWebViewRef = useRef<KakaoMapWebViewRef>(null);
+  const { accessToken } = useAuthStore();
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const TAB_BAR_HEIGHT = 10;
   const bottomSpace =
@@ -48,10 +50,18 @@ export default function MapTab() {
   const apiKey = Constants.expoConfig?.extra?.kakaoJavascriptKey ?? "";
 
   const handleProfilePress = () => {
+    if (!accessToken) {
+      setShowLoginModal(true);
+      return;
+    }
     router.push("/mypage");
   };
 
   const handlePlaceDetailPress = () => {
+    if (!accessToken) {
+      setShowLoginModal(true);
+      return;
+    }
     if (selectedPlace) {
       router.push({
         pathname: "/place",
@@ -116,6 +126,11 @@ export default function MapTab() {
           </View>
         )}
       </View>
+
+      <KakaoLoginModal
+        visible={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+      />
     </View>
   );
 }

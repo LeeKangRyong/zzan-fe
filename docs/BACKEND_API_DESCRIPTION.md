@@ -385,7 +385,39 @@ GET /users/me
 
 <br>
 
+### 2.2 내 정보 수정
+
+````
+PUT /users/me
 ---
+
+<br>
+
+#### Request Body
+```json
+{
+  "name": "홍길동",
+  "profileImageUrl": "user-profile/profile.jpg",
+  "birth": "1995-03-15",
+  "email": "hong@example.com",
+  "phone": "01012345678"
+}
+````
+
+<br>
+
+#### Response (200 OK)
+
+```json
+{
+  "success": true,
+  "timestamp": 1768893040143,
+  "message": null,
+  "data": {}
+}
+```
+
+<br>
 
 ## 3. 주류 (Liquor)
 
@@ -1273,6 +1305,51 @@ GET /feeds/recent&cursor={cursor}
 
 <br>
 
+### 6.7 전통주 아이디로 피드 목록 조회
+
+🔐 인증 필요
+
+```
+GET /feeds/liquors/{liquorId}?size=10
+```
+
+<br>
+
+#### Query Parameters
+
+size
+
+<br>
+
+#### Response (200 OK)
+
+```json
+{
+    "success": true,
+    "timestamp": 1768940235979,
+    "message": null,
+    "data": {
+        "items": [
+            {
+                "id": "01KFEGV75SASWFMXMD3SRMX8AN",
+                "imageUrl": "https://zzan-liquor-bucket.s3.amazonaws.com/string",
+                "score": 1,
+                "liquorCount": 4,
+                "userId": "01KF4ZCJVW9BN5P3RDKND2N87Y",
+                "userName": "도선빈",
+                "userProfileImage": "http://img1.kakaocdn.net/thumb/R640x640.q70/?fname=http://t1.kakaocdn.net/account_images/default_profile.jpeg",
+                "kakaoPlaceId": "string",
+                "placeName": "string",
+                "placeAddress": "string"
+            }
+        ],
+        "nextCursor": null,
+        "hasNext": false
+    }
+}
+
+<br>
+
 ---
 
 ## 7. 피드 스크랩 (Feed Scrap)
@@ -1282,8 +1359,10 @@ GET /feeds/recent&cursor={cursor}
 🔐 인증 필요
 
 ```
+
 GET /feeds/scraps?size={size}&cursor={cursor}
-```
+
+````
 
 <br>
 
@@ -1317,7 +1396,7 @@ GET /feeds/scraps?size={size}&cursor={cursor}
     "hasNext": true
   }
 }
-```
+````
 
 <br>
 
@@ -1584,17 +1663,49 @@ GET /infra/places/search?keyword={keyword}&page={page}&size={size}
 ```json
 {
   "success": true,
+  "timestamp": 1768963124552,
+  "message": null,
   "data": {
     "items": [
       {
-        "id": "12345678",
-        "placeName": "전통주 갤러리",
-        "categoryName": "음식점 > 술집 > 전통주",
-        "phone": "02-1234-5678",
-        "addressName": "서울 종로구 인사동 123",
-        "roadAddressName": "서울 종로구 인사동길 12",
-        "longitude": 126.985302,
-        "latitude": 37.571625
+        "id": "884654846",
+        "placeName": "옵티멈존PC카페 오즈리저브 강남역점",
+        "categoryName": "가정,생활 > 여가시설 > 게임방,PC방 > 옵티멈존PC카페",
+        "phone": "0507-1329-1467",
+        "addressName": "서울 강남구 역삼동 819",
+        "roadAddressName": "서울 강남구 강남대로94길 10",
+        "longitude": 127.028226866339,
+        "latitude": 37.4991954216359
+      },
+      {
+        "id": "21161042",
+        "placeName": "강남구청역 7호선",
+        "categoryName": "교통,수송 > 지하철,전철 > 수도권7호선",
+        "phone": "02-6311-7301",
+        "addressName": "서울 강남구 삼성동 111-44",
+        "roadAddressName": "서울 강남구 학동로 지하 346",
+        "longitude": 127.0413109462156,
+        "latitude": 37.51721617197854
+      },
+      {
+        "id": "12639300",
+        "placeName": "강남역아이파크1차오피스텔",
+        "categoryName": "부동산 > 주거시설 > 오피스텔",
+        "phone": "02-6247-8010",
+        "addressName": "서울 서초구 서초동 1303-16",
+        "roadAddressName": "서울 서초구 서초대로77길 62",
+        "longitude": 127.02391028474402,
+        "latitude": 37.502750842674814
+      },
+      {
+        "id": "7987280",
+        "placeName": "신한은행 강남역금융센터",
+        "categoryName": "금융,보험 > 금융서비스 > 은행 > 신한은행",
+        "phone": "",
+        "addressName": "서울 서초구 서초동 1321",
+        "roadAddressName": "서울 서초구 서초대로 396",
+        "longitude": 127.02476662249526,
+        "latitude": 37.49656255595339
       }
     ],
     "nextCursor": null,

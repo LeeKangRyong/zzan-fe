@@ -1,7 +1,9 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import React from 'react';
+import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Svg, { Defs, Path, RadialGradient, Stop } from 'react-native-svg';
+import { useAuthStore } from '@/domains/auth/store/authStore';
+import { KakaoLoginModal } from './KakaoLoginModal';
 import { Colors } from '../constants/Colors';
 import { Typography } from '../constants/Typography';
 
@@ -57,6 +59,8 @@ const PlusButton = ({ onPress, children }: { onPress: () => void; children: Reac
 export const TabBar = ({ state, navigation }: BottomTabBarProps) => {
   const currentRouteName = state.routes[state.index].name;
   const isPostTab = currentRouteName === 'post';
+  const { accessToken } = useAuthStore();
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   if (isPostTab) {
     return <View style={{ height: 0 }} />;
@@ -73,10 +77,17 @@ export const TabBar = ({ state, navigation }: BottomTabBarProps) => {
         {orderedRoutes.map((route) => {
           const isFocused = state.routes[state.index].name === route.name;
           const isPost = route.name === 'post';
+          const isFeed = route.name === 'feed';
           const label = getLabelByRouteName(route.name);
           const textColor = isFocused ? Colors.black : Colors.gray;
 
           const onPress = () => {
+            // 피드 탭 또는 포스트(+) 버튼 클릭 시 인증 체크
+            if ((isFeed || isPost) && !accessToken) {
+              setShowLoginModal(true);
+              return;
+            }
+
             const event = navigation.emit({
               type: 'tabPress',
               target: route.key,
@@ -99,6 +110,10 @@ export const TabBar = ({ state, navigation }: BottomTabBarProps) => {
           );
         })}
       </View>
+      <KakaoLoginModal
+        visible={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+      />
     </View>
   );
 };

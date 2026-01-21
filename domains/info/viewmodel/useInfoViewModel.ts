@@ -20,7 +20,6 @@ import { scrapApi } from '@/shared/api/scrapApi';
 import { feedApi } from '@/domains/feed/api/feedApi';
 import { liquorApi } from '@/shared/api/liquorApi';
 import { userApi } from '@/domains/user/api/userApi';
-import { useAuthStore } from '@/domains/auth/store/authStore';
 import { mockNearbyFeeds } from '@/domains/feed/model/mock';
 import { isMockEnabled } from '@/shared/utils/env';
 import { useState, useEffect, useCallback, useMemo } from 'react';
@@ -159,14 +158,9 @@ export const useInfoViewModel = (placeId?: string) => {
   };
 
   const handleAlcholButtonPress = useCallback(() => {
-    // AUTH GUARD - return false to trigger modal
-    if (!isAuthenticated) {
-      return false; // Signal to UI to show modal
-    }
-
     console.log('Alchol button pressed');
-    return true; // Success
-  }, [isAuthenticated]);
+    return true;
+  }, []);
 
   return {
     placeInfo,
@@ -183,7 +177,6 @@ export const useInfoViewModel = (placeId?: string) => {
 };
 
 export const useAlcoholViewModel = (liquorId?: string) => {
-  const { isAuthenticated } = useAuthStore();
   const [alcoholInfo, setAlcoholInfo] = useState<AlcoholInfo | null>(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [infoBoxes, setInfoBoxes] = useState<InfoBox[]>([]);
@@ -249,11 +242,6 @@ export const useAlcoholViewModel = (liquorId?: string) => {
   }, [liquorId]);
 
   const toggleBookmark = useCallback(async (): Promise<boolean> => {
-    // AUTH GUARD - return false to trigger modal in UI
-    if (!isAuthenticated) {
-      return false;
-    }
-
     if (isMockEnabled()) {
       setIsBookmarked((prev) => !prev);
       return true;
@@ -276,7 +264,7 @@ export const useAlcoholViewModel = (liquorId?: string) => {
       setIsBookmarked((prev) => !prev);
       return false;
     }
-  }, [liquorId, isBookmarked, isAuthenticated]);
+  }, [liquorId, isBookmarked]);
 
   useEffect(() => {
     checkLiquorBookmarkStatus();
@@ -330,11 +318,6 @@ export const useAlcoholViewModel = (liquorId?: string) => {
 
   const createOrUpdateReview = useCallback(
     async (rating: number, comment: string): Promise<boolean> => {
-      // AUTH GUARD - return false to trigger modal in UI
-      if (!isAuthenticated) {
-        return false;
-      }
-
       if (!liquorId) {
         return false;
       }
@@ -359,7 +342,7 @@ export const useAlcoholViewModel = (liquorId?: string) => {
         return false;
       }
     },
-    [liquorId, myReview, fetchReviews, isAuthenticated]
+    [liquorId, myReview, fetchReviews]
   );
 
   useEffect(() => {

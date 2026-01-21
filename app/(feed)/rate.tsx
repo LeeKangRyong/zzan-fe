@@ -4,9 +4,7 @@ import {
   RateStyleButton,
 } from '@/domains/feed/component';
 import { useRateViewModel } from '@/domains/feed/viewmodel/useRateViewModel';
-import { Header, KakaoLoginModal } from '@/shared/components';
-import { useModal } from '@/shared/hooks';
-import { useAuthStore } from '@/domains/auth/store/authStore';
+import { Header } from '@/shared/components';
 import { Colors, Layout, Typography } from '@/shared/constants';
 import { useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -42,16 +40,6 @@ export default function RateTab() {
   } = useRateViewModel();
 
   const router = useRouter();
-  const { isAuthenticated } = useAuthStore();
-  const { visible, openModal, closeModal } = useModal();
-
-  const handleSaveRatingWithAuth = async () => {
-    const success = await handleSaveRating();
-
-    if (!success && !isAuthenticated) {
-      openModal();
-    }
-  };
 
   {/* TODO: 전통주가 focus될 때마다 해당 전통주에 대해 해당 이미지에서 해당 plus icon 있는 곳으로 자동 확대됨 */}
   {/* TODO: figma design처럼 RateStyleButton을 통해 별점을 등록하면, 다음 전통주로 focus되면서 해당 이미지로 확대된 채로 이동 */}
@@ -98,13 +86,11 @@ export default function RateTab() {
               title="취향에 얼마나 맞았나요?"
               rating={tempRating}
               onRatingChange={setTempRating}
-              onSave={handleSaveRatingWithAuth}
+              onSave={handleSaveRating}
             />
           </View>
         </View>
       </ScrollView>
-
-      <KakaoLoginModal visible={visible} onClose={closeModal} />
     </View>
   );
 }

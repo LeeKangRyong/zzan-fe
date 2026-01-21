@@ -2,7 +2,7 @@ import { apiClient } from '@/shared/api/client';
 import { API_ENDPOINTS } from '@/shared/api/endpoints';
 import type { ApiResponse } from '@/shared/types/api';
 import type { UserFeedsResponse } from '../model/userApiModel';
-import type { UserApiResponse } from '../model/userModel';
+import type { UpdateProfileRequest, UserApiResponse } from '../model/userModel';
 
 export const userApi = {
   async getCurrentUser(): Promise<UserApiResponse> {
@@ -11,6 +11,14 @@ export const userApi = {
       { requireAuth: true }
     );
     return response.data;
+  },
+
+  async updateProfile(data: UpdateProfileRequest): Promise<void> {
+    await apiClient(API_ENDPOINTS.USER.UPDATE, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      requireAuth: true,
+    });
   },
 
   async getMyFeeds(params: { size?: number; cursor?: string | null }): Promise<UserFeedsResponse> {

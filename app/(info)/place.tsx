@@ -4,11 +4,9 @@ import { InfoSummary } from '@/domains/info/components/InfoSummary';
 import { PlaceDescription } from '@/domains/info/components/PlaceDescription';
 import { INFO_CONSTANTS } from '@/domains/info/model/constants';
 import { useInfoViewModel } from '@/domains/info/viewmodel/useInfoViewModel';
-import { AlcholButton, Header, KakaoLoginModal } from '@/shared/components';
+import { AlcholButton, Header } from '@/shared/components';
 import { FeedBlock } from '@/shared/components/FeedBlock';
 import { Colors, Layout, Typography } from '@/shared/constants';
-import { useAuthStore } from '@/domains/auth/store/authStore';
-import { useModal } from '@/shared/hooks';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import {
   ScrollView,
@@ -49,17 +47,6 @@ export default function PlaceTab() {
     handleShare,
     handleAlcholButtonPress,
   } = useInfoViewModel(placeId);
-
-  const { isAuthenticated } = useAuthStore();
-  const { visible, openModal, closeModal } = useModal();
-
-  const handleAlcholButtonWithAuth = () => {
-    const success = handleAlcholButtonPress();
-
-    if (!success && !isAuthenticated) {
-      openModal();
-    }
-  };
 
   if (isLoading) {
     return (
@@ -103,7 +90,7 @@ export default function PlaceTab() {
         <View style={styles.buttonContainer}>
           <AlcholButton
             title="이 장소에서 전통주를 먹었어요"
-            onPress={handleAlcholButtonWithAuth}
+            onPress={handleAlcholButtonPress}
           />
         </View>
 
@@ -140,8 +127,6 @@ export default function PlaceTab() {
 
         <InfoRate rating={placeInfo.rating} reviewCount={0} />
       </ScrollView>
-
-      <KakaoLoginModal visible={visible} onClose={closeModal} />
     </View>
   );
 }

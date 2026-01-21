@@ -12,6 +12,15 @@ export interface UserApiResponse {
   phone: string | null;
 }
 
+// API 문서 Section 2.2에 맞춘 프로필 수정 요청 타입
+export interface UpdateProfileRequest {
+  name?: string;
+  profileImageUrl?: string;
+  birth?: string;
+  email?: string;
+  phone?: string;
+}
+
 export interface User {
   id: string;
   name: string;

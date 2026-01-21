@@ -4,7 +4,6 @@ import { placeApi } from "../api/placeApi";
 import {
   MapMarker,
   MapRegion,
-  PlaceSearchMeta,
   searchResultToMapMarker,
   toMapMarker,
 } from "../model/mapModel";
@@ -32,7 +31,6 @@ export const useMapViewModel = () => {
   const [selectedPlace, setSelectedPlace] = useState<MapMarker | null>(null);
   const [isLoadingPlaces, setIsLoadingPlaces] = useState(false);
   const [searchPage, setSearchPage] = useState(1);
-  const [searchMeta, setSearchMeta] = useState<PlaceSearchMeta | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleMarkerPress = (markerId: string) => {
@@ -237,7 +235,6 @@ export const useMapViewModel = () => {
     selectedPlace,
     isLoadingPlaces,
     error,
-    searchMeta,
     searchPage,
     handleMarkerPress,
     handleSearchTextChange,

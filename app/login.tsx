@@ -5,9 +5,10 @@ import { CommonButton, Toast } from "@/shared/components";
 import { Colors, Typography } from "@/shared/constants";
 import Constants from "expo-constants";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { WebView } from "react-native-webview";
+import { WebView, type WebViewNavigation } from "react-native-webview";
+import type WebViewType from "react-native-webview";
 import InitialIcon from "../assets/logo/initial.svg";
 import LogoIcon from "../assets/logo/logo_big.svg";
 
@@ -15,21 +16,29 @@ const isMockEnabled = (): boolean => {
   return Constants.expoConfig?.extra?.useMockData === true;
 };
 
-// WebView에서 JSON을 추출하는 JavaScript 코드
+// WebView에서 JSON을 추출하는 JavaScript 코드 (매 페이지 로드마다 실행)
 const injectedJavaScript = `
   (function() {
-    try {
-      // 페이지의 텍스트 내용을 가져옴
-      const bodyText = document.body.innerText || document.body.textContent;
+    // 페이지 로드 완료 시마다 실행
+    function checkForToken() {
+      try {
+        const bodyText = document.body.innerText || document.body.textContent;
+        const jsonData = JSON.parse(bodyText);
 
-      // JSON으로 파싱 시도
-      const jsonData = JSON.parse(bodyText);
-
-      // React Native로 데이터 전송
-      window.ReactNativeWebView.postMessage(JSON.stringify(jsonData));
-    } catch (error) {
-      console.log('Not a JSON page or parsing failed');
+        if (jsonData.success && jsonData.data && jsonData.data.accessToken) {
+          window.ReactNativeWebView.postMessage(JSON.stringify(jsonData));
+        }
+      } catch (error) {
+        // Not a JSON page
+      }
     }
+
+    // 즉시 실행
+    checkForToken();
+
+    // DOM 변경 감지 (SPA 대응)
+    const observer = new MutationObserver(checkForToken);
+    observer.observe(document.body, { childList: true, subtree: true });
   })();
   true;
 `;
@@ -45,6 +54,7 @@ export default function LoginScreen() {
   const [showToast, setShowToast] = useState(false);
   const [showWebView, setShowWebView] = useState(false);
   const [webViewUrl, setWebViewUrl] = useState<string | null>(null);
+  const webViewRef = useRef<WebViewType>(null);
 
   useEffect(() => {
     if (error) {
@@ -73,8 +83,11 @@ export default function LoginScreen() {
     }
   };
 
-  const handleWebViewNavigationStateChange = (_navState: any) => {
-    // Navigation state tracking
+  const handleWebViewNavigationStateChange = (navState: WebViewNavigation) => {
+    // 콜백 URL 도달 시 스크립트 재주입
+    if (navState.url.includes('/callback') && !navState.loading) {
+      webViewRef.current?.injectJavaScript(injectedJavaScript);
+    }
   };
 
   const handleKakaoLogin = async () => {
@@ -149,6 +162,7 @@ export default function LoginScreen() {
           </View>
           {webViewUrl && (
             <WebView
+              ref={webViewRef}
               source={{ uri: webViewUrl }}
               onNavigationStateChange={handleWebViewNavigationStateChange}
               onMessage={handleWebViewMessage}

@@ -84,9 +84,9 @@ export const useAddViewModel = ({ addType }: UseAddViewModelProps) => {
     });
 
     const mappedPlaces: Place[] = places.map((p) => ({
-      id: p.kakaoPlaceId,
-      name: p.name,
-      address: p.roadAddress,
+      id: p.id,
+      name: p.placeName,
+      address: p.roadAddressName,
       imageUrl: '',
     }));
 
