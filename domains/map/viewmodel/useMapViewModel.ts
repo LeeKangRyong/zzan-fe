@@ -1,5 +1,5 @@
 import * as Location from "expo-location";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 import { usePlacesQuery } from "../hooks/usePlacesQuery";
 import { placeApi } from "../api/placeApi";
@@ -38,6 +38,17 @@ export const useMapViewModel = () => {
   const [selectedPlace, setSelectedPlace] = useState<MapMarker | null>(null);
   const [searchPage, setSearchPage] = useState(1);
   const [error, setError] = useState<string | null>(null);
+
+  // 초기 마운트 시 사용자 현재 위치로 이동
+  useEffect(() => {
+    const initializeLocation = async () => {
+      const location = await getCurrentLocation();
+      if (location) {
+        updateRegionToLocation(location);
+      }
+    };
+    initializeLocation();
+  }, []);
 
   const debouncedBounds = useDebounce(bounds, 500);
 
