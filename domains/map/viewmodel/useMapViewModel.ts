@@ -151,17 +151,10 @@ export const useMapViewModel = () => {
     const place = searchResults.find((marker) => marker.id === placeId);
     if (!place) return;
 
-    // 1. 선택된 장소 상태 업데이트 (상세창 노출 및 마커 유지용)
-    setSelectedPlace(place);
-    setFocusedMarkerId(placeId);
-
-    // 2. 지도의 현재 마커 리스트를 해당 장소 하나로 즉시 변경 (마커가 바로 보이게 함)
-    setMarkers([place]);
-
-    // 3. 지도 이동
+    // 지도 이동만 수행 (마커 생성 제거)
     moveToPlace(place);
 
-    // 4. 검색 UI 정리
+    // 검색 UI 정리
     setShowSearchResults(false);
     setSearchText("");
     setSearchResults([]);
