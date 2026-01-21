@@ -1,14 +1,14 @@
 import * as Location from "expo-location";
 import { useState } from "react";
+import { useDebounce } from "@/shared/hooks/useDebounce";
+import { usePlacesQuery } from "../hooks/usePlacesQuery";
 import { placeApi } from "../api/placeApi";
 import {
   MapMarker,
   MapRegion,
   searchResultToMapMarker,
-  toMapMarker,
 } from "../model/mapModel";
 import {
-  filterMarkersInRegion,
   mockPlacesWithCoordinates,
 } from "../model/mock";
 
@@ -21,17 +21,35 @@ const initialRegion: MapRegion = {
   longitudeDelta: 0.03,
 };
 
+interface PlaceBounds {
+  minLatitude: number;
+  maxLatitude: number;
+  minLongitude: number;
+  maxLongitude: number;
+}
+
 export const useMapViewModel = () => {
   const [region, setRegion] = useState<MapRegion>(initialRegion);
-  const [markers, setMarkers] = useState<MapMarker[]>([]);
+  const [bounds, setBounds] = useState<PlaceBounds | null>(null);
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState<MapMarker[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [focusedMarkerId, setFocusedMarkerId] = useState<string | null>(null);
   const [selectedPlace, setSelectedPlace] = useState<MapMarker | null>(null);
-  const [isLoadingPlaces, setIsLoadingPlaces] = useState(false);
   const [searchPage, setSearchPage] = useState(1);
   const [error, setError] = useState<string | null>(null);
+
+  const debouncedBounds = useDebounce(bounds, 500);
+
+  const {
+    data: markers = [],
+    isLoading: isLoadingPlaces,
+    error: placesError,
+  } = usePlacesQuery(debouncedBounds);
+
+  const handleIdleRegion = (newBounds: PlaceBounds) => {
+    setBounds(newBounds);
+  };
 
   const handleMarkerPress = (markerId: string) => {
     if (focusedMarkerId === markerId) {
@@ -47,56 +65,9 @@ export const useMapViewModel = () => {
     setFocusedMarkerId(markerId);
   };
 
-  // 영역 내 장소 로드 (지도가 이동할 때마다 호출됨)
-  const loadPlacesInRegion = async (regionToLoad: MapRegion) => {
-    setIsLoadingPlaces(true);
-    let newMarkers: MapMarker[] = [];
-
-    if (USE_MOCK_DATA) {
-      await new Promise((resolve) => setTimeout(resolve, 300));
-      newMarkers = filterMarkersInRegion(
-        mockPlacesWithCoordinates,
-        regionToLoad,
-      );
-    } else {
-      setError(null);
-      try {
-        const minLatitude =
-          regionToLoad.latitude - regionToLoad.latitudeDelta / 2;
-        const maxLatitude =
-          regionToLoad.latitude + regionToLoad.latitudeDelta / 2;
-        const minLongitude =
-          regionToLoad.longitude - regionToLoad.longitudeDelta / 2;
-        const maxLongitude =
-          regionToLoad.longitude + regionToLoad.longitudeDelta / 2;
-
-        const result = await placeApi.getPlacesInRegion({
-          minLatitude,
-          maxLatitude,
-          minLongitude,
-          maxLongitude,
-        });
-        newMarkers = result.map(toMapMarker);
-      } catch (err) {
-        setError("장소를 불러오는 중 오류가 발생했습니다.");
-      }
-    }
-
-    setMarkers((prev) => {
-      if (selectedPlace) {
-        const exists = newMarkers.some((m) => m.id === selectedPlace.id);
-        return exists ? newMarkers : [...newMarkers, selectedPlace];
-      }
-      return newMarkers;
-    });
-
-    setIsLoadingPlaces(false);
-  };
-
   const searchPlaces = async (keyword: string, page: number = 1) => {
     if (!keyword.trim()) return;
 
-    setIsLoadingPlaces(true);
     setError(null);
 
     if (USE_MOCK_DATA) {
@@ -118,8 +89,6 @@ export const useMapViewModel = () => {
         setSearchPage(1);
       } catch (err) {
         setError("검색 중 오류가 발생했습니다.");
-      } finally {
-        setIsLoadingPlaces(false);
       }
       return;
     }
@@ -131,8 +100,6 @@ export const useMapViewModel = () => {
       setSearchPage(page);
     } catch (err) {
       setError("장소 검색 중 오류가 발생했습니다.");
-    } finally {
-      setIsLoadingPlaces(false);
     }
   };
 
@@ -210,14 +177,6 @@ export const useMapViewModel = () => {
     setSearchResults([]);
   };
 
-  const handleSearchInRegion = (requestCurrentRegion: () => void) => {
-    requestCurrentRegion();
-  };
-
-  const handleCurrentRegion = (currentRegion: MapRegion) => {
-    loadPlacesInRegion(currentRegion);
-  };
-
   return {
     region,
     markers,
@@ -227,7 +186,7 @@ export const useMapViewModel = () => {
     focusedMarkerId,
     selectedPlace,
     isLoadingPlaces,
-    error,
+    error: placesError?.message || error,
     searchPage,
     handleMarkerPress,
     handleSearchTextChange,
@@ -235,8 +194,6 @@ export const useMapViewModel = () => {
     handleSearchResultPress,
     handleCurrentPositionPress,
     handleMapPress,
-    handleSearchInRegion,
-    handleCurrentRegion,
-    loadPlacesInRegion,
+    handleIdleRegion,
   };
 };

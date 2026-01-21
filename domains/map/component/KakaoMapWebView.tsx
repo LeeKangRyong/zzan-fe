@@ -17,6 +17,12 @@ interface KakaoMapWebViewProps {
   onMarkerPress: (markerId: string) => void;
   onMapPress?: () => void;
   onCurrentRegion?: (region: MapRegion) => void;
+  onIdleRegion?: (bounds: {
+    minLatitude: number;
+    maxLatitude: number;
+    minLongitude: number;
+    maxLongitude: number;
+  }) => void;
   apiKey: string;
   focusedMarkerId?: string | null;
 }
@@ -36,6 +42,7 @@ export const KakaoMapWebView = forwardRef<
       onMarkerPress,
       onMapPress,
       onCurrentRegion,
+      onIdleRegion,
       apiKey,
       focusedMarkerId,
     },
@@ -46,6 +53,7 @@ export const KakaoMapWebView = forwardRef<
       onMarkerPress,
       onMapPress,
       onCurrentRegion,
+      onIdleRegion,
     );
 
     useImperativeHandle(ref, () => ({

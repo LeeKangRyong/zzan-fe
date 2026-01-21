@@ -4,6 +4,12 @@ import { MapRegion } from '../model/mapModel';
 type MessageHandler = (markerId: string) => void;
 type MapPressHandler = () => void;
 type CurrentRegionHandler = (region: MapRegion) => void;
+type IdleRegionHandler = (bounds: {
+  minLatitude: number;
+  maxLatitude: number;
+  minLongitude: number;
+  maxLongitude: number;
+}) => void;
 
 const parseMessage = (data: string) => {
   try {
@@ -50,10 +56,17 @@ const handleError = (data: any) => {
   }
 };
 
+const handleIdleRegion = (data: any, onIdleRegion?: IdleRegionHandler) => {
+  if (data.type === 'idleRegion' && onIdleRegion && data.region) {
+    onIdleRegion(data.region);
+  }
+};
+
 export const useWebViewMessage = (
   onMarkerPress: MessageHandler,
   onMapPress?: MapPressHandler,
-  onCurrentRegion?: CurrentRegionHandler
+  onCurrentRegion?: CurrentRegionHandler,
+  onIdleRegion?: IdleRegionHandler
 ) => {
   const handleMessage = (event: WebViewMessageEvent) => {
     const data = parseMessage(event.nativeEvent.data);
@@ -65,6 +78,7 @@ export const useWebViewMessage = (
     handleMarkerPress(data, onMarkerPress);
     handleMapPress(data, onMapPress);
     handleCurrentRegion(data, onCurrentRegion);
+    handleIdleRegion(data, onIdleRegion);
     handleLog(data);
     handleError(data);
   };

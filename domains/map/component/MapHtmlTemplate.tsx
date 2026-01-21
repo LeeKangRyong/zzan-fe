@@ -113,6 +113,41 @@ const generateInitScript = (region: MapRegion, markers: MapMarker[]) => {
         }));
       });
 
+      // 지도 이동 완료 감지 (idle 이벤트)
+      let idleTimeout = null;
+      kakao.maps.event.addListener(map, 'idle', function() {
+        if (idleTimeout) {
+          clearTimeout(idleTimeout);
+        }
+
+        idleTimeout = setTimeout(function() {
+          const bounds = window.kakaoMap.getBounds();
+          const sw = bounds.getSouthWest();
+          const ne = bounds.getNorthEast();
+
+          const latRange = ne.getLat() - sw.getLat();
+          const lngRange = ne.getLng() - sw.getLng();
+
+          const expandFactor = 0.2;
+          const expandedMinLat = sw.getLat() - (latRange * expandFactor);
+          const expandedMaxLat = ne.getLat() + (latRange * expandFactor);
+          const expandedMinLng = sw.getLng() - (lngRange * expandFactor);
+          const expandedMaxLng = ne.getLng() + (lngRange * expandFactor);
+
+          window.ReactNativeWebView.postMessage(JSON.stringify({
+            type: 'idleRegion',
+            region: {
+              minLatitude: expandedMinLat,
+              maxLatitude: expandedMaxLat,
+              minLongitude: expandedMinLng,
+              maxLongitude: expandedMaxLng,
+              centerLatitude: (expandedMinLat + expandedMaxLat) / 2,
+              centerLongitude: (expandedMinLng + expandedMaxLng) / 2
+            }
+          }));
+        }, 300);
+      });
+
       // 지도 이동 로직
       function moveToCenter(lat, lng) {
         const moveLatLon = new kakao.maps.LatLng(lat, lng);

@@ -8,6 +8,7 @@ import { SystemBars } from "react-native-edge-to-edge";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { QueryProvider } from "@/shared/providers/QueryProvider";
 
 // 앱이 준비될 때까지 스플래시 유지
 SplashScreen.preventAutoHideAsync();
@@ -47,21 +48,23 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaProvider>
-      <KeyboardProvider>
-        <ThemeProvider value={DefaultTheme}>
-          <Stack screenOptions={{ headerShown: false }}>
-            {/* initialRouteName에 의존하기보다 파일 구조상 index.tsx가 login으로 보내게 하는 것이 안정적입니다. */}
-            <Stack.Screen name="login" />
-            <Stack.Screen name="(tabs)" />
-            <Stack.Screen name="(feed)" />
-            <Stack.Screen name="(chat)" />
-            <Stack.Screen name="(info)" />
-            <Stack.Screen name="(user)" />
-          </Stack>
-          <SystemBars style="dark" hidden={{ navigationBar: true }} />
-        </ThemeProvider>
-      </KeyboardProvider>
-    </SafeAreaProvider>
+    <QueryProvider>
+      <SafeAreaProvider>
+        <KeyboardProvider>
+          <ThemeProvider value={DefaultTheme}>
+            <Stack screenOptions={{ headerShown: false }}>
+              {/* initialRouteName에 의존하기보다 파일 구조상 index.tsx가 login으로 보내게 하는 것이 안정적입니다. */}
+              <Stack.Screen name="login" />
+              <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="(feed)" />
+              <Stack.Screen name="(chat)" />
+              <Stack.Screen name="(info)" />
+              <Stack.Screen name="(user)" />
+            </Stack>
+            <SystemBars style="dark" hidden={{ navigationBar: true }} />
+          </ThemeProvider>
+        </KeyboardProvider>
+      </SafeAreaProvider>
+    </QueryProvider>
   );
 }

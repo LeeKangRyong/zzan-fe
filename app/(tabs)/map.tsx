@@ -4,7 +4,6 @@ import {
   KakaoMapWebView,
   MapHeader,
   PlaceDetail,
-  SearchInRegionButton,
 } from "@/domains/map/component";
 import { KakaoMapWebViewRef } from "@/domains/map/component/KakaoMapWebView";
 import { useMapViewModel } from "@/domains/map/viewmodel/useMapViewModel";
@@ -37,15 +36,13 @@ export default function MapTab() {
     showSearchResults,
     focusedMarkerId,
     selectedPlace,
-    isLoadingPlaces,
     handleMarkerPress,
     handleSearchTextChange,
     handleSearchSubmit,
     handleSearchResultPress,
     handleCurrentPositionPress,
     handleMapPress,
-    handleSearchInRegion,
-    handleCurrentRegion,
+    handleIdleRegion,
   } = useMapViewModel();
   const apiKey = Constants.expoConfig?.extra?.kakaoJavascriptKey ?? "";
 
@@ -89,24 +86,10 @@ export default function MapTab() {
           markers={markers}
           onMarkerPress={handleMarkerPress}
           onMapPress={handleMapPress}
-          onCurrentRegion={handleCurrentRegion}
+          onIdleRegion={handleIdleRegion}
           apiKey={apiKey}
           focusedMarkerId={focusedMarkerId}
         />
-
-        {/* {isLoadingPlaces && (
-          <View style={styles.loadingOverlay}>
-            <ActivityIndicator size="large" color={Colors.yellow} />
-          </View>
-        )} */}
-
-
-        <View style={styles.searchButtonContainer}>
-          <SearchInRegionButton
-            onPress={() => handleSearchInRegion(() => mapWebViewRef.current?.requestCurrentRegion())}
-            isLoading={isLoadingPlaces}
-          />
-        </View>
 
         <View style={[styles.floatingButtons, { paddingBottom: bottomSpace }]}>
           <View style={styles.rightTop}>
@@ -142,25 +125,6 @@ const styles = StyleSheet.create({
   },
   mapWrapper: {
     flex: 1,
-  },
-  loadingOverlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.7)",
-    zIndex: 10,
-  },
-  searchButtonContainer: {
-    position: "absolute",
-    top: 12,
-    left: 0,
-    right: 0,
-    zIndex: 5,
-    pointerEvents: "box-none",
   },
   floatingButtons: {
     position: "absolute",
