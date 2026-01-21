@@ -36,7 +36,6 @@ export default function MapTab() {
     focusedMarkerId,
     selectedPlace,
     isLoadingPlaces,
-    error,
     handleMarkerPress,
     handleSearchTextChange,
     handleSearchSubmit,
@@ -45,7 +44,6 @@ export default function MapTab() {
     handleMapPress,
     handleSearchInRegion,
     handleCurrentRegion,
-    loadPlacesInRegion,
   } = useMapViewModel();
   const apiKey = Constants.expoConfig?.extra?.kakaoJavascriptKey ?? "";
 
@@ -92,14 +90,6 @@ export default function MapTab() {
           </View>
         )} */}
 
-        {error && (
-          <View style={styles.errorBanner}>
-            <Text style={styles.errorText}>{error}</Text>
-            <TouchableOpacity onPress={() => loadPlacesInRegion(region)}>
-              <Text style={styles.retryText}>다시 시도</Text>
-            </TouchableOpacity>
-          </View>
-        )}
 
         <View style={styles.searchButtonContainer}>
           <SearchInRegionButton
@@ -148,30 +138,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(255, 255, 255, 0.7)",
     zIndex: 10,
-  },
-  errorBanner: {
-    position: "absolute",
-    top: 20,
-    left: Layout.SCREEN_HORIZONTAL,
-    right: Layout.SCREEN_HORIZONTAL,
-    backgroundColor: "#FF4444",
-    padding: 12,
-    borderRadius: 8,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    zIndex: 10,
-  },
-  errorText: {
-    color: Colors.white,
-    flex: 1,
-    fontSize: 14,
-  },
-  retryText: {
-    color: Colors.white,
-    fontSize: 14,
-    fontWeight: "bold",
-    textDecorationLine: "underline",
   },
   searchButtonContainer: {
     position: "absolute",
