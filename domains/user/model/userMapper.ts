@@ -26,7 +26,8 @@ export const mapUserToApiRequest = (
   user: User
 ): Partial<UserApiResponse> => ({
   name: user.name,
-  birth: user.birth,
+  birth: user.birthDate ? user.birthDate.replace(/\./g, '-') : user.birth,
   phone: user.phone,
   email: user.email,
+  profileImageUrl: user.profileImageUrl,
 });

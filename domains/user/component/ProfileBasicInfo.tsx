@@ -3,6 +3,7 @@
 import { User } from '@/domains/user/model/userModel';
 import { Colors, Typography } from '@/shared/constants';
 import { useBirthDateFormat, usePhoneFormat } from '@/shared/hooks';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ProfileBasicInfoBlock } from './ProfileBasicInfoBlock';
 
@@ -15,6 +16,18 @@ interface ProfileBasicInfoProps {
 export const ProfileBasicInfo = ({ user, isEditMode, onUserChange }: ProfileBasicInfoProps) => {
   const { formatPhone } = usePhoneFormat();
   const { formatBirthDate } = useBirthDateFormat();
+  const [editingField, setEditingField] = useState<string | null>(null);
+
+  const handleEditIconClick = (fieldName: string) => {
+    if (!isEditMode) return;
+    setEditingField(editingField === fieldName ? null : fieldName);
+  };
+
+  useEffect(() => {
+    if (!isEditMode) {
+      setEditingField(null);
+    }
+  }, [isEditMode]);
 
   return (
     <View style={styles.container}>
@@ -22,7 +35,9 @@ export const ProfileBasicInfo = ({ user, isEditMode, onUserChange }: ProfileBasi
       <InfoList
         user={user}
         isEditMode={isEditMode}
+        editingField={editingField}
         onUserChange={onUserChange}
+        onEditIconClick={handleEditIconClick}
         formatPhone={formatPhone}
         formatBirthDate={formatBirthDate}
       />
@@ -33,42 +48,56 @@ export const ProfileBasicInfo = ({ user, isEditMode, onUserChange }: ProfileBasi
 interface InfoListProps {
   user: User;
   isEditMode: boolean;
+  editingField: string | null;
   onUserChange?: (field: keyof User, value: string) => void;
+  onEditIconClick: (fieldName: string) => void;
   formatPhone: (value: string) => string;
   formatBirthDate: (value: string) => string;
 }
 
-const InfoList = ({ user, isEditMode, onUserChange, formatPhone, formatBirthDate }: InfoListProps) => (
+const InfoList = ({
+  user,
+  isEditMode,
+  editingField,
+  onUserChange,
+  onEditIconClick,
+  formatPhone,
+  formatBirthDate
+}: InfoListProps) => (
   <View style={styles.infoList}>
     <ProfileBasicInfoBlock
       label="이름"
       value={user.name}
-      isEditMode={false}
+      isFieldEditing={editingField === 'name'}
+      showEditIcon={isEditMode}
       onValueChange={(text) => onUserChange?.('name', text)}
-      showEditIcon={false}
+      onEditIconClick={() => onEditIconClick('name')}
     />
     <ProfileBasicInfoBlock
       label="생년월일"
       value={user.birthDate}
-      isEditMode={isEditMode}
+      isFieldEditing={editingField === 'birthDate'}
+      showEditIcon={isEditMode}
       onValueChange={(text) => onUserChange?.('birthDate', formatBirthDate(text))}
-      showEditIcon={true}
+      onEditIconClick={() => onEditIconClick('birthDate')}
       keyboardType="numeric"
     />
     <ProfileBasicInfoBlock
       label="전화번호"
       value={user.phone}
-      isEditMode={isEditMode}
+      isFieldEditing={editingField === 'phone'}
+      showEditIcon={isEditMode}
       onValueChange={(text) => onUserChange?.('phone', formatPhone(text))}
-      showEditIcon={true}
+      onEditIconClick={() => onEditIconClick('phone')}
       keyboardType="numeric"
     />
     <ProfileBasicInfoBlock
       label="이메일"
       value={user.email}
-      isEditMode={isEditMode}
+      isFieldEditing={editingField === 'email'}
+      showEditIcon={isEditMode}
       onValueChange={(text) => onUserChange?.('email', text)}
-      showEditIcon={true}
+      onEditIconClick={() => onEditIconClick('email')}
       keyboardType="email-address"
     />
   </View>

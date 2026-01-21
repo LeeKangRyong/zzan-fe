@@ -2,34 +2,55 @@
 
 import EditIcon from '@/assets/icons/edit.svg';
 import { Colors, Typography } from '@/shared/constants';
-import { KeyboardTypeOptions, StyleSheet, Text, TextInput, View } from 'react-native';
+import { KeyboardTypeOptions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface ProfileBasicInfoBlockProps {
   label: string;
   value: string;
-  isEditMode: boolean;
+  isFieldEditing: boolean;
   onValueChange?: (text: string) => void;
+  onEditIconClick?: () => void;
   showEditIcon?: boolean;
   keyboardType?: KeyboardTypeOptions;
 }
 
-const ValueDisplay = ({ value, isEditMode, onValueChange, keyboardType, showEditIcon }: Omit<ProfileBasicInfoBlockProps, 'label'>) => (
+const ValueDisplay = ({
+  value,
+  isFieldEditing,
+  onValueChange,
+  keyboardType,
+  showEditIcon,
+  onEditIconClick
+}: Omit<ProfileBasicInfoBlockProps, 'label'>) => (
   <View style={styles.valueContainer}>
-    {isEditMode ? (
+    {isFieldEditing ? (
       <TextInput
         style={styles.valueInput}
         value={value}
         onChangeText={onValueChange}
         keyboardType={keyboardType}
+        autoFocus
       />
     ) : (
       <Text style={styles.valueText}>{value}</Text>
     )}
-    {isEditMode && showEditIcon && <EditIcon width={16} height={16} />}
+    {showEditIcon && (
+      <TouchableOpacity onPress={onEditIconClick}>
+        <EditIcon width={16} height={16} />
+      </TouchableOpacity>
+    )}
   </View>
 );
 
-export const ProfileBasicInfoBlock = ({ label, value, isEditMode, onValueChange, showEditIcon, keyboardType }: ProfileBasicInfoBlockProps) => {
+export const ProfileBasicInfoBlock = ({
+  label,
+  value,
+  isFieldEditing,
+  onValueChange,
+  onEditIconClick,
+  showEditIcon,
+  keyboardType
+}: ProfileBasicInfoBlockProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.labelContainer}>
@@ -37,8 +58,9 @@ export const ProfileBasicInfoBlock = ({ label, value, isEditMode, onValueChange,
       </View>
       <ValueDisplay
         value={value}
-        isEditMode={isEditMode}
+        isFieldEditing={isFieldEditing}
         onValueChange={onValueChange}
+        onEditIconClick={onEditIconClick}
         keyboardType={keyboardType}
         showEditIcon={showEditIcon}
       />

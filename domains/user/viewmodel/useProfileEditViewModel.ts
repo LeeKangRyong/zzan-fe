@@ -10,7 +10,10 @@ const isMockEnabled = (): boolean => {
   return Constants.expoConfig?.extra?.useMockData === true;
 };
 
-export const useProfileEditViewModel = (initialUser: User | null) => {
+export const useProfileEditViewModel = (
+  initialUser: User | null,
+  onSaveSuccess?: () => void
+) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedUser, setEditedUser] = useState<User | null>(initialUser);
   const [isSaving, setIsSaving] = useState(false);
@@ -28,13 +31,19 @@ export const useProfileEditViewModel = (initialUser: User | null) => {
 
     setIsSaving(true);
     try {
+      const requestBody = mapUserToApiRequest(editedUser);
+      console.log('[ProfileEdit] PUT /users/me 요청 데이터:', requestBody);
+
       await apiClient<ApiResponse<UserApiResponse>>(API_ENDPOINTS.USER.ME, {
-        method: 'PATCH',
-        body: mapUserToApiRequest(editedUser),
+        method: 'PUT',
+        body: requestBody,
         requireAuth: true,
       });
+
+      console.log('[ProfileEdit] PUT /users/me 성공');
       return true;
     } catch (err) {
+      console.error('[ProfileEdit] PUT /users/me 실패:', err);
       return false;
     } finally {
       setIsSaving(false);
@@ -43,7 +52,10 @@ export const useProfileEditViewModel = (initialUser: User | null) => {
 
   const toggleEditMode = async () => {
     if (isEditMode) {
-      await saveUser();
+      const success = await saveUser();
+      if (success && onSaveSuccess) {
+        onSaveSuccess();
+      }
     }
     setIsEditMode(!isEditMode);
   };

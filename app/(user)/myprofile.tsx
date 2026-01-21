@@ -40,7 +40,7 @@ const CustomHeader = ({ isEditMode, onEditPress }: CustomHeaderProps) => {
 };
 
 export default function MyProfileTab() {
-  const { user, isLoading, error } = useUserViewModel();
+  const { user, isLoading, error, refetch } = useUserViewModel();
   const { logout } = useAuthViewModel();
   const {
     isEditMode,
@@ -48,7 +48,7 @@ export default function MyProfileTab() {
     toggleEditMode,
     updateUserField,
     selectProfileImage,
-  } = useProfileEditViewModel(user);
+  } = useProfileEditViewModel(user, refetch);
 
   const [showToast, setShowToast] = useState(false);
   const insets = useSafeAreaInsets();
