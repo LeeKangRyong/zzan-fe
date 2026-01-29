@@ -132,7 +132,7 @@ export default function DetailTab() {
               onPlacePress={() => {
                 handlePlacePress();
                 router.push({
-                  pathname: '/place',
+                  pathname: '/placeTemporal',
                   params: { placeId: place.id },
                 });
               }}

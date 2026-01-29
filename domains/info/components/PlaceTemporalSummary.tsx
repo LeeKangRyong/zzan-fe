@@ -1,0 +1,141 @@
+import { INFO_CONSTANTS } from '@/domains/info/model/constants';
+import { BookMark } from '@/shared/components';
+import { Colors, Typography } from '@/shared/constants';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+
+interface PlaceTemporalSummaryProps {
+  name: string;
+  address: string;
+  phone: string;
+  distance: string | null;
+  isDistanceLoading: boolean;
+  isBookmarked: boolean;
+  onBookmarkPress: () => void;
+}
+
+const InfoBoxItem = ({
+  label,
+  value,
+  isLoading,
+}: {
+  label: string;
+  value: string | null;
+  isLoading?: boolean;
+}) => (
+  <View style={styles.infoBox}>
+    <View style={styles.infoBoxCategory}>
+      <Text style={styles.label}>{label}</Text>
+    </View>
+    {isLoading ? (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>거리 계산 중...</Text>
+        <ActivityIndicator size="small" color={Colors.black} />
+      </View>
+    ) : (
+      <Text style={styles.value}>{value || '정보 없음'}</Text>
+    )}
+  </View>
+);
+
+export const PlaceTemporalSummary = ({
+  name,
+  address,
+  phone,
+  distance,
+  isDistanceLoading,
+  isBookmarked,
+  onBookmarkPress,
+}: PlaceTemporalSummaryProps) => {
+  return (
+    <View style={styles.container}>
+      <View style={styles.headerContainer}>
+        <View style={styles.header}>
+          <Text style={styles.title}>{name}</Text>
+          <BookMark isBookmarked={isBookmarked} onPress={onBookmarkPress} />
+        </View>
+        <Text style={styles.address}>{address}</Text>
+      </View>
+      <View style={styles.infoBoxContainer}>
+        <InfoBoxItem label="전화번호" value={phone} />
+        <InfoBoxItem
+          label="거리"
+          value={distance}
+          isLoading={isDistanceLoading}
+        />
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
+    paddingVertical: INFO_CONSTANTS.SUMMARY_PADDING_VERTICAL,
+  },
+  headerContainer: {
+    gap: 8,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  title: {
+    fontFamily: Typography.KAKAO_BIG_SANS_EXTRABOLD,
+    fontSize: 22,
+    color: Colors.black,
+    letterSpacing: -0.44,
+    flex: 1,
+  },
+  address: {
+    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontSize: 14,
+    color: Colors.black,
+    letterSpacing: -0.28,
+  },
+  infoBoxContainer: {
+    marginTop: INFO_CONSTANTS.INFO_BOX_MARGIN_TOP,
+    gap: 10,
+  },
+  infoBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: '100%',
+  },
+  infoBoxCategory: {
+    backgroundColor: Colors.black,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 2,
+  },
+  label: {
+    fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
+    fontSize: 12,
+    color: Colors.white,
+    paddingVertical: 6,
+    width: 84,
+    textAlign: 'center',
+  },
+  value: {
+    fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
+    fontSize: 14,
+    color: Colors.black,
+    flex: 1,
+    textAlign: 'right',
+    letterSpacing: -0.28,
+  },
+  loadingContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    gap: 8,
+  },
+  loadingText: {
+    fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
+    fontSize: 14,
+    color: Colors.gray,
+    letterSpacing: -0.28,
+  },
+});

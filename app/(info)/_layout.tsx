@@ -5,6 +5,7 @@ export default function InfoLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="alchol" />
       <Stack.Screen name="place" />
+      <Stack.Screen name="placeTemporal" />
     </Stack>
   );
 }

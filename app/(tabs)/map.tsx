@@ -61,8 +61,12 @@ export default function MapTab() {
     }
     if (selectedPlace) {
       router.push({
-        pathname: "/place",
-        params: { placeId: selectedPlace.id },
+        pathname: "/placeTemporal",
+        params: {
+          placeId: selectedPlace.id,
+          userLatitude: region.latitude.toString(),
+          userLongitude: region.longitude.toString(),
+        },
       });
     }
   };
