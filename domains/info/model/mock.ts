@@ -2,6 +2,12 @@ import type { ImageSourcePropType } from "react-native";
 import type { AlcoholInfo, PlaceInfo, PlaceReview } from "./infoModel";
 
 const exampleImage = require("@/assets/images/example_image.png");
+const breweryImage = require("@/assets/basic_mock_images/brewery.png");
+const ingredientsImage = require("@/assets/basic_mock_images/ingredients.png");
+const lookingImage = require("@/assets/basic_mock_images/looking.png");
+const smellImage = require("@/assets/basic_mock_images/smell.png");
+const tasteImage = require("@/assets/basic_mock_images/taste.png");
+const featureImage = require("@/assets/basic_mock_images/feature.png");
 
 export interface LiquorComment {
   id: string;
@@ -119,6 +125,38 @@ export const MOCK_ALCOHOL_INFO: AlcoholInfo = {
   recommendTitle: "페어링 안주 추천",
   recommendDescription:
     "알콜올 도수가 14%로 일반 막걸리의 2배가 넘는 만큼 한여름에는 얼음을 넣어 온더록스로 한잔해도 충분히 제 역할을 하는 제품입니다.",
+  galleryImages: [
+    {
+      image: breweryImage,
+      descriptionTitle: "양조장",
+      descriptionCategory: "서울양조장에서 전통 방식으로 빚었습니다.",
+    },
+    {
+      image: ingredientsImage,
+      descriptionTitle: "원재료",
+      descriptionCategory: "유기농 쌀 100%, 누룩, 정제수",
+    },
+    {
+      image: lookingImage,
+      descriptionTitle: "외관",
+      descriptionCategory: "맑고 투명한 유백색을 띕니다.",
+    },
+    {
+      image: smellImage,
+      descriptionTitle: "향",
+      descriptionCategory: "은은한 쌀 향과 누룩 향이 어우러집니다.",
+    },
+    {
+      image: tasteImage,
+      descriptionTitle: "맛",
+      descriptionCategory: "부드럽고 깔끔하며 탄산감이 적당합니다.",
+    },
+    {
+      image: featureImage,
+      descriptionTitle: "특징",
+      descriptionCategory: "살아있는 유산균이 풍부한 생막걸리입니다.",
+    },
+  ],
 };
 
 export const getMockAlcoholInfo = (): AlcoholInfo => {

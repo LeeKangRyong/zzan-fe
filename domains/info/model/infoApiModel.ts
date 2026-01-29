@@ -1,6 +1,26 @@
+import type { ImageSourcePropType } from 'react-native';
+
 import type { AlcoholInfo, ImageWithDescription, PlaceInfo } from './infoModel';
 
 const exampleImage = require('@/assets/images/example_image.png');
+
+const HEADER_IMAGE_MAP: Record<string, ImageSourcePropType> = {
+  양조장: require('@/assets/basic_mock_images/brewery.png'),
+  원재료: require('@/assets/basic_mock_images/ingredients.png'),
+  외관: require('@/assets/basic_mock_images/looking.png'),
+  향: require('@/assets/basic_mock_images/smell.png'),
+  맛: require('@/assets/basic_mock_images/taste.png'),
+  특징: require('@/assets/basic_mock_images/feature.png'),
+};
+
+const getImageForHeader = (header: string): ImageSourcePropType => {
+  return HEADER_IMAGE_MAP[header] || exampleImage;
+};
+
+export interface LiquorDescriptionItem {
+  header: string;
+  content: string;
+}
 
 export interface LiquorDetailApiResponse {
   id: string;
@@ -8,7 +28,7 @@ export interface LiquorDetailApiResponse {
   type: string | null;
   imageUrl: string | null;
   score: number | null;
-  description: string | null;
+  description: LiquorDescriptionItem[] | null;
   foodPairing: string | null;
   volume: string | null;
   content: string | null;
@@ -78,6 +98,14 @@ export const mapLiquorApiToAlcoholInfo = (
     ? [createImageWithDescription(api.imageUrl)]
     : [createDefaultImage()];
 
+  const galleryImages: ImageWithDescription[] = (api.description || []).map(
+    item => ({
+      image: getImageForHeader(item.header),
+      descriptionTitle: item.header,
+      descriptionCategory: item.content?.trim() || '... ',
+    })
+  );
+
   return {
     id: api.id,
     name: api.name,
@@ -92,7 +120,7 @@ export const mapLiquorApiToAlcoholInfo = (
     reviews: [],
     recommendTitle: '페어링 안주 추천',
     recommendDescription: api.foodPairing || '',
-    galleryImages: undefined,
+    galleryImages: galleryImages.length > 0 ? galleryImages : undefined,
   };
 };
 

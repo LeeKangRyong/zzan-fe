@@ -448,7 +448,7 @@ GET /liquors/{liquorId}
     "type": "탁주",
     "imageUrl": "https://cdn.zzan.com/liquor-images/...",
     "score": 4.5,
-    "description": "배상면주가에서 만든 프리미엄 막걸리입니다.",
+    "description": "[{\"header\": \"양조장\", \"content\": \"밀양클래식술도가에서 만들었어요.\"}, {\"header\": \"맛\", \"content\": \"탄산감, 깔끔함이 느껴져요.\"}]",
     "foodPairing": "파전, 김치전, 보쌈",
     "volume": "750ml",
     "content": "6%",
@@ -459,20 +459,21 @@ GET /liquors/{liquorId}
 }
 ```
 
-| 필드          | 타입    | 설명                         |
-| ------------- | ------- | ---------------------------- |
-| `id`          | string  | 주류 ID                      |
-| `name`        | string  | 주류 이름                    |
-| `type`        | string? | 종류 (탁주, 약주, 증류주 등) |
-| `imageUrl`    | string? | 이미지 URL                   |
-| `score`       | number? | 평균 평점 (0.0 ~ 5.0)        |
-| `description` | string? | 설명                         |
-| `foodParing`  | string? | 어울리는 음식                |
-| `volume`      | string? | 용량                         |
-| `content`     | string? | 도수                         |
-| `awards`      | string? | 수상 내역                    |
-| `etc`         | string? | 기타 정보                    |
-| `brewery`     | string? | 양조장                       |
+| 필드         | 타입    | 설명                         |
+| ------------ | ------- | ---------------------------- |
+| `id`         | string  | 주류 ID                      |
+| `name`       | string  | 주류 이름                    |
+| `type`       | string? | 종류 (탁주, 약주, 증류주 등) |
+| `imageUrl`   | string? | 이미지 URL                   |
+| `score`      | number? | 평균 평점 (0.0 ~ 5.0)        |
+| `header`     | string? | 기본 정보 제목               |
+| `content`    | string? | header에 대한 내용           |
+| `foodParing` | string? | 어울리는 음식                |
+| `volume`     | string? | 용량                         |
+| `content`    | string? | 도수                         |
+| `awards`     | string? | 수상 내역                    |
+| `etc`        | string? | 기타 정보                    |
+| `brewery`    | string? | 양조장                       |
 
 <br>
 

@@ -99,7 +99,7 @@ export default function AlcholTab() {
         <AlcholDescription
           recommendTitle={alcoholInfo.recommendTitle}
           recommendDescription={alcoholInfo.recommendDescription}
-          images={alcoholInfo.images}
+          images={alcoholInfo.galleryImages || alcoholInfo.images}
         />
 
         <View style={styles.line} />
