@@ -27,7 +27,9 @@ export const useUserViewModel = () => {
     } catch (err) {
       console.error('[UserViewModel] 사용자 정보 로드 실패:', err);
       setError('사용자 정보를 불러오는데 실패했습니다');
-      setUser(mockUser);
+      if (isMockEnabled()) {
+        setUser(mockUser);
+      }
     } finally {
       setIsLoading(false);
     }

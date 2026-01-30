@@ -1,11 +1,11 @@
 import { chatApi, type ChatHistoryItem, type LiquorSource } from "@/domains/chat/api/chatApi";
+import { DEFAULT_RECOMMENDED_ANSWERS } from "@/domains/chat/components/RecommendedAnswers";
 import type {
   Message,
   RecommendedAnswer,
 } from "@/domains/chat/model/chatModel";
 import { CHAT_CONSTANTS } from "@/domains/chat/model/constants";
 import {
-  MOCK_RECOMMENDED_ANSWERS,
   getMockChatResponse,
 } from "@/domains/chat/model/mock";
 import Constants from "expo-constants";
@@ -74,7 +74,7 @@ export const useChatViewModel = () => {
   >([]);
 
   useEffect(() => {
-    setRecommendedAnswers(MOCK_RECOMMENDED_ANSWERS);
+    setRecommendedAnswers(DEFAULT_RECOMMENDED_ANSWERS);
 
     // 초기 환영 메시지 추가
     const initialMessages = CHAT_CONSTANTS.INITIAL_GREETING_MESSAGES.map(

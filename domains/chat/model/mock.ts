@@ -1,19 +1,4 @@
-import type { ChatResponse, RecommendedAnswer } from "./chatModel";
-
-export const MOCK_RECOMMENDED_ANSWERS: RecommendedAnswer[] = [
-  {
-    id: "rec1",
-    text: "전통주에 대해 소개해줘!",
-  },
-  {
-    id: "rec2",
-    text: "달달한 전통주 추천해줘",
-  },
-  {
-    id: "rec3",
-    text: "맛이 엄청 깔끔한 전통주 추천해줘",
-  },
-];
+import type { ChatResponse } from "./chatModel";
 
 export const MOCK_CHAT_RESPONSE: ChatResponse = {
   message: "기본 답변",

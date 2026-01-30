@@ -4,6 +4,21 @@ import { Typography } from '@/shared/constants/Typography';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { RecommendedChip } from './RecommendedChip';
 
+export const DEFAULT_RECOMMENDED_ANSWERS: RecommendedAnswer[] = [
+  {
+    id: "rec1",
+    text: "전통주에 대해 소개해줘!",
+  },
+  {
+    id: "rec2",
+    text: "달달한 전통주 추천해줘",
+  },
+  {
+    id: "rec3",
+    text: "맛이 엄청 깔끔한 전통주 추천해줘",
+  },
+];
+
 interface RecommendedAnswersProps {
   answers: RecommendedAnswer[];
   onSelectAnswer: (text: string) => void;
@@ -18,8 +33,14 @@ export const RecommendedAnswers = ({
   labelColor,
   chipBackgroundColor,
   chipTextColor,
-}: RecommendedAnswersProps) => (
-  <View style={styles.container}>
+}: RecommendedAnswersProps) => {
+  // Guard clause: don't render if answers is undefined or empty
+  if (!answers || !Array.isArray(answers) || answers.length === 0) {
+    return null;
+  }
+
+  return (
+    <View style={styles.container}>
     <Text style={[styles.label, { color: labelColor }]}>
       {CHAT_CONSTANTS.RECOMMENDED_LABEL}
     </Text>
@@ -40,7 +61,8 @@ export const RecommendedAnswers = ({
       ))}
     </ScrollView>
   </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

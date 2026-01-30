@@ -1,7 +1,7 @@
-import { useRouter } from 'expo-router';
-import { useEffect } from 'react';
-import { Alert } from 'react-native';
-import { usePostStore } from '../store/postStore';
+import { useRouter } from "expo-router";
+import { useEffect } from "react";
+import { Alert } from "react-native";
+import { usePostStore } from "../store/postStore";
 
 export const usePostViewModel = () => {
   const router = useRouter();
@@ -31,7 +31,7 @@ export const usePostViewModel = () => {
   }, [selectedPlace]);
 
   const handlePlaceSelect = () => {
-    router.push('/add?type=place');
+    router.push("/add?type=place");
   };
 
   const handleOpenRatingModal = () => {
@@ -58,24 +58,24 @@ export const usePostViewModel = () => {
 
   const handleBackPress = () => {
     Alert.alert(
-      '작성 취소',
-      '작성 중인 내용이 모두 삭제됩니다.\n정말 나가시겠습니까?',
+      "작성 취소",
+      "작성 중인 내용이 모두 삭제됩니다.\n정말 나가시겠습니까?",
       [
-        { text: '취소', style: 'cancel' },
+        { text: "취소", style: "cancel" },
         {
-          text: '나가기',
-          style: 'destructive',
+          text: "나가기",
+          style: "destructive",
           onPress: () => {
             resetPost();
-            router.back();
+            router.push("/map");
           },
         },
-      ]
+      ],
     );
   };
 
   const handleNextPress = () => {
-    router.push('/rate');
+    router.push("/rate");
   };
 
   const isNextButtonEnabled = uploadedImages.length > 0;

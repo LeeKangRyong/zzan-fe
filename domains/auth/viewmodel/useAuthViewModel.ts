@@ -69,7 +69,9 @@ export const useAuthViewModel = () => {
   }, [clearTokens]);
 
   const loginWithMock = useCallback((): void => {
-    setTokens(mockAuthTokens.accessToken, mockAuthTokens.refreshToken);
+    if (isMockEnabled()) {
+      setTokens(mockAuthTokens.accessToken, mockAuthTokens.refreshToken);
+    }
   }, [setTokens]);
 
   return {
