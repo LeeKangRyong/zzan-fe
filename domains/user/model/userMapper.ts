@@ -22,12 +22,17 @@ export const mapApiUserToUser = (apiUser: UserApiResponse): User => ({
   role: apiUser.role,
 });
 
+const toNullIfEmpty = (value: string | null): string | null => {
+  if (!value || value.trim() === '') return null;
+  return value;
+};
+
 export const mapUserToApiRequest = (
   user: User
 ): Partial<UserApiResponse> => ({
   name: user.name,
   birth: user.birthDate ? user.birthDate.replace(/\./g, '-') : user.birth,
-  phone: user.phone,
-  email: user.email,
+  phone: toNullIfEmpty(user.phone),
+  email: toNullIfEmpty(user.email),
   profileImageUrl: user.profileImageUrl,
 });

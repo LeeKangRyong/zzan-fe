@@ -48,15 +48,18 @@ export default function MyProfileTab() {
     toggleEditMode,
     updateUserField,
     selectProfileImage,
+    toastMessage,
+    showToast: showEditToast,
+    hideToast,
   } = useProfileEditViewModel(user, refetch);
 
-  const [showToast, setShowToast] = useState(false);
+  const [showUserErrorToast, setShowUserErrorToast] = useState(false);
   const insets = useSafeAreaInsets();
   const safeBottom = insets.bottom || Layout.BOTTOM_SAFE_AREA_FALLBACK;
 
   useEffect(() => {
     if (error) {
-      setShowToast(true);
+      setShowUserErrorToast(true);
     }
   }, [error]);
 
@@ -69,8 +72,13 @@ export default function MyProfileTab() {
     <View style={[styles.container, { paddingBottom: safeBottom }]}>
       <Toast
         message={error}
-        visible={showToast}
-        onHide={() => setShowToast(false)}
+        visible={showUserErrorToast}
+        onHide={() => setShowUserErrorToast(false)}
+      />
+      <Toast
+        message={toastMessage}
+        visible={showEditToast}
+        onHide={hideToast}
       />
       <CustomHeader isEditMode={isEditMode} onEditPress={toggleEditMode} />
       <KeyboardAwareScrollView
