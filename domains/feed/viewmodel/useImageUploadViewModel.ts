@@ -27,9 +27,8 @@ export const useImageUploadViewModel = () => {
 
   const uploadSingleImage = async (localUri: string): Promise<UploadImageResult> => {
     const fileName = extractFileName(localUri);
-    const contentType = getContentType(fileName);
 
-    const presigned = await feedApi.getPresignedUrl({ fileName, contentType });
+    const presigned = await feedApi.getPresignedUrl({ fileName } as any);
     const imageBlob = await fetchImageAsBlob(localUri);
 
     await feedApi.uploadImageToS3(presigned.url, imageBlob);
@@ -39,16 +38,6 @@ export const useImageUploadViewModel = () => {
 
   const extractFileName = (uri: string): string => {
     return uri.split('/').pop() || `image_${Date.now()}.jpg`;
-  };
-
-  const getContentType = (fileName: string): string => {
-    const ext = fileName.split('.').pop()?.toLowerCase();
-    const types: Record<string, string> = {
-      jpg: 'image/jpeg',
-      jpeg: 'image/jpeg',
-      png: 'image/png',
-    };
-    return types[ext || 'jpg'] || 'image/jpeg';
   };
 
   const fetchImageAsBlob = async (uri: string): Promise<Blob> => {
