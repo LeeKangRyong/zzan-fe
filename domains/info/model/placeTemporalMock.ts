@@ -1,27 +1,23 @@
-import { MapMarker, MapRegion } from './mapModel';
-import { mockPlaces } from '@/domains/feed/model/mock';
-import { PLACE_KAKAO_MAP } from '@/domains/info/model/placeKakaoMapping';
+// PlaceTemporal Mock Data
 
-export const filterMarkersInRegion = (
-  markers: MapMarker[],
-  region: MapRegion
-): MapMarker[] => {
-  const minLatitude = region.latitude - region.latitudeDelta / 2;
-  const maxLatitude = region.latitude + region.latitudeDelta / 2;
-  const minLongitude = region.longitude - region.longitudeDelta / 2;
-  const maxLongitude = region.longitude + region.longitudeDelta / 2;
+import { mockNearbyFeeds, mockPlaces } from "@/domains/feed/model/mock";
+import { PLACE_KAKAO_MAP } from "./placeKakaoMapping";
 
-  return markers.filter(marker =>
-    marker.latitude >= minLatitude &&
-    marker.latitude <= maxLatitude &&
-    marker.longitude >= minLongitude &&
-    marker.longitude <= maxLongitude
-  );
-};
+export interface PlaceTemporalInfo {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
+  rating: number;
+  feedCount: number;
+  kakaoPlaceId: string;
+  latitude: number;
+  longitude: number;
+}
 
-// ===== KOREA COORDINATE RANGES =====
+// ===== CONSTANTS =====
 
-export const CITY_CENTERS = [
+const CITY_CENTERS = [
   { name: '서울', lat: 37.5665, lng: 126.9780 },
   { name: '부산', lat: 35.1796, lng: 129.0756 },
   { name: '대구', lat: 35.8714, lng: 128.6014 },
@@ -44,15 +40,15 @@ export const CITY_CENTERS = [
 // ===== HELPER FUNCTIONS =====
 
 const generateRandomRating = (): number => {
-  const rating = 3.0 + Math.random() * 2.0;
-  return Math.round(rating);
+  const rating = 3.5 + Math.random() * 1.5;
+  return Math.round(rating * 10) / 10;
 };
 
 const generateRandomFeedCount = (): number => {
-  return Math.floor(Math.random() * 50) + 1;
+  return Math.floor(Math.random() * 50) + 10;
 };
 
-export const generateNearbyCoord = (center: { lat: number; lng: number }): { lat: number; lng: number } => {
+const generateNearbyCoord = (center: { lat: number; lng: number }): { lat: number; lng: number } => {
   const offset = 0.05;
   return {
     lat: center.lat + (Math.random() - 0.5) * offset,
@@ -64,23 +60,32 @@ const getRandomElement = <T>(array: T[]): T => {
   return array[Math.floor(Math.random() * array.length)];
 };
 
+const generatePhoneNumber = (index: number): string => {
+  const baseNumber = 1000 + index;
+  const randomSuffix = String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+  return `02-${baseNumber}-${randomSuffix}`;
+};
+
 // ===== MOCK DATA =====
 
-export const mockPlacesWithCoordinates: MapMarker[] = Array.from({ length: 100 }, (_, i) => {
+export const MOCK_PLACE_TEMPORAL_INFOS: PlaceTemporalInfo[] = Array.from({ length: 100 }, (_, i) => {
   const placeId = String(i + 1);
+  const kakaoPlaceId = PLACE_KAKAO_MAP[placeId];
+  const place = mockPlaces[i % mockPlaces.length];
   const city = getRandomElement(CITY_CENTERS);
   const coord = generateNearbyCoord({ lat: city.lat, lng: city.lng });
-  const place = mockPlaces[i % mockPlaces.length];
 
   return {
     id: placeId,
-    kakaoPlaceId: PLACE_KAKAO_MAP[placeId],
     name: place.name,
     address: place.address,
+    phone: generatePhoneNumber(i),
+    rating: generateRandomRating(),
+    feedCount: generateRandomFeedCount(),
+    kakaoPlaceId,
     latitude: coord.lat,
     longitude: coord.lng,
-    imageUrl: require('@/assets/images/example_image.png'),
-    feedCount: generateRandomFeedCount(),
-    rating: generateRandomRating(),
   };
 });
+
+export const MOCK_PLACE_FEEDS = mockNearbyFeeds;

@@ -72,21 +72,22 @@ export const usePlaceTemporalViewModel = ({
   const [isFeedsLoading, setIsFeedsLoading] = useState(true);
 
   const loadMockData = useCallback(() => {
-    const mockKakaoPlaceId = 'mock-kakao-place-1';
-    setPlaceInfo({
-      id: 'mock-place-1',
-      name: '울산 문화의거리',
-      address: '울산광역시 중구 성남동 329-5',
-      phone: '052-290-3660',
-      rating: 4.6,
-      feedCount: 123,
-      kakaoPlaceId: mockKakaoPlaceId,
-      latitude: 35.5384,
-      longitude: 129.3114,
-    });
-    setKakaoPlaceId(mockKakaoPlaceId);
+    const { MOCK_PLACE_TEMPORAL_INFOS } = require('@/domains/info/model/placeTemporalMock');
+
+    const foundPlace = MOCK_PLACE_TEMPORAL_INFOS.find(
+      (p: any) => p.id === placeId
+    );
+
+    if (!foundPlace) {
+      setError('장소를 찾을 수 없습니다.');
+      setIsLoading(false);
+      return;
+    }
+
+    setPlaceInfo(foundPlace);
+    setKakaoPlaceId(foundPlace.kakaoPlaceId);
     setIsLoading(false);
-  }, []);
+  }, [placeId]);
 
   const fetchPlaceInfo = useCallback(async () => {
     if (!placeId) return;
@@ -166,30 +167,23 @@ export const usePlaceTemporalViewModel = ({
     setIsFeedsLoading(true);
 
     if (isMockEnabled()) {
-      setPlaceFeeds([
-        {
-          id: 'feed-1',
-          imageUrl: '',
-          userId: 'user-1',
-          userName: '도선빈',
-          userProfileImage: '',
-          placeName: '울산 문화의거리',
-          placeAddress: '울산광역시 중구 성남동 329-5',
-          alcoholCount: 4,
-          score: 4,
-        },
-        {
-          id: 'feed-2',
-          imageUrl: '',
-          userId: 'user-2',
-          userName: '김철수',
-          userProfileImage: '',
-          placeName: '울산 문화의거리',
-          placeAddress: '울산광역시 중구 성남동 329-5',
-          alcoholCount: 2,
-          score: 5,
-        },
-      ]);
+      const { mockFeedDetails } = require('@/domains/feed/model/mock');
+
+      const feedsForPlace = mockFeedDetails
+        .filter((feed: any) => feed.kakaoPlaceId === kakaoPlaceId)
+        .map((feed: any) => ({
+          id: feed.id,
+          userId: feed.userId,
+          username: feed.userName,
+          userProfileImage: feed.userProfileImage,
+          imageUrl: feed.imageUrl,
+          placeName: feed.placeName,
+          placeAddress: feed.placeAddress,
+          alcoholCount: feed.liquorCount,
+          score: feed.score,
+        }));
+
+      setPlaceFeeds(feedsForPlace);
       setIsFeedsLoading(false);
       return;
     }

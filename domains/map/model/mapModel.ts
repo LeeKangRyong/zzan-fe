@@ -15,6 +15,7 @@ export interface MapMarker extends Coordinate {
   id: string;
   name: string;
   address: string;
+  kakaoPlaceId: string;
   imageUrl?: ImageSourcePropType;
   feedCount: number;
   rating: number;
@@ -48,6 +49,7 @@ export const toMapMarker = (place: PlaceResponse): MapMarker => ({
   id: place.id,
   name: place.name,
   address: place.address,
+  kakaoPlaceId: place.id,
   imageUrl: undefined,
   latitude: place.latitude,
   longitude: place.longitude,
@@ -59,6 +61,7 @@ export const searchResultToMapMarker = (place: PlaceSearchResponse): MapMarker =
   id: place.id,
   name: place.placeName,
   address: place.roadAddressName,
+  kakaoPlaceId: place.id,
   imageUrl: undefined,
   latitude: place.latitude,
   longitude: place.longitude,
