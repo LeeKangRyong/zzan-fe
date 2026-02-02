@@ -37,7 +37,8 @@
       "Bash(powershell -Command \"Get-Content docs/BACKEND_API_DESCRIPTION_HTML.html | Select-Object -Skip 720 -First 800\")",
       "Bash(npm uninstall:*)",
       "Bash(xargs ls:*)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(dir:*)"
     ]
   }
 }
