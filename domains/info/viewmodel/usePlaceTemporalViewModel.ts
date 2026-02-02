@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from 'react';
-import * as Location from 'expo-location';
-import { useRouter } from 'expo-router';
-import { infoApi } from '@/shared/api/infoApi';
-import { feedApi } from '@/domains/feed/api/feedApi';
-import { useDistance } from '@/shared/hooks/useDistance';
-import { isMockEnabled } from '@/shared/utils/env';
-import type { PlaceDetailApiResponse } from '@/domains/info/model/infoApiModel';
+import { feedApi } from "@/domains/feed/api/feedApi";
+import type { PlaceDetailApiResponse } from "@/domains/info/model/infoApiModel";
+import { infoApi } from "@/shared/api/infoApi";
+import { useDistance } from "@/shared/hooks/useDistance";
+import { isMockEnabled } from "@/shared/utils/env";
+import * as Location from "expo-location";
+import { useRouter } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 
 interface PlaceTemporalInfo {
   id: string;
@@ -38,12 +38,12 @@ interface UsePlaceTemporalViewModelParams {
 }
 
 const mapApiToPlaceTemporalInfo = (
-  api: PlaceDetailApiResponse
+  api: PlaceDetailApiResponse,
 ): PlaceTemporalInfo => ({
   id: api.id,
   name: api.name,
   address: api.address,
-  phone: api.phone || '',
+  phone: api.phone || "",
   rating: api.averageScore || 0,
   feedCount: api.feedCount || 0,
   kakaoPlaceId: api.kakaoPlaceId,
@@ -72,14 +72,16 @@ export const usePlaceTemporalViewModel = ({
   const [isFeedsLoading, setIsFeedsLoading] = useState(true);
 
   const loadMockData = useCallback(() => {
-    const { MOCK_PLACE_TEMPORAL_INFOS } = require('@/domains/info/model/placeTemporalMock');
+    const {
+      MOCK_PLACE_TEMPORAL_INFOS,
+    } = require("@/domains/info/model/placeTemporalMock");
 
     const foundPlace = MOCK_PLACE_TEMPORAL_INFOS.find(
-      (p: any) => p.id === placeId
+      (p: any) => p.id === placeId,
     );
 
     if (!foundPlace) {
-      setError('장소를 찾을 수 없습니다.');
+      setError("장소를 찾을 수 없습니다.");
       setIsLoading(false);
       return;
     }
@@ -106,12 +108,12 @@ export const usePlaceTemporalViewModel = ({
         setPlaceInfo(mapApiToPlaceTemporalInfo(response.data));
         setKakaoPlaceId(response.data.kakaoPlaceId);
       } else {
-        setError('장소 정보를 찾을 수 없습니다');
+        setError("장소 정보를 찾을 수 없습니다");
         loadMockData();
       }
     } catch (err) {
-      console.error('[PlaceTemporalViewModel] Failed to load place:', err);
-      setError('장소 정보를 불러오는데 실패했습니다');
+      console.error("[PlaceTemporalViewModel] Failed to load place:", err);
+      setError("장소 정보를 불러오는데 실패했습니다");
       loadMockData();
     } finally {
       setIsLoading(false);
@@ -127,7 +129,7 @@ export const usePlaceTemporalViewModel = ({
 
       if (!userLat || !userLng) {
         const { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
+        if (status !== "granted") {
           setDistance(null);
           setIsDistanceLoading(false);
           return;
@@ -149,17 +151,26 @@ export const usePlaceTemporalViewModel = ({
         userLat,
         userLng,
         placeInfo.latitude,
-        placeInfo.longitude
+        placeInfo.longitude,
       );
 
       setDistance(formatDistance(distanceKm));
     } catch (err) {
-      console.error('[PlaceTemporalViewModel] Failed to calculate distance:', err);
+      console.error(
+        "[PlaceTemporalViewModel] Failed to calculate distance:",
+        err,
+      );
       setDistance(null);
     } finally {
       setIsDistanceLoading(false);
     }
-  }, [userLatitude, userLongitude, placeInfo, calculateDistance, formatDistance]);
+  }, [
+    userLatitude,
+    userLongitude,
+    placeInfo,
+    calculateDistance,
+    formatDistance,
+  ]);
 
   const fetchPlaceFeeds = useCallback(async () => {
     if (!kakaoPlaceId) return;
@@ -167,7 +178,7 @@ export const usePlaceTemporalViewModel = ({
     setIsFeedsLoading(true);
 
     if (isMockEnabled()) {
-      const { mockFeedDetails } = require('@/domains/feed/model/mock');
+      const { mockFeedDetails } = require("@/domains/feed/model/mock");
 
       const feedsForPlace = mockFeedDetails
         .filter((feed: any) => feed.kakaoPlaceId === kakaoPlaceId)
@@ -193,9 +204,9 @@ export const usePlaceTemporalViewModel = ({
       const mapped = response.items.map((item) => ({
         id: item.id,
         imageUrl: item.imageUrl,
-        userId: '',
-        userName: '',
-        userProfileImage: '',
+        userId: "",
+        userName: "",
+        userProfileImage: "",
         placeName: item.placeName,
         placeAddress: item.placeAddress,
         alcoholCount: item.liquorCount,
@@ -203,7 +214,7 @@ export const usePlaceTemporalViewModel = ({
       }));
       setPlaceFeeds(mapped);
     } catch (err) {
-      console.error('[PlaceTemporalViewModel] Failed to load feeds:', err);
+      console.error("[PlaceTemporalViewModel] Failed to load feeds:", err);
       setPlaceFeeds([]);
     } finally {
       setIsFeedsLoading(false);
@@ -231,12 +242,12 @@ export const usePlaceTemporalViewModel = ({
   }, []);
 
   const handleShare = useCallback(() => {
-    console.log('Share pressed');
+    console.log("Share pressed");
   }, []);
 
   const handleAlcholButtonPress = useCallback(() => {
     router.push({
-      pathname: '/write',
+      pathname: "/post",
       params: { kakaoPlaceId },
     });
   }, [router, kakaoPlaceId]);
