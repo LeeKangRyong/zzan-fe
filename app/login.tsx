@@ -1,14 +1,14 @@
-import { useAuthViewModel } from "@/domains/auth/viewmodel";
 import { useAuthStore } from "@/domains/auth/store/authStore";
+import { useAuthViewModel } from "@/domains/auth/viewmodel";
 import { KakaoStartButton } from "@/domains/user/component";
 import { CommonButton, Toast } from "@/shared/components";
 import { Colors, Typography } from "@/shared/constants";
 import Constants from "expo-constants";
 import { useRouter } from "expo-router";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { WebView, type WebViewNavigation } from "react-native-webview";
 import type WebViewType from "react-native-webview";
+import { WebView, type WebViewNavigation } from "react-native-webview";
 import InitialIcon from "../assets/logo/initial.svg";
 import LogoIcon from "../assets/logo/logo_big.svg";
 
@@ -16,10 +16,8 @@ const isMockEnabled = (): boolean => {
   return Constants.expoConfig?.extra?.useMockData === true;
 };
 
-// WebView에서 JSON을 추출하는 JavaScript 코드 (매 페이지 로드마다 실행)
 const injectedJavaScript = `
   (function() {
-    // 페이지 로드 완료 시마다 실행
     function checkForToken() {
       try {
         const bodyText = document.body.innerText || document.body.textContent;
@@ -33,10 +31,8 @@ const injectedJavaScript = `
       }
     }
 
-    // 즉시 실행
     checkForToken();
 
-    // DOM 변경 감지 (SPA 대응)
     const observer = new MutationObserver(checkForToken);
     observer.observe(document.body, { childList: true, subtree: true });
   })();
@@ -45,12 +41,8 @@ const injectedJavaScript = `
 
 export default function LoginScreen() {
   const router = useRouter();
-  const {
-    loginWithMock,
-    getKakaoLoginUrl,
-    isLoading,
-    error,
-  } = useAuthViewModel();
+  const { loginWithMock, getKakaoLoginUrl, isLoading, error } =
+    useAuthViewModel();
   const [showToast, setShowToast] = useState(false);
   const [showWebView, setShowWebView] = useState(false);
   const [webViewUrl, setWebViewUrl] = useState<string | null>(null);
@@ -69,7 +61,6 @@ export default function LoginScreen() {
       if (data.success && data.data?.accessToken && data.data?.refreshToken) {
         const { accessToken, refreshToken } = data.data;
 
-        // 토큰을 직접 저장
         const { setTokens } = useAuthStore.getState();
         setTokens(accessToken, refreshToken);
 
@@ -79,13 +70,12 @@ export default function LoginScreen() {
         setShowWebView(false);
       }
     } catch (error) {
-      // Error parsing WebView message
+      // TODO: Not implemented yet
     }
   };
 
   const handleWebViewNavigationStateChange = (navState: WebViewNavigation) => {
-    // 콜백 URL 도달 시 스크립트 재주입
-    if (navState.url.includes('/callback') && !navState.loading) {
+    if (navState.url.includes("/callback") && !navState.loading) {
       webViewRef.current?.injectJavaScript(injectedJavaScript);
     }
   };
@@ -148,7 +138,6 @@ export default function LoginScreen() {
         </View>
       </View>
 
-      {/* WebView Modal for Kakao Login */}
       <Modal visible={showWebView} animationType="slide">
         <View style={styles.webViewContainer}>
           <View style={styles.webViewHeader}>

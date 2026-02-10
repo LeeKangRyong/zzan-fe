@@ -1,19 +1,24 @@
-import { LoadingBubble, MessageBubble, MessageInput, MessageList, RecommendedAnswers } from '@/domains/chat/components';
-import type { Message } from '@/domains/chat/model/chatModel';
-import { CHAT_CONSTANTS } from '@/domains/chat/model/constants';
-import { useChatViewModel } from '@/domains/chat/viewmodel/useChatViewModel';
-import { Header } from '@/shared/components';
-import { Colors } from '@/shared/constants';
-import { useFormatTime } from '@/shared/hooks';
-import { useRouter } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
-import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
+import {
+  LoadingBubble,
+  MessageBubble,
+  MessageInput,
+  MessageList,
+  RecommendedAnswers,
+} from "@/domains/chat/components";
+import { CHAT_CONSTANTS, type Message } from "@/domains/chat/model";
+import { useChatViewModel } from "@/domains/chat/viewmodel/useChatViewModel";
+import { Header } from "@/shared/components";
+import { Colors } from "@/shared/constants";
+import { useFormatTime } from "@/shared/hooks";
+import { useRouter } from "expo-router";
+import { StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 
 const shouldShowIcon = (messages: Message[], index: number): boolean => {
   const currentMessage = messages[index];
 
   // 봇 메시지가 아니면 false
-  if (currentMessage.role !== 'bot') {
+  if (currentMessage.role !== "bot") {
     return false;
   }
 
@@ -24,7 +29,7 @@ const shouldShowIcon = (messages: Message[], index: number): boolean => {
 
   // 이전 메시지가 봇이 아니면 true (새로운 봇 시퀀스 시작)
   const previousMessage = messages[index - 1];
-  return previousMessage.role !== 'bot';
+  return previousMessage.role !== "bot";
 };
 
 export default function ChatTab() {
@@ -39,7 +44,7 @@ export default function ChatTab() {
       keyboardVerticalOffset={0}
     >
       <View style={{ flex: 1, backgroundColor: Colors.takju }}>
-        <Header title="AI 챗봇" onBackPress={() => router.back() }/>
+        <Header title="AI 챗봇" onBackPress={() => router.back()} />
         <MessageList
           messages={vm.messages}
           renderMessage={(msg, index) => (
@@ -47,7 +52,7 @@ export default function ChatTab() {
               key={msg.id}
               content={msg.content}
               role={msg.role}
-              backgroundColor={msg.role === 'user' ? Colors.gray : Colors.white}
+              backgroundColor={msg.role === "user" ? Colors.gray : Colors.white}
               textColor={Colors.black}
               timeText={formatTime(msg.timestamp)}
               showIcon={shouldShowIcon(vm.messages, index)}
@@ -59,12 +64,12 @@ export default function ChatTab() {
         <View style={styles.inputContainer}>
           <View style={styles.horizontalPadding}>
             <RecommendedAnswers
-            answers={vm.recommendedAnswers}
-            onSelectAnswer={vm.handleRecommendedAnswer}
-            labelColor={Colors.black}
-            chipBackgroundColor={Colors.yellow}
-            chipTextColor={Colors.black}
-          />
+              answers={vm.recommendedAnswers}
+              onSelectAnswer={vm.handleRecommendedAnswer}
+              labelColor={Colors.black}
+              chipBackgroundColor={Colors.yellow}
+              chipTextColor={Colors.black}
+            />
           </View>
           <View style={{ marginHorizontal: 16 }}>
             <MessageInput
@@ -89,9 +94,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   inputContainer: {
-    backgroundColor: Colors.white
+    backgroundColor: Colors.white,
   },
   horizontalPadding: {
     paddingHorizontal: 10,
-  }
+  },
 });

@@ -1,19 +1,18 @@
-import { PlaceTemporalSummary } from '@/domains/info/components/PlaceTemporalSummary';
-import { INFO_CONSTANTS } from '@/domains/info/model/constants';
-import { usePlaceTemporalViewModel } from '@/domains/info/viewmodel/usePlaceTemporalViewModel';
-import { FeedBlockWithProfile } from '@/domains/user/component/FeedBlockWithProfile';
-import { AlcholButton, Header } from '@/shared/components';
-import { Colors, Layout } from '@/shared/constants';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { InfoRate, PlaceTemporalSummary } from "@/domains/info/components";
+import { INFO_CONSTANTS } from "@/domains/info/model/constants";
+import { usePlaceTemporalViewModel } from "@/domains/info/viewmodel/usePlaceTemporalViewModel";
+import { FeedBlockWithProfile } from "@/domains/user/component";
+import { AlcholButton, Header } from "@/shared/components";
+import { Colors, Layout } from "@/shared/constants";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   ActivityIndicator,
   ScrollView,
   StyleSheet,
   Text,
   View,
-} from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { InfoRate } from '@/domains/info/components/InfoRate';
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const renderLoadingState = () => (
   <View style={styles.centerContainer}>
@@ -31,6 +30,7 @@ export default function PlaceTemporalTab() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const placeId = params.placeId as string | undefined;
+  const kakaoPlaceId = params.kakaoPlaceId as string | undefined;
   const userLatitude = params.userLatitude
     ? parseFloat(params.userLatitude as string)
     : undefined;
@@ -47,13 +47,13 @@ export default function PlaceTemporalTab() {
     error,
     isBookmarked,
     distance,
-    isDistanceLoading,
     placeFeeds,
     isFeedsLoading,
     toggleBookmark,
     handleAlcholButtonPress,
   } = usePlaceTemporalViewModel({
-    placeId: placeId || '',
+    placeId,
+    kakaoPlaceIdParam: kakaoPlaceId,
     userLatitude,
     userLongitude,
   });
@@ -71,7 +71,7 @@ export default function PlaceTemporalTab() {
     return (
       <View style={styles.container}>
         <Header title="짠 플레이스" onBackPress={() => router.back()} />
-        {renderErrorState(error || '장소를 찾을 수 없습니다')}
+        {renderErrorState(error || "장소를 찾을 수 없습니다")}
       </View>
     );
   }
@@ -89,7 +89,6 @@ export default function PlaceTemporalTab() {
           address={placeInfo.address}
           phone={placeInfo.phone}
           distance={distance}
-          isDistanceLoading={isDistanceLoading}
           isBookmarked={isBookmarked}
           onBookmarkPress={toggleBookmark}
         />
@@ -116,14 +115,14 @@ export default function PlaceTemporalTab() {
                     key={feed.id}
                     userId={feed.userId}
                     username={feed.userName}
-                    userProfileImage={feed.userProfileImage || ''}
-                    imageUrl={feed.imageUrl || ''}
+                    userProfileImage={feed.userProfileImage || ""}
+                    imageUrl={feed.imageUrl || ""}
                     placeName={feed.placeName}
                     address={feed.placeAddress}
                     alcoholCount={feed.alcoholCount}
                     onPress={() =>
                       router.push({
-                        pathname: '/detail',
+                        pathname: "/detail",
                         params: { feedId: feed.id },
                       })
                     }
@@ -145,8 +144,8 @@ const styles = StyleSheet.create({
   },
   centerContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   errorText: {
     fontSize: 16,
@@ -168,8 +167,8 @@ const styles = StyleSheet.create({
     paddingVertical: INFO_CONSTANTS.SUMMARY_PADDING_VERTICAL,
   },
   feedGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     gap: 12,
   },
 });

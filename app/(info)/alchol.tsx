@@ -1,9 +1,11 @@
-import { AlcholComments } from "@/domains/info/components/AlcholComments";
-import { AlcholDescription } from "@/domains/info/components/AlcholDescription";
-import { InfoImages } from "@/domains/info/components/InfoImages";
-import { InfoRate } from "@/domains/info/components/InfoRate";
-import { InfoRateWithProfile } from "@/domains/info/components/InfoRateWithProfile";
-import { InfoSummary } from "@/domains/info/components/InfoSummary";
+import {
+  AlcholComments,
+  AlcholDescription,
+  InfoImages,
+  InfoRate,
+  InfoRateWithProfile,
+  InfoSummary,
+} from "@/domains/info/components";
 import { INFO_CONSTANTS } from "@/domains/info/model/constants";
 import { useAlcoholViewModel } from "@/domains/info/viewmodel/useInfoViewModel";
 import { Header } from "@/shared/components";

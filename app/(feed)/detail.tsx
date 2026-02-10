@@ -133,7 +133,7 @@ export default function DetailTab() {
                 handlePlacePress();
                 router.push({
                   pathname: '/placeTemporal',
-                  params: { placeId: place.id },
+                  params: { kakaoPlaceId: place.id },
                 });
               }}
             />

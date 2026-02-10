@@ -1,4 +1,3 @@
-// 주변 피드 보는 UI
 import { useFeedTabViewModel } from "@/domains/feed/viewmodel";
 import { FeedBlockWithProfile } from "@/domains/user/component";
 import { Colors, Layout, Typography } from "@/shared/constants";
@@ -120,14 +119,14 @@ const styles = StyleSheet.create({
   },
   errorContainer: {
     padding: 16,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: Colors.white,
     borderRadius: 8,
     marginBottom: 12,
   },
   errorText: {
     fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
     fontSize: 14,
-    color: "#ff0000",
+    color: Colors.red,
     textAlign: "center",
   },
 });

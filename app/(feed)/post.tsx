@@ -6,18 +6,14 @@ import {
   RateTextInput,
   ReferredAlchol,
   SectionTitle,
-} from '@/domains/feed/component';
-import { usePostViewModel } from '@/domains/feed/viewmodel/usePostViewModel';
-import { Header } from '@/shared/components';
-import { CommonButton } from '@/shared/components/CommonButton';
-import { Colors, Layout } from '@/shared/constants';
-import { StyleSheet, View } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
-import { useRouter } from 'expo-router';
+} from "@/domains/feed/component";
+import { usePostViewModel } from "@/domains/feed/viewmodel/usePostViewModel";
+import { CommonButton, Header } from "@/shared/components";
+import { Colors, Layout } from "@/shared/constants";
+import { StyleSheet, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 export default function PostTab() {
-  const router = useRouter();
-
   const {
     selectedPlace,
     placeRating,
@@ -51,8 +47,10 @@ export default function PostTab() {
 
         <View style={styles.paddedContent}>
           <View style={styles.section}>
-            {/* TODO: ReferredAlchol ScrollView 가로로 구현하기 */}
-            <SectionTitle title="언급된 전통주" count={selectedAlcohols.length} />
+            <SectionTitle
+              title="언급된 전통주"
+              count={selectedAlcohols.length}
+            />
             {selectedAlcohols.length > 0 ? (
               <ReferredAlchol alcohols={selectedAlcohols} />
             ) : (
@@ -93,13 +91,6 @@ export default function PostTab() {
             <RateTextInput value={review} onChangeText={handleReviewChange} />
           </View>
 
-          {/* TODO: 활성화됐을 경우에만 다음버튼이 눌리게 하기. 아닌 경우에는 disabled */}
-          {/* TODO: 활성화된 다음 버튼 누르면 figma design처럼 넘어가게 됨*/}
-          {/* TODO: 언급한 각 전통주에 대해 borderColor가 Colors.black으로 변경됨 */}
-          {/* TODO: 전통주가 focus될 때마다 해당 전통주에 대해 해당 이미지에서 해당 plus icon 있는 곳으로 자동 확대됨 */}
-          {/* TODO: figma design처럼 RateStyleButton을 통해 별점을 등록하면, 다음 전통주로 focus되면서 해당 이미지로 확대된 채로 이동 */}
-          {/* TODO: 만약 plus icon이 다른 이미지에 있으면 해당 이미지로 스크롤 후 자동 확대 */}
-          {/* TODO: 모든 전통주에 별점을 매겼으면, console로 완료 메세지를 띄우고 /main으로 이동 */}
           <CommonButton
             title="다음"
             textColor={isNextButtonEnabled ? Colors.yellow : Colors.black}

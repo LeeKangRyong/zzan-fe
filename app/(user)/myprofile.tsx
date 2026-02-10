@@ -1,5 +1,3 @@
-// 비운 전통주에는 `assets/icons/alchol_right.svg` 사용
-
 import BackIcon from "@/assets/icons/back.svg";
 import { useAuthViewModel } from "@/domains/auth/viewmodel";
 import { ProfileBasicInfo, ProfileInfo } from "@/domains/user/component";
