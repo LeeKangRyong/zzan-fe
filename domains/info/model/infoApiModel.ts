@@ -94,11 +94,12 @@ const createDefaultImage = (): ImageWithDescription => ({
 export const mapLiquorApiToAlcoholInfo = (
   api: LiquorDetailApiResponse
 ): AlcoholInfo => {
-  const images = api.imageUrl
+  const images = api?.imageUrl
     ? [createImageWithDescription(api.imageUrl)]
     : [createDefaultImage()];
 
-  const galleryImages: ImageWithDescription[] = (api.description || []).map(
+  const descriptionArray = Array.isArray(api?.description) ? api.description : [];
+  const galleryImages: ImageWithDescription[] = descriptionArray.map(
     item => ({
       image: getImageForHeader(item.header),
       descriptionTitle: item.header,

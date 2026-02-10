@@ -211,6 +211,9 @@ export const useAlcoholViewModel = (liquorId?: string) => {
 
     try {
       const response = await infoApi.getLiquorDetail(liquorId);
+      if (!response.data) {
+        throw new Error('No liquor data received');
+      }
       const mappedAlcohol = mapLiquorApiToAlcoholInfo(response.data);
       setAlcoholInfo(mappedAlcohol);
       setIsBookmarked(mappedAlcohol.isBookmarked);

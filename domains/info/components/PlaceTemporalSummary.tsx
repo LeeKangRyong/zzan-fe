@@ -1,14 +1,13 @@
 import { INFO_CONSTANTS } from '@/domains/info/model/constants';
 import { BookMark } from '@/shared/components';
 import { Colors, Typography } from '@/shared/constants';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 interface PlaceTemporalSummaryProps {
   name: string;
   address: string;
   phone: string;
   distance: string | null;
-  isDistanceLoading: boolean;
   isBookmarked: boolean;
   onBookmarkPress: () => void;
 }
@@ -16,24 +15,15 @@ interface PlaceTemporalSummaryProps {
 const InfoBoxItem = ({
   label,
   value,
-  isLoading,
 }: {
   label: string;
   value: string | null;
-  isLoading?: boolean;
 }) => (
   <View style={styles.infoBox}>
     <View style={styles.infoBoxCategory}>
       <Text style={styles.label}>{label}</Text>
     </View>
-    {isLoading ? (
-      <View style={styles.loadingContainer}>
-        <Text style={styles.loadingText}>거리 계산 중...</Text>
-        <ActivityIndicator size="small" color={Colors.black} />
-      </View>
-    ) : (
-      <Text style={styles.value}>{value || '정보 없음'}</Text>
-    )}
+    <Text style={styles.value}>{value || '거리 계산 중...'}</Text>
   </View>
 );
 
@@ -42,7 +32,6 @@ export const PlaceTemporalSummary = ({
   address,
   phone,
   distance,
-  isDistanceLoading,
   isBookmarked,
   onBookmarkPress,
 }: PlaceTemporalSummaryProps) => {
@@ -57,11 +46,7 @@ export const PlaceTemporalSummary = ({
       </View>
       <View style={styles.infoBoxContainer}>
         <InfoBoxItem label="전화번호" value={phone} />
-        <InfoBoxItem
-          label="거리"
-          value={distance}
-          isLoading={isDistanceLoading}
-        />
+        <InfoBoxItem label="거리" value={distance} />
       </View>
     </View>
   );
@@ -123,19 +108,6 @@ const styles = StyleSheet.create({
     color: Colors.black,
     flex: 1,
     textAlign: 'right',
-    letterSpacing: -0.28,
-  },
-  loadingContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    gap: 8,
-  },
-  loadingText: {
-    fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
-    fontSize: 14,
-    color: Colors.gray,
     letterSpacing: -0.28,
   },
 });

@@ -32,7 +32,8 @@ interface PlaceFeedWithProfile {
 }
 
 interface UsePlaceTemporalViewModelParams {
-  placeId: string;
+  placeId?: string;
+  kakaoPlaceIdParam?: string;
   userLatitude?: number;
   userLongitude?: number;
 }
@@ -53,6 +54,7 @@ const mapApiToPlaceTemporalInfo = (
 
 export const usePlaceTemporalViewModel = ({
   placeId,
+  kakaoPlaceIdParam,
   userLatitude,
   userLongitude,
 }: UsePlaceTemporalViewModelParams) => {
@@ -92,7 +94,7 @@ export const usePlaceTemporalViewModel = ({
   }, [placeId]);
 
   const fetchPlaceInfo = useCallback(async () => {
-    if (!placeId) return;
+    if (!placeId && !kakaoPlaceIdParam) return;
 
     setIsLoading(true);
     setError(null);
@@ -103,22 +105,26 @@ export const usePlaceTemporalViewModel = ({
     }
 
     try {
-      const response = await infoApi.getPlaceDetail(placeId);
-      if (response.data) {
+      let response;
+      if (kakaoPlaceIdParam) {
+        response = await infoApi.getPlaceByKakaoId(kakaoPlaceIdParam);
+      } else if (placeId) {
+        response = await infoApi.getPlaceDetail(placeId);
+      }
+
+      if (response?.data) {
         setPlaceInfo(mapApiToPlaceTemporalInfo(response.data));
         setKakaoPlaceId(response.data.kakaoPlaceId);
       } else {
         setError("장소 정보를 찾을 수 없습니다");
-        loadMockData();
       }
     } catch (err) {
       console.error("[PlaceTemporalViewModel] Failed to load place:", err);
       setError("장소 정보를 불러오는데 실패했습니다");
-      loadMockData();
     } finally {
       setIsLoading(false);
     }
-  }, [placeId, loadMockData]);
+  }, [placeId, kakaoPlaceIdParam, loadMockData]);
 
   const computeDistance = useCallback(async () => {
     setIsDistanceLoading(true);

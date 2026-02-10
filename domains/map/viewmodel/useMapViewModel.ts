@@ -1,16 +1,14 @@
-import * as Location from "expo-location";
-import { useState, useEffect } from "react";
 import { useDebounce } from "@/shared/hooks/useDebounce";
-import { usePlacesQuery } from "../hooks/usePlacesQuery";
+import * as Location from "expo-location";
+import { useEffect, useState } from "react";
 import { placeApi } from "../api/placeApi";
+import { usePlacesQuery } from "../hooks/usePlacesQuery";
 import {
   MapMarker,
   MapRegion,
   searchResultToMapMarker,
 } from "../model/mapModel";
-import {
-  mockPlacesWithCoordinates,
-} from "../model/mock";
+import { mockPlacesWithCoordinates } from "../model/mock";
 
 const USE_MOCK_DATA = process.env.EXPO_PUBLIC_USE_MOCK_DATA === "true";
 
