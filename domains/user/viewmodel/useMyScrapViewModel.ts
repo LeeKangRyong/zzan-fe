@@ -1,15 +1,16 @@
-import { useState, useEffect, useCallback } from 'react';
-import { isMockEnabled } from '@/shared/utils';
-import { scrapApi } from '@/shared/api';
 import {
   mapFeedScrapApiToUserFeed,
   mapLiquorScrapApiToUserScrapAlcohol,
-} from '../mapper';
+} from "@/domains/user/mapper";
 import {
-  mockUserScrapFeeds,
   mockUserScrapAlcohols,
-} from '../model';
-import type { UserFeed, UserScrapAlcohol } from '../model';
+  mockUserScrapFeeds,
+  type UserFeed,
+  type UserScrapAlcohol,
+} from "@/domains/user/model";
+import { scrapApi } from "@/shared/api";
+import { isMockEnabled } from "@/shared/utils";
+import { useCallback, useEffect, useState } from "react";
 
 export const useMyScrapViewModel = () => {
   const [feeds, setFeeds] = useState<UserFeed[]>([]);
@@ -38,16 +39,18 @@ export const useMyScrapViewModel = () => {
         scrapApi.liquor.getList(),
       ]);
 
-      const mappedFeeds = feedResponse.data.items.map(mapFeedScrapApiToUserFeed);
+      const mappedFeeds = feedResponse.data.items.map(
+        mapFeedScrapApiToUserFeed,
+      );
       const mappedLiquors = liquorResponse.data.items.map(
-        mapLiquorScrapApiToUserScrapAlcohol
+        mapLiquorScrapApiToUserScrapAlcohol,
       );
 
       setFeeds(mappedFeeds);
       setAlcohols(mappedLiquors);
     } catch (err) {
-      console.error('[MyScrapViewModel] Failed to load scraps:', err);
-      setError('스크랩 목록을 불러오는데 실패했습니다');
+      console.error("[MyScrapViewModel] Failed to load scraps:", err);
+      setError("스크랩 목록을 불러오는데 실패했습니다");
       loadMockScraps();
     } finally {
       setIsLoading(false);

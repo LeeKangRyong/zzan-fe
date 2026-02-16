@@ -1,8 +1,8 @@
-import { useMyFeedsViewModel } from '../viewmodel';
-import { FeedBlock } from '@/shared/components';
-import { Colors, Layout } from '@/shared/constants';
-import { router } from 'expo-router';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { useMyFeedsViewModel } from "@/domains/user/viewmodel";
+import { FeedBlock } from "@/shared/components";
+import { Colors, Layout } from "@/shared/constants";
+import { router } from "expo-router";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 
 export const MyFeeds = () => {
   const { feeds, isLoading, error } = useMyFeedsViewModel();
@@ -48,14 +48,14 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   feedGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     gap: 12,
   },
   centerContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   errorText: {
     fontSize: 16,

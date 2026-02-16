@@ -1,4 +1,4 @@
-import { MapMarker, MapRegion } from "../model/mapModel";
+import { MapMarker, MapRegion } from "@/domains/map/model";
 
 const generateHtmlStructure = (apiKey: string) => {
   return `

@@ -1,12 +1,16 @@
+import { placeApi } from "@/domains/map/api";
+import { usePlacesQuery } from "@/domains/map/hooks";
+import { searchResultToMapMarker } from "@/domains/map/mapper";
+import {
+  type MapMarker,
+  type MapRegion,
+  type PlaceBounds,
+  mockPlacesWithCoordinates,
+} from "@/domains/map/model";
 import { useDebounce } from "@/shared/hooks";
 import { isMockEnabled } from "@/shared/utils";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
-import { placeApi } from "../api/placeApi";
-import { usePlacesQuery } from "../hooks/usePlacesQuery";
-import { searchResultToMapMarker } from "../mapper";
-import type { MapMarker, MapRegion, PlaceBounds } from "../model/mapModel";
-import { mockPlacesWithCoordinates } from "../model/mock";
 
 const initialRegion: MapRegion = {
   latitude: 37.5665,

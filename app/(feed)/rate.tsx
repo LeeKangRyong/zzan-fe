@@ -4,7 +4,7 @@ import {
   RateProgressBar,
   RateStyleButton,
 } from "@/domains/feed/components";
-import { useRateViewModel } from "@/domains/feed/viewmodel/useRateViewModel";
+import { useRateViewModel } from "@/domains/feed/viewmodel";
 import { Header } from "@/shared/components";
 import { Colors, Layout, Typography } from "@/shared/constants";
 import { useRouter } from "expo-router";

@@ -1,5 +1,5 @@
-import { INFO_CONSTANTS } from "@/domains/info/model/constants";
-import type { LiquorComment } from "@/domains/info/model/infoModel";
+import { AlcoholCommentCard } from "@/domains/info/components";
+import { INFO_CONSTANTS, type LiquorComment } from "@/domains/info/model";
 import { AlcoholButton, RateButton } from "@/shared/components";
 import { Colors, Typography } from "@/shared/constants";
 import { useMemo, useState } from "react";
@@ -11,7 +11,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { AlcoholCommentCard } from "./AlcoholCommentCard";
 
 interface AlcoholCommentsProps {
   comments: LiquorComment[];
@@ -132,7 +131,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   commentInput: {
-    backgroundColor: "#DEDCD8",
+    backgroundColor: Colors.gray,
     borderRadius: 6,
     padding: 12,
     fontFamily: Typography.KAKAO_BIG_SANS_BOLD,

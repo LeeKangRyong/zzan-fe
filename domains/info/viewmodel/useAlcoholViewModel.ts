@@ -1,16 +1,14 @@
 import { infoApi, liquorApi } from "@/domains/info/api";
 import { mapLiquorApiToAlcoholInfo } from "@/domains/info/mapper";
-import type { LiquorReviewApiResponse } from "@/domains/info/model/infoApiModel";
-import type {
-  AlcoholInfo,
-  InfoBox,
-  LiquorComment,
-} from "@/domains/info/model/infoModel";
 import {
+  type AlcoholInfo,
+  type InfoBox,
+  type LiquorComment,
+  type LiquorReviewApiResponse,
   MOCK_ALCOHOL_INFO,
   MOCK_LIQUOR_COMMENTS,
   MOCK_MY_REVIEW,
-} from "@/domains/info/model/mock";
+} from "@/domains/info/model";
 import { userApi } from "@/domains/user/api";
 import { scrapApi } from "@/shared/api";
 import { isMockEnabled } from "@/shared/utils";

@@ -1,8 +1,8 @@
-import { Alcohol } from '@/domains/feed/model/feedModel';
-import { Colors, Typography } from '@/shared/constants';
-import { useRef, useEffect } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { AlcoholCard } from './AlcoholCard';
+import { AlcoholCard } from "@/domains/feed/components";
+import { Alcohol } from "@/domains/feed/model";
+import { Colors, Typography } from "@/shared/constants";
+import { useEffect, useRef } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 interface ReferredAlcoholWithRateProps {
   alcohols: Alcohol[];
@@ -14,7 +14,7 @@ interface ReferredAlcoholWithRateProps {
 const scrollToAlcohol = (
   scrollViewRef: React.RefObject<ScrollView | null>,
   alcohols: Alcohol[],
-  alcoholId: string
+  alcoholId: string,
 ) => {
   const alcoholIndex = alcohols.findIndex((a) => a.id === alcoholId);
   if (alcoholIndex === -1) return;
@@ -46,7 +46,9 @@ export const ReferredAlcoholWithRate = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionTitle}>언급된 전통주 ({alcohols.length}개)</Text>
+      <Text style={styles.sectionTitle}>
+        언급된 전통주 ({alcohols.length}개)
+      </Text>
       <ScrollView
         ref={scrollViewRef}
         horizontal

@@ -1,12 +1,17 @@
-import { useState } from 'react';
-import { useRouter } from 'expo-router';
-import { AddType, Alcohol, Place } from '../model/feedModel';
-import { mockAlcohols, mockPlaces } from '../model/mock';
-import { usePostStore } from '../store/postStore';
-import { isMockEnabled } from '@/shared/utils';
-import { feedApi } from '../api/feedApi';
-import { mapLiquorApiToAlcohol } from '../mapper/feedMapper';
-import { placeApi } from '@/domains/map/api';
+import { feedApi } from "@/domains/feed/api";
+import { mapLiquorApiToAlcohol } from "@/domains/feed/mapper";
+import {
+  AddType,
+  Alcohol,
+  Place,
+  mockAlcohols,
+  mockPlaces,
+} from "@/domains/feed/model";
+import { usePostStore } from "@/domains/feed/store";
+import { placeApi } from "@/domains/map/api";
+import { isMockEnabled } from "@/shared/utils";
+import { useRouter } from "expo-router";
+import { useState } from "react";
 
 interface UseAddViewModelProps {
   addType: AddType;
@@ -16,7 +21,7 @@ export const useAddViewModel = ({ addType }: UseAddViewModelProps) => {
   const router = useRouter();
   const { setSelectedPlace, addSelectedAlcohol } = usePostStore();
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [alcoholResults, setAlcoholResults] = useState<Alcohol[]>([]);
   const [placeResults, setPlaceResults] = useState<Place[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -34,15 +39,15 @@ export const useAddViewModel = ({ addType }: UseAddViewModelProps) => {
   };
 
   const searchWithMockData = () => {
-    if (addType === 'alcohol') {
+    if (addType === "alcohol") {
       const filtered = mockAlcohols.filter((item) =>
-        item.name.includes(searchQuery)
+        item.name.includes(searchQuery),
       );
       setAlcoholResults(filtered.length > 0 ? filtered : mockAlcohols);
       return;
     }
     const filtered = mockPlaces.filter((item) =>
-      item.name.includes(searchQuery)
+      item.name.includes(searchQuery),
     );
     setPlaceResults(filtered.length > 0 ? filtered : mockPlaces);
   };
@@ -52,14 +57,14 @@ export const useAddViewModel = ({ addType }: UseAddViewModelProps) => {
     setError(null);
 
     try {
-      if (addType === 'alcohol') {
+      if (addType === "alcohol") {
         await searchAlcoholsFromApi();
         return;
       }
       await searchPlacesFromApi();
     } catch (err) {
-      setError('검색에 실패했습니다');
-      console.error('[Search Error]', err);
+      setError("검색에 실패했습니다");
+      console.error("[Search Error]", err);
     } finally {
       setIsLoading(false);
     }
@@ -87,7 +92,7 @@ export const useAddViewModel = ({ addType }: UseAddViewModelProps) => {
       id: p.id,
       name: p.placeName,
       address: p.roadAddressName,
-      imageUrl: '',
+      imageUrl: "",
     }));
 
     setPlaceResults(mappedPlaces);
@@ -99,7 +104,7 @@ export const useAddViewModel = ({ addType }: UseAddViewModelProps) => {
 
   const getSelectedItem = () => {
     if (!selectedId) return null;
-    if (addType === 'alcohol') {
+    if (addType === "alcohol") {
       return alcoholResults.find((item) => item.id === selectedId) ?? null;
     }
     return placeResults.find((item) => item.id === selectedId) ?? null;
@@ -110,12 +115,14 @@ export const useAddViewModel = ({ addType }: UseAddViewModelProps) => {
   const handleAdd = () => {
     if (!selectedId) return;
 
-    if (addType === 'alcohol') {
-      const selectedItem = alcoholResults.find((item) => item.id === selectedId);
+    if (addType === "alcohol") {
+      const selectedItem = alcoholResults.find(
+        (item) => item.id === selectedId,
+      );
       if (selectedItem) addSelectedAlcohol(selectedItem);
     }
 
-    if (addType === 'place') {
+    if (addType === "place") {
       const selectedItem = placeResults.find((item) => item.id === selectedId);
       if (selectedItem) setSelectedPlace(selectedItem);
     }

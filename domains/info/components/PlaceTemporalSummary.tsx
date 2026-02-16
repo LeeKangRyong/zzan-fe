@@ -1,7 +1,7 @@
-import { INFO_CONSTANTS } from '@/domains/info/model/constants';
-import { BookMark } from '@/shared/components';
-import { Colors, Typography } from '@/shared/constants';
-import { StyleSheet, Text, View } from 'react-native';
+import { INFO_CONSTANTS } from "@/domains/info/model";
+import { BookMark } from "@/shared/components";
+import { Colors, Typography } from "@/shared/constants";
+import { StyleSheet, Text, View } from "react-native";
 
 interface PlaceTemporalSummaryProps {
   name: string;
@@ -23,7 +23,7 @@ const InfoBoxItem = ({
     <View style={styles.infoBoxCategory}>
       <Text style={styles.label}>{label}</Text>
     </View>
-    <Text style={styles.value}>{value || '거리 계산 중...'}</Text>
+    <Text style={styles.value}>{value || "거리 계산 중..."}</Text>
   </View>
 );
 
@@ -61,9 +61,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   title: {
     fontFamily: Typography.KAKAO_BIG_SANS_EXTRABOLD,
@@ -83,15 +83,15 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   infoBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    width: '100%',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    width: "100%",
   },
   infoBoxCategory: {
     backgroundColor: Colors.black,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 2,
   },
   label: {
@@ -100,14 +100,14 @@ const styles = StyleSheet.create({
     color: Colors.white,
     paddingVertical: 6,
     width: 84,
-    textAlign: 'center',
+    textAlign: "center",
   },
   value: {
     fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
     fontSize: 14,
     color: Colors.black,
     flex: 1,
-    textAlign: 'right',
+    textAlign: "right",
     letterSpacing: -0.28,
   },
 });

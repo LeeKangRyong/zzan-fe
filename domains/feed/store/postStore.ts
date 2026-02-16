@@ -1,5 +1,11 @@
-import { create } from 'zustand';
-import { Alcohol, AlcoholTagInfo, Place, PlaceWithRating, TagPosition } from '../model/feedModel';
+import {
+  Alcohol,
+  AlcoholTagInfo,
+  Place,
+  PlaceWithRating,
+  TagPosition,
+} from "@/domains/feed/model";
+import { create } from "zustand";
 
 interface PostStore {
   selectedPlace: PlaceWithRating | null;
@@ -30,7 +36,11 @@ interface PostStore {
   setFocusedAlcoholId: (alcoholId: string | null) => void;
   getAllAlcoholsRated: () => boolean;
   setUploadedImages: (images: string[]) => void;
-  addAlcoholTagMapping: (alcoholId: string, imageIndex: number, position: TagPosition) => void;
+  addAlcoholTagMapping: (
+    alcoholId: string,
+    imageIndex: number,
+    position: TagPosition,
+  ) => void;
   setCurrentImageIndex: (index: number) => void;
   setImageTags: (tags: Map<number, TagPosition[]>) => void;
   addImageTag: (imageIndex: number, position: TagPosition) => void;
@@ -40,7 +50,7 @@ interface PostStore {
 export const usePostStore = create<PostStore>((set, get) => ({
   selectedPlace: null,
   placeRating: 0,
-  review: '',
+  review: "",
   isRatingModalVisible: false,
   tempRating: 0,
   selectedAlcohols: [],
@@ -64,7 +74,8 @@ export const usePostStore = create<PostStore>((set, get) => ({
 
   setPlaceRating: (rating: number) => set({ placeRating: rating }),
   setReview: (text: string) => set({ review: text }),
-  setIsRatingModalVisible: (visible: boolean) => set({ isRatingModalVisible: visible }),
+  setIsRatingModalVisible: (visible: boolean) =>
+    set({ isRatingModalVisible: visible }),
   setTempRating: (rating: number) => set({ tempRating: rating }),
 
   addSelectedAlcohol: (alcohol: Alcohol) =>
@@ -76,7 +87,9 @@ export const usePostStore = create<PostStore>((set, get) => ({
 
   removeSelectedAlcohol: (alcoholId: string) =>
     set((state) => ({
-      selectedAlcohols: state.selectedAlcohols.filter((a) => a.id !== alcoholId),
+      selectedAlcohols: state.selectedAlcohols.filter(
+        (a) => a.id !== alcoholId,
+      ),
     })),
 
   setEditingTagIndex: (index: number | null) => set({ editingTagIndex: index }),
@@ -88,7 +101,8 @@ export const usePostStore = create<PostStore>((set, get) => ({
 
   setCurrentRatingIndex: (index: number) => set({ currentRatingIndex: index }),
 
-  setFocusedAlcoholId: (alcoholId: string | null) => set({ focusedAlcoholId: alcoholId }),
+  setFocusedAlcoholId: (alcoholId: string | null) =>
+    set({ focusedAlcoholId: alcoholId }),
 
   getAllAlcoholsRated: () => {
     const state = get();
@@ -98,7 +112,11 @@ export const usePostStore = create<PostStore>((set, get) => ({
 
   setUploadedImages: (images: string[]) => set({ uploadedImages: images }),
 
-  addAlcoholTagMapping: (alcoholId: string, imageIndex: number, position: TagPosition) =>
+  addAlcoholTagMapping: (
+    alcoholId: string,
+    imageIndex: number,
+    position: TagPosition,
+  ) =>
     set((state) => ({
       alcoholTagMappings: [
         ...state.alcoholTagMappings,
@@ -122,7 +140,7 @@ export const usePostStore = create<PostStore>((set, get) => ({
     set({
       selectedPlace: null,
       placeRating: 0,
-      review: '',
+      review: "",
       isRatingModalVisible: false,
       tempRating: 0,
       selectedAlcohols: [],

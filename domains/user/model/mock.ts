@@ -1,4 +1,4 @@
-import { User, UserFeed, UserScrapAlcohol } from "./userModel";
+import { User, UserFeed, UserScrapAlcohol } from "@/domains/user/model";
 
 const PLACE_DATA = [
   { name: "울산 문화의거리", address: "울산광역시 중구 성남동 329-5" },
@@ -15,7 +15,10 @@ const PLACE_DATA = [
   { name: "여수 엑스포", address: "전라남도 여수시 박람회길 1" },
   { name: "인사동 전통주점", address: "서울특별시 종로구 인사동길 62" },
   { name: "남산골 한옥마을", address: "서울특별시 중구 퇴계로34길 28" },
-  { name: "제주 성읍민속마을", address: "제주특별자치도 서귀포시 표선면 성읍정의현로 19" },
+  {
+    name: "제주 성읍민속마을",
+    address: "제주특별자치도 서귀포시 표선면 성읍정의현로 19",
+  },
   { name: "수원 화성행궁", address: "경기도 수원시 팔달구 정조로 825" },
   { name: "춘천 막국수 거리", address: "강원도 춘천시 신북읍 신북로 1446" },
   { name: "안동 하회마을", address: "경상북도 안동시 풍천면 하회종가길 2-1" },
@@ -92,25 +95,31 @@ export const mockUserFeeds: UserFeed[] = Array.from({ length: 20 }, (_, i) => {
   };
 });
 
-export const mockUserScrapFeeds: UserFeed[] = Array.from({ length: 15 }, (_, i) => {
-  const place = getRandomElement(PLACE_DATA);
-  return {
-    id: `scrapfeed${i + 1}`,
-    imageUrl: require("@/assets/images/example_image.png"),
-    placeName: place.name,
-    address: place.address,
-    alcoholCount: generateRandomAlcoholCount(),
-  };
-});
+export const mockUserScrapFeeds: UserFeed[] = Array.from(
+  { length: 15 },
+  (_, i) => {
+    const place = getRandomElement(PLACE_DATA);
+    return {
+      id: `scrapfeed${i + 1}`,
+      imageUrl: require("@/assets/images/example_image.png"),
+      placeName: place.name,
+      address: place.address,
+      alcoholCount: generateRandomAlcoholCount(),
+    };
+  },
+);
 
-export const mockUserScrapAlcohols: UserScrapAlcohol[] = Array.from({ length: 25 }, (_, i) => {
-  const liquor = getRandomElement(LIQUOR_DATA);
-  return {
-    id: `alcohol${i + 1}`,
-    imageUrl: require("@/assets/images/example_image.png"),
-    name: liquor.name,
-    type: liquor.type,
-    rating: generateRandomRating(),
-    reviewCount: generateRandomReviewCount(),
-  };
-});
+export const mockUserScrapAlcohols: UserScrapAlcohol[] = Array.from(
+  { length: 25 },
+  (_, i) => {
+    const liquor = getRandomElement(LIQUOR_DATA);
+    return {
+      id: `alcohol${i + 1}`,
+      imageUrl: require("@/assets/images/example_image.png"),
+      name: liquor.name,
+      type: liquor.type,
+      rating: generateRandomRating(),
+      reviewCount: generateRandomReviewCount(),
+    };
+  },
+);

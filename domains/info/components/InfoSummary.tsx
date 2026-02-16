@@ -1,8 +1,7 @@
-import { INFO_CONSTANTS } from '@/domains/info/model/constants';
-import type { InfoBox } from '@/domains/info/model/infoModel';
-import { BookMark, Share } from '@/shared/components';
-import { Colors, Typography } from '@/shared/constants';
-import { StyleSheet, Text, View } from 'react-native';
+import { INFO_CONSTANTS, type InfoBox } from "@/domains/info/model";
+import { BookMark, Share } from "@/shared/components";
+import { Colors, Typography } from "@/shared/constants";
+import { StyleSheet, Text, View } from "react-native";
 
 interface InfoSummaryProps {
   title: string;
@@ -60,9 +59,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   title: {
     fontFamily: Typography.KAKAO_BIG_SANS_EXTRABOLD,
@@ -76,7 +75,7 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   actions: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 8,
   },
   infoBoxContainer: {
@@ -84,15 +83,15 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   infoBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    width: '100%',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    width: "100%",
   },
   infoBoxCategory: {
     backgroundColor: Colors.black,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   label: {
     fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
@@ -100,13 +99,13 @@ const styles = StyleSheet.create({
     color: Colors.white,
     paddingVertical: 3,
     width: 80,
-    textAlign: 'center',
+    textAlign: "center",
   },
   value: {
     fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
     fontSize: INFO_CONSTANTS.VALUE_FONT_SIZE,
     color: Colors.black,
     flex: 1,
-    textAlign: 'right'
+    textAlign: "right",
   },
 });

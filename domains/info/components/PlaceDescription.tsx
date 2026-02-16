@@ -1,6 +1,6 @@
-import { INFO_CONSTANTS } from '@/domains/info/model/constants';
-import { Colors, Typography } from '@/shared/constants';
-import { StyleSheet, Text, View } from 'react-native';
+import { INFO_CONSTANTS } from "@/domains/info/model";
+import { Colors, Typography } from "@/shared/constants";
+import { StyleSheet, Text, View } from "react-native";
 
 interface PlaceDescriptionProps {
   description: string;

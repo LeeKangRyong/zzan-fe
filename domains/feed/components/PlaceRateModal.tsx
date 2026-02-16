@@ -1,5 +1,7 @@
-import { Colors, Typography } from '@/shared/constants';
-import { useEffect, useRef } from 'react';
+import { PlaceSummary, RateStyleButton } from "@/domains/feed/components";
+import { PlaceWithRating } from "@/domains/feed/model";
+import { Colors, Typography } from "@/shared/constants";
+import { useEffect, useRef } from "react";
 import {
   Animated,
   Dimensions,
@@ -7,10 +9,7 @@ import {
   StyleSheet,
   Text,
   View,
-} from 'react-native';
-import { PlaceWithRating } from '../model/feedModel';
-import { PlaceSummary } from './PlaceSummary';
-import { RateStyleButton } from './RateStyleButton';
+} from "react-native";
 
 interface PlaceRateModalProps {
   visible: boolean;
@@ -33,7 +32,7 @@ export const PlaceRateModal = ({
   onRatingChange,
   onSave,
 }: PlaceRateModalProps) => {
-  const screenHeight = Dimensions.get('window').height;
+  const screenHeight = Dimensions.get("window").height;
   const translateY = useRef(new Animated.Value(screenHeight)).current;
 
   useEffect(() => {
@@ -70,7 +69,7 @@ export const PlaceRateModal = ({
         ]}
       >
         <Text style={styles.title}>짠-플레이스에서의 경험은 어떠셨나요?</Text>
-        
+
         <PlaceSummary
           name={selectedPlace.name}
           address={selectedPlace.address}
@@ -93,26 +92,26 @@ export const PlaceRateModal = ({
 const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     zIndex: 1000,
   },
   background: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
   },
   modalContent: {
     backgroundColor: Colors.white,
     borderTopLeftRadius: BORDER_RADIUS_TOP,
     borderTopRightRadius: BORDER_RADIUS_TOP,
     padding: 20,
-    paddingBottom: 40, 
-    width: '100%',
+    paddingBottom: 40,
+    width: "100%",
     zIndex: 1001,
   },
   title: {
     fontSize: 16,
     fontFamily: Typography.KAKAO_BIG_SANS_BOLD,
-    textAlign: 'center',
+    textAlign: "center",
     color: Colors.black,
     marginBottom: 20,
     marginTop: 10,

@@ -1,3 +1,6 @@
+import { generateMapHtml } from "@/domains/map/components";
+import { useWebViewMessage } from "@/domains/map/hooks";
+import type { MapMarker, MapRegion, PlaceBounds } from "@/domains/map/model";
 import {
   forwardRef,
   useEffect,
@@ -7,9 +10,6 @@ import {
 } from "react";
 import { StyleSheet, View } from "react-native";
 import WebView from "react-native-webview";
-import { useWebViewMessage } from "../hooks/useWebViewMessage";
-import type { MapMarker, MapRegion, PlaceBounds } from "../model/mapModel";
-import { generateMapHtml } from "./MapHtmlTemplate";
 
 interface KakaoMapWebViewProps {
   region: MapRegion;
@@ -68,6 +68,7 @@ export const KakaoMapWebView = forwardRef<
 
     const htmlContent = useMemo(() => {
       return generateMapHtml(region, markers, apiKey);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [region.latitude, region.longitude, apiKey]);
 
     useEffect(() => {

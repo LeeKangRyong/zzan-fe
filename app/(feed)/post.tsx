@@ -7,7 +7,7 @@ import {
   ReferredAlcohol,
   SectionTitle,
 } from "@/domains/feed/components";
-import { usePostViewModel } from "@/domains/feed/viewmodel/usePostViewModel";
+import { usePostViewModel } from "@/domains/feed/viewmodel";
 import { CommonButton, Header } from "@/shared/components";
 import { Colors, Layout } from "@/shared/constants";
 import { StyleSheet, View } from "react-native";

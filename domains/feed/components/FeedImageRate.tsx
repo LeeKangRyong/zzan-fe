@@ -1,6 +1,7 @@
-import { AlcoholTagInfo, TagPosition } from "@/domains/feed/model/feedModel";
-import { usePostStore } from "@/domains/feed/store/postStore";
-import { Colors, Typography, SCREEN_WIDTH } from "@/shared/constants";
+import { ImageProgressBar, TagIcon } from "@/domains/feed/components";
+import { AlcoholTagInfo } from "@/domains/feed/model";
+import { usePostStore } from "@/domains/feed/store";
+import { Colors, SCREEN_WIDTH, Typography } from "@/shared/constants";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -15,8 +16,6 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { ImageProgressBar } from "./ImageProgressBar";
-import { TagIcon } from "./TagIcon";
 
 interface FeedImageRateProps {
   currentAlcoholId: string | null;
@@ -94,6 +93,7 @@ export const FeedImageRate = ({ currentAlcoholId }: FeedImageRateProps) => {
     );
 
     performZoomOrReset(mapping || null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAlcoholId, alcoholTagMappings]);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -145,7 +145,10 @@ export const FeedImageRate = ({ currentAlcoholId }: FeedImageRateProps) => {
       >
         {images.map((uri, index) => renderImageWithTags(uri, index))}
       </ScrollView>
-      <ImageProgressBar totalImages={images.length} animatedWidth={animatedWidth} />
+      <ImageProgressBar
+        totalImages={images.length}
+        animatedWidth={animatedWidth}
+      />
     </View>
   );
 };

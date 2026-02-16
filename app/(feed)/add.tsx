@@ -1,6 +1,6 @@
 import { Search, SearchResult, SectionTitle } from "@/domains/feed/components";
 import type { AddType } from "@/domains/feed/model";
-import { useAddViewModel } from "@/domains/feed/viewmodel/useAddViewModel";
+import { useAddViewModel } from "@/domains/feed/viewmodel";
 import { CommonButton, Header } from "@/shared/components";
 import { Colors, Layout } from "@/shared/constants";
 import { useLocalSearchParams, useRouter } from "expo-router";

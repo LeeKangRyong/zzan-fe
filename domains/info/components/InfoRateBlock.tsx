@@ -1,14 +1,14 @@
-import { INFO_CONSTANTS } from '@/domains/info/model/constants';
-import { Colors } from '@/shared/constants';
+import { INFO_CONSTANTS } from "@/domains/info/model";
+import { Colors } from "@/shared/constants";
 import {
   Dimensions,
   Image,
   type ImageSourcePropType,
   StyleSheet,
   View,
-} from 'react-native';
+} from "react-native";
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 const BLOCK_WIDTH =
   (SCREEN_WIDTH -
     INFO_CONSTANTS.RATE_SECTION_PADDING * 2 -
@@ -20,7 +20,10 @@ interface InfoRateBlockProps {
   imageUrl?: ImageSourcePropType;
 }
 
-export const InfoRateBlock = ({ width = BLOCK_WIDTH, imageUrl }: InfoRateBlockProps) => {
+export const InfoRateBlock = ({
+  width = BLOCK_WIDTH,
+  imageUrl,
+}: InfoRateBlockProps) => {
   if (imageUrl) {
     return (
       <Image

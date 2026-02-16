@@ -1,6 +1,6 @@
-import { Alcohol } from '@/domains/feed/model/feedModel';
-import { ScrollView, StyleSheet } from 'react-native';
-import { AlcoholCard } from './AlcoholCard';
+import { Alcohol } from "@/domains/feed/model";
+import { ScrollView, StyleSheet } from "react-native";
+import { AlcoholCard } from "./AlcoholCard";
 
 interface AlcoholRateSectionProps {
   alcohols: Alcohol[];

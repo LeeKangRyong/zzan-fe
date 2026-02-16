@@ -1,12 +1,19 @@
-import { AlcoholCounts } from '@/domains/feed/components/AlcoholCounts';
-import { AlcoholTagInfo, FeedImage } from '@/domains/feed/model/feedModel';
-import { Image } from 'expo-image';
-import { ImageSourcePropType } from 'react-native';
-import { useEffect, useRef, useState } from 'react';
-import { Animated as RNAnimated, ScrollView, StyleSheet, View } from 'react-native';
-import { SCREEN_WIDTH } from '@/shared/constants';
-import { ImageProgressBar } from './ImageProgressBar';
-import { TagIcon } from './TagIcon';
+import {
+  AlcoholCounts,
+  ImageProgressBar,
+  TagIcon,
+} from "@/domains/feed/components";
+import { AlcoholTagInfo, FeedImage } from "@/domains/feed/model";
+import { SCREEN_WIDTH } from "@/shared/constants";
+import { Image } from "expo-image";
+import { useEffect, useRef, useState } from "react";
+import {
+  ImageSourcePropType,
+  Animated as RNAnimated,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 
 interface FeedDetailImageProps {
   images: FeedImage[];
@@ -18,7 +25,7 @@ const renderImageWithTags = (
   imageSource: ImageSourcePropType,
   index: number,
   tagsForImage: AlcoholTagInfo[],
-  onTagPress: (alcoholId: string) => void
+  onTagPress: (alcoholId: string) => void,
 ) => (
   <View key={index} style={styles.imageContainer}>
     <Image source={imageSource} style={styles.image} />
@@ -53,7 +60,9 @@ export const FeedDetailImage = ({
     }).start();
   }, [currentImageIndex, images.length, animatedWidth]);
 
-  const handleScroll = (event: { nativeEvent: { contentOffset: { x: number } } }) => {
+  const handleScroll = (event: {
+    nativeEvent: { contentOffset: { x: number } };
+  }) => {
     const offsetX = event.nativeEvent.contentOffset.x;
     const newIndex = Math.round(offsetX / SCREEN_WIDTH);
     setCurrentImageIndex(newIndex);
@@ -74,11 +83,21 @@ export const FeedDetailImage = ({
         scrollEventThrottle={16}
       >
         {images.map((image, index) => {
-          const tagsForImage = alcoholTagMappings.filter((tag) => tag.imageIndex === index);
-          return renderImageWithTags(image.uri, index, tagsForImage, onTagPress);
+          const tagsForImage = alcoholTagMappings.filter(
+            (tag) => tag.imageIndex === index,
+          );
+          return renderImageWithTags(
+            image.uri,
+            index,
+            tagsForImage,
+            onTagPress,
+          );
         })}
       </ScrollView>
-      <ImageProgressBar totalImages={images.length} animatedWidth={animatedWidth} />
+      <ImageProgressBar
+        totalImages={images.length}
+        animatedWidth={animatedWidth}
+      />
       <AlcoholCounts count={alcoholCount} />
     </View>
   );
@@ -86,15 +105,15 @@ export const FeedDetailImage = ({
 
 const styles = StyleSheet.create({
   wrapper: {
-    position: 'relative',
+    position: "relative",
   },
   imageContainer: {
     width: SCREEN_WIDTH,
-    position: 'relative',
+    position: "relative",
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: SCREEN_WIDTH,
-    resizeMode: 'cover',
+    resizeMode: "cover",
   },
 });

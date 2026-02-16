@@ -1,16 +1,19 @@
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Alert } from 'react-native';
-import { usePostStore } from '../store/postStore';
-import { useAuthStore } from '@/domains/auth/store';
-import { isMockEnabled } from '@/shared/utils';
-import { feedApi } from '../api/feedApi';
-import { useImageUploadViewModel, type UploadImageResult } from './useImageUploadViewModel';
+import { useAuthStore } from "@/domains/auth/store";
+import { feedApi } from "@/domains/feed/api";
 import type {
   CreateFeedRequest,
-  FeedImageTag,
   FeedImageRequest,
-} from '../model/feedApiModel';
+  FeedImageTag,
+} from "@/domains/feed/model";
+import { usePostStore } from "@/domains/feed/store";
+import {
+  useImageUploadViewModel,
+  type UploadImageResult,
+} from "@/domains/feed/viewmodel";
+import { isMockEnabled } from "@/shared/utils";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import { Alert } from "react-native";
 
 export const useRateViewModel = () => {
   const router = useRouter();
@@ -64,16 +67,16 @@ export const useRateViewModel = () => {
     const liquorReviews = selectedAlcohols.map((a) => ({
       liquorId: a.id,
       score: alcoholRatings[a.id] || 0,
-      text: '',
+      text: "",
     }));
 
-    console.log('=== Mock Feed Request ===');
-    console.log('POST /feeds:', JSON.stringify(feedRequest, null, 2));
-    console.log('POST /liquors/{id}/reviews:', liquorReviews);
-    console.log('=========================');
+    console.log("=== Mock Feed Request ===");
+    console.log("POST /feeds:", JSON.stringify(feedRequest, null, 2));
+    console.log("POST /liquors/{id}/reviews:", liquorReviews);
+    console.log("=========================");
 
     resetPost();
-    router.replace('/map');
+    router.replace("/map");
   };
 
   const completeWithApi = async (): Promise<boolean> => {
@@ -87,11 +90,11 @@ export const useRateViewModel = () => {
       await createAllLiquorReviews();
 
       resetPost();
-      router.replace('/map');
+      router.replace("/map");
       return true;
     } catch (error) {
-      console.error('[Feed Creation Error]', error);
-      Alert.alert('피드 작성 실패', '다시 시도해주세요.');
+      console.error("[Feed Creation Error]", error);
+      Alert.alert("피드 작성 실패", "다시 시도해주세요.");
       return false;
     } finally {
       setIsSaving(false);
@@ -102,7 +105,9 @@ export const useRateViewModel = () => {
     return await uploadImages(uploadedImages);
   };
 
-  const buildFeedRequest = (uploadedImageResults: UploadImageResult[]): CreateFeedRequest => {
+  const buildFeedRequest = (
+    uploadedImageResults: UploadImageResult[],
+  ): CreateFeedRequest => {
     const images = buildFeedImages(uploadedImageResults);
 
     return {
@@ -115,7 +120,9 @@ export const useRateViewModel = () => {
     };
   };
 
-  const buildFeedImages = (uploadedImageResults: UploadImageResult[]): FeedImageRequest[] => {
+  const buildFeedImages = (
+    uploadedImageResults: UploadImageResult[],
+  ): FeedImageRequest[] => {
     return uploadedImageResults.map((img) => ({
       imageUrl: img.objectKey,
       tags: buildTagsForImage(img.localUri),
@@ -128,11 +135,11 @@ export const useRateViewModel = () => {
     return alcoholTagMappings
       .filter((m) => m.imageIndex === imageIndex)
       .map((m) => {
-        const alcohol = selectedAlcohols.find(a => a.id === m.alcoholId);
+        const alcohol = selectedAlcohols.find((a) => a.id === m.alcoholId);
 
         return {
           liquorId: m.alcoholId,
-          liquorName: alcohol?.name ?? '',
+          liquorName: alcohol?.name ?? "",
           x: m.tagPosition.x,
           y: m.tagPosition.y,
         };
@@ -145,7 +152,7 @@ export const useRateViewModel = () => {
 
   const createAllLiquorReviews = async () => {
     const promises = selectedAlcohols.map((alcohol) =>
-      createLiquorReview(alcohol.id)
+      createLiquorReview(alcohol.id),
     );
 
     await Promise.all(promises);
@@ -153,7 +160,7 @@ export const useRateViewModel = () => {
 
   const createLiquorReview = async (alcoholId: string) => {
     const rating = alcoholRatings[alcoholId] || 0;
-    await feedApi.createLiquorReview(alcoholId, { score: rating, text: '' });
+    await feedApi.createLiquorReview(alcoholId, { score: rating, text: "" });
   };
 
   const handleSaveRating = async (): Promise<boolean> => {

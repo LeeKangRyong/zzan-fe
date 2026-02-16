@@ -1,7 +1,7 @@
-import { TextInput } from '@/shared/components';
-import { Layout, Typography } from '@/shared/constants';
-import { Pressable, StyleSheet, View } from 'react-native';
-import UpArrow from '../../../assets/icons/uparrow.svg';
+import UpArrow from "@/assets/icons/uparrow.svg";
+import { TextInput } from "@/shared/components";
+import { Layout, Typography } from "@/shared/constants";
+import { Pressable, StyleSheet, View } from "react-native";
 
 interface MessageInputProps {
   value: string;
@@ -41,10 +41,10 @@ export const MessageInput = ({
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: Layout.INPUT_HORIZONTAL,
     paddingVertical: Layout.INPUT_VERTICAL,
     borderRadius: Layout.INPUT_RADIUS,
@@ -56,5 +56,5 @@ const styles = StyleSheet.create({
   sendIcon: {
     width: 20,
     height: 20,
-  }
+  },
 });

@@ -1,22 +1,30 @@
+import { MapSearchResultBlock } from "@/domains/map/components";
+import { MapMarker } from "@/domains/map/model";
 import { Colors, Layout } from "@/shared/constants";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
-import { MapMarker } from "../model/mapModel";
-import { MapSearchResultBlock } from "./MapSearchResultBlock";
 
 interface MapSearchResultProps {
   searchResults: MapMarker[];
   onResultPress?: (placeId: string) => void;
 }
 
-export const MapSearchResult = ({ searchResults, onResultPress }: MapSearchResultProps) => {
+export const MapSearchResult = ({
+  searchResults,
+  onResultPress,
+}: MapSearchResultProps) => {
   const displayPlaces = searchResults;
 
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {displayPlaces.map((place) => (
-          renderSearchResultItem(place.id, place.name, place.address, onResultPress)
-        ))}
+        {displayPlaces.map((place) =>
+          renderSearchResultItem(
+            place.id,
+            place.name,
+            place.address,
+            onResultPress,
+          ),
+        )}
       </ScrollView>
     </View>
   );
@@ -26,7 +34,7 @@ const renderSearchResultItem = (
   id: string,
   name: string,
   address: string,
-  onPress?: (placeId: string) => void
+  onPress?: (placeId: string) => void,
 ) => {
   return (
     <TouchableOpacity
@@ -51,6 +59,6 @@ const styles = StyleSheet.create({
   },
   resultItem: {
     borderRadius: 6,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
 });

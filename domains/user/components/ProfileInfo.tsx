@@ -1,9 +1,11 @@
-import type { User } from '../model';
-import { Colors, Typography } from '@/shared/constants';
-import { Image } from 'expo-image';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ProfileEditIcon } from './ProfileEditIcon';
-import { ProfileEmptyAlcohol } from './ProfileEmptyAlcohol';
+import {
+  ProfileEditIcon,
+  ProfileEmptyAlcohol,
+} from "@/domains/user/components";
+import { Colors, Typography } from "@/shared/constants";
+import { Image } from "expo-image";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import type { User } from "../model";
 
 interface ProfileInfoProps {
   user: User;
@@ -11,12 +13,20 @@ interface ProfileInfoProps {
   onImagePress?: () => void;
 }
 
-export const ProfileInfo = ({ user, isEditMode, onImagePress }: ProfileInfoProps) => {
+export const ProfileInfo = ({
+  user,
+  isEditMode,
+  onImagePress,
+}: ProfileInfoProps) => {
   return (
     <View style={styles.container}>
       <View>
         <TouchableOpacity onPress={onImagePress} disabled={!isEditMode}>
-          <Image source={user.profileImage} style={styles.profileImage} contentFit="cover" />
+          <Image
+            source={user.profileImage}
+            style={styles.profileImage}
+            contentFit="cover"
+          />
         </TouchableOpacity>
         {isEditMode && <ProfileEditIcon />}
       </View>
@@ -28,7 +38,7 @@ export const ProfileInfo = ({ user, isEditMode, onImagePress }: ProfileInfoProps
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: "center",
     gap: 18,
   },
   profileImage: {

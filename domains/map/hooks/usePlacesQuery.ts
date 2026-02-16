@@ -1,16 +1,19 @@
-import { useQuery, keepPreviousData } from '@tanstack/react-query';
-import { isMockEnabled } from '@/shared/utils';
-import { placeApi } from '../api/placeApi';
-import { toMapMarker, filterMarkersInRegion } from '../mapper';
-import type { MapMarker, PlaceBounds } from '../model/mapModel';
-import { mockPlacesWithCoordinates } from '../model/mock';
+import { placeApi } from "@/domains/map/api";
+import { filterMarkersInRegion, toMapMarker } from "@/domains/map/mapper";
+import {
+  type MapMarker,
+  type PlaceBounds,
+  mockPlacesWithCoordinates,
+} from "@/domains/map/model";
+import { isMockEnabled } from "@/shared/utils";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 const createPlacesQueryKey = (bounds: PlaceBounds | null) => {
-  if (!bounds) return ['places', 'empty'];
+  if (!bounds) return ["places", "empty"];
 
   return [
-    'places',
-    'region',
+    "places",
+    "region",
     {
       minLat: bounds.minLatitude.toFixed(3),
       maxLat: bounds.maxLatitude.toFixed(3),
@@ -21,7 +24,7 @@ const createPlacesQueryKey = (bounds: PlaceBounds | null) => {
 };
 
 const fetchPlacesInRegion = async (
-  bounds: PlaceBounds
+  bounds: PlaceBounds,
 ): Promise<MapMarker[]> => {
   if (isMockEnabled()) {
     await new Promise((resolve) => setTimeout(resolve, 300));
@@ -43,9 +46,7 @@ const fetchPlacesInRegion = async (
     maxLongitude: bounds.maxLongitude,
   });
 
-  return result
-    .filter((place) => place.feedCount > 0)
-    .map(toMapMarker);
+  return result.filter((place) => place.feedCount > 0).map(toMapMarker);
 };
 
 export const usePlacesQuery = (bounds: PlaceBounds | null) => {
@@ -53,7 +54,7 @@ export const usePlacesQuery = (bounds: PlaceBounds | null) => {
     queryKey: createPlacesQueryKey(bounds),
     queryFn: () => {
       if (!bounds) {
-        throw new Error('Bounds are required');
+        throw new Error("Bounds are required");
       }
       return fetchPlacesInRegion(bounds);
     },

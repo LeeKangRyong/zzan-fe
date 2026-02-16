@@ -1,9 +1,12 @@
 import type {
   FeedScrapApiResponse,
   LiquorScrapApiResponse,
-} from "../model/scrapApiModel";
-import type { UserApiResponse, UserFeedSummary } from "../model/userApiModel";
-import type { User, UserFeed, UserScrapAlcohol } from "../model/userModel";
+  User,
+  UserApiResponse,
+  UserFeed,
+  UserFeedSummary,
+  UserScrapAlcohol,
+} from "@/domains/user/model";
 
 const DEFAULT_PROFILE_IMAGE = require("@/assets/images/example_image.png");
 

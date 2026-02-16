@@ -1,9 +1,9 @@
-import StarEmpty from '@/assets/icons/star_empty.svg';
-import StarFull from '@/assets/icons/star_full.svg';
-import { PlaceWithRating } from '@/domains/feed/model/feedModel';
-import { Rate } from '@/shared/components';
-import { Colors, Typography } from '@/shared/constants';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import StarEmpty from "@/assets/icons/star_empty.svg";
+import StarFull from "@/assets/icons/star_full.svg";
+import { PlaceWithRating } from "@/domains/feed/model";
+import { Rate } from "@/shared/components";
+import { Colors, Typography } from "@/shared/constants";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface FeedDetailPlaceProps {
   place: PlaceWithRating;
@@ -42,10 +42,10 @@ export const FeedDetailPlace = ({
 
       <View style={styles.satisfactionContainer}>
         <Text style={styles.satisfactionLabel}>공간 만족도</Text>
-        <View style={styles.starsContainer}>
-          {renderStars(placeRating)}
-        </View>
-        <Text style={styles.satisfactionScore}>{placeRating}/{MAX_STARS}점</Text>
+        <View style={styles.starsContainer}>{renderStars(placeRating)}</View>
+        <Text style={styles.satisfactionScore}>
+          {placeRating}/{MAX_STARS}점
+        </Text>
       </View>
 
       <TouchableOpacity onPress={onPlacePress} activeOpacity={0.9}>
@@ -55,7 +55,11 @@ export const FeedDetailPlace = ({
               <View style={styles.nameRow}>
                 <Text style={styles.placeName}>{place.name}</Text>
                 <Text style={styles.feedCountText}>
-                  이 장소에서 <Text style={styles.feedCountHighlight}>{place.feedCount}명</Text>이 마셨어요!
+                  이 장소에서{" "}
+                  <Text style={styles.feedCountHighlight}>
+                    {place.feedCount}명
+                  </Text>
+                  이 마셨어요!
                 </Text>
               </View>
               <Text style={styles.placeAddress}>{place.address}</Text>
@@ -66,7 +70,8 @@ export const FeedDetailPlace = ({
             <Text style={styles.ratingLabel}>평점</Text>
             <Rate rating={place.rating} size={22} />
             <Text style={styles.placeRatingText}>
-              {place.rating.toFixed(1)}/5점{reviewCount !== undefined ? ` (${reviewCount}개)` : ''}
+              {place.rating.toFixed(1)}/5점
+              {reviewCount !== undefined ? ` (${reviewCount}개)` : ""}
             </Text>
           </View>
         </View>
@@ -85,14 +90,14 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   satisfactionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: Colors.takju,
     borderRadius: 6,
     paddingVertical: 8,
     paddingHorizontal: 10,
     gap: 10,
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
   },
   satisfactionLabel: {
     fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
@@ -100,7 +105,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   starsContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 2,
   },
   satisfactionScore: {
@@ -115,18 +120,18 @@ const styles = StyleSheet.create({
     gap: 14,
   },
   placeInfoMain: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 12,
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
   },
   placeTextContainer: {
     flex: 1,
     gap: 4,
   },
   nameRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   placeName: {
     fontFamily: Typography.KAKAO_BIG_SANS_BOLD,
@@ -148,8 +153,8 @@ const styles = StyleSheet.create({
     color: Colors.yellow,
   },
   placeRatingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 10,
   },
   ratingLabel: {

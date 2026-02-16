@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { feedApi } from '../api/feedApi';
+import { feedApi } from "@/domains/feed/api";
+import { useState } from "react";
 
 export interface UploadImageResult {
   localUri: string;
@@ -10,7 +10,9 @@ export const useImageUploadViewModel = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  const uploadImages = async (localUris: string[]): Promise<UploadImageResult[]> => {
+  const uploadImages = async (
+    localUris: string[],
+  ): Promise<UploadImageResult[]> => {
     setIsUploading(true);
 
     const results: UploadImageResult[] = [];
@@ -25,10 +27,12 @@ export const useImageUploadViewModel = () => {
     return results;
   };
 
-  const uploadSingleImage = async (localUri: string): Promise<UploadImageResult> => {
+  const uploadSingleImage = async (
+    localUri: string,
+  ): Promise<UploadImageResult> => {
     const fileName = extractFileName(localUri);
 
-    const contentType = 'image/jpeg';
+    const contentType = "image/jpeg";
     const presigned = await feedApi.getPresignedUrl({ fileName, contentType });
     const imageBlob = await fetchImageAsBlob(localUri);
 
@@ -38,7 +42,7 @@ export const useImageUploadViewModel = () => {
   };
 
   const extractFileName = (uri: string): string => {
-    return uri.split('/').pop() || `image_${Date.now()}.jpg`;
+    return uri.split("/").pop() || `image_${Date.now()}.jpg`;
   };
 
   const fetchImageAsBlob = async (uri: string): Promise<Blob> => {

@@ -7,4 +7,5 @@ export const Colors = {
   purple: "#8A38F5",
   red: "#FF0000",
   time: "#999",
+  detail: "#666",
 };

@@ -1,20 +1,16 @@
-import { INFO_CONSTANTS } from '@/domains/info/model/constants';
-import type { ImageWithDescription } from '@/domains/info/model/infoModel';
-import { Colors, Typography } from '@/shared/constants';
-import React, { useState } from 'react';
 import {
-  Dimensions,
-  Image,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import Carousel from 'react-native-reanimated-carousel';
+  INFO_CONSTANTS,
+  type ImageWithDescription,
+} from "@/domains/info/model";
+import { Colors, Typography } from "@/shared/constants";
+import React, { useState } from "react";
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import Carousel from "react-native-reanimated-carousel";
 
-import { interpolate } from 'react-native-reanimated';
+import { interpolate } from "react-native-reanimated";
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
-const CENTER_IMAGE_WIDTH = SCREEN_WIDTH * 0.6; // 중앙 이미지 너비
+const SCREEN_WIDTH = Dimensions.get("window").width;
+const CENTER_IMAGE_WIDTH = SCREEN_WIDTH * 0.6;
 const IMAGE_HEIGHT = 200;
 
 const SectionTitle = ({ title }: { title: string }) => (
@@ -59,13 +55,13 @@ const ImageGallery = ({
           onIndexChange(index);
         }}
         customAnimation={(value: number) => {
-          'worklet';
+          "worklet";
           const opacity = interpolate(value, [-1, 0, 1], [0.5, 1, 0.5]);
 
           const translateX = interpolate(
             value,
             [-1, 0, 1],
-            [-SCREEN_WIDTH * 0.5, 0, SCREEN_WIDTH * 0.5]
+            [-SCREEN_WIDTH * 0.5, 0, SCREEN_WIDTH * 0.5],
           );
 
           const scale = interpolate(value, [-1, 0, 1], [0.85, 1, 0.85]);
@@ -120,7 +116,10 @@ export const AlcoholDescription = ({
 
   return (
     <View style={styles.container}>
-      <PairingSection title={recommendTitle} description={recommendDescription} />
+      <PairingSection
+        title={recommendTitle}
+        description={recommendDescription}
+      />
       <Text style={styles.basicInfo}>기본 정보</Text>
       <ImageGallery images={images} onIndexChange={setCurrentIndex} />
       <ImageDescriptionText
@@ -156,16 +155,16 @@ const styles = StyleSheet.create({
     color: Colors.black,
     fontFamily: Typography.KAKAO_BIG_SANS_BOLD,
     fontSize: 12,
-    textAlign: 'center',
+    textAlign: "center",
   },
   galleryWrapper: {
     marginVertical: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   imageWrapper: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   galleryImage: {
     width: CENTER_IMAGE_WIDTH,
@@ -175,20 +174,20 @@ const styles = StyleSheet.create({
   imageDescriptionContainer: {
     paddingHorizontal: INFO_CONSTANTS.DESCRIPTION_HORIZONTAL_PADDING,
     paddingTop: 6,
-    alignItems: 'center',
+    alignItems: "center",
   },
   descriptionTitle: {
     fontFamily: Typography.KAKAO_BIG_SANS_BOLD,
     fontSize: 16,
     color: Colors.black,
     marginBottom: 8,
-    textAlign: 'center',
+    textAlign: "center",
   },
   descriptionCategory: {
     fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
     fontSize: 12,
     color: Colors.black,
     opacity: 0.5,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });

@@ -1,7 +1,7 @@
+import { usePostStore } from "@/domains/feed/store";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import { Alert } from "react-native";
-import { usePostStore } from "../store/postStore";
 
 export const usePostViewModel = () => {
   const router = useRouter();

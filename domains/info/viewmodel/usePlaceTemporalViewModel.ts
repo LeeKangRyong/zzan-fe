@@ -1,7 +1,10 @@
-import { feedApi } from "@/domains/feed/api/feedApi";
+import { feedApi } from "@/domains/feed/api";
 import { infoApi } from "@/domains/info/api";
-import type { PlaceDetailApiResponse } from "@/domains/info/model/infoApiModel";
-import type { PlaceFeedWithProfile, PlaceTemporalInfo } from "@/domains/info/model/infoModel";
+import type {
+  PlaceDetailApiResponse,
+  PlaceFeedWithProfile,
+  PlaceTemporalInfo,
+} from "@/domains/info/model";
 import { useDistance } from "@/shared/hooks";
 import { isMockEnabled } from "@/shared/utils";
 import * as Location from "expo-location";
@@ -51,15 +54,12 @@ export const usePlaceTemporalViewModel = ({
   const [isFeedsLoading, setIsFeedsLoading] = useState(true);
 
   const loadMockData = useCallback(() => {
-    const {
-      MOCK_PLACE_TEMPORAL_INFOS,
-    } = require("@/domains/info/model/placeTemporalMock") as {
-      MOCK_PLACE_TEMPORAL_INFOS: PlaceTemporalInfo[];
-    };
+    const { MOCK_PLACE_TEMPORAL_INFOS } =
+      require("@/domains/info/model/placeTemporalMock") as {
+        MOCK_PLACE_TEMPORAL_INFOS: PlaceTemporalInfo[];
+      };
 
-    const foundPlace = MOCK_PLACE_TEMPORAL_INFOS.find(
-      (p) => p.id === placeId,
-    );
+    const foundPlace = MOCK_PLACE_TEMPORAL_INFOS.find((p) => p.id === placeId);
 
     if (!foundPlace) {
       setError("장소를 찾을 수 없습니다.");

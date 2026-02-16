@@ -1,9 +1,8 @@
+import { mapUserFeedApiToDomain } from "@/domains/user/mapper";
+import { mockUserFeeds, type UserFeed } from "@/domains/user/model";
 import { isMockEnabled } from "@/shared/utils";
 import { useEffect, useState } from "react";
 import { userApi } from "../api";
-import { mockUserFeeds } from "../model";
-import { mapUserFeedApiToDomain } from "../mapper";
-import type { UserFeed } from "../model";
 
 export const useMyFeedsViewModel = () => {
   const [feeds, setFeeds] = useState<UserFeed[]>([]);

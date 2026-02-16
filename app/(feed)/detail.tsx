@@ -1,18 +1,25 @@
+import { useAuthStore } from "@/domains/auth/store";
 import {
   FeedDetailComments,
   FeedDetailImage,
   FeedDetailPlace,
   FeedUser,
   ReferredAlcoholWithRate,
-} from '@/domains/feed/components';
-import { useDetailViewModel } from '@/domains/feed/viewmodel/useDetailViewModel';
-import { BookMark, Header, KakaoLoginModal, Share } from '@/shared/components';
-import { useModal } from '@/shared/hooks';
-import { useAuthStore } from '@/domains/auth/store';
-import { Colors, Layout } from '@/shared/constants';
-import { useRouter, useLocalSearchParams } from 'expo-router';
-import { ImageSourcePropType, ScrollView, StyleSheet, View, ActivityIndicator, Text } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+} from "@/domains/feed/components";
+import { useDetailViewModel } from "@/domains/feed/viewmodel";
+import { BookMark, Header, KakaoLoginModal, Share } from "@/shared/components";
+import { Colors, Layout } from "@/shared/constants";
+import { useModal } from "@/shared/hooks";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import {
+  ActivityIndicator,
+  ImageSourcePropType,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface UserSectionProps {
   userImageUrl: ImageSourcePropType;
@@ -22,7 +29,13 @@ interface UserSectionProps {
   onBookmark: () => void;
 }
 
-const UserSection = ({ userImageUrl, username, isBookmarked, onShare, onBookmark }: UserSectionProps) => (
+const UserSection = ({
+  userImageUrl,
+  username,
+  isBookmarked,
+  onShare,
+  onBookmark,
+}: UserSectionProps) => (
   <View style={styles.userSection}>
     <FeedUser userImageUrl={userImageUrl} username={username} />
     <View style={styles.actionButtons}>
@@ -121,7 +134,7 @@ export default function DetailTab() {
             onAlcoholPress={(id) => {
               handleAlcoholPress(id);
               router.push({
-                pathname: '/alcohol',
+                pathname: "/alcohol",
                 params: { liquorId: id },
               });
             }}
@@ -134,7 +147,7 @@ export default function DetailTab() {
               onPlacePress={() => {
                 handlePlacePress();
                 router.push({
-                  pathname: '/placeTemporal',
+                  pathname: "/placeTemporal",
                   params: { kakaoPlaceId: place.id },
                 });
               }}
@@ -164,17 +177,17 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   userSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   actionButtons: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 8,
   },
   centerContent: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   errorText: {
     fontSize: 16,

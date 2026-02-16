@@ -1,8 +1,8 @@
-import { Alcohol } from '@/domains/feed/model/feedModel';
-import { Rate } from '@/shared/components';
-import { Colors, Typography } from '@/shared/constants';
-import { Image } from 'expo-image';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alcohol } from "@/domains/feed/model";
+import { Rate } from "@/shared/components";
+import { Colors, Typography } from "@/shared/constants";
+import { Image } from "expo-image";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface AlcoholCardProps {
   alcohol: Alcohol;
@@ -11,15 +11,30 @@ interface AlcoholCardProps {
   onPress?: () => void;
 }
 
-export const AlcoholCard = ({ alcohol, isFocused, rating, onPress }: AlcoholCardProps) => {
+export const AlcoholCard = ({
+  alcohol,
+  isFocused,
+  rating,
+  onPress,
+}: AlcoholCardProps) => {
   const hasRating = rating !== undefined;
 
   const content = (
-    <View style={[styles.card, isFocused && styles.focusedCard, !hasRating && styles.cardCompact]}>
+    <View
+      style={[
+        styles.card,
+        isFocused && styles.focusedCard,
+        !hasRating && styles.cardCompact,
+      ]}
+    >
       <View style={styles.topInfo}>
         <Image source={alcohol.imageUrl} style={styles.image} />
-        <View style={[styles.cardContent, !hasRating && styles.cardContentCompact]}>
-          <Text style={styles.name} numberOfLines={1}>{alcohol.name}</Text>
+        <View
+          style={[styles.cardContent, !hasRating && styles.cardContentCompact]}
+        >
+          <Text style={styles.name} numberOfLines={1}>
+            {alcohol.name}
+          </Text>
           <Text style={styles.type}>#{alcohol.type}</Text>
         </View>
       </View>
@@ -52,19 +67,19 @@ const styles = StyleSheet.create({
     padding: 14,
     gap: 12,
     borderWidth: 1,
-    borderColor: 'transparent',
+    borderColor: "transparent",
   },
   cardCompact: {
     height: 60,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   focusedCard: {
     borderColor: Colors.black,
   },
   topInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 12,
   },
   image: {
@@ -74,10 +89,10 @@ const styles = StyleSheet.create({
   },
   cardContent: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   cardContentCompact: {
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   name: {
     fontFamily: Typography.KAKAO_BIG_SANS_EXTRABOLD,
@@ -92,8 +107,8 @@ const styles = StyleSheet.create({
     letterSpacing: -0.24,
   },
   ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 10,
   },
   ratingLabel: {

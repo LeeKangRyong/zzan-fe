@@ -1,7 +1,6 @@
-import { router } from 'expo-router';
-import { useAuthStore } from '@/domains/auth/store';
-import { getApiUrl } from '../../utils/env';
-import { API_ENDPOINTS } from '../endpoints';
+import { useAuthStore } from "@/domains/auth/store";
+import { getApiUrl } from "../../utils/env";
+import { API_ENDPOINTS } from "../endpoints";
 
 let isRefreshing = false;
 let refreshPromise: Promise<boolean> | null = null;
@@ -19,9 +18,9 @@ async function executeRefresh(): Promise<boolean> {
     const url = `${baseUrl}${API_ENDPOINTS.AUTH.TOKEN_REFRESH}`;
 
     const response = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'text/plain',
+        "Content-Type": "text/plain",
       },
       body: refreshToken,
     });
@@ -47,8 +46,6 @@ async function executeRefresh(): Promise<boolean> {
 async function handleLogout(): Promise<void> {
   const { clearTokens } = useAuthStore.getState();
   clearTokens();
-  // ✅ Auto-redirect removed - Let auth guards on each page show modal
-  // User will navigate to /login only by clicking KakaoButton
 }
 
 export async function attemptTokenRefresh(): Promise<boolean> {

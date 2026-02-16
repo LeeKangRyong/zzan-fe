@@ -1,5 +1,9 @@
-import type { PlaceResponse, PlaceSearchResponse } from '../model/mapApiModel';
-import type { MapMarker, MapRegion } from '../model/mapModel';
+import type {
+  MapMarker,
+  MapRegion,
+  PlaceResponse,
+  PlaceSearchResponse,
+} from "@/domains/map/model";
 
 export const toMapMarker = (place: PlaceResponse): MapMarker => ({
   id: place.id,
@@ -13,7 +17,9 @@ export const toMapMarker = (place: PlaceResponse): MapMarker => ({
   rating: place.score,
 });
 
-export const searchResultToMapMarker = (place: PlaceSearchResponse): MapMarker => ({
+export const searchResultToMapMarker = (
+  place: PlaceSearchResponse,
+): MapMarker => ({
   id: place.id,
   name: place.placeName,
   address: place.roadAddressName,
@@ -27,17 +33,18 @@ export const searchResultToMapMarker = (place: PlaceSearchResponse): MapMarker =
 
 export const filterMarkersInRegion = (
   markers: MapMarker[],
-  region: MapRegion
+  region: MapRegion,
 ): MapMarker[] => {
   const minLatitude = region.latitude - region.latitudeDelta / 2;
   const maxLatitude = region.latitude + region.latitudeDelta / 2;
   const minLongitude = region.longitude - region.longitudeDelta / 2;
   const maxLongitude = region.longitude + region.longitudeDelta / 2;
 
-  return markers.filter(marker =>
-    marker.latitude >= minLatitude &&
-    marker.latitude <= maxLatitude &&
-    marker.longitude >= minLongitude &&
-    marker.longitude <= maxLongitude
+  return markers.filter(
+    (marker) =>
+      marker.latitude >= minLatitude &&
+      marker.latitude <= maxLatitude &&
+      marker.longitude >= minLongitude &&
+      marker.longitude <= maxLongitude,
   );
 };

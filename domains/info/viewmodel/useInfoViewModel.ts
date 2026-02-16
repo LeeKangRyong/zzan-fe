@@ -1,22 +1,21 @@
-import type {
-  InfoBox,
-  PlaceInfo,
-} from '@/domains/info/model/infoModel';
-import { MOCK_PLACE_INFO } from '@/domains/info/model/mock';
-import { mapPlaceApiToPlaceInfo } from '@/domains/info/mapper';
-import { infoApi } from '@/domains/info/api';
-import { feedApi } from '@/domains/feed/api/feedApi';
-import { mockNearbyFeeds } from '@/domains/feed/model/mock';
-import { isMockEnabled } from '@/shared/utils';
-import { useState, useEffect, useCallback } from 'react';
-import type { FeedWithUser } from '@/domains/feed/model/feedModel';
+import { feedApi } from "@/domains/feed/api";
+import { type FeedWithUser, mockNearbyFeeds } from "@/domains/feed/model";
+import { infoApi } from "@/domains/info/api";
+import { mapPlaceApiToPlaceInfo } from "@/domains/info/mapper";
+import {
+  type InfoBox,
+  type PlaceInfo,
+  MOCK_PLACE_INFO,
+} from "@/domains/info/model";
+import { isMockEnabled } from "@/shared/utils";
+import { useCallback, useEffect, useState } from "react";
 
 const createInfoBoxes = (placeInfo: PlaceInfo): InfoBox[] => {
   return [
-    { label: '문의 및 안내', value: placeInfo.option1 },
-    { label: '쉬는날', value: placeInfo.option2 },
-    { label: '이용시간', value: placeInfo.option3 },
-    { label: '주차시설', value: placeInfo.option4 },
+    { label: "문의 및 안내", value: placeInfo.option1 },
+    { label: "쉬는날", value: placeInfo.option2 },
+    { label: "이용시간", value: placeInfo.option3 },
+    { label: "주차시설", value: placeInfo.option4 },
   ];
 };
 
@@ -56,8 +55,8 @@ export const useInfoViewModel = (placeId?: string) => {
       setIsBookmarked(mappedPlace.isBookmarked);
       setInfoBoxes(createInfoBoxes(mappedPlace));
     } catch (err) {
-      console.error('[InfoViewModel] Failed to load place:', err);
-      setError('장소 정보를 불러오는데 실패했습니다');
+      console.error("[InfoViewModel] Failed to load place:", err);
+      setError("장소 정보를 불러오는데 실패했습니다");
       loadMockPlaceInfo();
     } finally {
       setIsLoading(false);
@@ -92,7 +91,7 @@ export const useInfoViewModel = (placeId?: string) => {
       }));
       setPlaceFeeds(mapped);
     } catch (error) {
-      console.error('[InfoViewModel] Failed to load place feeds:', error);
+      console.error("[InfoViewModel] Failed to load place feeds:", error);
       setPlaceFeeds(mockNearbyFeeds as Partial<FeedWithUser>[]);
     } finally {
       setIsFeedsLoading(false);
@@ -108,11 +107,11 @@ export const useInfoViewModel = (placeId?: string) => {
   };
 
   const handleShare = () => {
-    console.log('Share pressed');
+    console.log("Share pressed");
   };
 
   const handleAlcoholButtonPress = useCallback(() => {
-    console.log('Alcohol button pressed');
+    console.log("Alcohol button pressed");
     return true;
   }, []);
 

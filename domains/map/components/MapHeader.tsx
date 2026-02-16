@@ -1,12 +1,10 @@
-import UserIcon from '@/assets/icons/user.svg';
-import LogoSmall from '@/assets/logo/logo_small.svg';
-import { Colors, Layout } from '@/shared/constants';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { MapSearch } from './MapSearch';
-import { MapSearchResult } from './MapSearchResults';
-
-import { MapMarker } from '../model/mapModel';
+import UserIcon from "@/assets/icons/user.svg";
+import LogoSmall from "@/assets/logo/logo_small.svg";
+import { MapSearch, MapSearchResult } from "@/domains/map/components";
+import { MapMarker } from "@/domains/map/model";
+import { Colors, Layout } from "@/shared/constants";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface MapHeaderProps {
   onProfilePress: () => void;
@@ -25,7 +23,7 @@ export const MapHeader = ({
   onSearchSubmit,
   showSearchResults,
   searchResults,
-  onSearchResultPress
+  onSearchResultPress,
 }: MapHeaderProps) => {
   const insets = useSafeAreaInsets();
 
@@ -36,10 +34,13 @@ export const MapHeader = ({
         onProfilePress,
         searchText,
         onSearchTextChange,
-        onSearchSubmit
+        onSearchSubmit,
       )}
       {showSearchResults && (
-        <MapSearchResult searchResults={searchResults} onResultPress={onSearchResultPress} />
+        <MapSearchResult
+          searchResults={searchResults}
+          onResultPress={onSearchResultPress}
+        />
       )}
     </View>
   );
@@ -50,7 +51,7 @@ const renderHeaderBar = (
   onPress: () => void,
   searchText: string,
   onSearchTextChange: (text: string) => void,
-  onSearchSubmit?: () => void
+  onSearchSubmit?: () => void,
 ) => {
   return (
     <View style={[styles.container, { paddingTop: topInset + 12 }]}>
@@ -69,9 +70,9 @@ const renderHeaderBar = (
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: Layout.SCREEN_HORIZONTAL,
     paddingBottom: 12,
     backgroundColor: Colors.white,

@@ -1,51 +1,91 @@
-import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Svg, { Defs, Path, RadialGradient, Stop } from 'react-native-svg';
-import { useAuthStore } from '@/domains/auth/store';
-import { KakaoLoginModal } from './KakaoLoginModal';
-import { Colors, Typography } from '../constants';
+import { useAuthStore } from "@/domains/auth/store";
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import React, { useState } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import Svg, { Defs, Path, RadialGradient, Stop } from "react-native-svg";
+import { Colors, Typography } from "../constants";
+import { KakaoLoginModal } from "./KakaoLoginModal";
 
-import HomeEmptyIcon from '@/assets/icons/home_empty.svg';
-import HomeGrayIcon from '@/assets/icons/home_gray.svg';
-import FeedEmptyIcon from '@/assets/icons/menu_empty.svg';
-import FeedGrayIcon from '@/assets/icons/menu_gray.svg';
-import PlusIcon from '@/assets/icons/plus.svg';
+import HomeEmptyIcon from "@/assets/icons/home_empty.svg";
+import HomeGrayIcon from "@/assets/icons/home_gray.svg";
+import FeedEmptyIcon from "@/assets/icons/menu_empty.svg";
+import FeedGrayIcon from "@/assets/icons/menu_gray.svg";
+import PlusIcon from "@/assets/icons/plus.svg";
 
 const getIconByRouteName = (routeName: string, isFocused: boolean) => {
   const color = isFocused ? Colors.black : Colors.gray;
   const props = { width: 24, height: 24, fill: color };
 
-  if (routeName === 'map') {
-    return isFocused ? <HomeEmptyIcon {...props} /> : <HomeGrayIcon {...props} />;
+  if (routeName === "map") {
+    return isFocused ? (
+      <HomeEmptyIcon {...props} />
+    ) : (
+      <HomeGrayIcon {...props} />
+    );
   }
-  if (routeName === 'feed') {
-    return isFocused ? <FeedEmptyIcon {...props} /> : <FeedGrayIcon {...props} />;
+  if (routeName === "feed") {
+    return isFocused ? (
+      <FeedEmptyIcon {...props} />
+    ) : (
+      <FeedGrayIcon {...props} />
+    );
   }
-  if (routeName === 'post') {
+  if (routeName === "post") {
     return <PlusIcon width={24} height={24} fill={Colors.white} />;
   }
   return <View />;
 };
 
 const getLabelByRouteName = (routeName: string) => {
-  if (routeName === 'map') return '홈';
-  if (routeName === 'feed') return '피드';
+  if (routeName === "map") return "홈";
+  if (routeName === "feed") return "피드";
   return null;
 };
 
-const PlusButton = ({ onPress, children }: { onPress: () => void; children: React.ReactNode }) => {
+const PlusButton = ({
+  onPress,
+  children,
+}: {
+  onPress: () => void;
+  children: React.ReactNode;
+}) => {
   return (
     <Pressable onPress={onPress} style={styles.plusButtonContainer}>
-      <View style={{ width: 80, height: 40, position: 'absolute', top: -10, alignItems: 'center', overflow: 'hidden' }}>
+      <View
+        style={{
+          width: 80,
+          height: 40,
+          position: "absolute",
+          top: -10,
+          alignItems: "center",
+          overflow: "hidden",
+        }}
+      >
         <Svg width={80} height={80} viewBox="0 0 100 100">
           <Defs>
-            <RadialGradient id="shadowGradient" cx="50%" cy="50%" rx="50%" ry="50%">
-              <Stop offset="20%" stopColor="rgba(0, 0, 0, 0.02)" stopOpacity="1" />
-              <Stop offset="85%" stopColor="rgba(0, 0, 0, 0.02)" stopOpacity="0" />
+            <RadialGradient
+              id="shadowGradient"
+              cx="50%"
+              cy="50%"
+              rx="50%"
+              ry="50%"
+            >
+              <Stop
+                offset="20%"
+                stopColor="rgba(0, 0, 0, 0.02)"
+                stopOpacity="1"
+              />
+              <Stop
+                offset="85%"
+                stopColor="rgba(0, 0, 0, 0.02)"
+                stopOpacity="0"
+              />
             </RadialGradient>
           </Defs>
-          <Path d="M 10 50 A 40 40 0 0 1 90 50 L 50 50 Z" fill="url(#shadowGradient)" />
+          <Path
+            d="M 10 50 A 40 40 0 0 1 90 50 L 50 50 Z"
+            fill="url(#shadowGradient)"
+          />
         </Svg>
       </View>
       <View style={styles.plusButtonOuterCircle}>
@@ -57,7 +97,7 @@ const PlusButton = ({ onPress, children }: { onPress: () => void; children: Reac
 
 export const TabBar = ({ state, navigation }: BottomTabBarProps) => {
   const currentRouteName = state.routes[state.index].name;
-  const isPostTab = currentRouteName === 'post';
+  const isPostTab = currentRouteName === "post";
   const { accessToken } = useAuthStore();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
@@ -65,9 +105,9 @@ export const TabBar = ({ state, navigation }: BottomTabBarProps) => {
     return <View style={{ height: 0 }} />;
   }
 
-  const routeOrder = ['map', 'post', 'feed'];
+  const routeOrder = ["map", "post", "feed"];
   const orderedRoutes = [...state.routes]
-    .filter(route => routeOrder.includes(route.name))
+    .filter((route) => routeOrder.includes(route.name))
     .sort((a, b) => routeOrder.indexOf(a.name) - routeOrder.indexOf(b.name));
 
   return (
@@ -75,20 +115,19 @@ export const TabBar = ({ state, navigation }: BottomTabBarProps) => {
       <View style={styles.contentWrapper}>
         {orderedRoutes.map((route) => {
           const isFocused = state.routes[state.index].name === route.name;
-          const isPost = route.name === 'post';
-          const isFeed = route.name === 'feed';
+          const isPost = route.name === "post";
+          const isFeed = route.name === "feed";
           const label = getLabelByRouteName(route.name);
           const textColor = isFocused ? Colors.black : Colors.gray;
 
           const onPress = () => {
-            // 피드 탭 또는 포스트(+) 버튼 클릭 시 인증 체크
             if ((isFeed || isPost) && !accessToken) {
               setShowLoginModal(true);
               return;
             }
 
             const event = navigation.emit({
-              type: 'tabPress',
+              type: "tabPress",
               target: route.key,
               canPreventDefault: true,
             });
@@ -104,7 +143,11 @@ export const TabBar = ({ state, navigation }: BottomTabBarProps) => {
           ) : (
             <Pressable key={route.key} onPress={onPress} style={styles.tabItem}>
               {getIconByRouteName(route.name, isFocused)}
-              {label && <Text style={[styles.label, { color: textColor }]}>{label}</Text>}
+              {label && (
+                <Text style={[styles.label, { color: textColor }]}>
+                  {label}
+                </Text>
+              )}
             </Pressable>
           );
         })}
@@ -121,22 +164,22 @@ const styles = StyleSheet.create({
   container: {
     height: 60,
     backgroundColor: Colors.white,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     elevation: 20,
     borderTopWidth: 1.5,
-    borderTopColor: 'rgba(0, 0, 0, 0.03)',
+    borderTopColor: "rgba(0, 0, 0, 0.03)",
   },
   contentWrapper: {
-    flexDirection: 'row',
-    width: '80%',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexDirection: "row",
+    width: "80%",
+    justifyContent: "space-around",
+    alignItems: "center",
   },
   tabItem: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   label: {
     fontSize: 12,
@@ -145,16 +188,16 @@ const styles = StyleSheet.create({
   },
   plusButtonContainer: {
     top: -25,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   plusButtonOuterCircle: {
     width: 62,
     height: 62,
     borderRadius: 31,
     backgroundColor: Colors.white,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     zIndex: 2,
   },
   plusButtonInnerCircle: {
@@ -162,7 +205,7 @@ const styles = StyleSheet.create({
     height: 44,
     borderRadius: 22,
     backgroundColor: Colors.yellow,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

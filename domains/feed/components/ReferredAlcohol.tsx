@@ -1,13 +1,16 @@
-import { Alcohol } from '@/domains/feed/model/feedModel';
-import { ScrollView, StyleSheet } from 'react-native';
-import { AlcoholCard } from './AlcoholCard';
+import { AlcoholCard } from "@/domains/feed/components";
+import { Alcohol } from "@/domains/feed/model";
+import { ScrollView, StyleSheet } from "react-native";
 
 interface ReferredAlcoholProps {
   alcohols: Alcohol[];
   focusedAlcoholId?: string;
 }
 
-export const ReferredAlcohol = ({ alcohols, focusedAlcoholId }: ReferredAlcoholProps) => {
+export const ReferredAlcohol = ({
+  alcohols,
+  focusedAlcoholId,
+}: ReferredAlcoholProps) => {
   if (alcohols.length === 0) return null;
 
   return (

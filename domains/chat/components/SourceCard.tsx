@@ -34,7 +34,7 @@ export const SourceCard = ({ source }: SourceCardProps) => {
       return;
     }
     router.push({
-      pathname: '/alcohol',
+      pathname: "/alcohol",
       params: { liquorId: source.id },
     });
   };
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   details: {
     fontSize: 12,
-    color: "#666",
+    color: Colors.detail,
     marginBottom: 4,
   },
   starsContainer: {
@@ -132,14 +132,14 @@ const styles = StyleSheet.create({
   },
   star: {
     fontSize: 16,
-    color: "#dedcd8",
+    color: Colors.gray,
     marginRight: 2,
   },
   starFilled: {
-    color: "#ffd800",
+    color: Colors.yellow,
   },
   ratingText: {
     fontSize: 10,
-    color: "#999",
+    color: Colors.time,
   },
 });

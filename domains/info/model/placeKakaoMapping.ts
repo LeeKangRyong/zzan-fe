@@ -1,6 +1,3 @@
-// placeId ↔ kakaoPlaceId 1:1 매핑 테이블
-// 실제 백엔드 DB 구조를 모방
-
 const generateMapping = (): Record<string, string> => {
   const mapping: Record<string, string> = {};
 
@@ -16,11 +13,14 @@ const generateMapping = (): Record<string, string> => {
 export const PLACE_KAKAO_MAP: Record<string, string> = generateMapping();
 
 export const KAKAO_PLACE_MAP: Record<string, string> = Object.entries(
-  PLACE_KAKAO_MAP
-).reduce((acc, [placeId, kakaoPlaceId]) => {
-  acc[kakaoPlaceId] = placeId;
-  return acc;
-}, {} as Record<string, string>);
+  PLACE_KAKAO_MAP,
+).reduce(
+  (acc, [placeId, kakaoPlaceId]) => {
+    acc[kakaoPlaceId] = placeId;
+    return acc;
+  },
+  {} as Record<string, string>,
+);
 
 export const getKakaoPlaceId = (placeId: string): string => {
   return PLACE_KAKAO_MAP[placeId] || placeId;

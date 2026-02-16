@@ -34,7 +34,6 @@ export const LoadingBubble = () => {
           </View>
         </View>
       </View>
-      {/* 타임스탬프 영역 (공백 유지) */}
       <Text style={styles.timeText}> </Text>
     </View>
   );

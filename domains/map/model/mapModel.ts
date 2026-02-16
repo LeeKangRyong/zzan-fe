@@ -1,4 +1,4 @@
-import { ImageSourcePropType } from 'react-native';
+import { ImageSourcePropType } from "react-native";
 
 export interface Coordinate {
   latitude: number;
@@ -8,7 +8,7 @@ export interface Coordinate {
 export interface MapRegion extends Coordinate {
   latitudeDelta: number;
   longitudeDelta: number;
-  timestamp?: number; // 상태 업데이트 트리거를 위한 필드
+  timestamp?: number;
 }
 
 export interface MapMarker extends Coordinate {

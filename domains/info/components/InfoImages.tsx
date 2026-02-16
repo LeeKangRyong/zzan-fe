@@ -1,6 +1,6 @@
-import { INFO_CONSTANTS } from '@/domains/info/model/constants';
-import { Colors } from '@/shared/constants';
-import { useEffect, useRef, useState } from 'react';
+import { INFO_CONSTANTS } from "@/domains/info/model";
+import { Colors } from "@/shared/constants";
+import { useEffect, useRef, useState } from "react";
 import {
   Animated,
   Dimensions,
@@ -11,13 +11,13 @@ import {
   type ImageSourcePropType,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
-} from 'react-native';
+} from "react-native";
 
 interface InfoImagesProps {
   images: ImageSourcePropType[];
 }
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export const InfoImages = ({ images }: InfoImagesProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -50,7 +50,7 @@ export const InfoImages = ({ images }: InfoImagesProps) => {
     const animatedWidthStyle = {
       width: animatedWidth.interpolate({
         inputRange: [0, 100],
-        outputRange: ['0%', '100%'],
+        outputRange: ["0%", "100%"],
       }),
     };
 
@@ -89,20 +89,19 @@ const styles = StyleSheet.create({
     height: INFO_CONSTANTS.IMAGE_HEIGHT,
   },
   progressBarContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: INFO_CONSTANTS.PROGRESS_BAR_BOTTOM,
-    width: '50%',
+    width: "50%",
     paddingHorizontal: INFO_CONSTANTS.PROGRESS_BAR_PADDING_HORIZONTAL,
-    alignSelf: 'center',
-
+    alignSelf: "center",
   },
   progressBarBackground: {
-    width: '100%',
+    width: "100%",
     height: INFO_CONSTANTS.PROGRESS_BAR_HEIGHT,
     backgroundColor: Colors.white,
   },
   progressBarFill: {
-    height: '100%',
+    height: "100%",
     backgroundColor: Colors.black,
   },
 });

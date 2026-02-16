@@ -1,11 +1,12 @@
-import CameraIcon from '@/assets/icons/camera.svg';
-import { TagPosition } from '@/domains/feed/model/feedModel';
-import { usePostStore } from '@/domains/feed/store/postStore';
-import { Colors, Typography, SCREEN_WIDTH } from '@/shared/constants';
-import { Image } from 'expo-image';
-import * as ImagePicker from 'expo-image-picker';
-import { useRouter } from 'expo-router';
-import { useEffect, useRef, useState } from 'react';
+import CameraIcon from "@/assets/icons/camera.svg";
+import { ImageProgressBar, TagIcon } from "@/domains/feed/components";
+import { TagPosition } from "@/domains/feed/model";
+import { usePostStore } from "@/domains/feed/store";
+import { Colors, SCREEN_WIDTH, Typography } from "@/shared/constants";
+import { Image } from "expo-image";
+import * as ImagePicker from "expo-image-picker";
+import { useRouter } from "expo-router";
+import { useEffect, useRef, useState } from "react";
 import {
   Animated,
   GestureResponderEvent,
@@ -17,21 +18,21 @@ import {
   View,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
-} from 'react-native';
-import { ImageProgressBar } from './ImageProgressBar';
-import { TagIcon } from './TagIcon';
+} from "react-native";
 
 const DescriptionBlock = () => {
   return (
     <View style={styles.descriptionContainer}>
-      <Text style={styles.descriptionText}>사진을 꾹 눌러 전통주 정보를 추가하세요</Text>
+      <Text style={styles.descriptionText}>
+        사진을 꾹 눌러 전통주 정보를 추가하세요
+      </Text>
     </View>
   );
 };
 
 const pickImages = async (onSuccess: (uris: string[]) => void) => {
   const result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ['images'],
+    mediaTypes: ["images"],
     allowsMultipleSelection: true,
     quality: 1,
   });
@@ -47,7 +48,6 @@ const renderInitialUploadButton = (onPress: () => void) => (
     <CameraIcon width={40} height={40} fill={Colors.gray} />
   </TouchableOpacity>
 );
-
 
 export const FeedImage = () => {
   const router = useRouter();
@@ -90,7 +90,10 @@ export const FeedImage = () => {
     setCurrentImageIndex(index);
   };
 
-  const handleImageLongPress = (index: number, event: GestureResponderEvent) => {
+  const handleImageLongPress = (
+    index: number,
+    event: GestureResponderEvent,
+  ) => {
     const { locationX, locationY } = event.nativeEvent;
 
     const normalizedX = locationX / SCREEN_WIDTH;
@@ -103,7 +106,7 @@ export const FeedImage = () => {
     const currentTags = imageTags.get(index) || [];
     setEditingTagIndex(currentTags.length);
 
-    router.push('/add?type=alcohol');
+    router.push("/add?type=alcohol");
   };
 
   useEffect(() => {
@@ -117,6 +120,7 @@ export const FeedImage = () => {
       const tagPosition = currentTags[lastTagIndex];
       addAlcoholTagMapping(lastAlcohol.id, currentImageIndex, tagPosition);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedAlcohols.length]);
 
   const handleTagPress = (tagIndex: number) => {
@@ -124,7 +128,7 @@ export const FeedImage = () => {
     if (alcohol) removeSelectedAlcohol(alcohol.id);
 
     setEditingTagIndex(tagIndex);
-    router.push('/add?type=alcohol');
+    router.push("/add?type=alcohol");
   };
 
   const renderImageWithTags = (uri: string, index: number) => {
@@ -172,33 +176,36 @@ export const FeedImage = () => {
         {images.map((uri, index) => renderImageWithTags(uri, index))}
       </ScrollView>
       <DescriptionBlock />
-      <ImageProgressBar totalImages={images.length} animatedWidth={animatedWidth} />
+      <ImageProgressBar
+        totalImages={images.length}
+        animatedWidth={animatedWidth}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   wrapper: {
-    position: 'relative',
+    position: "relative",
   },
   container: {
-    width: '100%',
+    width: "100%",
   },
   imageContainer: {
     width: SCREEN_WIDTH,
-    position: 'relative',
+    position: "relative",
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: SCREEN_WIDTH,
-    resizeMode: 'cover',
+    resizeMode: "cover",
   },
   descriptionContainer: {
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 4,
     backgroundColor: Colors.black,
-    position: 'absolute',
+    position: "absolute",
     top: 20,
     left: 12,
     zIndex: 999,
@@ -213,7 +220,7 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     height: SCREEN_WIDTH,
     backgroundColor: Colors.takju,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

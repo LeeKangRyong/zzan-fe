@@ -1,9 +1,9 @@
-import type { User } from '../model';
-import { Colors, Layout, Typography } from '@/shared/constants';
-import { Image } from 'expo-image';
-import { router } from 'expo-router';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import RightArrowIcon from '@/assets/icons/right_arrow.svg';
+import RightArrowIcon from "@/assets/icons/right_arrow.svg";
+import type { User } from "@/domains/user/model";
+import { Colors, Layout, Typography } from "@/shared/constants";
+import { Image } from "expo-image";
+import { router } from "expo-router";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface ProfileInfoBlockProps {
   user: User;
@@ -21,7 +21,11 @@ const EmptyAlcohol = ({ count }: { count: number }) => {
 const ProfileSummary = ({ user }: { user: User }) => {
   return (
     <View style={styles.summaryContainer}>
-      <Image source={user.profileImage} style={styles.profileImage} contentFit="cover" />
+      <Image
+        source={user.profileImage}
+        style={styles.profileImage}
+        contentFit="cover"
+      />
       <View style={styles.textContainer}>
         <Text style={styles.name}>{user.name}</Text>
         <EmptyAlcohol count={user.emptyAlcoholCount} />
@@ -32,7 +36,11 @@ const ProfileSummary = ({ user }: { user: User }) => {
 
 export const ProfileInfoBlock = ({ user }: ProfileInfoBlockProps) => {
   return (
-    <TouchableOpacity onPress={() => router.push('/myprofile')} activeOpacity={0.8} style={styles.container}>
+    <TouchableOpacity
+      onPress={() => router.push("/myprofile")}
+      activeOpacity={0.8}
+      style={styles.container}
+    >
       <ProfileSummary user={user} />
       <RightArrowIcon style={styles.rightArrow} />
     </TouchableOpacity>
@@ -44,14 +52,14 @@ const styles = StyleSheet.create({
     height: 68,
     backgroundColor: Colors.black,
     paddingHorizontal: Layout.SCREEN_HORIZONTAL,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     borderRadius: 8,
   },
   summaryContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 12,
   },
   profileImage: {
@@ -69,8 +77,8 @@ const styles = StyleSheet.create({
     letterSpacing: -0.36,
   },
   emptyContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 4,
   },
   emptyText: {

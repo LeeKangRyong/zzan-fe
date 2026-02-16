@@ -1,7 +1,7 @@
-import { Typography } from '@/shared/constants';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { CHAT_CONSTANTS, type RecommendedAnswer } from '../model';
-import { RecommendedChip } from './RecommendedChip';
+import { Typography } from "@/shared/constants";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { CHAT_CONSTANTS, type RecommendedAnswer } from "../model";
+import { RecommendedChip } from "./RecommendedChip";
 
 interface RecommendedAnswersProps {
   answers: RecommendedAnswer[];
@@ -18,33 +18,32 @@ export const RecommendedAnswers = ({
   chipBackgroundColor,
   chipTextColor,
 }: RecommendedAnswersProps) => {
-  // Guard clause: don't render if answers is undefined or empty
   if (!answers || !Array.isArray(answers) || answers.length === 0) {
     return null;
   }
 
   return (
     <View style={styles.container}>
-    <Text style={[styles.label, { color: labelColor }]}>
-      {CHAT_CONSTANTS.RECOMMENDED_LABEL}
-    </Text>
+      <Text style={[styles.label, { color: labelColor }]}>
+        {CHAT_CONSTANTS.RECOMMENDED_LABEL}
+      </Text>
 
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.chipContainer}
-    >
-      {answers.map((answer) => (
-        <RecommendedChip
-          key={answer.id}
-          text={answer.text}
-          onPress={() => onSelectAnswer(answer.text)}
-          backgroundColor={chipBackgroundColor}
-          textColor={chipTextColor}
-        />
-      ))}
-    </ScrollView>
-  </View>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.chipContainer}
+      >
+        {answers.map((answer) => (
+          <RecommendedChip
+            key={answer.id}
+            text={answer.text}
+            onPress={() => onSelectAnswer(answer.text)}
+            backgroundColor={chipBackgroundColor}
+            textColor={chipTextColor}
+          />
+        ))}
+      </ScrollView>
+    </View>
   );
 };
 
@@ -61,8 +60,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   chipContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingHorizontal: 16,
     gap: 8,
-  }
+  },
 });

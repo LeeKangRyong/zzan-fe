@@ -1,10 +1,10 @@
 import { feedApi } from "@/domains/feed/api/feedApi";
+import { userApi } from "@/domains/user/api";
+import { mapUserToApiRequest } from "@/domains/user/mapper";
+import type { User } from "@/domains/user/model";
 import { isMockEnabled } from "@/shared/utils";
 import * as ImagePicker from "expo-image-picker";
 import { useEffect, useState } from "react";
-import { userApi } from "../api";
-import { mapUserToApiRequest } from "../mapper";
-import type { User } from "../model";
 
 export const useProfileEditViewModel = (
   initialUser: User | null,

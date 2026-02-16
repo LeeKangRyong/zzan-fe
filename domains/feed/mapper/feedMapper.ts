@@ -1,10 +1,13 @@
-import type { LiquorApiResponse, RecentFeedApiResponse } from "../model/feedApiModel";
-import type { Alcohol } from "../model/feedModel";
+import type {
+  Alcohol,
+  LiquorApiResponse,
+  RecentFeedApiResponse,
+} from "@/domains/feed/model";
 import type { MockFeedDetail } from "../model/mock";
 
 export const mapLiquorApiToAlcohol = (liquor: LiquorApiResponse): Alcohol => ({
   id: liquor.id,
-  imageUrl: liquor.liquorImageUrl || '',
+  imageUrl: liquor.liquorImageUrl || "",
   name: liquor.liquorName,
   type: liquor.liquorType,
   score: liquor.liquorScore,

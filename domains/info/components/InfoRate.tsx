@@ -1,4 +1,4 @@
-import { INFO_CONSTANTS } from "@/domains/info/model/constants";
+import { INFO_CONSTANTS } from "@/domains/info/model";
 import { Rate } from "@/shared/components";
 import { Colors, Typography } from "@/shared/constants";
 import { StyleSheet, Text, View } from "react-native";

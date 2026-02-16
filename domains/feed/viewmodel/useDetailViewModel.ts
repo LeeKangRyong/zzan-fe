@@ -1,11 +1,17 @@
-import { useState, useEffect, useCallback } from 'react';
-import { isMockEnabled } from '@/shared/utils';
-import { useAuthStore } from '@/domains/auth/store';
-import { feedApi } from '../api/feedApi';
-import { scrapApi } from '@/shared/api';
-import { mockAlcohols, mockFeedDetails, type MockFeedDetail } from '../model/mock';
-import type { FeedDetailApiResponse, FeedDetailImage } from '../model/feedApiModel';
-import type { Alcohol, AlcoholTagInfo } from '../model/feedModel';
+import { useAuthStore } from "@/domains/auth/store";
+import { feedApi } from "@/domains/feed/api";
+import {
+  Alcohol,
+  AlcoholTagInfo,
+  FeedDetailApiResponse,
+  FeedDetailImage,
+  mockAlcohols,
+  mockFeedDetails,
+  type MockFeedDetail,
+} from "@/domains/feed/model";
+import { scrapApi } from "@/shared/api";
+import { isMockEnabled } from "@/shared/utils";
+import { useCallback, useEffect, useState } from "react";
 
 const EMPTY_STATE = {
   user: null,
@@ -15,18 +21,18 @@ const EMPTY_STATE = {
   alcoholTagMappings: [],
   place: null,
   placeRating: 0,
-  review: '',
+  review: "",
 } as const;
 
 const mapImageTagsToAlcoholTagMappings = (
-  images: FeedDetailImage[]
+  images: FeedDetailImage[],
 ): AlcoholTagInfo[] =>
   images.flatMap((img, imageIndex) =>
-    img.tags.map(tag => ({
+    img.tags.map((tag) => ({
       alcoholId: tag.liquorId,
       imageIndex,
       tagPosition: { x: tag.x, y: tag.y },
-    }))
+    })),
   );
 
 export const useDetailViewModel = (feedId?: string) => {
@@ -35,7 +41,9 @@ export const useDetailViewModel = (feedId?: string) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [feedData, setFeedData] = useState<FeedDetailApiResponse | MockFeedDetail | null>(null);
+  const [feedData, setFeedData] = useState<
+    FeedDetailApiResponse | MockFeedDetail | null
+  >(null);
 
   useEffect(() => {
     if (!feedId) {
@@ -43,11 +51,11 @@ export const useDetailViewModel = (feedId?: string) => {
     }
 
     if (isMockEnabled()) {
-      const mockData = mockFeedDetails.find(f => f.id === feedId);
+      const mockData = mockFeedDetails.find((f) => f.id === feedId);
       if (mockData) {
         setFeedData(mockData);
       } else {
-        setError('피드를 찾을 수 없습니다.');
+        setError("피드를 찾을 수 없습니다.");
       }
       return;
     }
@@ -60,9 +68,10 @@ export const useDetailViewModel = (feedId?: string) => {
         const data = await feedApi.getFeedDetail(feedId);
         setFeedData(data);
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Failed to load feed';
+        const errorMessage =
+          err instanceof Error ? err.message : "Failed to load feed";
         setError(errorMessage);
-        console.error('[Feed Detail Error]', err);
+        console.error("[Feed Detail Error]", err);
       } finally {
         setIsLoading(false);
       }
@@ -76,18 +85,18 @@ export const useDetailViewModel = (feedId?: string) => {
   };
 
   const handleAlcoholPress = (alcoholId: string) => {
-    console.log('Navigate to alcohol detail:', alcoholId);
+    console.log("Navigate to alcohol detail:", alcoholId);
   };
 
   const handlePlacePress = () => {
     const kakaoPlaceId = feedData?.kakaoPlaceId;
     if (kakaoPlaceId) {
-      console.log('Navigate to place detail:', kakaoPlaceId);
+      console.log("Navigate to place detail:", kakaoPlaceId);
     }
   };
 
   const handleShare = () => {
-    console.log('Share feed');
+    console.log("Share feed");
   };
 
   const checkBookmarkStatus = useCallback(async () => {
@@ -99,7 +108,7 @@ export const useDetailViewModel = (feedId?: string) => {
       const response = await scrapApi.feed.check(feedId);
       setIsBookmarked(response.data.exist);
     } catch (error) {
-      console.error('[DetailViewModel] Failed to check bookmark:', error);
+      console.error("[DetailViewModel] Failed to check bookmark:", error);
     }
   }, [feedId]);
 
@@ -126,7 +135,7 @@ export const useDetailViewModel = (feedId?: string) => {
       setIsBookmarked((prev) => !prev);
       return true;
     } catch (error) {
-      console.error('[DetailViewModel] Failed to toggle bookmark:', error);
+      console.error("[DetailViewModel] Failed to toggle bookmark:", error);
       setIsBookmarked((prev) => !prev);
       return false;
     }
@@ -153,20 +162,25 @@ export const useDetailViewModel = (feedId?: string) => {
         focusedAlcoholId,
         isBookmarked,
         isLoading: false,
-        error: error || '피드를 찾을 수 없습니다.',
+        error: error || "피드를 찾을 수 없습니다.",
         ...handlers,
       };
     }
 
-    const alcoholTagMappings = mapImageTagsToAlcoholTagMappings(mockData.images);
-    const uniqueLiquorIds = [...new Set(alcoholTagMappings.map(m => m.alcoholId))];
+    const alcoholTagMappings = mapImageTagsToAlcoholTagMappings(
+      mockData.images,
+    );
+    const uniqueLiquorIds = [
+      ...new Set(alcoholTagMappings.map((m) => m.alcoholId)),
+    ];
 
     const selectedAlcohols = uniqueLiquorIds
-      .map(id => mockAlcohols.find(a => a.id === id))
+      .map((id) => mockAlcohols.find((a) => a.id === id))
       .filter(Boolean) as Alcohol[];
 
-    const alcoholRatings: Record<string, number> =
-      Object.fromEntries(selectedAlcohols.map(a => [a.id, a.score || 4.0]));
+    const alcoholRatings: Record<string, number> = Object.fromEntries(
+      selectedAlcohols.map((a) => [a.id, a.score || 4.0]),
+    );
 
     return {
       user: {
@@ -174,21 +188,23 @@ export const useDetailViewModel = (feedId?: string) => {
         username: mockData.userName,
         imageUrl: mockData.userProfileImage,
       },
-      images: mockData.images.map(img => ({
+      images: mockData.images.map((img) => ({
         uri: img.imageUrl,
         id: img.id,
       })),
       alcohols: selectedAlcohols,
       alcoholRatings,
       alcoholTagMappings,
-      place: mockData.kakaoPlaceId ? {
-        id: mockData.kakaoPlaceId,
-        name: mockData.placeName || '',
-        address: mockData.placeAddress || '',
-        imageUrl: require('@/assets/images/example_image.png'),
-        feedCount: mockData.liquorCount,
-        rating: mockData.score,
-      } : null,
+      place: mockData.kakaoPlaceId
+        ? {
+            id: mockData.kakaoPlaceId,
+            name: mockData.placeName || "",
+            address: mockData.placeAddress || "",
+            imageUrl: require("@/assets/images/example_image.png"),
+            feedCount: mockData.liquorCount,
+            rating: mockData.score,
+          }
+        : null,
       placeRating: mockData.score,
       review: mockData.text,
       focusedAlcoholId,
@@ -211,17 +227,19 @@ export const useDetailViewModel = (feedId?: string) => {
   }
 
   const alcoholTagMappings = mapImageTagsToAlcoholTagMappings(feedData.images);
-  const uniqueLiquorIds = [...new Set(alcoholTagMappings.map(m => m.alcoholId))];
+  const uniqueLiquorIds = [
+    ...new Set(alcoholTagMappings.map((m) => m.alcoholId)),
+  ];
 
-  const alcohols: Alcohol[] = uniqueLiquorIds.map(liquorId => {
+  const alcohols: Alcohol[] = uniqueLiquorIds.map((liquorId) => {
     const tag = feedData.images
-      .flatMap(img => img.tags)
-      .find(t => t.liquorId === liquorId);
+      .flatMap((img) => img.tags)
+      .find((t) => t.liquorId === liquorId);
     return {
       id: liquorId,
-      name: tag?.liquorName || '',
-      imageUrl: '',
-      type: '',
+      name: tag?.liquorName || "",
+      imageUrl: "",
+      type: "",
     };
   });
 
@@ -231,7 +249,7 @@ export const useDetailViewModel = (feedId?: string) => {
       username: feedData.userName,
       imageUrl: { uri: feedData.userProfileImage },
     },
-    images: feedData.images.map(img => ({
+    images: feedData.images.map((img) => ({
       uri: { uri: img.imageUrl },
       id: img.id,
     })),
@@ -239,10 +257,10 @@ export const useDetailViewModel = (feedId?: string) => {
     alcoholRatings: {} as Record<string, number>,
     alcoholTagMappings,
     place: {
-      id: feedData.kakaoPlaceId || '',
-      name: feedData.placeName || '',
-      address: feedData.placeAddress || '',
-      imageUrl: '',
+      id: feedData.kakaoPlaceId || "",
+      name: feedData.placeName || "",
+      address: feedData.placeAddress || "",
+      imageUrl: "",
       feedCount: feedData.liquorCount,
       rating: feedData.score,
     },

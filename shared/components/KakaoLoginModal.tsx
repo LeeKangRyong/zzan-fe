@@ -31,7 +31,6 @@ const KaKaoButton = () => {
 };
 
 export const KakaoLoginModal = ({ visible, onClose }: KakaoLoginModalProps) => {
-  // Mock 데이터 모드에서는 모달을 표시하지 않음
   if (isMockEnabled()) {
     return null;
   }
