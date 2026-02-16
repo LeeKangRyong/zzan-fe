@@ -1,4 +1,4 @@
-import { AlcoholCard } from "@/domains/feed/components";
+import { AlcoholCard } from "./AlcoholCard";
 import { Alcohol } from "@/domains/feed/model";
 import { ScrollView, StyleSheet } from "react-native";
 

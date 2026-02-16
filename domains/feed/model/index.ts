@@ -28,7 +28,6 @@ export type {
   PlaceFeedApiResponse,
   RecentFeedApiResponse,
 } from './feedApiModel';
-export { mapLiquorApiToAlcohol } from '../mapper/feedMapper';
 
 export type { MockFeedDetail } from './mock';
 export {

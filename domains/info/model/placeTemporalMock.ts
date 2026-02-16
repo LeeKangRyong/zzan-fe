@@ -1,6 +1,6 @@
-import { mockNearbyFeeds, PLACE_DATA } from "@/domains/feed/model/mock";
+import { mockNearbyFeeds } from "@/domains/feed/model/mock";
 import type { PlaceTemporalInfo } from "./infoModel";
-import { PLACE_KAKAO_MAP } from "./placeKakaoMapping";
+import { PLACE_DATA, PLACE_KAKAO_MAP } from "@/shared/mocks";
 
 // ===== HELPER FUNCTIONS =====
 

@@ -1,4 +1,4 @@
-import { AlcoholCommentCard } from "@/domains/info/components";
+import { AlcoholCommentCard } from "./AlcoholCommentCard";
 import { INFO_CONSTANTS, type LiquorComment } from "@/domains/info/model";
 import { AlcoholButton, RateButton } from "@/shared/components";
 import { Colors, Typography } from "@/shared/constants";

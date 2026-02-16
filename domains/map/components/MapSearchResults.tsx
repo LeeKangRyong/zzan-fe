@@ -1,4 +1,4 @@
-import { MapSearchResultBlock } from "@/domains/map/components";
+import { MapSearchResultBlock } from "./MapSearchResultBlock";
 import { MapMarker } from "@/domains/map/model";
 import { Colors, Layout } from "@/shared/constants";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";

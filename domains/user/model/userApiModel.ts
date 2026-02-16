@@ -1,4 +1,4 @@
-import type { UserRole } from "@/domains/user/model";
+import type { UserRole } from "./userModel";
 
 export interface UserApiResponse {
   id: string;

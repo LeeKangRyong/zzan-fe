@@ -1,4 +1,4 @@
-import { generateMapHtml } from "@/domains/map/components";
+import { generateMapHtml } from "./MapHtmlTemplate";
 import { useWebViewMessage } from "@/domains/map/hooks";
 import type { MapMarker, MapRegion, PlaceBounds } from "@/domains/map/model";
 import {

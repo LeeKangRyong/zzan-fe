@@ -1,4 +1,5 @@
-import { PlaceSummary, RateStyleButton } from "@/domains/feed/components";
+import { PlaceSummary } from "./PlaceSummary";
+import { RateStyleButton } from "./RateStyleButton";
 import { PlaceWithRating } from "@/domains/feed/model";
 import { Colors, Typography } from "@/shared/constants";
 import { useEffect, useRef } from "react";

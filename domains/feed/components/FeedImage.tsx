@@ -1,5 +1,6 @@
 import CameraIcon from "@/assets/icons/camera.svg";
-import { ImageProgressBar, TagIcon } from "@/domains/feed/components";
+import { ImageProgressBar } from "./ImageProgressBar";
+import { TagIcon } from "./TagIcon";
 import { TagPosition } from "@/domains/feed/model";
 import { usePostStore } from "@/domains/feed/store";
 import { Colors, SCREEN_WIDTH, Typography } from "@/shared/constants";

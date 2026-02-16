@@ -1,7 +1,5 @@
-import {
-  ProfileEditIcon,
-  ProfileEmptyAlcohol,
-} from "@/domains/user/components";
+import { ProfileEditIcon } from "./ProfileEditIcon";
+import { ProfileEmptyAlcohol } from "./ProfileEmptyAlcohol";
 import { Colors, Typography } from "@/shared/constants";
 import { Image } from "expo-image";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";

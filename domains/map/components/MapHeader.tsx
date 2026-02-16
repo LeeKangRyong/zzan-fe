@@ -1,6 +1,7 @@
 import UserIcon from "@/assets/icons/user.svg";
 import LogoSmall from "@/assets/logo/logo_small.svg";
-import { MapSearch, MapSearchResult } from "@/domains/map/components";
+import { MapSearch } from "./MapSearch";
+import { MapSearchResult } from "./MapSearchResults";
 import { MapMarker } from "@/domains/map/model";
 import { Colors, Layout } from "@/shared/constants";
 import { StyleSheet, TouchableOpacity, View } from "react-native";

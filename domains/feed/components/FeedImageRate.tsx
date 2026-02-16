@@ -1,4 +1,5 @@
-import { ImageProgressBar, TagIcon } from "@/domains/feed/components";
+import { ImageProgressBar } from "./ImageProgressBar";
+import { TagIcon } from "./TagIcon";
 import { AlcoholTagInfo } from "@/domains/feed/model";
 import { usePostStore } from "@/domains/feed/store";
 import { Colors, SCREEN_WIDTH, Typography } from "@/shared/constants";

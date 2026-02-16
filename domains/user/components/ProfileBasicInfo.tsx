@@ -1,4 +1,4 @@
-import { ProfileBasicInfoBlock } from "@/domains/user/components";
+import { ProfileBasicInfoBlock } from "./ProfileBasicInfoBlock";
 import type { User } from "@/domains/user/model";
 import { Colors, Typography } from "@/shared/constants";
 import { useBirthDateFormat, usePhoneFormat } from "@/shared/hooks";

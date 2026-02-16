@@ -9,7 +9,7 @@ import { usePostStore } from "@/domains/feed/store";
 import {
   useImageUploadViewModel,
   type UploadImageResult,
-} from "@/domains/feed/viewmodel";
+} from "./useImageUploadViewModel";
 import { isMockEnabled } from "@/shared/utils";
 import { useRouter } from "expo-router";
 import { useState } from "react";

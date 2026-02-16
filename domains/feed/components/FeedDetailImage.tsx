@@ -1,8 +1,6 @@
-import {
-  AlcoholCounts,
-  ImageProgressBar,
-  TagIcon,
-} from "@/domains/feed/components";
+import { AlcoholCounts } from "./AlcoholCounts";
+import { ImageProgressBar } from "./ImageProgressBar";
+import { TagIcon } from "./TagIcon";
 import { AlcoholTagInfo, FeedImage } from "@/domains/feed/model";
 import { SCREEN_WIDTH } from "@/shared/constants";
 import { Image } from "expo-image";

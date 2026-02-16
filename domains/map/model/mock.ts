@@ -1,6 +1,5 @@
 import { MapMarker } from './mapModel';
-import { PLACE_DATA } from '@/domains/feed/model/mock';
-import { PLACE_KAKAO_MAP } from '@/domains/info/model/placeKakaoMapping';
+import { PLACE_DATA, PLACE_KAKAO_MAP } from '@/shared/mocks';
 
 const generateRandomRating = (): number => {
   const rating = 3.0 + Math.random() * 2.0;
