@@ -1,17 +1,17 @@
-// `assets/icons/alchol_right.svg` 사용
+// `assets/icons/alcohol_right.svg` 사용
 
-import AlcholRightIcon from '@/assets/icons/alchol_right.svg';
+import AlcoholRightIcon from '@/assets/icons/alcohol_right.svg';
 import { Colors, Typography } from '@/shared/constants';
 import { StyleSheet, Text, View } from 'react-native';
 
-interface ProfileEmptyAlcholProps {
+interface ProfileEmptyAlcoholProps {
   count: number;
 }
 
-export const ProfileEmptyAlchol = ({ count }: ProfileEmptyAlcholProps) => {
+export const ProfileEmptyAlcohol = ({ count }: ProfileEmptyAlcoholProps) => {
   return (
     <View style={styles.container}>
-      <AlcholRightIcon width={20} height={18} />
+      <AlcoholRightIcon width={20} height={18} />
       <Text style={styles.text}>비운 전통주 : {count}병</Text>
     </View>
   );
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   text: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 14,
     color: Colors.black,
     letterSpacing: -0.28,

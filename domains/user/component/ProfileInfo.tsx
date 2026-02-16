@@ -3,7 +3,7 @@ import { Colors, Typography } from '@/shared/constants';
 import { Image } from 'expo-image';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ProfileEditIcon } from './ProfileEditIcon';
-import { ProfileEmptyAlchol } from './ProfileEmptyAlchol';
+import { ProfileEmptyAlcohol } from './ProfileEmptyAlcohol';
 
 interface ProfileInfoProps {
   user: User;
@@ -21,7 +21,7 @@ export const ProfileInfo = ({ user, isEditMode, onImagePress }: ProfileInfoProps
         {isEditMode && <ProfileEditIcon />}
       </View>
       <Text style={styles.name}>{user.name}</Text>
-      <ProfileEmptyAlchol count={user.emptyAlcoholCount} />
+      <ProfileEmptyAlcohol count={user.emptyAlcoholCount} />
     </View>
   );
 };

@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   subText: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     color: Colors.white,
     fontSize: 12,
     letterSpacing: -0.24,

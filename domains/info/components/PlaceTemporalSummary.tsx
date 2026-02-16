@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   address: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 14,
     color: Colors.black,
     letterSpacing: -0.28,

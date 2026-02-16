@@ -1,4 +1,4 @@
-import Alchol from "@/assets/icons/alchol.svg";
+import Alcohol from "@/assets/icons/alcohol.svg";
 import { Colors, Layout, Typography } from "@/shared/constants";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import type { LiquorSource, MessageRole } from "../model";
@@ -34,7 +34,7 @@ export const MessageBubble = ({
     <View style={styles.bubbleContainer}>
       {showIcon && role === "bot" && (
         <View style={styles.iconWrapper}>
-          <Alchol width={24} height={24} />
+          <Alcohol width={24} height={24} />
         </View>
       )}
       <View style={styles.contentWrapper}>

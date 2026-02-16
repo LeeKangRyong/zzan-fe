@@ -81,7 +81,7 @@ export const MyScraps = () => {
               imageUrl={feed.imageUrl}
               placeName={feed.placeName}
               address={feed.address}
-              alcholCount={feed.alcoholCount}
+              alcoholCount={feed.alcoholCount}
               onPress={() => router.push(`/detail?feedId=${feed.id}` as any)}
             />
           ))}
@@ -94,7 +94,7 @@ export const MyScraps = () => {
               alcohol={alcohol}
               onPress={() =>
                 router.push({
-                  pathname: '/alchol',
+                  pathname: '/alcohol',
                   params: { liquorId: alcohol.id },
                 })
               }
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.black,
   },
   filterText: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 14,
     color: Colors.black,
     letterSpacing: -0.28,
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.36,
   },
   alcoholType: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 12,
     color: Colors.black,
     letterSpacing: -0.24,
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.24,
   },
   ratingText: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 10,
     color: Colors.black,
     letterSpacing: -0.2,
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   errorText: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 14,
     color: Colors.black,
     letterSpacing: -0.28,

@@ -1,4 +1,4 @@
-import AlcholIcon from "@/assets/icons/alchol_right.svg";
+import AlcoholIcon from "@/assets/icons/alcohol_right.svg";
 import { Colors, Typography } from "@/shared/constants";
 import { Image } from "expo-image";
 import {
@@ -90,7 +90,7 @@ const UserProfile = ({
 
 const Badge = ({ count }: { count: number }) => (
   <View style={styles.badge}>
-    <AlcholIcon width={20} height={18} />
+    <AlcoholIcon width={20} height={18} />
     <Text style={styles.badgeText}>{count}</Text>
   </View>
 );
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.28,
   },
   address: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 10,
     color: Colors.black,
     letterSpacing: -0.2,

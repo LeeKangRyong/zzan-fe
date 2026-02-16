@@ -40,7 +40,9 @@
       "Bash(echo:*)",
       "Bash(dir:*)",
       "Bash(test:*)",
-      "Bash(xargs -I {} bash -c 'echo \"\"=== {} ===\"\" && ls -la {}')"
+      "Bash(xargs -I {} bash -c 'echo \"\"=== {} ===\"\" && ls -la {}')",
+      "Bash(xargs sed:*)",
+      "Bash(git mv:*)"
     ]
   }
 }

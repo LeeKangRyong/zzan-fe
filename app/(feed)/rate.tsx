@@ -1,37 +1,14 @@
 import {
   AlcoholRateSection,
   FeedImageRate,
+  RateProgressBar,
   RateStyleButton,
-} from "@/domains/feed/component";
+} from "@/domains/feed/components";
 import { useRateViewModel } from "@/domains/feed/viewmodel/useRateViewModel";
 import { Header } from "@/shared/components";
 import { Colors, Layout, Typography } from "@/shared/constants";
 import { useRouter } from "expo-router";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-
-const ProgressBar = ({
-  current,
-  total,
-}: {
-  current: number;
-  total: number;
-}) => {
-  const segments = Array.from({ length: total }, (_, index) => index);
-
-  return (
-    <View style={styles.progressBarContainer}>
-      {segments.map((index) => (
-        <View
-          key={index}
-          style={[
-            styles.progressSegment,
-            index <= current && styles.progressSegmentActive,
-          ]}
-        />
-      ))}
-    </View>
-  );
-};
 
 export default function RateTab() {
   const {
@@ -73,7 +50,7 @@ export default function RateTab() {
             {totalAlcohols})
           </Text>
 
-          <ProgressBar current={currentRatingIndex} total={totalAlcohols} />
+          <RateProgressBar current={currentRatingIndex} total={totalAlcohols} />
 
           <View style={styles.alcoholSection}>
             <AlcoholRateSection
@@ -118,19 +95,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 16,
   },
-  progressBarContainer: {
-    flexDirection: "row",
-    gap: 4,
-    marginBottom: 24,
-  },
-  progressSegment: {
-    flex: 1,
-    height: 4,
-    backgroundColor: Colors.white,
-  },
-  progressSegmentActive: {
-    backgroundColor: Colors.black,
-  },
   alcoholSection: {
     marginBottom: 24,
   },
@@ -143,7 +107,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   emptyText: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 14,
     color: Colors.black,
   },

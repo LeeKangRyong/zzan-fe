@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   address: {
     color: Colors.black,
     opacity: 0.7,
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 12,
     textAlign: 'left'
   }

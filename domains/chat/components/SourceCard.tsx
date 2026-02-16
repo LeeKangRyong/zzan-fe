@@ -34,7 +34,7 @@ export const SourceCard = ({ source }: SourceCardProps) => {
       return;
     }
     router.push({
-      pathname: '/alchol',
+      pathname: '/alcohol',
       params: { liquorId: source.id },
     });
   };

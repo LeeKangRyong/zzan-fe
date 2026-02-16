@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 
-interface AlcholCommentCardProps {
+interface AlcoholCommentCardProps {
   username: string;
   userProfileImage: ImageSourcePropType;
   rating: number;
@@ -63,7 +63,7 @@ const DateAndEdit = ({
   </View>
 );
 
-export const AlcholCommentCard = ({
+export const AlcoholCommentCard = ({
   username,
   userProfileImage,
   rating,
@@ -71,7 +71,7 @@ export const AlcholCommentCard = ({
   date,
   isOwner = false,
   onEditPress,
-}: AlcholCommentCardProps) => {
+}: AlcoholCommentCardProps) => {
   const cardStyle = isOwner ? [styles.card, styles.cardOwner] : styles.card;
 
   return (
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   dateText: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 10,
     color: Colors.black,
     letterSpacing: -0.2,

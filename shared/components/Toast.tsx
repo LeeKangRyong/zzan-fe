@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     zIndex: 9999,
   },
   message: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 14,
     color: Colors.white,
     textAlign: 'center',

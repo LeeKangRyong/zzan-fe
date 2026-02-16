@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   logoutText: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 14,
     color: Colors.black,
     opacity: 0.5,

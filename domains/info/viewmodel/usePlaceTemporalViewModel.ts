@@ -251,7 +251,7 @@ export const usePlaceTemporalViewModel = ({
     console.log("Share pressed");
   }, []);
 
-  const handleAlcholButtonPress = useCallback(() => {
+  const handleAlcoholButtonPress = useCallback(() => {
     router.push({
       pathname: "/post",
       params: { kakaoPlaceId },
@@ -269,6 +269,6 @@ export const usePlaceTemporalViewModel = ({
     isFeedsLoading,
     toggleBookmark,
     handleShare,
-    handleAlcholButtonPress,
+    handleAlcoholButtonPress,
   };
 };

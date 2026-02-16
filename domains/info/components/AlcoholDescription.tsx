@@ -106,17 +106,17 @@ const ImageDescriptionText = ({
   </View>
 );
 
-interface AlcholDescriptionProps {
+interface AlcoholDescriptionProps {
   recommendTitle: string;
   recommendDescription: string;
   images: ImageWithDescription[];
 }
 
-export const AlcholDescription = ({
+export const AlcoholDescription = ({
   recommendTitle,
   recommendDescription,
   images,
-}: AlcholDescriptionProps) => {
+}: AlcoholDescriptionProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (

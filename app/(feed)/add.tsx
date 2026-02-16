@@ -1,4 +1,4 @@
-import { Search, SearchResult, SectionTitle } from "@/domains/feed/component";
+import { Search, SearchResult, SectionTitle } from "@/domains/feed/components";
 import type { AddType } from "@/domains/feed/model";
 import { useAddViewModel } from "@/domains/feed/viewmodel/useAddViewModel";
 import { CommonButton, Header } from "@/shared/components";

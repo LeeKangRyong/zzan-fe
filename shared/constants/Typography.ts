@@ -4,7 +4,7 @@ export const Typography = {
   KAKAO_BIG_SANS_REGULAR: 'KakaoBigSans-Regular',
   KAKAO_SMALL_SANS_BOLD: 'KakaoSmallSans-Bold',
   KAKAO_SMALL_SANS_LIGHT: 'KakaoSmallSans-Light',
-  KAKAO_SAMLL_SANS_REGULAR: 'KakaoSmallSans-Regular',
+  KAKAO_SMALL_SANS_REGULAR: 'KakaoSmallSans-Regular',
   RECOMMENDED_LABEL: 10,
   CHIP_TEXT: 12,
   MESSAGE_TEXT: 14,

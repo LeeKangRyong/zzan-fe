@@ -1,4 +1,4 @@
-import { AlcholButton, RateButton } from '@/shared/components';
+import { AlcoholButton, RateButton } from '@/shared/components';
 import { Colors } from '@/shared/constants/Colors';
 import { Typography } from '@/shared/constants/Typography';
 import { useState } from 'react';
@@ -39,7 +39,7 @@ const RatingModeContent = ({ rating, onRatingChange, onCancel, onSave }: RatingM
   </View>
 );
 
-export const RateAlcholButton = () => {
+export const RateAlcoholButton = () => {
   const [isRatingMode, setIsRatingMode] = useState(false);
   const [selectedRating, setSelectedRating] = useState(0);
 
@@ -73,7 +73,7 @@ export const RateAlcholButton = () => {
     );
   }
 
-  return <AlcholButton title="이 전통주를 먹었어요" onPress={handleButtonPress} />;
+  return <AlcoholButton title="이 전통주를 먹었어요" onPress={handleButtonPress} />;
 };
 
 const styles = StyleSheet.create({

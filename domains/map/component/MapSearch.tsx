@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 10,
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     color: Colors.black,
     opacity: 0.7,
   },

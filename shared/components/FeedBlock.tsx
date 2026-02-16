@@ -1,31 +1,31 @@
 import { Colors, Typography } from '@/shared/constants';
 import { Image } from 'expo-image';
 import { ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import AlcholIcon from '../../assets/icons/alchol_right.svg';
+import AlcoholIcon from '../../assets/icons/alcohol_right.svg';
 
 interface FeedBlockProps {
   imageUrl: ImageSourcePropType;
   placeName: string;
   address: string;
-  alcholCount: number;
+  alcoholCount: number;
   onPress: () => void;
 }
 
 const Badge = ({ count }: { count: number }) => {
   return (
     <View style={styles.badge}>
-      <AlcholIcon width={20} height={18} />
+      <AlcoholIcon width={20} height={18} />
       <Text style={styles.badgeText}>{count}</Text>
     </View>
   );
 };
 
-export const FeedBlock = ({ imageUrl, placeName, address, alcholCount, onPress }: FeedBlockProps) => {
+export const FeedBlock = ({ imageUrl, placeName, address, alcoholCount, onPress }: FeedBlockProps) => {
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={styles.card}>
       <View style={styles.imageContainer}>
         <Image source={imageUrl} style={styles.image} contentFit="cover" />
-        <Badge count={alcholCount} />
+        <Badge count={alcoholCount} />
       </View>
       <View style={styles.infoSection}>
         <Text style={styles.placeName} numberOfLines={1}>{placeName}</Text>
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.28,
   },
   address: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 10,
     color: Colors.black,
     letterSpacing: -0.2,

@@ -1,12 +1,12 @@
 import { INFO_CONSTANTS } from "@/domains/info/model/constants";
 import type { LiquorComment } from "@/domains/info/model/mock";
-import { AlcholButton, RateButton } from "@/shared/components";
+import { AlcoholButton, RateButton } from "@/shared/components";
 import { Colors, Typography } from "@/shared/constants";
 import { useState, useMemo } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { AlcholCommentCard } from "./AlcholCommentCard";
+import { AlcoholCommentCard } from "./AlcoholCommentCard";
 
-interface AlcholCommentsProps {
+interface AlcoholCommentsProps {
   comments: LiquorComment[];
   myReview: LiquorComment | null;
   currentUserId?: string;
@@ -36,8 +36,8 @@ const SectionHeader = ({
 }: SectionHeaderProps) => (
   <View style={styles.header}>
     <Text style={styles.title}>코멘트</Text>
-    {/* AlcholCommentsCard에서 edit icon 클릭 시 AlcholButton이 PutComments로 바뀜 */}
-    {/* 저장하기 누르면, 후기 수정되면서 다시 AlcholButton으로 바뀌고 아래 후기 수정됨 */}
+    {/* AlcoholCommentsCard에서 edit icon 클릭 시 AlcoholButton이 PutComments로 바뀜 */}
+    {/* 저장하기 누르면, 후기 수정되면서 다시 AlcoholButton으로 바뀌고 아래 후기 수정됨 */}
     {isEditMode ? (
       <PutComments
         rating={rating}
@@ -47,7 +47,7 @@ const SectionHeader = ({
         onSave={onSave}
       />
     ) : (
-      <AlcholButton title="저도 이 술을 먹었어요!" onPress={onAddPress} disabled />
+      <AlcoholButton title="저도 이 술을 먹었어요!" onPress={onAddPress} disabled />
     )}
   </View>
 );
@@ -186,7 +186,7 @@ const CommentList = ({
       {comments.map((comment) => {
         const isOwner = currentUserId ? comment.userId === currentUserId : false;
         return (
-          <AlcholCommentCard
+          <AlcoholCommentCard
             key={comment.id}
             username={comment.username}
             userProfileImage={comment.userProfileImage}
@@ -202,14 +202,14 @@ const CommentList = ({
   );
 };
 
-export const AlcholComments = ({
+export const AlcoholComments = ({
   comments,
   myReview,
   currentUserId,
   onAddCommentPress,
   onEditPress,
   onSaveComment,
-}: AlcholCommentsProps) => {
+}: AlcoholCommentsProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editRating, setEditRating] = useState(0);
   const [editComment, setEditComment] = useState('');

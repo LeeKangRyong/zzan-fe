@@ -1,5 +1,5 @@
-export { AlcholButton } from "./AlcholButton";
-export { AlcholCounts } from "./AlcholCounts";
+export { AlcoholButton } from "./AlcoholButton";
+export { AlcoholCounts } from "./AlcoholCounts";
 export { BookMark } from "./BookMark";
 export { Button } from "./Button";
 export { CommonButton } from "./CommonButton";

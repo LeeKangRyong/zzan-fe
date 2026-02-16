@@ -4,17 +4,17 @@ import { Colors } from "@/shared/constants/Colors";
 import { Typography } from "@/shared/constants/Typography";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-interface AlcholButtonProps {
+interface AlcoholButtonProps {
   title: string;
   onPress: () => void;
   disabled?: boolean;
 }
 
-export const AlcholButton = ({
+export const AlcoholButton = ({
   title,
   onPress,
   disabled,
-}: AlcholButtonProps) => {
+}: AlcoholButtonProps) => {
   return (
     <TouchableOpacity
       style={styles.container}

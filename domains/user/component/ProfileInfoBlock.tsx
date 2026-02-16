@@ -9,7 +9,7 @@ interface ProfileInfoBlockProps {
   user: User;
 }
 
-const EmptyAlchol = ({ count }: { count: number }) => {
+const EmptyAlcohol = ({ count }: { count: number }) => {
   return (
     <View style={styles.emptyContainer}>
       <Text style={styles.emptyText}>비운 전통주 : </Text>
@@ -24,7 +24,7 @@ const ProfileSummary = ({ user }: { user: User }) => {
       <Image source={user.profileImage} style={styles.profileImage} contentFit="cover" />
       <View style={styles.textContainer}>
         <Text style={styles.name}>{user.name}</Text>
-        <EmptyAlchol count={user.emptyAlcoholCount} />
+        <EmptyAlcohol count={user.emptyAlcoholCount} />
       </View>
     </View>
   );
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   emptyText: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 12,
     color: Colors.gray,
     letterSpacing: -0.24,

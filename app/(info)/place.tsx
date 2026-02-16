@@ -4,7 +4,7 @@ import { InfoSummary } from '@/domains/info/components/InfoSummary';
 import { PlaceDescription } from '@/domains/info/components/PlaceDescription';
 import { INFO_CONSTANTS } from '@/domains/info/model/constants';
 import { useInfoViewModel } from '@/domains/info/viewmodel/useInfoViewModel';
-import { AlcholButton, Header } from '@/shared/components';
+import { AlcoholButton, Header } from '@/shared/components';
 import { FeedBlock } from '@/shared/components/FeedBlock';
 import { Colors, Layout, Typography } from '@/shared/constants';
 import { useRouter, useLocalSearchParams } from 'expo-router';
@@ -45,7 +45,7 @@ export default function PlaceTab() {
     isFeedsLoading,
     toggleBookmark,
     handleShare,
-    handleAlcholButtonPress,
+    handleAlcoholButtonPress,
   } = useInfoViewModel(placeId);
 
   if (isLoading) {
@@ -88,9 +88,9 @@ export default function PlaceTab() {
         <PlaceDescription description={placeInfo.description} />
 
         <View style={styles.buttonContainer}>
-          <AlcholButton
+          <AlcoholButton
             title="이 장소에서 전통주를 먹었어요"
-            onPress={handleAlcholButtonPress}
+            onPress={handleAlcoholButtonPress}
           />
         </View>
 
@@ -109,7 +109,7 @@ export default function PlaceTab() {
                     imageUrl={feed.imageUrl!}
                     placeName={feed.placeName || ''}
                     address={feed.address || ''}
-                    alcholCount={feed.alcoholCount || 0}
+                    alcoholCount={feed.alcoholCount || 0}
                     onPress={() =>
                       router.push({
                         pathname: '/detail',

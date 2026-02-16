@@ -1,6 +1,6 @@
-export { AlcholCommentCard } from './AlcholCommentCard';
-export { AlcholComments } from './AlcholComments';
-export { AlcholDescription } from './AlcholDescription';
+export { AlcoholCommentCard } from './AlcoholCommentCard';
+export { AlcoholComments } from './AlcoholComments';
+export { AlcoholDescription } from './AlcoholDescription';
 export { InfoImages } from './InfoImages';
 export { InfoRate } from './InfoRate';
 export { InfoRateBlock } from './InfoRateBlock';
@@ -8,4 +8,4 @@ export { InfoRateWithProfile } from './InfoRateWithProfile';
 export { InfoSummary } from './InfoSummary';
 export { PlaceDescription } from './PlaceDescription';
 export { PlaceTemporalSummary } from './PlaceTemporalSummary';
-export { RateAlcholButton } from './RateAlcholButton';
+export { RateAlcoholButton } from './RateAlcoholButton';

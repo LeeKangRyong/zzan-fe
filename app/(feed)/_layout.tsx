@@ -6,6 +6,7 @@ export default function FeedLayout() {
       <Stack.Screen name="detail" />
       <Stack.Screen name="post" />
       <Stack.Screen name="add" />
+      <Stack.Screen name="rate" />
     </Stack>
   );
 }

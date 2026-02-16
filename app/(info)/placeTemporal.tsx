@@ -2,7 +2,7 @@ import { InfoRate, PlaceTemporalSummary } from "@/domains/info/components";
 import { INFO_CONSTANTS } from "@/domains/info/model/constants";
 import { usePlaceTemporalViewModel } from "@/domains/info/viewmodel/usePlaceTemporalViewModel";
 import { FeedBlockWithProfile } from "@/domains/user/component";
-import { AlcholButton, Header } from "@/shared/components";
+import { AlcoholButton, Header } from "@/shared/components";
 import { Colors, Layout } from "@/shared/constants";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import {
@@ -50,7 +50,7 @@ export default function PlaceTemporalTab() {
     placeFeeds,
     isFeedsLoading,
     toggleBookmark,
-    handleAlcholButtonPress,
+    handleAlcoholButtonPress,
   } = usePlaceTemporalViewModel({
     placeId,
     kakaoPlaceIdParam: kakaoPlaceId,
@@ -94,9 +94,9 @@ export default function PlaceTemporalTab() {
         />
 
         <View style={styles.buttonContainer}>
-          <AlcholButton
+          <AlcoholButton
             title="이 장소에서 전통주를 먹었어요"
-            onPress={handleAlcholButtonPress}
+            onPress={handleAlcoholButtonPress}
           />
         </View>
 

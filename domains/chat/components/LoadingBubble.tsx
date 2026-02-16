@@ -1,4 +1,4 @@
-import Alchol from "@/assets/icons/alchol.svg";
+import Alcohol from "@/assets/icons/alcohol.svg";
 import { Colors, Layout, Typography } from "@/shared/constants";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -24,7 +24,7 @@ export const LoadingBubble = () => {
     <View style={[styles.container, styles.botContainer]}>
       <View style={styles.bubbleContainer}>
         <View style={styles.iconWrapper}>
-          <Alchol width={24} height={24} />
+          <Alcohol width={24} height={24} />
         </View>
         <View style={styles.contentWrapper}>
           <View style={[styles.leftTail, { borderRightColor: Colors.white }]} />

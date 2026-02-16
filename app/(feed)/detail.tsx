@@ -3,24 +3,26 @@ import {
   FeedDetailImage,
   FeedDetailPlace,
   FeedUser,
-  ReferredAlcholWithRate,
-} from '@/domains/feed/component';
+  ReferredAlcoholWithRate,
+} from '@/domains/feed/components';
 import { useDetailViewModel } from '@/domains/feed/viewmodel/useDetailViewModel';
 import { BookMark, Header, KakaoLoginModal, Share } from '@/shared/components';
 import { useModal } from '@/shared/hooks';
 import { useAuthStore } from '@/domains/auth/store';
 import { Colors, Layout } from '@/shared/constants';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { ScrollView, StyleSheet, View, ActivityIndicator, Text } from 'react-native';
+import { ImageSourcePropType, ScrollView, StyleSheet, View, ActivityIndicator, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const renderUserSection = (
-  userImageUrl: any,
-  username: string,
-  isBookmarked: boolean,
-  onShare: () => void,
-  onBookmark: () => void
-) => (
+interface UserSectionProps {
+  userImageUrl: ImageSourcePropType;
+  username: string;
+  isBookmarked: boolean;
+  onShare: () => void;
+  onBookmark: () => void;
+}
+
+const UserSection = ({ userImageUrl, username, isBookmarked, onShare, onBookmark }: UserSectionProps) => (
   <View style={styles.userSection}>
     <FeedUser userImageUrl={userImageUrl} username={username} />
     <View style={styles.actionButtons}>
@@ -104,22 +106,22 @@ export default function DetailTab() {
         />
 
         <View style={styles.paddedContent}>
-          {renderUserSection(
-            user.imageUrl,
-            user.username,
-            isBookmarked,
-            handleShare,
-            handleBookmarkWithAuth
-          )}
+          <UserSection
+            userImageUrl={user.imageUrl}
+            username={user.username}
+            isBookmarked={isBookmarked}
+            onShare={handleShare}
+            onBookmark={handleBookmarkWithAuth}
+          />
 
-          <ReferredAlcholWithRate
+          <ReferredAlcoholWithRate
             alcohols={alcohols}
             alcoholRatings={alcoholRatings}
             focusedAlcoholId={focusedAlcoholId ?? undefined}
             onAlcoholPress={(id) => {
               handleAlcoholPress(id);
               router.push({
-                pathname: '/alchol',
+                pathname: '/alcohol',
                 params: { liquorId: id },
               });
             }}

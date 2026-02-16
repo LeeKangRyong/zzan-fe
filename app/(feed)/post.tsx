@@ -4,9 +4,9 @@ import {
   PlaceRateModal,
   PlaceSummary,
   RateTextInput,
-  ReferredAlchol,
+  ReferredAlcohol,
   SectionTitle,
-} from "@/domains/feed/component";
+} from "@/domains/feed/components";
 import { usePostViewModel } from "@/domains/feed/viewmodel/usePostViewModel";
 import { CommonButton, Header } from "@/shared/components";
 import { Colors, Layout } from "@/shared/constants";
@@ -52,7 +52,7 @@ export default function PostTab() {
               count={selectedAlcohols.length}
             />
             {selectedAlcohols.length > 0 ? (
-              <ReferredAlchol alcohols={selectedAlcohols} />
+              <ReferredAlcohol alcohols={selectedAlcohols} />
             ) : (
               <CommonButton
                 title="이미지를 등록하고 전통주를 추가해보세요"

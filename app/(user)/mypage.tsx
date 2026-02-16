@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   tabText: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 18,
     color: Colors.black,
     letterSpacing: -0.36,

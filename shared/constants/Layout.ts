@@ -1,3 +1,7 @@
+import { Dimensions } from 'react-native';
+
+export const SCREEN_WIDTH = Dimensions.get('window').width;
+
 export const Layout = {
   CHIP_HORIZONTAL: 22,
   CHIP_VERTICAL: 10,

@@ -32,7 +32,7 @@ export const MyFeeds = () => {
             imageUrl={feed.imageUrl}
             placeName={feed.placeName}
             address={feed.address}
-            alcholCount={feed.alcoholCount}
+            alcoholCount={feed.alcoholCount}
             onPress={() => router.push(`/detail?feedId=${feed.id}` as any)}
           />
         ))}

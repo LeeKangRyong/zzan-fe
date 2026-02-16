@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.4,
   },
   currentTime: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 14,
     color: Colors.gray,
     letterSpacing: -0.28,
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   errorText: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 14,
     color: Colors.red,
     textAlign: "center",

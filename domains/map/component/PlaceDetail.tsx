@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.36,
   },
   placeAddress: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 12,
     color: Colors.white,
     letterSpacing: -0.24,
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.24,
   },
   placeRatingText: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 10,
     color: Colors.white,
     textAlign: 'right',

@@ -1,6 +1,6 @@
 import {
-  AlcholComments,
-  AlcholDescription,
+  AlcoholComments,
+  AlcoholDescription,
   InfoImages,
   InfoRate,
   InfoRateWithProfile,
@@ -33,7 +33,7 @@ const renderErrorState = (message: string) => (
   </View>
 );
 
-export default function AlcholTab() {
+export default function AlcoholTab() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const liquorId = params.liquorId as string | undefined;
@@ -98,7 +98,7 @@ export default function AlcholTab() {
           onBookmarkPress={toggleBookmark}
         />
 
-        <AlcholDescription
+        <AlcoholDescription
           recommendTitle={alcoholInfo.recommendTitle}
           recommendDescription={alcoholInfo.recommendDescription}
           images={alcoholInfo.galleryImages || alcoholInfo.images}
@@ -130,7 +130,7 @@ export default function AlcholTab() {
 
         <View style={styles.line} />
 
-        <AlcholComments
+        <AlcoholComments
           comments={reviews}
           myReview={myReview}
           currentUserId={currentUserId || undefined}

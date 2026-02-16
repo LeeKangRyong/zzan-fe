@@ -157,8 +157,8 @@ export const useInfoViewModel = (placeId?: string) => {
     console.log('Share pressed');
   };
 
-  const handleAlcholButtonPress = useCallback(() => {
-    console.log('Alchol button pressed');
+  const handleAlcoholButtonPress = useCallback(() => {
+    console.log('Alcohol button pressed');
     return true;
   }, []);
 
@@ -172,7 +172,7 @@ export const useInfoViewModel = (placeId?: string) => {
     isFeedsLoading,
     toggleBookmark,
     handleShare,
-    handleAlcholButtonPress,
+    handleAlcoholButtonPress,
   };
 };
 

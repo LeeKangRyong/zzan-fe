@@ -54,7 +54,7 @@
 
 <br>
 
-### 술, 장소 검색 시 (add?type=alchol, add?type=place)
+### 술, 장소 검색 시 (add?type=alcohol, add?type=place)
 
 ```
 page는 그냥 빼고 전체 검색!
