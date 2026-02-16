@@ -1,7 +1,5 @@
 import { User, UserFeed, UserScrapAlcohol } from "./userModel";
 
-// ===== CONSTANTS =====
-
 const PLACE_DATA = [
   { name: "울산 문화의거리", address: "울산광역시 중구 성남동 329-5" },
   { name: "서울 종로 전통주 거리", address: "서울특별시 종로구 종로3가 112" },
@@ -53,8 +51,6 @@ const LIQUOR_DATA = [
   { name: "송화백일주", type: "약주" },
 ];
 
-// ===== HELPER FUNCTIONS =====
-
 const getRandomElement = <T>(array: T[]): T => {
   return array[Math.floor(Math.random() * array.length)];
 };
@@ -71,8 +67,6 @@ const generateRandomReviewCount = (): number => {
 const generateRandomAlcoholCount = (): number => {
   return Math.floor(Math.random() * 5) + 1;
 };
-
-// ===== MOCK DATA =====
 
 export const mockUser: User = {
   id: "01HQ1234567890ABCDEF",

@@ -1,5 +1,3 @@
-// `assets/icons/alcohol_right.svg` 사용
-
 import AlcoholRightIcon from '@/assets/icons/alcohol_right.svg';
 import { Colors, Typography } from '@/shared/constants';
 import { StyleSheet, Text, View } from 'react-native';

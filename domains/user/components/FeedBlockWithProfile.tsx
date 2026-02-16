@@ -1,5 +1,3 @@
-// FeedBlock을 import하고
-// 프로필 사진, 이름을 덧대어서 구현
 import AlcoholIcon from "@/assets/icons/alcohol_right.svg";
 import { Colors, Typography } from "@/shared/constants";
 import { Image } from "expo-image";

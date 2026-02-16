@@ -66,12 +66,10 @@ export const KakaoMapWebView = forwardRef<
     );
     const prevMarkersRef = useRef<MapMarker[]>(markers);
 
-    // 초기 HTML 생성
     const htmlContent = useMemo(() => {
       return generateMapHtml(region, markers, apiKey);
     }, [region.latitude, region.longitude, apiKey]);
 
-    // 지도 중심 이동 처리
     useEffect(() => {
       if (region.timestamp !== prevTimestampRef.current) {
         if (webViewRef.current) {
@@ -98,7 +96,6 @@ export const KakaoMapWebView = forwardRef<
       }
     }, [region, focusedMarkerId]);
 
-    // 특정 마커 포커스 처리
     useEffect(() => {
       if (focusedMarkerId !== prevFocusedMarkerIdRef.current) {
         if (webViewRef.current && focusedMarkerId) {
@@ -113,7 +110,6 @@ export const KakaoMapWebView = forwardRef<
       }
     }, [focusedMarkerId]);
 
-    // 마커 리스트 업데이트 처리
     useEffect(() => {
       if (markers !== prevMarkersRef.current) {
         if (webViewRef.current) {
@@ -154,7 +150,6 @@ export const KakaoMapWebView = forwardRef<
   },
 );
 
-// 컴포넌트 이름 설정 (DevTools 디버깅용)
 KakaoMapWebView.displayName = "KakaoMapWebView";
 
 const styles = StyleSheet.create({

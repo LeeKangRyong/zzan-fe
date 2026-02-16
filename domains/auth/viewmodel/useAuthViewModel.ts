@@ -9,7 +9,6 @@ export const useAuthViewModel = () => {
     useAuthStore();
   const [error, setError] = useState<string | null>(null);
 
-  // 1. 카카오 로그인 URL 획득
   const getKakaoLoginUrl = useCallback(async (): Promise<string | null> => {
     if (isMockEnabled()) {
       return 'mock://kakao-login';
@@ -24,7 +23,6 @@ export const useAuthViewModel = () => {
     }
   }, []);
 
-  // 2. 카카오 콜백 처리 (code → tokens)
   const handleKakaoCallback = useCallback(async (code: string): Promise<boolean> => {
     setLoading(true);
     setError(null);

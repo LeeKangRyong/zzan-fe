@@ -1,5 +1,3 @@
-// ProfileBasicInfoBlock으로 구성
-
 import type { User } from '../model';
 import { Colors, Typography } from '@/shared/constants';
 import { useBirthDateFormat, usePhoneFormat } from '@/shared/hooks';

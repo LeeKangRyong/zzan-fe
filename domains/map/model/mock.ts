@@ -2,8 +2,6 @@ import { MapMarker } from './mapModel';
 import { PLACE_DATA } from '@/domains/feed/model/mock';
 import { PLACE_KAKAO_MAP } from '@/domains/info/model/placeKakaoMapping';
 
-// ===== HELPER FUNCTIONS =====
-
 const generateRandomRating = (): number => {
   const rating = 3.0 + Math.random() * 2.0;
   return Math.round(rating);
@@ -12,8 +10,6 @@ const generateRandomRating = (): number => {
 const generateRandomFeedCount = (): number => {
   return Math.floor(Math.random() * 50) + 1;
 };
-
-// ===== MOCK DATA =====
 
 export const mockPlacesWithCoordinates: MapMarker[] = Array.from({ length: 100 }, (_, i) => {
   const placeId = String(i + 1);

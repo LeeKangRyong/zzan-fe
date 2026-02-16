@@ -1,6 +1,3 @@
-// `assets/icons/search.svg 사용
-// 술 or 장소 이름을 검색하는 component. 입력 후 엔터 or 돋보기 클릭 시 결과 나옴
-
 import SearchIcon from '@/assets/icons/search_small.svg';
 import { Colors, Typography } from '@/shared/constants';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';

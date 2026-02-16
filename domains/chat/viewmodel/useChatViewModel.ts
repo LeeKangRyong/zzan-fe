@@ -72,7 +72,6 @@ export const useChatViewModel = () => {
   useEffect(() => {
     setRecommendedAnswers(DEFAULT_RECOMMENDED_ANSWERS);
 
-    // 초기 환영 메시지 추가
     const initialMessages = CHAT_CONSTANTS.INITIAL_GREETING_MESSAGES.map(
       (content, index) => createMessage("bot", content),
     );

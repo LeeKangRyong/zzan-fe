@@ -27,11 +27,9 @@ export const useFeedTabViewModel = () => {
 
     try {
       if (isMockEnabled()) {
-        // MOCK MODE: Use mock data
         const mockRecentFeeds = mockFeedDetails.map(mapMockFeedDetailToRecentFeed);
         const PAGE_SIZE = 20;
 
-        // Simulate pagination
         const currentIndex = cursor ? parseInt(cursor.replace('cursor-', ''), 10) : 0;
         const endIndex = Math.min(currentIndex + PAGE_SIZE, mockRecentFeeds.length);
         const paginatedFeeds = mockRecentFeeds.slice(currentIndex, endIndex);
@@ -42,11 +40,9 @@ export const useFeedTabViewModel = () => {
           setRecentFeeds(paginatedFeeds);
         }
 
-        // Update pagination state
         setHasNext(endIndex < mockRecentFeeds.length);
         setNextCursor(endIndex < mockRecentFeeds.length ? `cursor-${endIndex}` : undefined);
       } else {
-        // API MODE: Use real API
         const response = await feedApi.getRecentFeeds(20, cursor);
 
         if (cursor) {

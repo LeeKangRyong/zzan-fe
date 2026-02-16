@@ -1,6 +1,3 @@
-// assets/icons/target.svg 사용
-// 현재 위치로 카카오맵 이동
-
 import TargetIcon from '@/assets/icons/target.svg';
 import { Colors } from '@/shared/constants';
 import { StyleSheet, TouchableOpacity } from 'react-native';

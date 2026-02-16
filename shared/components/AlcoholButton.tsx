@@ -1,5 +1,3 @@
-// title, onPress arguments 사용
-
 import { Colors, Typography } from "../constants";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 

@@ -16,17 +16,14 @@ import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 const shouldShowIcon = (messages: Message[], index: number): boolean => {
   const currentMessage = messages[index];
 
-  // 봇 메시지가 아니면 false
   if (currentMessage.role !== "bot") {
     return false;
   }
 
-  // 첫 번째 메시지면 true
   if (index === 0) {
     return true;
   }
 
-  // 이전 메시지가 봇이 아니면 true (새로운 봇 시퀀스 시작)
   const previousMessage = messages[index - 1];
   return previousMessage.role !== "bot";
 };

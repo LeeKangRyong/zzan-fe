@@ -26,7 +26,6 @@ export const useMapViewModel = () => {
   const [searchPage, setSearchPage] = useState(1);
   const [error, setError] = useState<string | null>(null);
 
-  // 초기 마운트 시 사용자 현재 위치로 이동
   useEffect(() => {
     const initializeLocation = async () => {
       const location = await getCurrentLocation();
@@ -111,15 +110,12 @@ export const useMapViewModel = () => {
     setShowSearchResults(true);
   };
 
-  // 검색 결과 리스트에서 항목 클릭 시 처리
   const handleSearchResultPress = (placeId: string) => {
     const place = searchResults.find((marker) => marker.id === placeId);
     if (!place) return;
 
-    // 지도 이동만 수행 (마커 생성 제거)
     moveToPlace(place);
 
-    // 검색 UI 정리
     setShowSearchResults(false);
     setSearchText("");
     setSearchResults([]);

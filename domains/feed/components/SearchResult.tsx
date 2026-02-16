@@ -1,5 +1,3 @@
-// 검색 결과로 나오는 술 or 장소 block component
-
 import { Colors, Typography } from '@/shared/constants';
 import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 

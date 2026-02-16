@@ -9,13 +9,12 @@ export const LoadingBubble = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setDotCount((prev) => {
-        // 6까지 갔다가 다시 1로 돌아오는 로직
         if (prev >= 6) {
           return 1;
         }
         return prev + 1;
       });
-    }, 300); // 0.3초 간격 (원하시는 속도에 따라 조절하세요)
+    }, 300);
 
     return () => clearInterval(interval);
   }, []);

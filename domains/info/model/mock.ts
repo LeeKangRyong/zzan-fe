@@ -8,8 +8,6 @@ const smellImage = require("@/assets/basic_mock_images/smell.png");
 const tasteImage = require("@/assets/basic_mock_images/taste.png");
 const featureImage = require("@/assets/basic_mock_images/feature.png");
 
-// ===== CONSTANTS =====
-
 const KOREAN_REVIEWER_NAMES = [
   "홍길동", "김철수", "이영희", "박민수", "최지은",
   "정수현", "윤서연", "강동욱", "한지민", "오태양",
@@ -105,8 +103,6 @@ const BREWERY_NAMES = [
   "이강주양조장", "제주한라산", "금산인삼주", "담양주조", "전주전통주",
 ];
 
-// ===== HELPER FUNCTIONS =====
-
 const generateRandomDate = (startYear = 2024, endYear = 2025): string => {
   const start = new Date(`${startYear}-01-01`);
   const end = new Date(`${endYear}-02-28`);
@@ -135,11 +131,7 @@ const generatePlaceReviews = (count: number, templates: string[]): PlaceReview[]
   }));
 };
 
-// ===== MOCK REVIEWS =====
-
 const MOCK_REVIEWS: PlaceReview[] = generatePlaceReviews(20, PLACE_REVIEW_TEMPLATES);
-
-// ===== MOCK PLACE INFOS =====
 
 export const MOCK_PLACE_INFOS: PlaceInfo[] = Array.from({ length: 30 }, (_, i) => ({
   id: `place${i + 1}`,
@@ -162,8 +154,6 @@ export const MOCK_PLACE_INFO: PlaceInfo = MOCK_PLACE_INFOS[0];
 export const getMockPlaceInfo = (): PlaceInfo => {
   return MOCK_PLACE_INFO;
 };
-
-// ===== MOCK ALCOHOL INFOS =====
 
 const generateAlcoholGalleryImages = (name: string) => [
   {
@@ -243,8 +233,6 @@ export const MOCK_ALCOHOL_INFO: AlcoholInfo = MOCK_ALCOHOL_INFOS[0];
 export const getMockAlcoholInfo = (): AlcoholInfo => {
   return MOCK_ALCOHOL_INFO;
 };
-
-// ===== LIQUOR COMMENTS =====
 
 export const MOCK_CURRENT_USER_ID = "user1";
 

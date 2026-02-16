@@ -1,5 +1,3 @@
-// label, value로 parameter 구성
-
 import EditIcon from '@/assets/icons/edit.svg';
 import { Colors, Typography } from '@/shared/constants';
 import { KeyboardTypeOptions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';

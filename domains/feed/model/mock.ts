@@ -7,8 +7,6 @@ import {
 } from "./feedModel";
 import { PLACE_KAKAO_MAP } from "@/domains/info/model/placeKakaoMapping";
 
-// ===== CONSTANTS =====
-
 const KOREAN_NAMES = [
   "김민준", "이서윤", "박지우", "최서준", "정예은",
   "강도윤", "조시우", "윤하은", "장은우", "임서연",
@@ -230,8 +228,6 @@ const REVIEW_TEMPLATES = [
   "세트로 사면 더 저렴하더라고요.",
 ];
 
-// ===== HELPER FUNCTIONS =====
-
 const generateRandomScore = (): number => {
   const random = Math.random();
   const score = 3.0 + random * 2.0;
@@ -257,8 +253,6 @@ const getRandomElements = <T>(array: T[], count: number): T[] => {
 const generateRandomCoord = (): number => {
   return Math.round((0.2 + Math.random() * 0.6) * 100) / 100;
 };
-
-// ===== MOCK DATA ARRAYS =====
 
 export const mockFeedImages: FeedImage[] = [
   {

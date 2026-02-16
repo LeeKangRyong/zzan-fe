@@ -1,4 +1,3 @@
-// 각 피드 블록은 shared/component에 FeedBlock.tsx로 구현
 import type { UserScrapAlcohol } from '../model';
 import { useMyScrapViewModel } from '../viewmodel';
 import { FeedBlock, Rate } from '@/shared/components';
