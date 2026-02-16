@@ -1,4 +1,9 @@
-import type { AlcoholInfo, LiquorComment, PlaceInfo, PlaceReview } from "./infoModel";
+import type {
+  AlcoholInfo,
+  LiquorComment,
+  PlaceInfo,
+  PlaceReview,
+} from "./infoModel";
 
 const exampleImage = require("@/assets/images/example_image.png");
 const breweryImage = require("@/assets/basic_mock_images/brewery.png");
@@ -9,11 +14,31 @@ const tasteImage = require("@/assets/basic_mock_images/taste.png");
 const featureImage = require("@/assets/basic_mock_images/feature.png");
 
 const KOREAN_REVIEWER_NAMES = [
-  "홍길동", "김철수", "이영희", "박민수", "최지은",
-  "정수현", "윤서연", "강동욱", "한지민", "오태양",
-  "전통주애호가", "막걸리러버", "김소믈리에", "전통주마니아", "한식러버",
-  "술고래", "혼술족", "와인덕후", "전통주입문자", "쌀술사랑",
-  "막걸리천국", "전통주헌터", "전주술집이", "양조장순례", "술여행러",
+  "홍길동",
+  "김철수",
+  "이영희",
+  "박민수",
+  "최지은",
+  "정수현",
+  "윤서연",
+  "강동욱",
+  "한지민",
+  "오태양",
+  "전통주애호가",
+  "막걸리러버",
+  "김소믈리에",
+  "전통주마니아",
+  "한식러버",
+  "술고래",
+  "혼술족",
+  "와인덕후",
+  "전통주입문자",
+  "쌀술사랑",
+  "막걸리천국",
+  "전통주헌터",
+  "전주술집이",
+  "양조장순례",
+  "술여행러",
 ];
 
 const PLACE_REVIEW_TEMPLATES = [
@@ -73,12 +98,23 @@ const ALCOHOL_REVIEW_TEMPLATES = [
 ];
 
 const PLACE_CATEGORIES = [
-  "전통주점", "전통주 카페", "한식당", "양조장 직영점",
-  "전통시장 주점", "한옥 주점", "전통주 바", "지역 특산주점"
+  "전통주점",
+  "전통주 카페",
+  "한식당",
+  "양조장 직영점",
+  "전통시장 주점",
+  "한옥 주점",
+  "전통주 바",
+  "지역 특산주점",
 ];
 
 const LIQUOR_CATEGORIES = [
-  "탁주(저도)", "탁주(고도)", "약주", "증류주", "과실주", "청주"
+  "탁주(저도)",
+  "탁주(고도)",
+  "약주",
+  "증류주",
+  "과실주",
+  "청주",
 ];
 
 const PLACE_DESCRIPTIONS = [
@@ -98,16 +134,30 @@ const ALCOHOL_RECOMMEND_DESCRIPTIONS = [
 ];
 
 const BREWERY_NAMES = [
-  "서울양조장", "배상면주가", "느린마을", "국순당", "복순도가",
-  "산사원", "지평주조", "명인안동소주", "문배주양조원", "한산소곡주전수관",
-  "이강주양조장", "제주한라산", "금산인삼주", "담양주조", "전주전통주",
+  "서울양조장",
+  "배상면주가",
+  "느린마을",
+  "국순당",
+  "복순도가",
+  "산사원",
+  "지평주조",
+  "명인안동소주",
+  "문배주양조원",
+  "한산소곡주전수관",
+  "이강주양조장",
+  "제주한라산",
+  "금산인삼주",
+  "담양주조",
+  "전주전통주",
 ];
 
 const generateRandomDate = (startYear = 2024, endYear = 2025): string => {
   const start = new Date(`${startYear}-01-01`);
   const end = new Date(`${endYear}-02-28`);
-  const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-  return date.toISOString().split('T')[0];
+  const date = new Date(
+    start.getTime() + Math.random() * (end.getTime() - start.getTime()),
+  );
+  return date.toISOString().split("T")[0];
 };
 
 const generateRandomRating = (): number => {
@@ -120,7 +170,10 @@ const getRandomElement = <T>(array: T[]): T => {
   return array[Math.floor(Math.random() * array.length)];
 };
 
-const generatePlaceReviews = (count: number, templates: string[]): PlaceReview[] => {
+const generatePlaceReviews = (
+  count: number,
+  templates: string[],
+): PlaceReview[] => {
   return Array.from({ length: count }, (_, i) => ({
     id: `review${i + 1}`,
     userName: getRandomElement(KOREAN_REVIEWER_NAMES),
@@ -131,23 +184,24 @@ const generatePlaceReviews = (count: number, templates: string[]): PlaceReview[]
   }));
 };
 
-const MOCK_REVIEWS: PlaceReview[] = generatePlaceReviews(20, PLACE_REVIEW_TEMPLATES);
-
-export const MOCK_PLACE_INFOS: PlaceInfo[] = Array.from({ length: 30 }, (_, i) => ({
-  id: `place${i + 1}`,
-  name: `${getRandomElement(["전통주 카페", "한옥 주점", "전통주 바", "양조장"])} ${i + 1}호점`,
-  category: getRandomElement(PLACE_CATEGORIES),
-  images: [exampleImage, exampleImage, exampleImage],
-  option1: `서울시 ${getRandomElement(["강남구", "종로구", "중구", "마포구"])} ${i + 1}번지`,
-  option2: generateRandomRating() < 4 ? "월요일 휴무" : "연중무휴",
-  option3: `${10 + (i % 3)}:00 - ${21 + (i % 3)}:00`,
-  option4: i % 2 === 0 ? "가능" : "불가",
-  isBookmarked: i % 3 === 0,
-  rating: 3.0 + Math.random() * 2.0,
-  reviews: generatePlaceReviews(3, PLACE_REVIEW_TEMPLATES),
-  description: getRandomElement(PLACE_DESCRIPTIONS),
-  kakaoPlaceId: String(i + 1),
-}));
+export const MOCK_PLACE_INFOS: PlaceInfo[] = Array.from(
+  { length: 30 },
+  (_, i) => ({
+    id: `place${i + 1}`,
+    name: `${getRandomElement(["전통주 카페", "한옥 주점", "전통주 바", "양조장"])} ${i + 1}호점`,
+    category: getRandomElement(PLACE_CATEGORIES),
+    images: [exampleImage, exampleImage, exampleImage],
+    option1: `서울시 ${getRandomElement(["강남구", "종로구", "중구", "마포구"])} ${i + 1}번지`,
+    option2: generateRandomRating() < 4 ? "월요일 휴무" : "연중무휴",
+    option3: `${10 + (i % 3)}:00 - ${21 + (i % 3)}:00`,
+    option4: i % 2 === 0 ? "가능" : "불가",
+    isBookmarked: i % 3 === 0,
+    rating: 3.0 + Math.random() * 2.0,
+    reviews: generatePlaceReviews(3, PLACE_REVIEW_TEMPLATES),
+    description: getRandomElement(PLACE_DESCRIPTIONS),
+    kakaoPlaceId: String(i + 1),
+  }),
+);
 
 export const MOCK_PLACE_INFO: PlaceInfo = MOCK_PLACE_INFOS[0];
 
@@ -188,45 +242,47 @@ const generateAlcoholGalleryImages = (name: string) => [
   },
 ];
 
-export const MOCK_ALCOHOL_INFOS: AlcoholInfo[] = Array.from({ length: 30 }, (_, i) => {
-  const category = getRandomElement(LIQUOR_CATEGORIES);
-  const name = `${i % 2 === 0 ? "전통" : "프리미엄"} ${category} ${i + 1}호`;
+export const MOCK_ALCOHOL_INFOS: AlcoholInfo[] = Array.from(
+  { length: 30 },
+  (_, i) => {
+    const category = getRandomElement(LIQUOR_CATEGORIES);
+    const name = `${i % 2 === 0 ? "전통" : "프리미엄"} ${category} ${i + 1}호`;
 
-  return {
-    id: `liquor${i + 1}`,
-    name,
-    category,
-    images: [
-      {
-        image: exampleImage,
-        descriptionTitle: "전통 방식 그대로",
-        descriptionCategory: i % 3 === 0 ? "유기농 생막걸리" : "프리미엄 전통주",
-      },
-      {
-        image: exampleImage,
-        descriptionTitle: "부드러운 감칠맛",
-        descriptionCategory: `${category} 특유의 깊은 맛`,
-      },
-      {
-        image: exampleImage,
-        descriptionTitle: "건강한 발효주",
-        descriptionCategory: "살아있는 유산균이 풍부",
-      },
-    ],
-    option1: `${500 + (i * 50)}ml`,
-    option2: `${6 + (i % 10)}%`,
-    option3: getRandomElement(BREWERY_NAMES),
-    option4: i % 3 === 0 ? "유기농 쌀 100%" : "전통 누룩 사용",
-    isBookmarked: i % 4 === 0,
-    rating: 3.5 + Math.random() * 1.5,
-    reviews: generatePlaceReviews(3, ALCOHOL_REVIEW_TEMPLATES),
-    recommendTitle: "페어링 안주 추천",
-    recommendDescription: getRandomElement(ALCOHOL_RECOMMEND_DESCRIPTIONS),
-    galleryImages: generateAlcoholGalleryImages(name),
-  };
-});
-
-const MOCK_ALCOHOL_REVIEWS: PlaceReview[] = generatePlaceReviews(20, ALCOHOL_REVIEW_TEMPLATES);
+    return {
+      id: `liquor${i + 1}`,
+      name,
+      category,
+      images: [
+        {
+          image: exampleImage,
+          descriptionTitle: "전통 방식 그대로",
+          descriptionCategory:
+            i % 3 === 0 ? "유기농 생막걸리" : "프리미엄 전통주",
+        },
+        {
+          image: exampleImage,
+          descriptionTitle: "부드러운 감칠맛",
+          descriptionCategory: `${category} 특유의 깊은 맛`,
+        },
+        {
+          image: exampleImage,
+          descriptionTitle: "건강한 발효주",
+          descriptionCategory: "살아있는 유산균이 풍부",
+        },
+      ],
+      option1: `${500 + i * 50}ml`,
+      option2: `${6 + (i % 10)}%`,
+      option3: getRandomElement(BREWERY_NAMES),
+      option4: i % 3 === 0 ? "유기농 쌀 100%" : "전통 누룩 사용",
+      isBookmarked: i % 4 === 0,
+      rating: 3.5 + Math.random() * 1.5,
+      reviews: generatePlaceReviews(3, ALCOHOL_REVIEW_TEMPLATES),
+      recommendTitle: "페어링 안주 추천",
+      recommendDescription: getRandomElement(ALCOHOL_RECOMMEND_DESCRIPTIONS),
+      galleryImages: generateAlcoholGalleryImages(name),
+    };
+  },
+);
 
 export const MOCK_ALCOHOL_INFO: AlcoholInfo = MOCK_ALCOHOL_INFOS[0];
 
