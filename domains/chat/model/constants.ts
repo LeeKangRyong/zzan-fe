@@ -1,3 +1,20 @@
+import type { RecommendedAnswer } from './chatModel';
+
+export const DEFAULT_RECOMMENDED_ANSWERS: RecommendedAnswer[] = [
+  {
+    id: "rec1",
+    text: "전통주에 대해 소개해줘!",
+  },
+  {
+    id: "rec2",
+    text: "달달한 전통주 추천해줘",
+  },
+  {
+    id: "rec3",
+    text: "맛이 엄청 깔끔한 전통주 추천해줘",
+  },
+];
+
 export const CHAT_CONSTANTS = {
   RECOMMENDED_SECTION_SPACING: 2,
   CHIP_PADDING_HORIZONTAL: 22,

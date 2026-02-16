@@ -1,6 +1,5 @@
 import { TextInput } from '@/shared/components/TextInput';
-import { Layout } from '@/shared/constants/Layout';
-import { Typography } from '@/shared/constants/Typography';
+import { Layout, Typography } from '@/shared/constants';
 import { Pressable, StyleSheet, View } from 'react-native';
 import UpArrow from '../../../assets/icons/uparrow.svg';
 
@@ -30,7 +29,7 @@ export const MessageInput = ({
       value={value}
       onChangeText={onChangeText}
       placeholder={placeholder}
-      placeholderTextColor={`${placeholderColor}80`} 
+      placeholderTextColor={`${placeholderColor}80`}
       fontSize={Typography.INPUT_TEXT}
       maxLength={maxLength}
     />

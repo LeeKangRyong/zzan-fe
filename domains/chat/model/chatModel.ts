@@ -1,4 +1,4 @@
-import type { LiquorSource } from '@/domains/chat/api/chatApi';
+import type { LiquorSource } from './chatApiModel';
 
 export type MessageRole = 'user' | 'bot' | 'system';
 

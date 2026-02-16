@@ -1,5 +1,4 @@
-import { Layout } from '@/shared/constants/Layout';
-import { Typography } from '@/shared/constants/Typography';
+import { Layout, Typography } from '@/shared/constants';
 import { Pressable, StyleSheet, Text } from 'react-native';
 
 interface RecommendedChipProps {

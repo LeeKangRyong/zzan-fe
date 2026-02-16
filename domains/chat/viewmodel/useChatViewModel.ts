@@ -1,15 +1,15 @@
-import { chatApi, type ChatHistoryItem, type LiquorSource } from "@/domains/chat/api/chatApi";
-import { DEFAULT_RECOMMENDED_ANSWERS } from "@/domains/chat/components/RecommendedAnswers";
-import type {
-  Message,
-  RecommendedAnswer,
-} from "@/domains/chat/model/chatModel";
-import { CHAT_CONSTANTS } from "@/domains/chat/model/constants";
-import {
-  getMockChatResponse,
-} from "@/domains/chat/model/mock";
-import Constants from "expo-constants";
 import { useEffect, useState } from "react";
+import { chatApi } from "../api";
+import {
+  CHAT_CONSTANTS,
+  DEFAULT_RECOMMENDED_ANSWERS,
+  getMockChatResponse,
+  type ChatHistoryItem,
+  type LiquorSource,
+  type Message,
+  type RecommendedAnswer,
+} from "../model";
+import { isMockEnabled } from "@/shared/utils/env";
 
 const createMessage = (
   role: "user" | "bot",
@@ -22,10 +22,6 @@ const createMessage = (
   timestamp: Date.now(),
   sources,
 });
-
-const isMockEnabled = (): boolean => {
-  return Constants.expoConfig?.extra?.useMockData === true;
-};
 
 const buildChatHistory = (messages: Message[]): ChatHistoryItem[] => {
   return messages.map((msg) => ({

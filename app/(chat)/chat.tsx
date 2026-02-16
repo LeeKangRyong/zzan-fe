@@ -1,12 +1,11 @@
 import {
-  LoadingBubble,
   MessageBubble,
   MessageInput,
   MessageList,
   RecommendedAnswers,
 } from "@/domains/chat/components";
 import { CHAT_CONSTANTS, type Message } from "@/domains/chat/model";
-import { useChatViewModel } from "@/domains/chat/viewmodel/useChatViewModel";
+import { useChatViewModel } from "@/domains/chat/viewmodel";
 import { Header } from "@/shared/components";
 import { Colors } from "@/shared/constants";
 import { useFormatTime } from "@/shared/hooks";
@@ -47,6 +46,7 @@ export default function ChatTab() {
         <Header title="AI 챗봇" onBackPress={() => router.back()} />
         <MessageList
           messages={vm.messages}
+          isLoading={vm.isLoading}
           renderMessage={(msg, index) => (
             <MessageBubble
               key={msg.id}
@@ -60,7 +60,6 @@ export default function ChatTab() {
             />
           )}
         />
-        {vm.isLoading && <LoadingBubble />}
         <View style={styles.inputContainer}>
           <View style={styles.horizontalPadding}>
             <RecommendedAnswers

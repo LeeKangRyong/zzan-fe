@@ -6,4 +6,5 @@ export const Colors = {
   white: "#FFFFFF",
   purple: "#8A38F5",
   red: "#FF0000",
+  time: "#999",
 };

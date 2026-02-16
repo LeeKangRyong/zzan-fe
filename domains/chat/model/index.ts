@@ -1,4 +1,4 @@
-export { CHAT_CONSTANTS } from './constants';
+export { CHAT_CONSTANTS, DEFAULT_RECOMMENDED_ANSWERS } from './constants';
 export type {
   MessageRole,
   Message,
@@ -6,4 +6,10 @@ export type {
   RecommendedAnswer,
   ChatResponse,
 } from './chatModel';
+export type {
+  ChatHistoryItem,
+  ChatRequest,
+  LiquorSource,
+  ChatApiResponse,
+} from './chatApiModel';
 export { MOCK_CHAT_RESPONSE, getMockChatResponse } from './mock';

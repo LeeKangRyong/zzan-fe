@@ -1,31 +1,5 @@
 import Constants from 'expo-constants';
-
-export interface ChatHistoryItem {
-  role: 'user' | 'assistant';
-  content: string;
-}
-
-export interface ChatRequest {
-  query: string;
-  history: ChatHistoryItem[];
-}
-
-export interface LiquorSource {
-  id: string;
-  name: string;
-  type: string;
-  alcohol: string;
-  volume: string;
-  brewery: string;
-  image_url: string;
-  score?: number;
-}
-
-export interface ChatResponse {
-  answer: string;
-  sources: LiquorSource[];
-  suggested_questions: string[];
-}
+import type { ChatApiResponse, ChatRequest } from '../model/chatApiModel';
 
 const getChatBotBaseUrl = (): string => {
   const baseUrl = Constants.expoConfig?.extra?.chatApiUrl;
@@ -36,7 +10,7 @@ const getChatBotBaseUrl = (): string => {
 };
 
 export const chatApi = {
-  async sendMessage(request: ChatRequest): Promise<ChatResponse> {
+  async sendMessage(request: ChatRequest): Promise<ChatApiResponse> {
     const baseUrl = getChatBotBaseUrl();
 
     const response = await fetch(`${baseUrl}/chat`, {

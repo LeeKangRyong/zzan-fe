@@ -1,7 +1,5 @@
 import Alchol from "@/assets/icons/alchol.svg";
-import { Colors } from "@/shared/constants/Colors";
-import { Layout } from "@/shared/constants/Layout";
-import { Typography } from "@/shared/constants/Typography";
+import { Colors, Layout, Typography } from "@/shared/constants";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -73,15 +71,14 @@ const styles = StyleSheet.create({
   bubble: {
     paddingHorizontal: Layout.SCREEN_HORIZONTAL,
     paddingVertical: Layout.INPUT_VERTICAL,
-    borderRadius: 2,
-    // 점의 개수가 변해도 버블 크기가 급격히 변하지 않도록 최소 너비를 줄 수 있습니다.
+    borderRadius: 6,
     minWidth: 45,
     justifyContent: "center",
   },
   text: {
     fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
     fontSize: 12,
-    letterSpacing: 1, // 점 사이의 간격을 살짝 벌려 가독성을 높임
+    letterSpacing: 1,
   },
   timeText: {
     fontSize: 10,

@@ -1,12 +1,9 @@
-import Alchol from '@/assets/icons/alchol.svg';
-import type { LiquorSource } from '@/domains/chat/api/chatApi';
-import type { MessageRole } from '@/domains/chat/model/chatModel';
-import { parseMessageText } from '@/domains/chat/utils/textFormatter';
-import { Colors } from '@/shared/constants/Colors';
-import { Layout } from '@/shared/constants/Layout';
-import { Typography } from '@/shared/constants/Typography';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { SourceCard } from './SourceCard';
+import Alchol from "@/assets/icons/alchol.svg";
+import { Colors, Layout, Typography } from "@/shared/constants";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import type { LiquorSource, MessageRole } from "../model";
+import { parseMessageText } from "../utils";
+import { SourceCard } from "./SourceCard";
 
 interface MessageBubbleProps {
   content: string;
@@ -18,69 +15,85 @@ interface MessageBubbleProps {
   sources?: LiquorSource[];
 }
 
-export const MessageBubble = ({ content, role, backgroundColor, textColor, timeText, showIcon = true, sources }: MessageBubbleProps) => (
-  <View style={[styles.container, role === 'user' ? styles.userContainer : styles.botContainer]}>
-    {role === 'user' && <Text style={styles.timeText}>{timeText}</Text>}
+export const MessageBubble = ({
+  content,
+  role,
+  backgroundColor,
+  textColor,
+  timeText,
+  showIcon = true,
+  sources,
+}: MessageBubbleProps) => (
+  <View
+    style={[
+      styles.container,
+      role === "user" ? styles.userContainer : styles.botContainer,
+    ]}
+  >
+    {role === "user" && <Text style={styles.timeText}>{timeText}</Text>}
     <View style={styles.bubbleContainer}>
-      {showIcon && role === 'bot' && (
+      {showIcon && role === "bot" && (
         <View style={styles.iconWrapper}>
           <Alchol width={24} height={24} />
         </View>
       )}
       <View style={styles.contentWrapper}>
-        {role === 'bot' && (
-          <View style={[styles.leftTail, { borderRightColor: backgroundColor }]} />
+        {role === "bot" && (
+          <View
+            style={[styles.leftTail, { borderRightColor: backgroundColor }]}
+          />
         )}
-        <View>
-          <View style={[styles.bubble, { backgroundColor }]}>
-            <Text style={[styles.text, { color: textColor }]}>
-              {parseMessageText(content).map((segment, index) => (
-                <Text
-                  key={index}
-                  style={segment.isBold ? styles.boldText : undefined}
-                >
-                  {segment.text}
-                </Text>
-              ))}
-            </Text>
-          </View>
-          {sources && sources.length > 0 && (
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={styles.sourcesScrollView}
-              contentContainerStyle={styles.sourcesContainer}
-            >
-              {sources.map((source) => (
-                <SourceCard key={source.id} source={source} />
-              ))}
-            </ScrollView>
-          )}
+        <View style={[styles.bubble, { backgroundColor }]}>
+          <Text style={[styles.text, { color: textColor }]}>
+            {parseMessageText(content).map((segment, index) => (
+              <Text
+                key={index}
+                style={segment.isBold ? styles.boldText : undefined}
+              >
+                {segment.text}
+              </Text>
+            ))}
+          </Text>
         </View>
-        {role === 'user' && (
-          <View style={[styles.rightTail, { borderLeftColor: backgroundColor }]} />
+        {role === "user" && (
+          <View
+            style={[styles.rightTail, { borderLeftColor: backgroundColor }]}
+          />
         )}
       </View>
+      {sources && sources.length > 0 && (
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.sourcesScrollView}
+          contentContainerStyle={styles.sourcesContainer}
+        >
+          {sources.map((source) => (
+            <SourceCard key={source.id} source={source} />
+          ))}
+        </ScrollView>
+      )}
     </View>
-    {role === 'bot' && <Text style={styles.timeText}>{timeText}</Text>}
+    {role === "bot" && <Text style={styles.timeText}>{timeText}</Text>}
   </View>
 );
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
+    flexDirection: "row",
+    alignItems: "flex-end",
     marginBottom: Layout.MESSAGE_SPACING,
     paddingHorizontal: 10,
   },
   userContainer: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
   },
   botContainer: {
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
   },
   bubbleContainer: {
-    maxWidth: '85%',
+    flexShrink: 1,
+    maxWidth: "80%",
   },
   iconWrapper: {
     zIndex: 1,
@@ -88,18 +101,20 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 90,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 12,
   },
   contentWrapper: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
+    flexDirection: "row",
+    alignItems: "flex-end",
+    position: "relative",
+    paddingHorizontal: 8,
   },
   bubble: {
     paddingHorizontal: Layout.SCREEN_HORIZONTAL,
     paddingVertical: Layout.INPUT_VERTICAL,
-    borderRadius: 2,
+    borderRadius: 6,
   },
   text: {
     fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
@@ -107,30 +122,33 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 10,
-    color: '#999',
-    marginHorizontal: 8,
+    color: Colors.time,
   },
   leftTail: {
+    position: "absolute",
+    left: 0,
     width: 0,
     height: 0,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderRightWidth: 10,
     borderTopWidth: 10,
-    borderTopColor: 'transparent',
+    borderTopColor: "transparent",
     marginRight: -2,
   },
   rightTail: {
+    position: "absolute",
+    right: 0,
     width: 0,
     height: 0,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderLeftWidth: 10,
     borderTopWidth: 10,
-    borderTopColor: 'transparent',
+    borderTopColor: "transparent",
     marginLeft: -2,
   },
   boldText: {
     fontFamily: Typography.KAKAO_BIG_SANS_EXTRABOLD,
-    fontWeight: '900',
+    fontWeight: "900",
   },
   sourcesScrollView: {
     marginTop: 8,

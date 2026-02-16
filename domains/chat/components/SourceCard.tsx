@@ -1,12 +1,11 @@
-import type { LiquorSource } from "@/domains/chat/api/chatApi";
-import { fetchLiquorScore } from "@/domains/chat/utils/liquorScoreHelper";
 import { useAuthStore } from "@/domains/auth/store";
 import { KakaoLoginModal } from "@/shared/components";
-import { Colors } from "@/shared/constants/Colors";
-import { Typography } from "@/shared/constants/Typography";
+import { Colors, Typography } from "@/shared/constants";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import type { LiquorSource } from "../model";
+import { fetchLiquorScore } from "../utils";
 
 interface SourceCardProps {
   source: LiquorSource;
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
     width: 198,
     flexDirection: "row",
     backgroundColor: Colors.white,
-    borderRadius: 6,
+    borderRadius: 0,
     paddingHorizontal: 14,
     paddingVertical: 8,
     marginRight: 8,
