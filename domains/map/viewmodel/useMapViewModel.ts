@@ -1,16 +1,12 @@
 import { useDebounce } from "@/shared/hooks/useDebounce";
+import { isMockEnabled } from "@/shared/utils/env";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { placeApi } from "../api/placeApi";
 import { usePlacesQuery } from "../hooks/usePlacesQuery";
-import {
-  MapMarker,
-  MapRegion,
-  searchResultToMapMarker,
-} from "../model/mapModel";
+import { searchResultToMapMarker } from "../mapper";
+import type { MapMarker, MapRegion, PlaceBounds } from "../model/mapModel";
 import { mockPlacesWithCoordinates } from "../model/mock";
-
-const USE_MOCK_DATA = process.env.EXPO_PUBLIC_USE_MOCK_DATA === "true";
 
 const initialRegion: MapRegion = {
   latitude: 37.5665,
@@ -18,13 +14,6 @@ const initialRegion: MapRegion = {
   latitudeDelta: 0.03,
   longitudeDelta: 0.03,
 };
-
-interface PlaceBounds {
-  minLatitude: number;
-  maxLatitude: number;
-  minLongitude: number;
-  maxLongitude: number;
-}
 
 export const useMapViewModel = () => {
   const [region, setRegion] = useState<MapRegion>(initialRegion);
@@ -79,7 +68,7 @@ export const useMapViewModel = () => {
 
     setError(null);
 
-    if (USE_MOCK_DATA) {
+    if (isMockEnabled()) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 300));
         const normalizedKeyword = keyword

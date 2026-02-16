@@ -21,50 +21,9 @@ export interface MapMarker extends Coordinate {
   rating: number;
 }
 
-// API 문서 Section 8.1에 맞춘 타입
-export interface PlaceResponse {
-  id: string;
-  name: string;
-  feedCount: number;
-  score: number;
-  address: string;
-  phone: string;
-  longitude: number;
-  latitude: number;
+export interface PlaceBounds {
+  minLatitude: number;
+  maxLatitude: number;
+  minLongitude: number;
+  maxLongitude: number;
 }
-
-// API 문서 Section 9.1에 맞춘 타입
-export interface PlaceSearchResponse {
-  id: string;
-  placeName: string;
-  categoryName: string;
-  phone: string;
-  addressName: string;
-  roadAddressName: string;
-  longitude: number;
-  latitude: number;
-}
-
-export const toMapMarker = (place: PlaceResponse): MapMarker => ({
-  id: place.id,
-  name: place.name,
-  address: place.address,
-  kakaoPlaceId: place.id,
-  imageUrl: undefined,
-  latitude: place.latitude,
-  longitude: place.longitude,
-  feedCount: place.feedCount,
-  rating: place.score,
-});
-
-export const searchResultToMapMarker = (place: PlaceSearchResponse): MapMarker => ({
-  id: place.id,
-  name: place.placeName,
-  address: place.roadAddressName,
-  kakaoPlaceId: place.id,
-  imageUrl: undefined,
-  latitude: place.latitude,
-  longitude: place.longitude,
-  feedCount: 0,
-  rating: 0,
-});

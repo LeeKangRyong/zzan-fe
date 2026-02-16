@@ -8,7 +8,7 @@ import {
 import { StyleSheet, View } from "react-native";
 import WebView from "react-native-webview";
 import { useWebViewMessage } from "../hooks/useWebViewMessage";
-import { MapMarker, MapRegion } from "../model/mapModel";
+import type { MapMarker, MapRegion, PlaceBounds } from "../model/mapModel";
 import { generateMapHtml } from "./MapHtmlTemplate";
 
 interface KakaoMapWebViewProps {
@@ -17,12 +17,7 @@ interface KakaoMapWebViewProps {
   onMarkerPress: (markerId: string) => void;
   onMapPress?: () => void;
   onCurrentRegion?: (region: MapRegion) => void;
-  onIdleRegion?: (bounds: {
-    minLatitude: number;
-    maxLatitude: number;
-    minLongitude: number;
-    maxLongitude: number;
-  }) => void;
+  onIdleRegion?: (bounds: PlaceBounds) => void;
   apiKey: string;
   focusedMarkerId?: string | null;
 }

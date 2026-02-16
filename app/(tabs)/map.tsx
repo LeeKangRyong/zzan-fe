@@ -4,9 +4,9 @@ import {
   KakaoMapWebView,
   MapHeader,
   PlaceDetail,
-} from "@/domains/map/component";
-import { KakaoMapWebViewRef } from "@/domains/map/component/KakaoMapWebView";
-import { useMapViewModel } from "@/domains/map/viewmodel/useMapViewModel";
+} from "@/domains/map/components";
+import type { KakaoMapWebViewRef } from "@/domains/map/components";
+import { useMapViewModel } from "@/domains/map/viewmodel";
 import { useAuthStore } from "@/domains/auth/store";
 import { KakaoLoginModal } from "@/shared/components";
 import { Colors, Layout } from "@/shared/constants";

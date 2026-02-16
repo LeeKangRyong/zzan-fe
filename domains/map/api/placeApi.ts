@@ -1,6 +1,6 @@
 import { apiClient } from "@/shared/api/client";
 import { API_ENDPOINTS } from "@/shared/api/endpoints";
-import type { PlaceResponse, PlaceSearchResponse } from "../model/mapModel";
+import type { PlaceResponse, PlaceSearchResponse } from "../model/mapApiModel";
 
 export interface GetPlacesInRegionParams {
   minLongitude: number;

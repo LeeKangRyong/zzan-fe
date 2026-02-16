@@ -6,7 +6,7 @@ import { usePostStore } from '../store/postStore';
 import { isMockEnabled } from '@/shared/utils/env';
 import { feedApi } from '../api/feedApi';
 import { mapLiquorApiToAlcohol } from '../mapper/feedMapper';
-import { placeApi } from '@/domains/map/api/placeApi';
+import { placeApi } from '@/domains/map/api';
 
 interface UseAddViewModelProps {
   addType: AddType;

@@ -155,47 +155,51 @@ const generateInitScript = (region: MapRegion, markers: MapMarker[]) => {
         // sendLog('[WebView] PanTo Success', {lat, lng});
       }
 
-      // 마커 업데이트 로직
+      // 마커 업데이트 로직 (diff 기반: 기존 마커 유지, 새 마커만 추가, 없어진 마커만 삭제)
       function updateMarkers(newMarkers) {
         // sendLog('[WebView] Updating markers', {count: newMarkers.length});
 
-        // 기존 마커 모두 제거
-        Object.values(markerObjects).forEach(marker => {
-          marker.setMap(null);
+        const newMarkerIds = new Set(newMarkers.map(function(m) { return String(m.id); }));
+        const existingMarkerIds = new Set(Object.keys(markerObjects));
+
+        // 1. 없어진 마커만 삭제
+        existingMarkerIds.forEach(function(id) {
+          if (!newMarkerIds.has(id)) {
+            markerObjects[id].setMap(null);
+            delete markerObjects[id];
+            if (focusedMarkerId === id) {
+              focusedMarkerId = null;
+            }
+          }
         });
 
-        // markerObjects 초기화
-        for (let key in markerObjects) {
-          delete markerObjects[key];
-        }
-        focusedMarkerId = null;
+        // 2. 새로운 마커만 추가
+        newMarkers.forEach(function(marker) {
+          var id = String(marker.id);
+          if (!existingMarkerIds.has(id)) {
+            var position = new kakao.maps.LatLng(marker.latitude, marker.longitude);
+            var m = new kakao.maps.Marker({
+              position: position,
+              map: window.kakaoMap,
+              image: normalImage
+            });
 
-        // 새 마커 추가
-        newMarkers.forEach(marker => {
-          const position = new kakao.maps.LatLng(marker.latitude, marker.longitude);
-          const m = new kakao.maps.Marker({
-            position,
-            map: window.kakaoMap,
-            image: normalImage
-          });
+            markerObjects[id] = m;
 
-          markerObjects[marker.id] = m;
+            kakao.maps.event.addListener(m, 'click', function() {
+              if (focusedMarkerId && markerObjects[focusedMarkerId]) {
+                markerObjects[focusedMarkerId].setImage(normalImage);
+              }
 
-          kakao.maps.event.addListener(m, 'click', function() {
-            // Unfocus previous marker
-            if (focusedMarkerId && markerObjects[focusedMarkerId]) {
-              markerObjects[focusedMarkerId].setImage(normalImage);
-            }
+              m.setImage(focusImage);
+              focusedMarkerId = id;
 
-            // Focus clicked marker
-            m.setImage(focusImage);
-            focusedMarkerId = marker.id;
-
-            window.ReactNativeWebView.postMessage(JSON.stringify({
-              type: 'markerPress',
-              markerId: marker.id
-            }));
-          });
+              window.ReactNativeWebView.postMessage(JSON.stringify({
+                type: 'markerPress',
+                markerId: marker.id
+              }));
+            });
+          }
         });
 
         // sendLog('[WebView] Markers updated', {count: newMarkers.length});

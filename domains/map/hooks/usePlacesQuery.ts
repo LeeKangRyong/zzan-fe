@@ -1,20 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
+import { isMockEnabled } from '@/shared/utils/env';
 import { placeApi } from '../api/placeApi';
-import { toMapMarker } from '../model/mapModel';
-import type { MapMarker } from '../model/mapModel';
-import {
-  filterMarkersInRegion,
-  mockPlacesWithCoordinates,
-} from '../model/mock';
-
-const USE_MOCK_DATA = process.env.EXPO_PUBLIC_USE_MOCK_DATA === 'true';
-
-interface PlaceBounds {
-  minLatitude: number;
-  maxLatitude: number;
-  minLongitude: number;
-  maxLongitude: number;
-}
+import { toMapMarker, filterMarkersInRegion } from '../mapper';
+import type { MapMarker, PlaceBounds } from '../model/mapModel';
+import { mockPlacesWithCoordinates } from '../model/mock';
 
 const createPlacesQueryKey = (bounds: PlaceBounds | null) => {
   if (!bounds) return ['places', 'empty'];
@@ -34,7 +23,7 @@ const createPlacesQueryKey = (bounds: PlaceBounds | null) => {
 const fetchPlacesInRegion = async (
   bounds: PlaceBounds
 ): Promise<MapMarker[]> => {
-  if (USE_MOCK_DATA) {
+  if (isMockEnabled()) {
     await new Promise((resolve) => setTimeout(resolve, 300));
 
     const mockRegion = {
@@ -71,5 +60,6 @@ export const usePlacesQuery = (bounds: PlaceBounds | null) => {
     enabled: bounds !== null,
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
+    placeholderData: keepPreviousData,
   });
 };

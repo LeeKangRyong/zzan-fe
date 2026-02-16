@@ -1,4 +1,4 @@
-import { MapMarker } from '@/domains/map/model/mapModel';
+import type { MapMarker } from '../model/mapModel';
 import { Rate } from '@/shared/components/Rate';
 import { Colors, Typography } from '@/shared/constants';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';

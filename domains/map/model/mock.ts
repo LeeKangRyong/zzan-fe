@@ -1,23 +1,6 @@
-import { MapMarker, MapRegion } from './mapModel';
+import { MapMarker } from './mapModel';
 import { PLACE_DATA } from '@/domains/feed/model/mock';
 import { PLACE_KAKAO_MAP } from '@/domains/info/model/placeKakaoMapping';
-
-export const filterMarkersInRegion = (
-  markers: MapMarker[],
-  region: MapRegion
-): MapMarker[] => {
-  const minLatitude = region.latitude - region.latitudeDelta / 2;
-  const maxLatitude = region.latitude + region.latitudeDelta / 2;
-  const minLongitude = region.longitude - region.longitudeDelta / 2;
-  const maxLongitude = region.longitude + region.longitudeDelta / 2;
-
-  return markers.filter(marker =>
-    marker.latitude >= minLatitude &&
-    marker.latitude <= maxLatitude &&
-    marker.longitude >= minLongitude &&
-    marker.longitude <= maxLongitude
-  );
-};
 
 // ===== HELPER FUNCTIONS =====
 
