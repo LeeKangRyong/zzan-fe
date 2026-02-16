@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   address: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 12,
     color: Colors.white,
     opacity: 0.7,

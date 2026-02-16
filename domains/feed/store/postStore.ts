@@ -56,10 +56,10 @@ export const usePostStore = create<PostStore>((set, get) => ({
   setSelectedPlace: (place: Place) => {
     const placeWithRating: PlaceWithRating = {
       ...place,
-      feedCount: Math.floor(Math.random() * 50) + 1,
-      rating: Math.floor(Math.random() * 5) + 1,
+      feedCount: 0,
+      rating: 0,
     };
-    set({ selectedPlace: placeWithRating, placeRating: 0 }); 
+    set({ selectedPlace: placeWithRating, placeRating: 0 });
   },
 
   setPlaceRating: (rating: number) => set({ placeRating: rating }),
@@ -124,7 +124,7 @@ export const usePostStore = create<PostStore>((set, get) => ({
       placeRating: 0,
       review: '',
       isRatingModalVisible: false,
-      tempRating: 1,
+      tempRating: 0,
       selectedAlcohols: [],
       editingTagIndex: null,
       alcoholRatings: {},

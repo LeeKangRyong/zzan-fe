@@ -1,5 +1,3 @@
-import type { Alcohol } from './feedModel';
-
 export interface LiquorSearchParams {
   keyword: string;
   page?: number;
@@ -120,11 +118,3 @@ export interface RecentFeedApiResponse {
   placeName: string;
   placeAddress: string;
 }
-
-export const mapLiquorApiToAlcohol = (liquor: LiquorApiResponse): Alcohol => ({
-  id: liquor.id,
-  imageUrl: liquor.liquorImageUrl || '',
-  name: liquor.liquorName,
-  type: liquor.liquorType,
-  score: liquor.liquorScore,
-});

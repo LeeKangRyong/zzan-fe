@@ -5,7 +5,7 @@ import { mockAlcohols, mockPlaces } from '../model/mock';
 import { usePostStore } from '../store/postStore';
 import { isMockEnabled } from '@/shared/utils/env';
 import { feedApi } from '../api/feedApi';
-import { mapLiquorApiToAlcohol } from '../model/feedApiModel';
+import { mapLiquorApiToAlcohol } from '../mapper/feedMapper';
 import { placeApi } from '@/domains/map/api/placeApi';
 
 interface UseAddViewModelProps {

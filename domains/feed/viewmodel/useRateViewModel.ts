@@ -5,7 +5,7 @@ import { usePostStore } from '../store/postStore';
 import { useAuthStore } from '@/domains/auth/store';
 import { isMockEnabled } from '@/shared/utils/env';
 import { feedApi } from '../api/feedApi';
-import { useImageUploadViewModel } from './useImageUploadViewModel';
+import { useImageUploadViewModel, type UploadImageResult } from './useImageUploadViewModel';
 import type {
   CreateFeedRequest,
   FeedImageTag,
@@ -102,7 +102,7 @@ export const useRateViewModel = () => {
     return await uploadImages(uploadedImages);
   };
 
-  const buildFeedRequest = (uploadedImageResults: any[]): CreateFeedRequest => {
+  const buildFeedRequest = (uploadedImageResults: UploadImageResult[]): CreateFeedRequest => {
     const images = buildFeedImages(uploadedImageResults);
 
     return {
@@ -115,7 +115,7 @@ export const useRateViewModel = () => {
     };
   };
 
-  const buildFeedImages = (uploadedImageResults: any[]): FeedImageRequest[] => {
+  const buildFeedImages = (uploadedImageResults: UploadImageResult[]): FeedImageRequest[] => {
     return uploadedImageResults.map((img) => ({
       imageUrl: img.objectKey,
       tags: buildTagsForImage(img.localUri),

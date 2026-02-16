@@ -1,15 +1,15 @@
-import AlcholIcon from '@/assets/icons/alchol_left.svg';
+import AlcoholIcon from '@/assets/icons/alcohol_left.svg';
 import { Colors, Typography } from '@/shared/constants';
 import { StyleSheet, Text, View } from 'react-native';
 
-interface AlcholCountsProps {
+interface AlcoholCountsProps {
   count: number;
 }
 
-export const AlcholCounts = ({ count }: AlcholCountsProps) => {
+export const AlcoholCounts = ({ count }: AlcoholCountsProps) => {
   return (
     <View style={styles.container}>
-      <AlcholIcon width={20} height={18} />
+      <AlcoholIcon width={20} height={18} />
       <Text style={styles.countText}>{count}</Text>
     </View>
   );

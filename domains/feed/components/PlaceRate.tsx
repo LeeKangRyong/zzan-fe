@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   score: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 8,
     color: Colors.black,
   },

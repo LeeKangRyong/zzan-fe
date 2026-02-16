@@ -1,12 +1,12 @@
-import PlusIcon from '@/assets/icons/plus.svg';
-import { AlcholCounts } from '@/domains/feed/component/AlcholCounts';
+import { AlcoholCounts } from '@/domains/feed/components/AlcoholCounts';
 import { AlcoholTagInfo, FeedImage } from '@/domains/feed/model/feedModel';
-import { Colors } from '@/shared/constants';
 import { Image } from 'expo-image';
+import { ImageSourcePropType } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
-import { Dimensions, Animated as RNAnimated, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-
-const SCREEN_WIDTH = Dimensions.get('window').width;
+import { Animated as RNAnimated, ScrollView, StyleSheet, View } from 'react-native';
+import { SCREEN_WIDTH } from '@/shared/constants/Layout';
+import { ImageProgressBar } from './ImageProgressBar';
+import { TagIcon } from './TagIcon';
 
 interface FeedDetailImageProps {
   images: FeedImage[];
@@ -14,49 +14,22 @@ interface FeedDetailImageProps {
   onTagPress: (alcoholId: string) => void;
 }
 
-const renderProgressBar = (totalImages: number, animatedWidth: RNAnimated.Value) => {
-  if (totalImages <= 1) return null;
-
-  const animatedWidthStyle = {
-    width: animatedWidth.interpolate({
-      inputRange: [0, 100],
-      outputRange: ['0%', '100%'],
-    }),
-  };
-
-  return (
-    <View style={styles.progressBarContainer}>
-      <View style={styles.progressBarBackground}>
-        <RNAnimated.View style={[styles.progressBarFill, animatedWidthStyle]} />
-      </View>
-    </View>
-  );
-};
-
-const renderTagIcon = (tag: AlcoholTagInfo, tagIndex: number, onTagPress: (alcoholId: string) => void) => {
-  const pixelX = tag.tagPosition.x * SCREEN_WIDTH;
-  const pixelY = tag.tagPosition.y * SCREEN_WIDTH;
-
-  return (
-    <TouchableOpacity
-      key={`${tag.alcoholId}-${tag.imageIndex}-${tagIndex}`}
-      style={[styles.tagIcon, { left: pixelX - 12, top: pixelY - 12 }]}
-      onPress={() => onTagPress(tag.alcoholId)}
-    >
-      <PlusIcon width={12} height={12} fill={Colors.black} />
-    </TouchableOpacity>
-  );
-};
-
 const renderImageWithTags = (
-  imageSource: any,
+  imageSource: ImageSourcePropType,
   index: number,
   tagsForImage: AlcoholTagInfo[],
   onTagPress: (alcoholId: string) => void
 ) => (
   <View key={index} style={styles.imageContainer}>
     <Image source={imageSource} style={styles.image} />
-    {tagsForImage.map((tag, tagIndex) => renderTagIcon(tag, tagIndex, onTagPress))}
+    {tagsForImage.map((tag, tagIndex) => (
+      <TagIcon
+        key={`${tag.alcoholId}-${tag.imageIndex}-${tagIndex}`}
+        pixelX={tag.tagPosition.x * SCREEN_WIDTH}
+        pixelY={tag.tagPosition.y * SCREEN_WIDTH}
+        onPress={() => onTagPress(tag.alcoholId)}
+      />
+    ))}
   </View>
 );
 
@@ -80,7 +53,7 @@ export const FeedDetailImage = ({
     }).start();
   }, [currentImageIndex, images.length, animatedWidth]);
 
-  const handleScroll = (event: any) => {
+  const handleScroll = (event: { nativeEvent: { contentOffset: { x: number } } }) => {
     const offsetX = event.nativeEvent.contentOffset.x;
     const newIndex = Math.round(offsetX / SCREEN_WIDTH);
     setCurrentImageIndex(newIndex);
@@ -105,8 +78,8 @@ export const FeedDetailImage = ({
           return renderImageWithTags(image.uri, index, tagsForImage, onTagPress);
         })}
       </ScrollView>
-      {renderProgressBar(images.length, animatedWidth)}
-      <AlcholCounts count={alcoholCount} />
+      <ImageProgressBar totalImages={images.length} animatedWidth={animatedWidth} />
+      <AlcoholCounts count={alcoholCount} />
     </View>
   );
 };
@@ -123,31 +96,5 @@ const styles = StyleSheet.create({
     width: '100%',
     height: SCREEN_WIDTH,
     resizeMode: 'cover',
-  },
-  progressBarContainer: {
-    position: 'absolute',
-    bottom: 16,
-    width: '50%',
-    paddingHorizontal: 20,
-    alignSelf: 'center',
-  },
-  progressBarBackground: {
-    width: '100%',
-    height: 4,
-    backgroundColor: Colors.white,
-  },
-  progressBarFill: {
-    height: '100%',
-    backgroundColor: Colors.black,
-  },
-  tagIcon: {
-    position: 'absolute',
-    width: 24,
-    height: 24,
-    backgroundColor: Colors.takju,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 10,
   },
 });

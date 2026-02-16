@@ -1,4 +1,5 @@
-export { AlcholCounts } from "./AlcholCounts";
+export { AlcoholCard } from "./AlcoholCard";
+export { AlcoholCounts } from "./AlcoholCounts";
 export { AlcoholRateSection } from "./AlcoholRateSection";
 export { FeedDetailComments } from "./FeedDetailComments";
 export { FeedDetailImage } from "./FeedDetailImage";
@@ -6,14 +7,16 @@ export { FeedDetailPlace } from "./FeedDetailPlace";
 export { FeedImage } from "./FeedImage";
 export { FeedImageRate } from "./FeedImageRate";
 export { FeedUser } from "./FeedUser";
+export { ImageProgressBar } from "./ImageProgressBar";
 export { PlaceRate } from "./PlaceRate";
 export { PlaceRateModal } from "./PlaceRateModal";
 export { PlaceSummary } from "./PlaceSummary";
+export { RateProgressBar } from "./RateProgressBar";
 export { RateStyleButton } from "./RateStyleButton";
 export { RateTextInput } from "./RateTextInput";
-export { ReferredAlchol } from "./ReferredAlchol";
-export { ReferredAlcholWithRate } from "./ReferredAlcholWithRate";
+export { ReferredAlcohol } from "./ReferredAlcohol";
+export { ReferredAlcoholWithRate } from "./ReferredAlcoholWithRate";
 export { Search } from "./Search";
 export { SearchResult } from "./SearchResult";
 export { SectionTitle } from "./SectionTitle";
-
+export { TagIcon } from "./TagIcon";

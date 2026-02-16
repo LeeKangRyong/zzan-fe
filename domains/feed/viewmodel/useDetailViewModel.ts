@@ -1,14 +1,33 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Dimensions } from 'react-native';
 import { isMockEnabled } from '@/shared/utils/env';
 import { useAuthStore } from '@/domains/auth/store';
 import { feedApi } from '../api/feedApi';
 import { scrapApi } from '@/shared/api/scrapApi';
 import { mockAlcohols, mockFeedDetails, type MockFeedDetail } from '../model/mock';
-import type { FeedDetailApiResponse } from '../model/feedApiModel';
-import type { Alcohol } from '../model/feedModel';
+import type { FeedDetailApiResponse, FeedDetailImage } from '../model/feedApiModel';
+import type { Alcohol, AlcoholTagInfo } from '../model/feedModel';
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const EMPTY_STATE = {
+  user: null,
+  images: [],
+  alcohols: [],
+  alcoholRatings: {},
+  alcoholTagMappings: [],
+  place: null,
+  placeRating: 0,
+  review: '',
+} as const;
+
+const mapImageTagsToAlcoholTagMappings = (
+  images: FeedDetailImage[]
+): AlcoholTagInfo[] =>
+  images.flatMap((img, imageIndex) =>
+    img.tags.map(tag => ({
+      alcoholId: tag.liquorId,
+      imageIndex,
+      tagPosition: { x: tag.x, y: tag.y },
+    }))
+  );
 
 export const useDetailViewModel = (feedId?: string) => {
   const { isAuthenticated } = useAuthStore();
@@ -61,17 +80,9 @@ export const useDetailViewModel = (feedId?: string) => {
   };
 
   const handlePlacePress = () => {
-    if (isMockEnabled()) {
-      const mockData = feedData as MockFeedDetail | null;
-      if (mockData?.kakaoPlaceId) {
-        console.log('Navigate to place detail:', mockData.kakaoPlaceId);
-      }
-      return;
-    }
-
-    const apiData = feedData as FeedDetailApiResponse | null;
-    if (apiData?.kakaoPlaceId) {
-      console.log('Navigate to place detail:', apiData.kakaoPlaceId);
+    const kakaoPlaceId = feedData?.kakaoPlaceId;
+    if (kakaoPlaceId) {
+      console.log('Navigate to place detail:', kakaoPlaceId);
     }
   };
 
@@ -93,7 +104,6 @@ export const useDetailViewModel = (feedId?: string) => {
   }, [feedId]);
 
   const handleBookmark = useCallback(async (): Promise<boolean> => {
-    // AUTH GUARD - return false to trigger modal in UI
     if (!isAuthenticated) {
       return false;
     }
@@ -126,46 +136,36 @@ export const useDetailViewModel = (feedId?: string) => {
     checkBookmarkStatus();
   }, [checkBookmarkStatus]);
 
+  const handlers = {
+    handleTagPress,
+    handleAlcoholPress,
+    handlePlacePress,
+    handleShare,
+    handleBookmark,
+  };
+
   if (isMockEnabled()) {
     const mockData = feedData as MockFeedDetail | null;
 
     if (!mockData) {
       return {
-        user: null,
-        images: [],
-        alcohols: [],
-        alcoholRatings: {},
-        alcoholTagMappings: [],
-        place: null,
-        placeRating: 0,
-        review: '',
+        ...EMPTY_STATE,
         focusedAlcoholId,
         isBookmarked,
         isLoading: false,
         error: error || '피드를 찾을 수 없습니다.',
-        handleTagPress,
-        handleAlcoholPress,
-        handlePlacePress,
-        handleShare,
-        handleBookmark,
+        ...handlers,
       };
     }
 
-    const mockAlcoholTagMappings = mockData.images.flatMap((img, imageIndex) =>
-      img.tags.map(tag => ({
-        alcoholId: tag.liquorId,
-        imageIndex,
-        tagPosition: { x: tag.x, y: tag.y },
-      }))
-    );
-
-    const uniqueLiquorIds = [...new Set(mockAlcoholTagMappings.map(m => m.alcoholId))];
+    const alcoholTagMappings = mapImageTagsToAlcoholTagMappings(mockData.images);
+    const uniqueLiquorIds = [...new Set(alcoholTagMappings.map(m => m.alcoholId))];
 
     const selectedAlcohols = uniqueLiquorIds
       .map(id => mockAlcohols.find(a => a.id === id))
       .filter(Boolean) as Alcohol[];
 
-    const mockAlcoholRatings: Record<string, number> =
+    const alcoholRatings: Record<string, number> =
       Object.fromEntries(selectedAlcohols.map(a => [a.id, a.score || 4.0]));
 
     return {
@@ -179,8 +179,8 @@ export const useDetailViewModel = (feedId?: string) => {
         id: img.id,
       })),
       alcohols: selectedAlcohols,
-      alcoholRatings: mockAlcoholRatings,
-      alcoholTagMappings: mockAlcoholTagMappings,
+      alcoholRatings,
+      alcoholTagMappings,
       place: mockData.kakaoPlaceId ? {
         id: mockData.kakaoPlaceId,
         name: mockData.placeName || '',
@@ -195,47 +195,25 @@ export const useDetailViewModel = (feedId?: string) => {
       isBookmarked,
       isLoading: false,
       error: null,
-      handleTagPress,
-      handleAlcoholPress,
-      handlePlacePress,
-      handleShare,
-      handleBookmark,
+      ...handlers,
     };
   }
 
   if (isLoading || !feedData) {
     return {
-      user: null,
-      images: [],
-      alcohols: [],
-      alcoholRatings: {},
-      alcoholTagMappings: [],
-      place: null,
-      placeRating: 0,
-      review: '',
+      ...EMPTY_STATE,
       focusedAlcoholId,
       isBookmarked,
       isLoading,
       error,
-      handleTagPress,
-      handleAlcoholPress,
-      handlePlacePress,
-      handleShare,
-      handleBookmark,
+      ...handlers,
     };
   }
 
-  const apiAlcoholTagMappings = feedData.images.flatMap((img, imageIndex) =>
-    img.tags.map(tag => ({
-      alcoholId: tag.liquorId,
-      imageIndex,
-      tagPosition: { x: tag.x, y: tag.y },
-    }))
-  );
+  const alcoholTagMappings = mapImageTagsToAlcoholTagMappings(feedData.images);
+  const uniqueLiquorIds = [...new Set(alcoholTagMappings.map(m => m.alcoholId))];
 
-  const uniqueLiquorIds = [...new Set(apiAlcoholTagMappings.map(m => m.alcoholId))];
-
-  const apiAlcohols: Alcohol[] = uniqueLiquorIds.map(liquorId => {
+  const alcohols: Alcohol[] = uniqueLiquorIds.map(liquorId => {
     const tag = feedData.images
       .flatMap(img => img.tags)
       .find(t => t.liquorId === liquorId);
@@ -247,8 +225,6 @@ export const useDetailViewModel = (feedId?: string) => {
     };
   });
 
-  const apiAlcoholRatings: Record<string, number> = {};
-
   return {
     user: {
       id: feedData.userId,
@@ -259,9 +235,9 @@ export const useDetailViewModel = (feedId?: string) => {
       uri: { uri: img.imageUrl },
       id: img.id,
     })),
-    alcohols: apiAlcohols,
-    alcoholRatings: apiAlcoholRatings,
-    alcoholTagMappings: apiAlcoholTagMappings,
+    alcohols,
+    alcoholRatings: {} as Record<string, number>,
+    alcoholTagMappings,
     place: {
       id: feedData.kakaoPlaceId || '',
       name: feedData.placeName || '',
@@ -276,10 +252,6 @@ export const useDetailViewModel = (feedId?: string) => {
     isBookmarked,
     isLoading,
     error,
-    handleTagPress,
-    handleAlcoholPress,
-    handlePlacePress,
-    handleShare,
-    handleBookmark,
+    ...handlers,
   };
 };

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { feedApi } from '../api/feedApi';
 
-interface UploadImageResult {
+export interface UploadImageResult {
   localUri: string;
   objectKey: string;
 }
@@ -28,7 +28,8 @@ export const useImageUploadViewModel = () => {
   const uploadSingleImage = async (localUri: string): Promise<UploadImageResult> => {
     const fileName = extractFileName(localUri);
 
-    const presigned = await feedApi.getPresignedUrl({ fileName } as any);
+    const contentType = 'image/jpeg';
+    const presigned = await feedApi.getPresignedUrl({ fileName, contentType });
     const imageBlob = await fetchImageAsBlob(localUri);
 
     await feedApi.uploadImageToS3(presigned.url, imageBlob);

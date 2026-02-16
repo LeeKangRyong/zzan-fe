@@ -8,6 +8,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 interface FeedDetailPlaceProps {
   place: PlaceWithRating;
   placeRating: number;
+  reviewCount?: number;
   onPlacePress: () => void;
 }
 
@@ -17,6 +18,7 @@ const STAR_SIZE = 16;
 export const FeedDetailPlace = ({
   place,
   placeRating,
+  reviewCount,
   onPlacePress,
 }: FeedDetailPlaceProps) => {
   const renderStars = (rating: number) => {
@@ -64,7 +66,7 @@ export const FeedDetailPlace = ({
             <Text style={styles.ratingLabel}>평점</Text>
             <Rate rating={place.rating} size={22} />
             <Text style={styles.placeRatingText}>
-              {place.rating.toFixed(1)}/5점 (123개)
+              {place.rating.toFixed(1)}/5점{reviewCount !== undefined ? ` (${reviewCount}개)` : ''}
             </Text>
           </View>
         </View>
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   satisfactionScore: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 8,
     color: Colors.black,
   },
@@ -132,7 +134,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   placeAddress: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 12,
     color: Colors.white,
     opacity: 0.7,
@@ -156,7 +158,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   placeRatingText: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 10,
     color: Colors.white,
   },

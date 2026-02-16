@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   subText: {
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: 12,
     color: Colors.black,
   },

@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     borderRadius: Layout.INPUT_RADIUS,
     paddingHorizontal: Layout.INPUT_HORIZONTAL,
     paddingVertical: Layout.INPUT_VERTICAL,
-    fontFamily: Typography.KAKAO_SAMLL_SANS_REGULAR,
+    fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,
     fontSize: Typography.INPUT_TEXT,
     color: Colors.black,
     minHeight: 100,

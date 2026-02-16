@@ -1,9 +1,9 @@
 import { Colors, Typography } from '@/shared/constants';
 import { Image } from 'expo-image';
-import { StyleSheet, Text, View } from 'react-native';
+import { ImageSourcePropType, StyleSheet, Text, View } from 'react-native';
 
 interface FeedUserProps {
-  userImageUrl: any;
+  userImageUrl: ImageSourcePropType;
   username: string;
 }
 

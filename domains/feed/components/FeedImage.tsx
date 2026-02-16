@@ -1,5 +1,4 @@
 import CameraIcon from '@/assets/icons/camera.svg';
-import PlusIcon from '@/assets/icons/plus.svg';
 import { TagPosition } from '@/domains/feed/model/feedModel';
 import { usePostStore } from '@/domains/feed/store/postStore';
 import { Colors, Typography } from '@/shared/constants';
@@ -9,7 +8,6 @@ import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import {
   Animated,
-  Dimensions,
   GestureResponderEvent,
   Pressable,
   ScrollView,
@@ -20,9 +18,9 @@ import {
   type NativeScrollEvent,
   type NativeSyntheticEvent,
 } from 'react-native';
-
-
-const SCREEN_WIDTH = Dimensions.get('window').width;
+import { SCREEN_WIDTH } from '@/shared/constants/Layout';
+import { ImageProgressBar } from './ImageProgressBar';
+import { TagIcon } from './TagIcon';
 
 const DescriptionBlock = () => {
   return (
@@ -51,25 +49,6 @@ const renderInitialUploadButton = (onPress: () => void) => (
   </TouchableOpacity>
 );
 
-const renderProgressBar = (totalImages: number, animatedWidth: Animated.Value) => {
-  if (totalImages <= 1) return null;
-
-  const animatedWidthStyle = {
-    width: animatedWidth.interpolate({
-      inputRange: [0, 100],
-      outputRange: ['0%', '100%'],
-    }),
-  };
-
-  return (
-    <View style={styles.progressBarContainer}>
-      <View style={styles.progressBarBackground}>
-        <Animated.View style={[styles.progressBarFill, animatedWidthStyle]} />
-      </View>
-    </View>
-  );
-};
-
 
 export const FeedImage = () => {
   const router = useRouter();
@@ -87,8 +66,6 @@ export const FeedImage = () => {
 
   const [images, setImages] = useState<string[]>([]);
   const animatedWidth = useRef(new Animated.Value(0)).current;
-
-
 
   useEffect(() => {
     if (images.length === 0) return;
@@ -151,21 +128,6 @@ export const FeedImage = () => {
     router.push('/add?type=alcohol');
   };
 
-  const renderTagIcon = (tag: TagPosition, tagIndex: number) => {
-    const pixelX = tag.x * SCREEN_WIDTH;
-    const pixelY = tag.y * SCREEN_WIDTH;
-
-    return (
-      <TouchableOpacity
-        key={tagIndex}
-        style={[styles.tagIcon, { left: pixelX - 12, top: pixelY - 12 }]}
-        onPress={() => handleTagPress(tagIndex)}
-      >
-        <PlusIcon width={12} height={12} fill={Colors.black} />
-      </TouchableOpacity>
-    );
-  };
-
   const renderImageWithTags = (uri: string, index: number) => {
     const currentImageTags = imageTags.get(index) || [];
 
@@ -177,7 +139,14 @@ export const FeedImage = () => {
         delayLongPress={500}
       >
         <Image source={{ uri }} style={styles.image} />
-        {currentImageTags.map((tag, tagIndex) => renderTagIcon(tag, tagIndex))}
+        {currentImageTags.map((tag, tagIndex) => (
+          <TagIcon
+            key={tagIndex}
+            pixelX={tag.x * SCREEN_WIDTH}
+            pixelY={tag.y * SCREEN_WIDTH}
+            onPress={() => handleTagPress(tagIndex)}
+          />
+        ))}
       </Pressable>
     );
   };
@@ -204,7 +173,7 @@ export const FeedImage = () => {
         {images.map((uri, index) => renderImageWithTags(uri, index))}
       </ScrollView>
       <DescriptionBlock />
-      {renderProgressBar(images.length, animatedWidth)}
+      <ImageProgressBar totalImages={images.length} animatedWidth={animatedWidth} />
     </View>
   );
 };
@@ -247,31 +216,5 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.takju,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  progressBarContainer: {
-    position: 'absolute',
-    bottom: 16,
-    width: '50%',
-    paddingHorizontal: 20,
-    alignSelf: 'center',
-  },
-  progressBarBackground: {
-    width: '100%',
-    height: 4,
-    backgroundColor: Colors.white,
-  },
-  progressBarFill: {
-    height: '100%',
-    backgroundColor: Colors.black,
-  },
-  tagIcon: {
-    position: 'absolute',
-    width: 24,
-    height: 24,
-    backgroundColor: Colors.takju,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 10,
   },
 });
