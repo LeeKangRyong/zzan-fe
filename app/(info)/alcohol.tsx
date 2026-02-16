@@ -6,8 +6,8 @@ import {
   InfoRateWithProfile,
   InfoSummary,
 } from "@/domains/info/components";
-import { INFO_CONSTANTS } from "@/domains/info/model/constants";
-import { useAlcoholViewModel } from "@/domains/info/viewmodel/useInfoViewModel";
+import { INFO_CONSTANTS } from "@/domains/info/model";
+import { useAlcoholViewModel } from "@/domains/info/viewmodel";
 import { Header } from "@/shared/components";
 import { Colors, Layout } from "@/shared/constants";
 import { useLocalSearchParams, useRouter } from "expo-router";

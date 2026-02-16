@@ -1,9 +1,6 @@
-import { InfoImages } from '@/domains/info/components/InfoImages';
-import { InfoRate } from '@/domains/info/components/InfoRate';
-import { InfoSummary } from '@/domains/info/components/InfoSummary';
-import { PlaceDescription } from '@/domains/info/components/PlaceDescription';
-import { INFO_CONSTANTS } from '@/domains/info/model/constants';
-import { useInfoViewModel } from '@/domains/info/viewmodel/useInfoViewModel';
+import { InfoImages, InfoRate, InfoSummary, PlaceDescription } from '@/domains/info/components';
+import { INFO_CONSTANTS } from '@/domains/info/model';
+import { useInfoViewModel } from '@/domains/info/viewmodel';
 import { AlcoholButton, Header } from '@/shared/components';
 import { FeedBlock } from '@/shared/components/FeedBlock';
 import { Colors, Layout, Typography } from '@/shared/constants';

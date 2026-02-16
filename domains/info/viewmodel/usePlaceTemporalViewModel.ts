@@ -1,35 +1,12 @@
 import { feedApi } from "@/domains/feed/api/feedApi";
+import { infoApi } from "@/domains/info/api";
 import type { PlaceDetailApiResponse } from "@/domains/info/model/infoApiModel";
-import { infoApi } from "@/shared/api/infoApi";
+import type { PlaceFeedWithProfile, PlaceTemporalInfo } from "@/domains/info/model/infoModel";
 import { useDistance } from "@/shared/hooks/useDistance";
 import { isMockEnabled } from "@/shared/utils/env";
 import * as Location from "expo-location";
 import { useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
-
-interface PlaceTemporalInfo {
-  id: string;
-  name: string;
-  address: string;
-  phone: string;
-  rating: number;
-  feedCount: number;
-  kakaoPlaceId: string;
-  latitude: number;
-  longitude: number;
-}
-
-interface PlaceFeedWithProfile {
-  id: string;
-  imageUrl: string;
-  userId: string;
-  userName: string;
-  userProfileImage: string;
-  placeName: string;
-  placeAddress: string;
-  alcoholCount: number;
-  score: number;
-}
 
 interface UsePlaceTemporalViewModelParams {
   placeId?: string;
@@ -76,10 +53,12 @@ export const usePlaceTemporalViewModel = ({
   const loadMockData = useCallback(() => {
     const {
       MOCK_PLACE_TEMPORAL_INFOS,
-    } = require("@/domains/info/model/placeTemporalMock");
+    } = require("@/domains/info/model/placeTemporalMock") as {
+      MOCK_PLACE_TEMPORAL_INFOS: PlaceTemporalInfo[];
+    };
 
     const foundPlace = MOCK_PLACE_TEMPORAL_INFOS.find(
-      (p: any) => p.id === placeId,
+      (p) => p.id === placeId,
     );
 
     if (!foundPlace) {
@@ -184,18 +163,20 @@ export const usePlaceTemporalViewModel = ({
     setIsFeedsLoading(true);
 
     if (isMockEnabled()) {
-      const { mockFeedDetails } = require("@/domains/feed/model/mock");
+      const { mockFeedDetails } = require("@/domains/feed/model/mock") as {
+        mockFeedDetails: import("@/domains/feed/model/mock").MockFeedDetail[];
+      };
 
       const feedsForPlace = mockFeedDetails
-        .filter((feed: any) => feed.kakaoPlaceId === kakaoPlaceId)
-        .map((feed: any) => ({
+        .filter((feed) => feed.kakaoPlaceId === kakaoPlaceId)
+        .map((feed) => ({
           id: feed.id,
           userId: feed.userId,
-          username: feed.userName,
-          userProfileImage: feed.userProfileImage,
-          imageUrl: feed.imageUrl,
-          placeName: feed.placeName,
-          placeAddress: feed.placeAddress,
+          userName: feed.userName,
+          userProfileImage: feed.userProfileImage ?? "",
+          imageUrl: feed.imageUrl ?? "",
+          placeName: feed.placeName ?? "",
+          placeAddress: feed.placeAddress ?? "",
           alcoholCount: feed.liquorCount,
           score: feed.score,
         }));

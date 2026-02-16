@@ -1,19 +1,8 @@
 // PlaceTemporal Mock Data
 
 import { mockNearbyFeeds, PLACE_DATA } from "@/domains/feed/model/mock";
+import type { PlaceTemporalInfo } from "./infoModel";
 import { PLACE_KAKAO_MAP } from "./placeKakaoMapping";
-
-export interface PlaceTemporalInfo {
-  id: string;
-  name: string;
-  address: string;
-  phone: string;
-  rating: number;
-  feedCount: number;
-  kakaoPlaceId: string;
-  latitude: number;
-  longitude: number;
-}
 
 // ===== HELPER FUNCTIONS =====
 

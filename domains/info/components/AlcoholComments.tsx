@@ -1,9 +1,16 @@
 import { INFO_CONSTANTS } from "@/domains/info/model/constants";
-import type { LiquorComment } from "@/domains/info/model/mock";
+import type { LiquorComment } from "@/domains/info/model/infoModel";
 import { AlcoholButton, RateButton } from "@/shared/components";
 import { Colors, Typography } from "@/shared/constants";
-import { useState, useMemo } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useMemo, useState } from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { AlcoholCommentCard } from "./AlcoholCommentCard";
 
 interface AlcoholCommentsProps {
@@ -36,8 +43,6 @@ const SectionHeader = ({
 }: SectionHeaderProps) => (
   <View style={styles.header}>
     <Text style={styles.title}>코멘트</Text>
-    {/* AlcoholCommentsCard에서 edit icon 클릭 시 AlcoholButton이 PutComments로 바뀜 */}
-    {/* 저장하기 누르면, 후기 수정되면서 다시 AlcoholButton으로 바뀌고 아래 후기 수정됨 */}
     {isEditMode ? (
       <PutComments
         rating={rating}
@@ -47,7 +52,11 @@ const SectionHeader = ({
         onSave={onSave}
       />
     ) : (
-      <AlcoholButton title="저도 이 술을 먹었어요!" onPress={onAddPress} disabled />
+      <AlcoholButton
+        title="저도 이 술을 먹었어요!"
+        onPress={onAddPress}
+        disabled
+      />
     )}
   </View>
 );
@@ -60,7 +69,6 @@ interface PutCommentsProps {
   onSave: () => void;
 }
 
-// RateStyleButton UI에 Text 상자 넣어놓기!
 const PutComments = ({
   rating,
   comment,
@@ -117,28 +125,28 @@ const styles = StyleSheet.create({
     fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
     fontSize: 14,
     color: Colors.black,
-    textAlign: 'center',
+    textAlign: "center",
     letterSpacing: -0.28,
   },
   rateButtonWrapper: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   commentInput: {
-    backgroundColor: '#DEDCD8',
+    backgroundColor: "#DEDCD8",
     borderRadius: 6,
     padding: 12,
     fontFamily: Typography.KAKAO_BIG_SANS_BOLD,
     fontSize: 14,
     color: Colors.black,
     minHeight: 90,
-    textAlignVertical: 'top',
+    textAlignVertical: "top",
   },
   saveButton: {
     backgroundColor: Colors.black,
     borderRadius: 6,
     height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   saveButtonText: {
     fontFamily: Typography.KAKAO_BIG_SANS_BOLD,
@@ -154,7 +162,7 @@ const styles = StyleSheet.create({
     fontFamily: Typography.KAKAO_BIG_SANS_BOLD,
     fontSize: 14,
     color: Colors.gray,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
 
@@ -184,7 +192,9 @@ const CommentList = ({
       showsHorizontalScrollIndicator={false}
     >
       {comments.map((comment) => {
-        const isOwner = currentUserId ? comment.userId === currentUserId : false;
+        const isOwner = currentUserId
+          ? comment.userId === currentUserId
+          : false;
         return (
           <AlcoholCommentCard
             key={comment.id}
@@ -212,7 +222,7 @@ export const AlcoholComments = ({
 }: AlcoholCommentsProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editRating, setEditRating] = useState(0);
-  const [editComment, setEditComment] = useState('');
+  const [editComment, setEditComment] = useState("");
 
   const sortedComments = useMemo(() => {
     if (!myReview) return comments;
@@ -239,7 +249,7 @@ export const AlcoholComments = ({
     }
     setIsEditMode(false);
     setEditRating(0);
-    setEditComment('');
+    setEditComment("");
   };
 
   return (

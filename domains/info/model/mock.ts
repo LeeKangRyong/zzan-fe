@@ -1,5 +1,4 @@
-import type { ImageSourcePropType } from "react-native";
-import type { AlcoholInfo, PlaceInfo, PlaceReview } from "./infoModel";
+import type { AlcoholInfo, LiquorComment, PlaceInfo, PlaceReview } from "./infoModel";
 
 const exampleImage = require("@/assets/images/example_image.png");
 const breweryImage = require("@/assets/basic_mock_images/brewery.png");
@@ -8,17 +7,6 @@ const lookingImage = require("@/assets/basic_mock_images/looking.png");
 const smellImage = require("@/assets/basic_mock_images/smell.png");
 const tasteImage = require("@/assets/basic_mock_images/taste.png");
 const featureImage = require("@/assets/basic_mock_images/feature.png");
-
-export interface LiquorComment {
-  id: string;
-  userId: string;
-  username: string;
-  userProfileImage: ImageSourcePropType;
-  rating: number;
-  comment: string;
-  date: string;
-  likes: number;
-}
 
 // ===== CONSTANTS =====
 
