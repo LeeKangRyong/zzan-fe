@@ -1,7 +1,6 @@
 import { MapMarker } from '@/domains/map/model/mapModel';
 import { Rate } from '@/shared/components/Rate';
 import { Colors, Typography } from '@/shared/constants';
-import { Image } from 'expo-image';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface PlaceDetailProps {
@@ -11,7 +10,6 @@ interface PlaceDetailProps {
 
 const PlaceInfo = ({ place }: { place: MapMarker }) => (
   <View style={styles.placeInfoMain}>
-    <Image source={place.imageUrl} style={styles.placeImage} />
     <View style={styles.placeTextContainer}>
       <View style={styles.nameRow}>
         <Text style={styles.placeName}>{place.name}</Text>
@@ -57,11 +55,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
     alignItems: 'flex-start',
-  },
-  placeImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 2,
   },
   placeTextContainer: {
     flex: 1,

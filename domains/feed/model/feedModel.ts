@@ -22,7 +22,6 @@ export interface Alcohol {
 
 export interface Place {
   id: string;
-  imageUrl: ImageSourcePropType | string;
   name: string;
   address: string;
 }

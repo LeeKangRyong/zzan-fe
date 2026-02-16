@@ -3,7 +3,6 @@ import StarFull from '@/assets/icons/star_full.svg';
 import { PlaceWithRating } from '@/domains/feed/model/feedModel';
 import { Rate } from '@/shared/components/Rate';
 import { Colors, Typography } from '@/shared/constants';
-import { Image } from 'expo-image';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface FeedDetailPlaceProps {
@@ -50,7 +49,6 @@ export const FeedDetailPlace = ({
       <TouchableOpacity onPress={onPlacePress} activeOpacity={0.9}>
         <View style={styles.placeCard}>
           <View style={styles.placeInfoMain}>
-            <Image source={place.imageUrl} style={styles.placeImage} />
             <View style={styles.placeTextContainer}>
               <View style={styles.nameRow}>
                 <Text style={styles.placeName}>{place.name}</Text>
@@ -118,11 +116,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
     alignItems: 'flex-start',
-  },
-  placeImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 4,
   },
   placeTextContainer: {
     flex: 1,

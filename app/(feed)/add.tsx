@@ -64,7 +64,7 @@ export default function AddTab() {
           {results.map((item) => (
             <SearchResult
               key={item.id}
-              imageUri={item.imageUrl}
+              imageUri={"imageUrl" in item ? item.imageUrl : undefined}
               name={item.name}
               subText={"type" in item ? `#${item.type}` : item.address}
               isSelected={selectedId === item.id}
