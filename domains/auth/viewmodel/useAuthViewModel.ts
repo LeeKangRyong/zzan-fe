@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '../store';
 import { mockAuthTokens } from '../model/mock';
-import { authApi } from '../api/authApi';
+import { authApi } from '../api';
 import { isMockEnabled } from '@/shared/utils/env';
 
 export const useAuthViewModel = () => {
@@ -16,7 +16,7 @@ export const useAuthViewModel = () => {
     }
 
     try {
-      const url = await authApi.getKakaoLoginUrl();
+      const url = await authApi.getLoginUrl('kakao');
       return url;
     } catch (err) {
       setError('카카오 로그인 URL을 가져올 수 없습니다');
@@ -30,7 +30,7 @@ export const useAuthViewModel = () => {
     setError(null);
 
     try {
-      const tokens = await authApi.handleKakaoCallback(code);
+      const tokens = await authApi.handleCallback('kakao', code);
       setTokens(tokens.accessToken, tokens.refreshToken);
       return true;
     } catch (err) {

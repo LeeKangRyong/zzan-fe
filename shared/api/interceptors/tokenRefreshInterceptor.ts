@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { useAuthStore } from '@/domains/auth/store/authStore';
+import { useAuthStore } from '@/domains/auth/store';
 import Constants from 'expo-constants';
 import { API_ENDPOINTS } from '../endpoints';
 

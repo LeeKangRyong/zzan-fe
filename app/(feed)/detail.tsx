@@ -8,7 +8,7 @@ import {
 import { useDetailViewModel } from '@/domains/feed/viewmodel/useDetailViewModel';
 import { BookMark, Header, KakaoLoginModal, Share } from '@/shared/components';
 import { useModal } from '@/shared/hooks';
-import { useAuthStore } from '@/domains/auth/store/authStore';
+import { useAuthStore } from '@/domains/auth/store';
 import { Colors, Layout } from '@/shared/constants';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { ScrollView, StyleSheet, View, ActivityIndicator, Text } from 'react-native';

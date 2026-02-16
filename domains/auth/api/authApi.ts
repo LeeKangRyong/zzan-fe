@@ -1,14 +1,12 @@
 import { apiClient } from '@/shared/api/client';
 import { API_ENDPOINTS } from '@/shared/api/endpoints';
 import type { ApiResponse } from '@/shared/types/api';
-import type { AuthTokens, KakaoLoginUrl } from '../model/authModel';
-
-export type SocialProvider = 'kakao' | 'google' | 'apple';
+import type { AuthTokens, LoginUrl, SocialProvider } from '../model/authModel';
 
 export const authApi = {
   async getLoginUrl(provider: SocialProvider = 'kakao'): Promise<string> {
     const endpoint = API_ENDPOINTS.AUTH.LOGIN_URL.replace(':provider', provider);
-    const response = await apiClient<ApiResponse<KakaoLoginUrl>>(
+    const response = await apiClient<ApiResponse<LoginUrl>>(
       endpoint,
       { method: 'GET' }
     );
@@ -34,16 +32,6 @@ export const authApi = {
       }
     );
     return response.data;
-  },
-
-  // Deprecated: Use getLoginUrl('kakao') instead
-  async getKakaoLoginUrl(): Promise<string> {
-    return this.getLoginUrl('kakao');
-  },
-
-  // Deprecated: Use handleCallback('kakao', code) instead
-  async handleKakaoCallback(code: string): Promise<AuthTokens> {
-    return this.handleCallback('kakao', code);
   },
 
   async refreshToken(refreshToken: string): Promise<AuthTokens> {

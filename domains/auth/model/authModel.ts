@@ -1,9 +1,11 @@
+export type SocialProvider = 'kakao' | 'google' | 'apple';
+
 export interface AuthTokens {
   accessToken: string;
   refreshToken: string;
 }
 
-export interface KakaoLoginUrl {
+export interface LoginUrl {
   url: string;
 }
 

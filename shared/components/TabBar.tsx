@@ -2,7 +2,7 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Svg, { Defs, Path, RadialGradient, Stop } from 'react-native-svg';
-import { useAuthStore } from '@/domains/auth/store/authStore';
+import { useAuthStore } from '@/domains/auth/store';
 import { KakaoLoginModal } from './KakaoLoginModal';
 import { Colors } from '../constants/Colors';
 import { Typography } from '../constants/Typography';

@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/domains/auth/store/authStore";
+import { useAuthStore } from "@/domains/auth/store";
 import { useAuthViewModel } from "@/domains/auth/viewmodel";
 import { KakaoStartButton } from "@/domains/user/component";
 import { CommonButton, Toast } from "@/shared/components";

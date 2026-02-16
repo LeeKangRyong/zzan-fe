@@ -38,7 +38,9 @@
       "Bash(npm uninstall:*)",
       "Bash(xargs ls:*)",
       "Bash(echo:*)",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(test:*)",
+      "Bash(xargs -I {} bash -c 'echo \"\"=== {} ===\"\" && ls -la {}')"
     ]
   }
 }

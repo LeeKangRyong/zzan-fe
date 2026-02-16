@@ -7,7 +7,7 @@ import {
 } from "@/domains/map/component";
 import { KakaoMapWebViewRef } from "@/domains/map/component/KakaoMapWebView";
 import { useMapViewModel } from "@/domains/map/viewmodel/useMapViewModel";
-import { useAuthStore } from "@/domains/auth/store/authStore";
+import { useAuthStore } from "@/domains/auth/store";
 import { KakaoLoginModal } from "@/shared/components";
 import { Colors, Layout } from "@/shared/constants";
 import Constants from "expo-constants";

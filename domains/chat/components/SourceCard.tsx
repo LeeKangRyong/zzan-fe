@@ -1,6 +1,6 @@
 import type { LiquorSource } from "@/domains/chat/api/chatApi";
 import { fetchLiquorScore } from "@/domains/chat/utils/liquorScoreHelper";
-import { useAuthStore } from "@/domains/auth/store/authStore";
+import { useAuthStore } from "@/domains/auth/store";
 import { KakaoLoginModal } from "@/shared/components";
 import { Colors } from "@/shared/constants/Colors";
 import { Typography } from "@/shared/constants/Typography";

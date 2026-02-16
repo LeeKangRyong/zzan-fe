@@ -2,7 +2,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert } from 'react-native';
 import { usePostStore } from '../store/postStore';
-import { useAuthStore } from '@/domains/auth/store/authStore';
+import { useAuthStore } from '@/domains/auth/store';
 import { isMockEnabled } from '@/shared/utils/env';
 import { feedApi } from '../api/feedApi';
 import { useImageUploadViewModel } from './useImageUploadViewModel';

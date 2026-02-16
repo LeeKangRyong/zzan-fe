@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Dimensions } from 'react-native';
 import { isMockEnabled } from '@/shared/utils/env';
-import { useAuthStore } from '@/domains/auth/store/authStore';
+import { useAuthStore } from '@/domains/auth/store';
 import { feedApi } from '../api/feedApi';
 import { scrapApi } from '@/shared/api/scrapApi';
 import { mockAlcohols, mockFeedDetails, type MockFeedDetail } from '../model/mock';
