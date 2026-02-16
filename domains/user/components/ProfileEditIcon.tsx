@@ -1,6 +1,6 @@
 import { Colors } from '@/shared/constants';
 import { StyleSheet, View } from 'react-native';
-import EditIcon from '../../../assets/icons/edit.svg';
+import EditIcon from '@/assets/icons/edit.svg';
 
 export const ProfileEditIcon = () => {
   return (

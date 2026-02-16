@@ -1,4 +1,4 @@
-import { useMyFeedsViewModel } from '@/domains/user/viewmodel/useMyFeedsViewModel';
+import { useMyFeedsViewModel } from '../viewmodel';
 import { FeedBlock } from '@/shared/components/FeedBlock';
 import { Colors, Layout } from '@/shared/constants';
 import { router } from 'expo-router';

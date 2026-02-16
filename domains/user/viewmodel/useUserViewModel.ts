@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { User } from '../model/userModel';
-import { mockUser } from '../model/mock';
-import { mapApiUserToUser } from '../model/userMapper';
-import { userApi } from '../api/userApi';
+import type { User } from '../model';
+import { mockUser } from '../model';
+import { mapApiUserToUser } from '../mapper';
+import { userApi } from '../api';
 import { isMockEnabled } from '@/shared/utils/env';
 
 export const useUserViewModel = () => {

@@ -1,7 +1,7 @@
 import { InfoRate, PlaceTemporalSummary } from "@/domains/info/components";
 import { INFO_CONSTANTS } from "@/domains/info/model";
 import { usePlaceTemporalViewModel } from "@/domains/info/viewmodel";
-import { FeedBlockWithProfile } from "@/domains/user/component";
+import { FeedBlockWithProfile } from "@/domains/user/components";
 import { AlcoholButton, Header } from "@/shared/components";
 import { Colors, Layout } from "@/shared/constants";
 import { useLocalSearchParams, useRouter } from "expo-router";

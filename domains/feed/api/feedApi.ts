@@ -14,7 +14,7 @@ import type {
   PlaceFeedApiResponse,
   RecentFeedApiResponse,
 } from '../model/feedApiModel';
-import type { ScrapListResponse } from '@/domains/user/model/scrapApiModel';
+import type { ScrapListResponse } from '@/domains/user/model';
 
 export const feedApi = {
   async searchLiquors(params: LiquorSearchParams): Promise<LiquorSearchResponse> {

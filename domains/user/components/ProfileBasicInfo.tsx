@@ -1,6 +1,6 @@
 // ProfileBasicInfoBlock으로 구성
 
-import { User } from '@/domains/user/model/userModel';
+import type { User } from '../model';
 import { Colors, Typography } from '@/shared/constants';
 import { useBirthDateFormat, usePhoneFormat } from '@/shared/hooks';
 import { useEffect, useState } from 'react';

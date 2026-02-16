@@ -1,6 +1,6 @@
 import { Colors, Layout, Typography } from '@/shared/constants';
 import { StyleSheet, Text, View } from 'react-native';
-import KakaoIcon from '../../../assets/icons/kakao.svg';
+import KakaoIcon from '@/assets/icons/kakao.svg';
 
 export const KakaoStartButton = () => {
   return (

@@ -1,8 +1,7 @@
 import { apiClient } from '@/shared/api/client';
 import { API_ENDPOINTS } from '@/shared/api/endpoints';
 import type { ApiResponse } from '@/shared/types/api';
-import type { UserFeedsResponse } from '../model/userApiModel';
-import type { UpdateProfileRequest, UserApiResponse } from '../model/userModel';
+import type { UserApiResponse, UserFeedsResponse } from '../model';
 
 export const userApi = {
   async getCurrentUser(): Promise<UserApiResponse> {
@@ -13,10 +12,10 @@ export const userApi = {
     return response.data;
   },
 
-  async updateProfile(data: UpdateProfileRequest): Promise<void> {
+  async updateProfile(data: Partial<UserApiResponse>): Promise<void> {
     await apiClient(API_ENDPOINTS.USER.UPDATE, {
       method: 'PUT',
-      body: JSON.stringify(data),
+      body: data,
       requireAuth: true,
     });
   },

@@ -1,6 +1,6 @@
 import BackIcon from "@/assets/icons/back.svg";
 import { useAuthViewModel } from "@/domains/auth/viewmodel";
-import { ProfileBasicInfo, ProfileInfo } from "@/domains/user/component";
+import { ProfileBasicInfo, ProfileInfo } from "@/domains/user/components";
 import {
   useProfileEditViewModel,
   useUserViewModel,

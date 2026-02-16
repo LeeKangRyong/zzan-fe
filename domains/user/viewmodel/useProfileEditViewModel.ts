@@ -1,15 +1,10 @@
 import { feedApi } from "@/domains/feed/api/feedApi";
-import { API_ENDPOINTS, apiClient } from "@/shared/api";
-import type { ApiResponse } from "@/shared/types/api";
-import Constants from "expo-constants";
+import { isMockEnabled } from "@/shared/utils/env";
 import * as ImagePicker from "expo-image-picker";
 import { useEffect, useState } from "react";
-import { mapUserToApiRequest } from "../model/userMapper";
-import type { User, UserApiResponse } from "../model/userModel";
-
-const isMockEnabled = (): boolean => {
-  return Constants.expoConfig?.extra?.useMockData === true;
-};
+import { userApi } from "../api";
+import { mapUserToApiRequest } from "../mapper";
+import type { User } from "../model";
 
 export const useProfileEditViewModel = (
   initialUser: User | null,
@@ -48,11 +43,7 @@ export const useProfileEditViewModel = (
       const requestBody = mapUserToApiRequest(editedUser);
       console.log("[ProfileEdit] PUT /users/me 요청 데이터:", requestBody);
 
-      await apiClient<ApiResponse<UserApiResponse>>(API_ENDPOINTS.USER.ME, {
-        method: "PUT",
-        body: requestBody,
-        requireAuth: true,
-      });
+      await userApi.updateProfile(requestBody);
 
       console.log("[ProfileEdit] PUT /users/me 성공");
       return true;

@@ -1,5 +1,5 @@
 import { useFeedTabViewModel } from "@/domains/feed/viewmodel";
-import { FeedBlockWithProfile } from "@/domains/user/component";
+import { FeedBlockWithProfile } from "@/domains/user/components";
 import { Colors, Layout, Typography } from "@/shared/constants";
 import { router } from "expo-router";
 import {

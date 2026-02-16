@@ -1,9 +1,9 @@
 import { isMockEnabled } from "@/shared/utils/env";
 import { useEffect, useState } from "react";
-import { userApi } from "../api/userApi";
-import { mockUserFeeds } from "../model/mock";
-import { mapUserFeedApiToDomain } from "../model/userApiModel";
-import type { UserFeed } from "../model/userModel";
+import { userApi } from "../api";
+import { mockUserFeeds } from "../model";
+import { mapUserFeedApiToDomain } from "../mapper";
+import type { UserFeed } from "../model";
 
 export const useMyFeedsViewModel = () => {
   const [feeds, setFeeds] = useState<UserFeed[]>([]);

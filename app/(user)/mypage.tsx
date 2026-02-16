@@ -1,4 +1,4 @@
-import { MyFeeds, MyScraps, ProfileInfoBlock } from "@/domains/user/component";
+import { MyFeeds, MyScraps, ProfileInfoBlock } from "@/domains/user/components";
 import { useUserViewModel } from "@/domains/user/viewmodel";
 import { Header, Toast } from "@/shared/components";
 import { Colors, Layout, Typography } from "@/shared/constants";

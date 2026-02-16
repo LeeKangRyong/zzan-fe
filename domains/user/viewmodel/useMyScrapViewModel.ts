@@ -4,12 +4,12 @@ import { scrapApi } from '@/shared/api/scrapApi';
 import {
   mapFeedScrapApiToUserFeed,
   mapLiquorScrapApiToUserScrapAlcohol,
-} from '@/domains/user/model/scrapApiModel';
+} from '../mapper';
 import {
   mockUserScrapFeeds,
   mockUserScrapAlcohols,
-} from '@/domains/user/model/mock';
-import type { UserFeed, UserScrapAlcohol } from '@/domains/user/model/userModel';
+} from '../model';
+import type { UserFeed, UserScrapAlcohol } from '../model';
 
 export const useMyScrapViewModel = () => {
   const [feeds, setFeeds] = useState<UserFeed[]>([]);

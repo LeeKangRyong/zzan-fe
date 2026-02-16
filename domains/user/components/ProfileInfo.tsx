@@ -1,4 +1,4 @@
-import { User } from '@/domains/user/model/userModel';
+import type { User } from '../model';
 import { Colors, Typography } from '@/shared/constants';
 import { Image } from 'expo-image';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';

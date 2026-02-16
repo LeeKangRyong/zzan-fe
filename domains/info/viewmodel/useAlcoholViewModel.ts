@@ -11,7 +11,7 @@ import {
   MOCK_LIQUOR_COMMENTS,
   MOCK_MY_REVIEW,
 } from "@/domains/info/model/mock";
-import { userApi } from "@/domains/user/api/userApi";
+import { userApi } from "@/domains/user/api";
 import { scrapApi } from "@/shared/api/scrapApi";
 import { isMockEnabled } from "@/shared/utils/env";
 import { useCallback, useEffect, useState } from "react";

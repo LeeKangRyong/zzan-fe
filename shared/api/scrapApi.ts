@@ -6,7 +6,7 @@ import type {
   LiquorScrapApiResponse,
   ScrapCheckResponse,
   ScrapListResponse,
-} from '@/domains/user/model/scrapApiModel';
+} from '@/domains/user/model';
 
 export const scrapApi = {
   feed: {

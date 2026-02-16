@@ -1,9 +1,9 @@
-import { User } from '@/domains/user/model/userModel';
+import type { User } from '../model';
 import { Colors, Layout, Typography } from '@/shared/constants';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import RightArrowIcon from '../../../assets/icons/right_arrow.svg';
+import RightArrowIcon from '@/assets/icons/right_arrow.svg';
 
 interface ProfileInfoBlockProps {
   user: User;

@@ -1,6 +1,6 @@
 import { useAuthStore } from "@/domains/auth/store";
 import { useAuthViewModel } from "@/domains/auth/viewmodel";
-import { KakaoStartButton } from "@/domains/user/component";
+import { KakaoStartButton } from "@/domains/user/components";
 import { CommonButton, Toast } from "@/shared/components";
 import { Colors, Typography } from "@/shared/constants";
 import Constants from "expo-constants";

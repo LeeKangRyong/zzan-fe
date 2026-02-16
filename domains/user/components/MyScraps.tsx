@@ -1,6 +1,6 @@
 // 각 피드 블록은 shared/component에 FeedBlock.tsx로 구현
-import { UserScrapAlcohol } from '@/domains/user/model/userModel';
-import { useMyScrapViewModel } from '@/domains/user/viewmodel/useMyScrapViewModel';
+import type { UserScrapAlcohol } from '../model';
+import { useMyScrapViewModel } from '../viewmodel';
 import { FeedBlock } from '@/shared/components/FeedBlock';
 import { Rate } from '@/shared/components/Rate';
 import { Colors, Layout, Typography } from '@/shared/constants';
