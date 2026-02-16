@@ -9,8 +9,7 @@ import {
   View,
 } from "react-native";
 import { Colors, Typography } from "../constants";
-
-const USE_MOCK_DATA = process.env.EXPO_PUBLIC_USE_MOCK_DATA === "true";
+import { isMockEnabled } from "../utils/env";
 
 interface KakaoLoginModalProps {
   visible: boolean;
@@ -33,7 +32,7 @@ const KaKaoButton = () => {
 
 export const KakaoLoginModal = ({ visible, onClose }: KakaoLoginModalProps) => {
   // Mock 데이터 모드에서는 모달을 표시하지 않음
-  if (USE_MOCK_DATA) {
+  if (isMockEnabled()) {
     return null;
   }
 

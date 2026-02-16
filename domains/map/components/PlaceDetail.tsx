@@ -1,5 +1,5 @@
 import type { MapMarker } from '../model/mapModel';
-import { Rate } from '@/shared/components/Rate';
+import { Rate } from '@/shared/components';
 import { Colors, Typography } from '@/shared/constants';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 

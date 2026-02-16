@@ -1,6 +1,5 @@
 import { INFO_CONSTANTS } from '@/domains/info/model/constants';
-import { Colors } from '@/shared/constants/Colors';
-import { Typography } from '@/shared/constants/Typography';
+import { Colors, Typography } from '@/shared/constants';
 import { StyleSheet, Text, View } from 'react-native';
 
 interface PlaceDescriptionProps {

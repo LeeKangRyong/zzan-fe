@@ -1,6 +1,6 @@
 import { apiClient } from './client';
 import { API_ENDPOINTS } from './endpoints';
-import type { ApiResponse } from '@/shared/types/api';
+import type { ApiResponse } from '../types';
 import type {
   FeedScrapApiResponse,
   LiquorScrapApiResponse,

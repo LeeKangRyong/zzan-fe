@@ -1,4 +1,4 @@
-import { Layout, Typography } from '@/shared/constants';
+import { Layout, Typography } from '../constants';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 interface CommonButtonProps {

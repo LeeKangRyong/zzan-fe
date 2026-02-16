@@ -4,14 +4,13 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Svg, { Defs, Path, RadialGradient, Stop } from 'react-native-svg';
 import { useAuthStore } from '@/domains/auth/store';
 import { KakaoLoginModal } from './KakaoLoginModal';
-import { Colors } from '../constants/Colors';
-import { Typography } from '../constants/Typography';
+import { Colors, Typography } from '../constants';
 
-import HomeEmptyIcon from '../../assets/icons/home_empty.svg';
-import HomeGrayIcon from '../../assets/icons/home_gray.svg';
-import FeedEmptyIcon from '../../assets/icons/menu_empty.svg';
-import FeedGrayIcon from '../../assets/icons/menu_gray.svg';
-import PlusIcon from '../../assets/icons/plus.svg';
+import HomeEmptyIcon from '@/assets/icons/home_empty.svg';
+import HomeGrayIcon from '@/assets/icons/home_gray.svg';
+import FeedEmptyIcon from '@/assets/icons/menu_empty.svg';
+import FeedGrayIcon from '@/assets/icons/menu_gray.svg';
+import PlusIcon from '@/assets/icons/plus.svg';
 
 const getIconByRouteName = (routeName: string, isFocused: boolean) => {
   const color = isFocused ? Colors.black : Colors.gray;

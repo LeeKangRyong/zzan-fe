@@ -3,7 +3,7 @@ import type { User } from '../model';
 import { mockUser } from '../model';
 import { mapApiUserToUser } from '../mapper';
 import { userApi } from '../api';
-import { isMockEnabled } from '@/shared/utils/env';
+import { isMockEnabled } from '@/shared/utils';
 
 export const useUserViewModel = () => {
   const [user, setUser] = useState<User | null>(null);

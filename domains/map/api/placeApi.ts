@@ -1,5 +1,4 @@
-import { apiClient } from "@/shared/api/client";
-import { API_ENDPOINTS } from "@/shared/api/endpoints";
+import { apiClient, API_ENDPOINTS } from "@/shared/api";
 import type { PlaceResponse, PlaceSearchResponse } from "../model/mapApiModel";
 
 export interface GetPlacesInRegionParams {

@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { AddType, Alcohol, Place } from '../model/feedModel';
 import { mockAlcohols, mockPlaces } from '../model/mock';
 import { usePostStore } from '../store/postStore';
-import { isMockEnabled } from '@/shared/utils/env';
+import { isMockEnabled } from '@/shared/utils';
 import { feedApi } from '../api/feedApi';
 import { mapLiquorApiToAlcohol } from '../mapper/feedMapper';
 import { placeApi } from '@/domains/map/api';

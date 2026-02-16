@@ -1,6 +1,6 @@
 import { AlcoholTagInfo, TagPosition } from "@/domains/feed/model/feedModel";
 import { usePostStore } from "@/domains/feed/store/postStore";
-import { Colors, Typography } from "@/shared/constants";
+import { Colors, Typography, SCREEN_WIDTH } from "@/shared/constants";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -15,7 +15,6 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { SCREEN_WIDTH } from "@/shared/constants/Layout";
 import { ImageProgressBar } from "./ImageProgressBar";
 import { TagIcon } from "./TagIcon";
 

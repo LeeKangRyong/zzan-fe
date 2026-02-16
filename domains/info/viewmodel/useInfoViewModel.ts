@@ -7,7 +7,7 @@ import { mapPlaceApiToPlaceInfo } from '@/domains/info/mapper';
 import { infoApi } from '@/domains/info/api';
 import { feedApi } from '@/domains/feed/api/feedApi';
 import { mockNearbyFeeds } from '@/domains/feed/model/mock';
-import { isMockEnabled } from '@/shared/utils/env';
+import { isMockEnabled } from '@/shared/utils';
 import { useState, useEffect, useCallback } from 'react';
 import type { FeedWithUser } from '@/domains/feed/model/feedModel';
 

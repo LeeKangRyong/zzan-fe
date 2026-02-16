@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { useAuthStore } from '../store';
 import { mockAuthTokens } from '../model/mock';
 import { authApi } from '../api';
-import { isMockEnabled } from '@/shared/utils/env';
+import { isMockEnabled } from '@/shared/utils';
 
 export const useAuthViewModel = () => {
   const { setTokens, clearTokens, setLoading, isAuthenticated, isLoading } =

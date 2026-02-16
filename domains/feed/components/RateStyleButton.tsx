@@ -1,5 +1,4 @@
-import { RateButton } from '@/shared/components';
-import { CommonButton } from '@/shared/components/CommonButton';
+import { CommonButton, RateButton } from '@/shared/components';
 import { Colors, Typography } from '@/shared/constants';
 import { StyleSheet, Text, View } from 'react-native';
 

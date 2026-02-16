@@ -1,7 +1,7 @@
-import { Colors, Typography } from '@/shared/constants';
+import { Colors, Typography } from '../constants';
 import { Image } from 'expo-image';
 import { ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import AlcoholIcon from '../../assets/icons/alcohol_right.svg';
+import AlcoholIcon from '@/assets/icons/alcohol_right.svg';
 
 interface FeedBlockProps {
   imageUrl: ImageSourcePropType;

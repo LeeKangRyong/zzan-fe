@@ -1,10 +1,6 @@
-import Constants from 'expo-constants';
+import { getApiUrl } from '../utils/env';
 import { attemptTokenRefresh } from './interceptors/tokenRefreshInterceptor';
 import { API_ENDPOINTS } from './endpoints';
-
-const getBaseUrl = (): string => {
-  return Constants.expoConfig?.extra?.apiUrl || '';
-};
 
 export class ApiClientError extends Error {
   constructor(
@@ -65,7 +61,7 @@ export const apiClient = async <T>(
 ): Promise<T> => {
   const { method = 'GET', body, headers = {}, requireAuth = false } = options;
 
-  const baseUrl = getBaseUrl();
+  const baseUrl = getApiUrl();
   const url = `${baseUrl}${endpoint}`;
   const authHeaders = requireAuth ? buildAuthHeaders() : {};
 

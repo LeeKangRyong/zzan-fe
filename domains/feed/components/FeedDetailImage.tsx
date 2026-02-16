@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 import { ImageSourcePropType } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 import { Animated as RNAnimated, ScrollView, StyleSheet, View } from 'react-native';
-import { SCREEN_WIDTH } from '@/shared/constants/Layout';
+import { SCREEN_WIDTH } from '@/shared/constants';
 import { ImageProgressBar } from './ImageProgressBar';
 import { TagIcon } from './TagIcon';
 

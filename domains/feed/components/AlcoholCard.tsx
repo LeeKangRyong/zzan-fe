@@ -1,5 +1,5 @@
 import { Alcohol } from '@/domains/feed/model/feedModel';
-import { Rate } from '@/shared/components/Rate';
+import { Rate } from '@/shared/components';
 import { Colors, Typography } from '@/shared/constants';
 import { Image } from 'expo-image';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';

@@ -1,6 +1,5 @@
-import { apiClient } from '@/shared/api/client';
-import { API_ENDPOINTS } from '@/shared/api/endpoints';
-import type { ApiResponse } from '@/shared/types/api';
+import { apiClient, API_ENDPOINTS } from '@/shared/api';
+import type { ApiResponse } from '@/shared/types';
 import type {
   LiquorSearchParams,
   LiquorSearchResponse,

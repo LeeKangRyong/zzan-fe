@@ -1,5 +1,5 @@
 import { useMyFeedsViewModel } from '../viewmodel';
-import { FeedBlock } from '@/shared/components/FeedBlock';
+import { FeedBlock } from '@/shared/components';
 import { Colors, Layout } from '@/shared/constants';
 import { router } from 'expo-router';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';

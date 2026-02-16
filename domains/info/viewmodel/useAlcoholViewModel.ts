@@ -12,8 +12,8 @@ import {
   MOCK_MY_REVIEW,
 } from "@/domains/info/model/mock";
 import { userApi } from "@/domains/user/api";
-import { scrapApi } from "@/shared/api/scrapApi";
-import { isMockEnabled } from "@/shared/utils/env";
+import { scrapApi } from "@/shared/api";
+import { isMockEnabled } from "@/shared/utils";
 import { useCallback, useEffect, useState } from "react";
 import type { ImageSourcePropType } from "react-native";
 

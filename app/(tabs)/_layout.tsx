@@ -1,4 +1,4 @@
-import { TabBar } from '@/shared/components/TabBar';
+import { TabBar } from '@/shared/components';
 import { Tabs } from 'expo-router';
 import React from 'react';
 

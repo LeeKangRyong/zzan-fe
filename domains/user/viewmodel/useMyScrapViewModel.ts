@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { isMockEnabled } from '@/shared/utils/env';
-import { scrapApi } from '@/shared/api/scrapApi';
+import { isMockEnabled } from '@/shared/utils';
+import { scrapApi } from '@/shared/api';
 import {
   mapFeedScrapApiToUserFeed,
   mapLiquorScrapApiToUserScrapAlcohol,

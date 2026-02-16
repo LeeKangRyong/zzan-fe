@@ -1,7 +1,6 @@
 // title, onPress arguments 사용
 
-import { Colors } from "@/shared/constants/Colors";
-import { Typography } from "@/shared/constants/Typography";
+import { Colors, Typography } from "../constants";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 interface AlcoholButtonProps {

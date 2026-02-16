@@ -1,3 +1,3 @@
 export { Colors } from './Colors';
-export { Layout } from './Layout';
+export { Layout, SCREEN_WIDTH } from './Layout';
 export { Typography } from './Typography';

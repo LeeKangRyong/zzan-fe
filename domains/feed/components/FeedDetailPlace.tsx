@@ -1,7 +1,7 @@
 import StarEmpty from '@/assets/icons/star_empty.svg';
 import StarFull from '@/assets/icons/star_full.svg';
 import { PlaceWithRating } from '@/domains/feed/model/feedModel';
-import { Rate } from '@/shared/components/Rate';
+import { Rate } from '@/shared/components';
 import { Colors, Typography } from '@/shared/constants';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 

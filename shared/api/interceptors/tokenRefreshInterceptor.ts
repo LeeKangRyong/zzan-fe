@@ -1,14 +1,10 @@
 import { router } from 'expo-router';
 import { useAuthStore } from '@/domains/auth/store';
-import Constants from 'expo-constants';
+import { getApiUrl } from '../../utils/env';
 import { API_ENDPOINTS } from '../endpoints';
 
 let isRefreshing = false;
 let refreshPromise: Promise<boolean> | null = null;
-
-const getBaseUrl = (): string => {
-  return Constants.expoConfig?.extra?.apiUrl || '';
-};
 
 async function executeRefresh(): Promise<boolean> {
   const { refreshToken } = useAuthStore.getState();
@@ -19,7 +15,7 @@ async function executeRefresh(): Promise<boolean> {
   }
 
   try {
-    const baseUrl = getBaseUrl();
+    const baseUrl = getApiUrl();
     const url = `${baseUrl}${API_ENDPOINTS.AUTH.TOKEN_REFRESH}`;
 
     const response = await fetch(url, {

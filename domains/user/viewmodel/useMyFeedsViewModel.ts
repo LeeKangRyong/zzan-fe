@@ -1,4 +1,4 @@
-import { isMockEnabled } from "@/shared/utils/env";
+import { isMockEnabled } from "@/shared/utils";
 import { useEffect, useState } from "react";
 import { userApi } from "../api";
 import { mockUserFeeds } from "../model";

@@ -1,7 +1,7 @@
 import CameraIcon from '@/assets/icons/camera.svg';
 import { TagPosition } from '@/domains/feed/model/feedModel';
 import { usePostStore } from '@/domains/feed/store/postStore';
-import { Colors, Typography } from '@/shared/constants';
+import { Colors, Typography, SCREEN_WIDTH } from '@/shared/constants';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
@@ -18,7 +18,6 @@ import {
   type NativeScrollEvent,
   type NativeSyntheticEvent,
 } from 'react-native';
-import { SCREEN_WIDTH } from '@/shared/constants/Layout';
 import { ImageProgressBar } from './ImageProgressBar';
 import { TagIcon } from './TagIcon';
 

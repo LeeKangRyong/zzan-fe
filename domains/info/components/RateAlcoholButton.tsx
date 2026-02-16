@@ -1,6 +1,5 @@
 import { AlcoholButton, RateButton } from '@/shared/components';
-import { Colors } from '@/shared/constants/Colors';
-import { Typography } from '@/shared/constants/Typography';
+import { Colors, Typography } from '@/shared/constants';
 import { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 

@@ -1,4 +1,4 @@
-import { Colors, Typography } from '@/shared/constants';
+import { Colors, Typography } from '../constants';
 import { useEffect } from 'react';
 import { Animated, StyleSheet, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';

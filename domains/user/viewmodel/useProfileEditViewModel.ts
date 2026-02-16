@@ -1,5 +1,5 @@
 import { feedApi } from "@/domains/feed/api/feedApi";
-import { isMockEnabled } from "@/shared/utils/env";
+import { isMockEnabled } from "@/shared/utils";
 import * as ImagePicker from "expo-image-picker";
 import { useEffect, useState } from "react";
 import { userApi } from "../api";

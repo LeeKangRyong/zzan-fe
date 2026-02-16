@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
-import { isMockEnabled } from '@/shared/utils/env';
+import { isMockEnabled } from '@/shared/utils';
 import { useAuthStore } from '@/domains/auth/store';
 import { feedApi } from '../api/feedApi';
-import { scrapApi } from '@/shared/api/scrapApi';
+import { scrapApi } from '@/shared/api';
 import { mockAlcohols, mockFeedDetails, type MockFeedDetail } from '../model/mock';
 import type { FeedDetailApiResponse, FeedDetailImage } from '../model/feedApiModel';
 import type { Alcohol, AlcoholTagInfo } from '../model/feedModel';

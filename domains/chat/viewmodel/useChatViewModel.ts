@@ -9,7 +9,7 @@ import {
   type Message,
   type RecommendedAnswer,
 } from "../model";
-import { isMockEnabled } from "@/shared/utils/env";
+import { isMockEnabled } from "@/shared/utils";
 
 const createMessage = (
   role: "user" | "bot",

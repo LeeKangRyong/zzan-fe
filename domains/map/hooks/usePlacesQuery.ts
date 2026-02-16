@@ -1,5 +1,5 @@
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
-import { isMockEnabled } from '@/shared/utils/env';
+import { isMockEnabled } from '@/shared/utils';
 import { placeApi } from '../api/placeApi';
 import { toMapMarker, filterMarkersInRegion } from '../mapper';
 import type { MapMarker, PlaceBounds } from '../model/mapModel';

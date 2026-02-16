@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Alert } from 'react-native';
 import { usePostStore } from '../store/postStore';
 import { useAuthStore } from '@/domains/auth/store';
-import { isMockEnabled } from '@/shared/utils/env';
+import { isMockEnabled } from '@/shared/utils';
 import { feedApi } from '../api/feedApi';
 import { useImageUploadViewModel, type UploadImageResult } from './useImageUploadViewModel';
 import type {

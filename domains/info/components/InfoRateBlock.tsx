@@ -1,5 +1,5 @@
 import { INFO_CONSTANTS } from '@/domains/info/model/constants';
-import { Colors } from '@/shared/constants/Colors';
+import { Colors } from '@/shared/constants';
 import {
   Dimensions,
   Image,

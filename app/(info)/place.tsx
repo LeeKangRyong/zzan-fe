@@ -1,8 +1,7 @@
 import { InfoImages, InfoRate, InfoSummary, PlaceDescription } from '@/domains/info/components';
 import { INFO_CONSTANTS } from '@/domains/info/model';
 import { useInfoViewModel } from '@/domains/info/viewmodel';
-import { AlcoholButton, Header } from '@/shared/components';
-import { FeedBlock } from '@/shared/components/FeedBlock';
+import { AlcoholButton, FeedBlock, Header } from '@/shared/components';
 import { Colors, Layout, Typography } from '@/shared/constants';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import {

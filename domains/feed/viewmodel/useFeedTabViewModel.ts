@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { feedApi } from "../api/feedApi";
 import type { RecentFeedApiResponse } from "../model/feedApiModel";
-import { isMockEnabled } from "@/shared/utils/env";
+import { isMockEnabled } from "@/shared/utils";
 import { mockFeedDetails } from "../model/mock";
 import { mapMockFeedDetailToRecentFeed } from "../mapper/feedMapper";
 

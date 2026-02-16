@@ -1,8 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import BackIcon from "../../assets/icons/back.svg";
-import { Colors } from "../constants/Colors";
-import { Layout } from "../constants/Layout";
+import BackIcon from "@/assets/icons/back.svg";
+import { Colors, Layout } from "../constants";
 
 interface HeaderProps {
   title: string;

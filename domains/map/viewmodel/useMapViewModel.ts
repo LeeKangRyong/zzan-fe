@@ -1,5 +1,5 @@
-import { useDebounce } from "@/shared/hooks/useDebounce";
-import { isMockEnabled } from "@/shared/utils/env";
+import { useDebounce } from "@/shared/hooks";
+import { isMockEnabled } from "@/shared/utils";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { placeApi } from "../api/placeApi";
