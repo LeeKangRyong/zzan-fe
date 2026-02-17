@@ -19,6 +19,14 @@ const HEADER_IMAGE_MAP: Record<string, ImageSourcePropType> = {
   특징: require("@/assets/basic_mock_images/feature.png"),
 };
 
+const DEFAULT_GALLERY_IMAGES: ImageWithDescription[] = Object.entries(
+  HEADER_IMAGE_MAP,
+).map(([header, image]) => ({
+  image,
+  descriptionTitle: header,
+  descriptionCategory: "",
+}));
+
 const getImageForHeader = (header: string): ImageSourcePropType => {
   return HEADER_IMAGE_MAP[header] || exampleImage;
 };
@@ -69,7 +77,8 @@ export const mapLiquorApiToAlcoholInfo = (
     reviews: [],
     recommendTitle: "페어링 안주 추천",
     recommendDescription: api.foodPairing || "",
-    galleryImages: galleryImages.length > 0 ? galleryImages : undefined,
+    galleryImages:
+      galleryImages.length > 0 ? galleryImages : DEFAULT_GALLERY_IMAGES,
   };
 };
 
