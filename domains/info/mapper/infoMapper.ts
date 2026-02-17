@@ -24,7 +24,7 @@ const DEFAULT_GALLERY_IMAGES: ImageWithDescription[] = Object.entries(
 ).map(([header, image]) => ({
   image,
   descriptionTitle: header,
-  descriptionCategory: "",
+  descriptionCategory: "정보가 없습니다",
 }));
 
 const getImageForHeader = (header: string): ImageSourcePropType => {
@@ -59,7 +59,7 @@ export const mapLiquorApiToAlcoholInfo = (
     (item) => ({
       image: getImageForHeader(item.header),
       descriptionTitle: item.header,
-      descriptionCategory: item.content?.trim() || "... ",
+      descriptionCategory: item.content?.trim() || "정보가 없습니다",
     }),
   );
 
@@ -68,15 +68,15 @@ export const mapLiquorApiToAlcoholInfo = (
     name: api.name,
     category: api.type || "",
     images,
-    option1: api.volume || "",
-    option2: api.content || "",
-    option3: api.brewery || "",
-    option4: api.etc || "",
+    option1: api.volume || "정보 없음",
+    option2: api.content || "정보 없음",
+    option3: api.brewery || "정보 없음",
+    option4: api.etc || "정보 없음",
     isBookmarked: false,
     rating: api.score || 0,
     reviews: [],
     recommendTitle: "페어링 안주 추천",
-    recommendDescription: api.foodPairing || "",
+    recommendDescription: api.foodPairing || "정보 없음",
     galleryImages:
       galleryImages.length > 0 ? galleryImages : DEFAULT_GALLERY_IMAGES,
   };
