@@ -1,5 +1,5 @@
 import { AlcoholButton, RateButton } from '@/shared/components';
-import { Colors, Typography } from '@/shared/constants';
+import { Colors, Layout, Typography } from '@/shared/constants';
 import { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
   actionButtons: {
     flexDirection: 'row',
-    gap: 16,
+    gap: Layout.SECTION_SPACING,
     width: '100%',
   },
   cancelButton: {

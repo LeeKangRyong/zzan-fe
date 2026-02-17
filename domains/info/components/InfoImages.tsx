@@ -1,4 +1,3 @@
-import { INFO_CONSTANTS } from "@/domains/info/model";
 import { Colors } from "@/shared/constants";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -82,22 +81,22 @@ export const InfoImages = ({ images }: InfoImagesProps) => {
 const styles = StyleSheet.create({
   container: {
     width: SCREEN_WIDTH,
-    height: INFO_CONSTANTS.IMAGE_HEIGHT,
+    height: 360,
   },
   image: {
     width: SCREEN_WIDTH,
-    height: INFO_CONSTANTS.IMAGE_HEIGHT,
+    height: 360,
   },
   progressBarContainer: {
     position: "absolute",
-    bottom: INFO_CONSTANTS.PROGRESS_BAR_BOTTOM,
+    bottom: 16,
     width: "50%",
-    paddingHorizontal: INFO_CONSTANTS.PROGRESS_BAR_PADDING_HORIZONTAL,
+    paddingHorizontal: 16,
     alignSelf: "center",
   },
   progressBarBackground: {
     width: "100%",
-    height: INFO_CONSTANTS.PROGRESS_BAR_HEIGHT,
+    height: 4,
     backgroundColor: Colors.white,
   },
   progressBarFill: {

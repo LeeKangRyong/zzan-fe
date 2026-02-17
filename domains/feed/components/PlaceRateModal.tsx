@@ -1,7 +1,7 @@
 import { PlaceSummary } from "./PlaceSummary";
 import { RateStyleButton } from "./RateStyleButton";
 import { PlaceWithRating } from "@/domains/feed/model";
-import { Colors, Typography } from "@/shared/constants";
+import { Colors, Layout, Typography } from "@/shared/constants";
 import { useEffect, useRef } from "react";
 import {
   Animated,
@@ -118,6 +118,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   rateSection: {
-    marginTop: 16,
+    marginTop: Layout.SECTION_SPACING,
   },
 });

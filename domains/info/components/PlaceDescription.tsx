@@ -1,5 +1,4 @@
-import { INFO_CONSTANTS } from "@/domains/info/model";
-import { Colors, Typography } from "@/shared/constants";
+import { Colors, Layout, Typography } from "@/shared/constants";
 import { StyleSheet, Text, View } from "react-native";
 
 interface PlaceDescriptionProps {
@@ -16,8 +15,8 @@ export const PlaceDescription = ({ description }: PlaceDescriptionProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: INFO_CONSTANTS.DESCRIPTION_HORIZONTAL_PADDING,
-    paddingBottom: INFO_CONSTANTS.DESCRIPTION_BOTTOM_PADDING,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
+    paddingBottom: 0,
     backgroundColor: Colors.white,
   },
   description: {

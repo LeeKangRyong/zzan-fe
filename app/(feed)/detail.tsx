@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   paddedContent: {
     paddingHorizontal: Layout.SCREEN_HORIZONTAL,
     gap: 24,
-    paddingTop: 16,
+    paddingTop: Layout.SECTION_SPACING,
   },
   userSection: {
     flexDirection: "row",
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
   },
   actionButtons: {
     flexDirection: "row",
-    gap: 8,
+    gap: Layout.ITEM_SPACING,
   },
   centerContent: {
     justifyContent: "center",

@@ -1,6 +1,5 @@
-import { INFO_CONSTANTS } from "@/domains/info/model";
 import { BookMark } from "@/shared/components";
-import { Colors, Typography } from "@/shared/constants";
+import { Colors, Layout, Typography } from "@/shared/constants";
 import { StyleSheet, Text, View } from "react-native";
 
 interface PlaceTemporalSummaryProps {
@@ -54,8 +53,8 @@ export const PlaceTemporalSummary = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
-    paddingVertical: INFO_CONSTANTS.SUMMARY_PADDING_VERTICAL,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
+    paddingVertical: Layout.SECTION_SPACING,
   },
   headerContainer: {
     gap: 8,
@@ -79,7 +78,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.28,
   },
   infoBoxContainer: {
-    marginTop: INFO_CONSTANTS.INFO_BOX_MARGIN_TOP,
+    marginTop: 12,
     gap: 10,
   },
   infoBox: {

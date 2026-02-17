@@ -2,7 +2,7 @@ import { useAuthStore } from "@/domains/auth/store";
 import { useAuthViewModel } from "@/domains/auth/viewmodel";
 import { KakaoStartButton } from "@/domains/user/components";
 import { CommonButton, Toast } from "@/shared/components";
-import { Colors, Typography } from "@/shared/constants";
+import { Colors, Layout, Typography } from "@/shared/constants";
 import Constants from "expo-constants";
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.yellow,
-    paddingHorizontal: 20,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
   },
   logo: {
     marginBottom: 10,
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   },
   textGroup: {
     alignItems: "center",
-    marginTop: 16,
+    marginTop: Layout.SECTION_SPACING,
     gap: 5,
   },
   initialText: {

@@ -1,4 +1,4 @@
-import { Typography } from "@/shared/constants";
+import { Layout, Typography } from "@/shared/constants";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { CHAT_CONSTANTS, type RecommendedAnswer } from "../model";
 import { RecommendedChip } from "./RecommendedChip";
@@ -49,19 +49,19 @@ export const RecommendedAnswers = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: CHAT_CONSTANTS.RECOMMENDED_SECTION_SPACING,
+    marginBottom: 2,
   },
   label: {
     fontFamily: Typography.KAKAO_BIG_SANS_REGULAR,
     fontSize: 10,
-    opacity: CHAT_CONSTANTS.LABEL_OPACITY,
+    opacity: 0.5,
     marginTop: 10,
     marginBottom: 10,
-    paddingHorizontal: 16,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
   },
   chipContainer: {
     flexDirection: "row",
-    paddingHorizontal: 16,
-    gap: 8,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
+    gap: Layout.ITEM_SPACING,
   },
 });

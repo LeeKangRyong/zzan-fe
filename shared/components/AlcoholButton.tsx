@@ -1,4 +1,4 @@
-import { Colors, Typography } from "../constants";
+import { Colors, Layout, Typography } from "../constants";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 interface AlcoholButtonProps {
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 20,
     borderRadius: 6,
-    gap: 8,
+    gap: Layout.ITEM_SPACING,
   },
   title: {
     fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,

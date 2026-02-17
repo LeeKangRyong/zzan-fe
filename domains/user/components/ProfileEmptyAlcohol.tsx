@@ -1,5 +1,5 @@
 import AlcoholRightIcon from '@/assets/icons/alcohol_right.svg';
-import { Colors, Typography } from '@/shared/constants';
+import { Colors, Layout, Typography } from '@/shared/constants';
 import { StyleSheet, Text, View } from 'react-native';
 
 interface ProfileEmptyAlcoholProps {
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 8,
+    gap: Layout.ITEM_SPACING,
   },
   text: {
     fontFamily: Typography.KAKAO_SMALL_SANS_REGULAR,

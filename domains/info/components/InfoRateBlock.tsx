@@ -1,5 +1,4 @@
-import { INFO_CONSTANTS } from "@/domains/info/model";
-import { Colors } from "@/shared/constants";
+import { Colors, Layout } from "@/shared/constants";
 import {
   Dimensions,
   Image,
@@ -10,10 +9,7 @@ import {
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const BLOCK_WIDTH =
-  (SCREEN_WIDTH -
-    INFO_CONSTANTS.RATE_SECTION_PADDING * 2 -
-    INFO_CONSTANTS.REVIEW_BLOCK_MARGIN) /
-  2;
+  (SCREEN_WIDTH - Layout.SCREEN_HORIZONTAL * 2 - Layout.ITEM_SPACING) / 2;
 
 interface InfoRateBlockProps {
   width?: number;

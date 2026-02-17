@@ -1,5 +1,4 @@
 import { InfoImages, InfoRate, InfoSummary, PlaceDescription } from '@/domains/info/components';
-import { INFO_CONSTANTS } from '@/domains/info/model';
 import { useInfoViewModel } from '@/domains/info/viewmodel';
 import { AlcoholButton, FeedBlock, Header } from '@/shared/components';
 import { Colors, Layout, Typography } from '@/shared/constants';
@@ -142,20 +141,20 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   buttonContainer: {
-    paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
-    paddingTop: INFO_CONSTANTS.BUTTON_MARGIN_VERTICAL,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
+    paddingTop: Layout.SECTION_SPACING,
     paddingBottom: 0,
   },
   line: {
     backgroundColor: Colors.black,
-    marginHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
-    marginVertical: INFO_CONSTANTS.SUMMARY_PADDING_VERTICAL,
+    marginHorizontal: Layout.SCREEN_HORIZONTAL,
+    marginVertical: Layout.SECTION_SPACING,
     height: 2,
   },
   feedsSection: {
-    paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
-    paddingVertical: INFO_CONSTANTS.SUMMARY_PADDING_VERTICAL,
-    gap: 16,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
+    paddingVertical: Layout.SECTION_SPACING,
+    gap: Layout.SECTION_SPACING,
   },
   sectionTitle: {
     fontFamily: Typography.KAKAO_BIG_SANS_BOLD,

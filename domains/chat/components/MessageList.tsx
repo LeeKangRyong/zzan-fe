@@ -1,3 +1,4 @@
+import { Layout } from '@/shared/constants';
 import { useEffect, useRef } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import type { Message } from '../model';
@@ -29,6 +30,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    padding: 16,
+    padding: Layout.SCREEN_HORIZONTAL,
   },
 });

@@ -1,7 +1,7 @@
 import { AlcoholCommentCard } from "./AlcoholCommentCard";
-import { INFO_CONSTANTS, type LiquorComment } from "@/domains/info/model";
+import { type LiquorComment } from "@/domains/info/model";
 import { AlcoholButton, RateButton } from "@/shared/components";
-import { Colors, Typography } from "@/shared/constants";
+import { Colors, Layout, Typography } from "@/shared/constants";
 import { useMemo, useState } from "react";
 import {
   ScrollView,
@@ -96,10 +96,10 @@ const PutComments = ({
 
 const styles = StyleSheet.create({
   container: {
-    gap: 16,
+    gap: Layout.SECTION_SPACING,
   },
   header: {
-    paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
     gap: 12,
   },
   title: {
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     lineHeight: 26.64,
   },
   commentList: {
-    paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
     gap: 12,
   },
   editContainer: {
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.28,
   },
   emptyContainer: {
-    paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
     paddingVertical: 20,
   },
   emptyText: {

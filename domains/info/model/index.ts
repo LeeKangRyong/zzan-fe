@@ -1,5 +1,3 @@
-export { INFO_CONSTANTS } from "./constants";
-
 export type {
   LiquorDescriptionItem,
   LiquorDetailApiResponse,

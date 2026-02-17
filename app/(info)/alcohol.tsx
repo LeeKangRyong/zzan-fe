@@ -6,7 +6,6 @@ import {
   InfoRateWithProfile,
   InfoSummary,
 } from "@/domains/info/components";
-import { INFO_CONSTANTS } from "@/domains/info/model";
 import { useAlcoholViewModel } from "@/domains/info/viewmodel";
 import { Header } from "@/shared/components";
 import { Colors, Layout } from "@/shared/constants";
@@ -159,12 +158,12 @@ const styles = StyleSheet.create({
   },
   line: {
     backgroundColor: Colors.black,
-    marginHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
-    marginVertical: INFO_CONSTANTS.SUMMARY_PADDING_VERTICAL,
+    marginHorizontal: Layout.SCREEN_HORIZONTAL,
+    marginVertical: Layout.SECTION_SPACING,
     height: 4,
   },
   reviewList: {
-    paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
     gap: 12,
     paddingBottom: 20,
   },

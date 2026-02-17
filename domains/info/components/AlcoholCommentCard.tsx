@@ -1,6 +1,6 @@
 import EditIcon from "@/assets/icons/edit.svg";
 import StarIcon from "@/assets/icons/start_black.svg";
-import { Colors, Typography } from "@/shared/constants";
+import { Colors, Layout, Typography } from "@/shared/constants";
 import { Image } from "expo-image";
 import {
   ImageSourcePropType,
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   profileContainer: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    gap: Layout.ITEM_SPACING,
   },
   profileImage: {
     width: 32,

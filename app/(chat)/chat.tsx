@@ -7,7 +7,7 @@ import {
 import { CHAT_CONSTANTS, type Message } from "@/domains/chat/model";
 import { useChatViewModel } from "@/domains/chat/viewmodel";
 import { Header } from "@/shared/components";
-import { Colors } from "@/shared/constants";
+import { Colors, Layout } from "@/shared/constants";
 import { useFormatTime } from "@/shared/hooks";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
@@ -67,7 +67,7 @@ export default function ChatTab() {
               chipTextColor={Colors.black}
             />
           </View>
-          <View style={{ marginHorizontal: 16 }}>
+          <View style={styles.inputWrapper}>
             <MessageInput
               value={vm.inputValue}
               onChangeText={vm.setInputValue}
@@ -94,5 +94,8 @@ const styles = StyleSheet.create({
   },
   horizontalPadding: {
     paddingHorizontal: 10,
+  },
+  inputWrapper: {
+    marginHorizontal: Layout.SCREEN_HORIZONTAL,
   },
 });

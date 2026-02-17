@@ -1,6 +1,5 @@
-import { INFO_CONSTANTS } from "@/domains/info/model";
 import { Rate } from "@/shared/components";
-import { Colors, Typography } from "@/shared/constants";
+import { Colors, Layout, Typography } from "@/shared/constants";
 import { StyleSheet, Text, View } from "react-native";
 
 interface InfoRateProps {
@@ -11,19 +10,19 @@ interface InfoRateProps {
 const styles = StyleSheet.create({
   container: {},
   header: {
-    paddingHorizontal: INFO_CONSTANTS.RATE_SECTION_PADDING,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
     marginBottom: 12,
   },
   title: {
     fontFamily: Typography.KAKAO_BIG_SANS_BOLD,
     fontSize: 18,
     color: Colors.black,
-    marginBottom: 8,
+    marginBottom: Layout.ITEM_SPACING,
   },
   ratingContainer: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    gap: Layout.ITEM_SPACING,
   },
   ratingText: {
     fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
@@ -31,14 +30,14 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   ratingCountsContainer: {
-    paddingTop: 16,
+    paddingTop: Layout.SECTION_SPACING,
     marginBottom: -4,
   },
   ratingCounts: {
     fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
   },
   emptyContainer: {
-    paddingHorizontal: INFO_CONSTANTS.RATE_SECTION_PADDING,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
     paddingVertical: 20,
   },
   emptyText: {

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Animated, StyleSheet, Text } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Colors, Typography } from "../constants";
+import { Colors, Layout, Typography } from "../constants";
 
 interface ToastProps {
   message: string | null;
@@ -52,10 +52,10 @@ export const Toast = ({
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    left: 16,
-    right: 16,
+    left: Layout.SCREEN_HORIZONTAL,
+    right: Layout.SCREEN_HORIZONTAL,
     backgroundColor: Colors.black,
-    paddingHorizontal: 16,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
     paddingVertical: 12,
     borderRadius: 8,
     zIndex: 9999,

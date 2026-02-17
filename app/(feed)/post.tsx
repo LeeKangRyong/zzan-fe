@@ -117,7 +117,7 @@ export default function PostTab() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.white, paddingBottom: 20 },
   content: {},
-  imageSection: { marginBottom: 16 },
+  imageSection: { marginBottom: Layout.SECTION_SPACING },
   paddedContent: { paddingHorizontal: Layout.SCREEN_HORIZONTAL },
-  section: { gap: 8, marginBottom: 24 },
+  section: { gap: Layout.ITEM_SPACING, marginBottom: 24 },
 });

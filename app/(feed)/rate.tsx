@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   imageSection: {
-    marginBottom: 16,
+    marginBottom: Layout.SECTION_SPACING,
   },
   paddedContent: {
     paddingHorizontal: Layout.SCREEN_HORIZONTAL,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Colors.black,
     textAlign: "center",
-    marginBottom: 16,
+    marginBottom: Layout.SECTION_SPACING,
   },
   alcoholSection: {
     marginBottom: 24,

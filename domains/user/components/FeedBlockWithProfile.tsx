@@ -1,5 +1,5 @@
 import AlcoholIcon from "@/assets/icons/alcohol_right.svg";
-import { Colors, Typography } from "@/shared/constants";
+import { Colors, Layout, Typography } from "@/shared/constants";
 import { Image } from "expo-image";
 import {
   ImageSourcePropType,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     left: 10,
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    gap: Layout.ITEM_SPACING,
   },
   profileImage: {
     width: 32,

@@ -1,5 +1,5 @@
 import EditIcon from '@/assets/icons/edit.svg';
-import { Colors, Typography } from '@/shared/constants';
+import { Colors, Layout, Typography } from '@/shared/constants';
 import { KeyboardTypeOptions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface ProfileBasicInfoBlockProps {
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   valueContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: Layout.ITEM_SPACING,
   },
   valueText: {
     fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,

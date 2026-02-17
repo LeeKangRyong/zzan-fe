@@ -1,5 +1,5 @@
 import SearchIcon from '@/assets/icons/search_small.svg';
-import { Colors, Typography } from '@/shared/constants';
+import { Colors, Layout, Typography } from '@/shared/constants';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface SearchProps {
@@ -50,6 +50,6 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   iconButton: {
-    marginLeft: 8,
+    marginLeft: Layout.ITEM_SPACING,
   },
 });

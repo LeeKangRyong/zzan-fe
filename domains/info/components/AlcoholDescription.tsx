@@ -1,8 +1,7 @@
 import {
-  INFO_CONSTANTS,
   type ImageWithDescription,
 } from "@/domains/info/model";
-import { Colors, Typography } from "@/shared/constants";
+import { Colors, Layout, Typography } from "@/shared/constants";
 import React, { useState } from "react";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
@@ -142,7 +141,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   pairingSection: {
-    paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
   },
   pairingDescription: {
     fontFamily: Typography.KAKAO_BIG_SANS_BOLD,
@@ -172,7 +171,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   imageDescriptionContainer: {
-    paddingHorizontal: INFO_CONSTANTS.DESCRIPTION_HORIZONTAL_PADDING,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
     paddingTop: 6,
     alignItems: "center",
   },
@@ -180,7 +179,7 @@ const styles = StyleSheet.create({
     fontFamily: Typography.KAKAO_BIG_SANS_BOLD,
     fontSize: 16,
     color: Colors.black,
-    marginBottom: 8,
+    marginBottom: Layout.ITEM_SPACING,
     textAlign: "center",
   },
   descriptionCategory: {

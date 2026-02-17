@@ -1,6 +1,6 @@
-import { INFO_CONSTANTS, type InfoBox } from "@/domains/info/model";
+import { type InfoBox } from "@/domains/info/model";
 import { BookMark, Share } from "@/shared/components";
-import { Colors, Typography } from "@/shared/constants";
+import { Colors, Layout, Typography } from "@/shared/constants";
 import { StyleSheet, Text, View } from "react-native";
 
 interface InfoSummaryProps {
@@ -52,11 +52,11 @@ export const InfoSummary = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
-    paddingVertical: INFO_CONSTANTS.SUMMARY_PADDING_VERTICAL,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
+    paddingVertical: Layout.SECTION_SPACING,
   },
   headerContainer: {
-    gap: 8,
+    gap: Layout.ITEM_SPACING,
   },
   header: {
     flexDirection: "row",
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: Typography.KAKAO_BIG_SANS_EXTRABOLD,
-    fontSize: INFO_CONSTANTS.TITLE_FONT_SIZE,
+    fontSize: 20,
     color: Colors.black,
   },
   category: {
@@ -76,11 +76,11 @@ const styles = StyleSheet.create({
   },
   actions: {
     flexDirection: "row",
-    gap: 8,
+    gap: Layout.ITEM_SPACING,
   },
   infoBoxContainer: {
-    marginTop: INFO_CONSTANTS.INFO_BOX_MARGIN_TOP,
-    gap: 8,
+    marginTop: 12,
+    gap: Layout.ITEM_SPACING,
   },
   infoBox: {
     flexDirection: "row",
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
-    fontSize: INFO_CONSTANTS.LABEL_FONT_SIZE,
+    fontSize: 10,
     color: Colors.white,
     paddingVertical: 3,
     width: 80,
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   },
   value: {
     fontFamily: Typography.KAKAO_SMALL_SANS_BOLD,
-    fontSize: INFO_CONSTANTS.VALUE_FONT_SIZE,
+    fontSize: 10,
     color: Colors.black,
     flex: 1,
     textAlign: "right",

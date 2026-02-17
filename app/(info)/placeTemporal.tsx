@@ -1,5 +1,4 @@
 import { InfoRate, PlaceTemporalSummary } from "@/domains/info/components";
-import { INFO_CONSTANTS } from "@/domains/info/model";
 import { usePlaceTemporalViewModel } from "@/domains/info/viewmodel";
 import { FeedBlockWithProfile } from "@/domains/user/components";
 import { AlcoholButton, Header } from "@/shared/components";
@@ -152,19 +151,19 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   buttonContainer: {
-    paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
-    paddingTop: INFO_CONSTANTS.BUTTON_MARGIN_VERTICAL,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
+    paddingTop: Layout.SECTION_SPACING,
     paddingBottom: 0,
   },
   line: {
     backgroundColor: Colors.black,
-    marginHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
-    marginVertical: INFO_CONSTANTS.SUMMARY_PADDING_VERTICAL,
+    marginHorizontal: Layout.SCREEN_HORIZONTAL,
+    marginVertical: Layout.SECTION_SPACING,
     height: 2,
   },
   feedsSection: {
-    paddingHorizontal: INFO_CONSTANTS.SUMMARY_PADDING_HORIZONTAL,
-    paddingVertical: INFO_CONSTANTS.SUMMARY_PADDING_VERTICAL,
+    paddingHorizontal: Layout.SCREEN_HORIZONTAL,
+    paddingVertical: Layout.SECTION_SPACING,
   },
   feedGrid: {
     flexDirection: "row",

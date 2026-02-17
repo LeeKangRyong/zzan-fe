@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { Colors, Typography } from "../constants";
+import { Colors, Layout, Typography } from "../constants";
 import { isMockEnabled } from "../utils/env";
 
 interface KakaoLoginModalProps {
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 8,
+    gap: Layout.ITEM_SPACING,
   },
   kakaoText: {
     color: Colors.black,

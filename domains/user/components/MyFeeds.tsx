@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: Layout.SCREEN_HORIZONTAL,
-    gap: 16,
+    gap: Layout.SECTION_SPACING,
   },
   feedGrid: {
     flexDirection: "row",

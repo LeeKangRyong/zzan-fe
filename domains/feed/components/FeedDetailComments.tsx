@@ -1,4 +1,4 @@
-import { Colors, Typography } from '@/shared/constants';
+import { Colors, Layout, Typography } from '@/shared/constants';
 import { StyleSheet, Text, View } from 'react-native';
 
 interface FeedDetailCommentsProps {
@@ -16,7 +16,7 @@ export const FeedDetailComments = ({ review }: FeedDetailCommentsProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    gap: 8,
+    gap: Layout.ITEM_SPACING,
   },
   title: {
     fontFamily: Typography.KAKAO_BIG_SANS_BOLD,

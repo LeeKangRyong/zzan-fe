@@ -1,5 +1,5 @@
 import { CommonButton, RateButton } from '@/shared/components';
-import { Colors, Typography } from '@/shared/constants';
+import { Colors, Layout, Typography } from '@/shared/constants';
 import { StyleSheet, Text, View } from 'react-native';
 
 interface RateStyleButtonProps {
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
   rateButtonWrapper: {
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: Layout.ITEM_SPACING,
   },
   buttonWrapper: {
     width: '100%',
