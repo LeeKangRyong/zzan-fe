@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/domains/auth/store";
-import { KakaoLoginModal } from "@/shared/components";
+import { KakaoLoginModal, Rate } from "@/shared/components";
 import { Colors, Typography } from "@/shared/constants";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
@@ -48,21 +48,10 @@ export const SourceCard = ({ source }: SourceCardProps) => {
       return <Text style={styles.ratingText}>아직 평점이 없습니다</Text>;
     }
 
-    const fullStars = Math.floor(score);
-    const stars = [];
-
-    for (let i = 0; i < 5; i++) {
-      stars.push(
-        <Text key={i} style={[styles.star, i < fullStars && styles.starFilled]}>
-          ★
-        </Text>,
-      );
-    }
-
     return (
       <View style={styles.starsContainer}>
         <Text style={styles.ratingLabel}>평점</Text>
-        {stars}
+        <Rate rating={score} size={16} />
       </View>
     );
   };
@@ -73,9 +62,13 @@ export const SourceCard = ({ source }: SourceCardProps) => {
         <View style={styles.card}>
           <Image source={{ uri: source.image_url }} style={styles.image} />
           <View style={styles.info}>
-            <Text style={styles.name}>{source.name}</Text>
-            <Text style={styles.details}>#{source.type}</Text>
-            {renderStars()}
+            <Text style={styles.name} numberOfLines={1}>
+              {source.name}
+            </Text>
+            <Text style={styles.details} numberOfLines={1}>
+              #{source.type}
+            </Text>
+            <View style={styles.ratingContainer}>{renderStars()}</View>
           </View>
         </View>
       </TouchableOpacity>
@@ -120,6 +113,10 @@ const styles = StyleSheet.create({
     color: Colors.detail,
     marginBottom: 4,
   },
+  ratingContainer: {
+    minHeight: 20,
+    justifyContent: "center",
+  },
   starsContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -129,14 +126,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: Colors.black,
     marginRight: 6,
-  },
-  star: {
-    fontSize: 16,
-    color: Colors.gray,
-    marginRight: 2,
-  },
-  starFilled: {
-    color: Colors.yellow,
   },
   ratingText: {
     fontSize: 10,

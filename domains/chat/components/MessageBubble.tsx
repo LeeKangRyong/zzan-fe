@@ -152,6 +152,7 @@ const styles = StyleSheet.create({
   },
   sourcesScrollView: {
     marginTop: 8,
+    marginHorizontal: 8,
   },
   sourcesContainer: {
     paddingRight: 10,
