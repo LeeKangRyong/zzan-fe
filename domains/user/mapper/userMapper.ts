@@ -8,7 +8,7 @@ import type {
   UserScrapAlcohol,
 } from "@/domains/user/model";
 
-const DEFAULT_PROFILE_IMAGE = require("@/assets/images/example_image.png");
+const DEFAULT_PROFILE_IMAGE = require("@/assets/images/example_profile_girl.jpg");
 
 export const formatBirthForDisplay = (birth: string | null): string => {
   if (!birth) return "";

@@ -74,7 +74,7 @@ const generateRandomAlcoholCount = (): number => {
 export const mockUser: User = {
   id: "01HQ1234567890ABCDEF",
   name: "홍길동",
-  profileImage: require("@/assets/images/example_profile_image.png"),
+  profileImage: require("@/assets/images/example_profile_girl.jpg"),
   profileImageUrl: null,
   emptyAlcoholCount: 3,
   birthDate: "2007.12.12",
@@ -88,7 +88,7 @@ export const mockUserFeeds: UserFeed[] = Array.from({ length: 20 }, (_, i) => {
   const place = getRandomElement(PLACE_DATA);
   return {
     id: `feed${i + 1}`,
-    imageUrl: require("@/assets/images/example_image.png"),
+    imageUrl: require("@/assets/images/example_feed.jpg"),
     placeName: place.name,
     address: place.address,
     alcoholCount: generateRandomAlcoholCount(),
@@ -101,7 +101,7 @@ export const mockUserScrapFeeds: UserFeed[] = Array.from(
     const place = getRandomElement(PLACE_DATA);
     return {
       id: `scrapfeed${i + 1}`,
-      imageUrl: require("@/assets/images/example_image.png"),
+      imageUrl: require("@/assets/images/example_feed.jpg"),
       placeName: place.name,
       address: place.address,
       alcoholCount: generateRandomAlcoholCount(),

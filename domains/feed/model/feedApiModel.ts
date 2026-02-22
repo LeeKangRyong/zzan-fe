@@ -1,3 +1,5 @@
+import { ImageSourcePropType } from "react-native";
+
 export interface LiquorSearchParams {
   keyword: string;
   page?: number;
@@ -113,7 +115,7 @@ export interface RecentFeedApiResponse {
   liquorCount: number;
   userId: string;
   userName: string;
-  userProfileImage: string;
+  userProfileImage: ImageSourcePropType | string;
   kakaoPlaceId: string;
   placeName: string;
   placeAddress: string;

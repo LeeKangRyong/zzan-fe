@@ -204,7 +204,7 @@ const generateRandomCoord = (): number => {
 export const mockFeedImages: FeedImage[] = [
   {
     id: "1",
-    uri: require("@/assets/images/example_image.png"),
+    uri: require("@/assets/images/example_feed.jpg"),
   },
 ];
 
@@ -280,14 +280,12 @@ const generateFeedForPlace = (
     id: `feed${feedId}`,
     userId: `user${(feedId % 50) + 1}`,
     userName,
-    userProfileImage: feedId % 3 === 0
-      ? require("@/assets/images/example_profile_image.png")
-      : require("@/assets/images/example_image.png"),
-    imageUrl: require("@/assets/images/example_image.png"),
+    userProfileImage: require("@/assets/images/example_profile_girl.jpg"),
+    imageUrl: require("@/assets/images/example_feed.jpg"),
     images: [
       {
         id: `img${feedId}`,
-        imageUrl: require("@/assets/images/example_image.png"),
+        imageUrl: require("@/assets/images/example_feed.jpg"),
         tags,
       },
     ],

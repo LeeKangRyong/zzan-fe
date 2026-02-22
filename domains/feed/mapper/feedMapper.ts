@@ -22,7 +22,7 @@ export const mapMockFeedDetailToRecentFeed = (
   liquorCount: mockFeed.liquorCount,
   userId: mockFeed.userId,
   userName: mockFeed.userName,
-  userProfileImage: String(mockFeed.userProfileImage),
+  userProfileImage: mockFeed.userProfileImage,
   kakaoPlaceId: mockFeed.kakaoPlaceId || "",
   placeName: mockFeed.placeName || "",
   placeAddress: mockFeed.placeAddress || "",
